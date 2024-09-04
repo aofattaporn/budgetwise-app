@@ -1,0 +1,6 @@
+{
+  "appTitle": "budget_wise",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
