@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/screens/home_screen.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen.dart';
 import 'package:budget_wise/src/presentation/screens/transactions_screen.dart';
 import 'package:flutter/material.dart';
