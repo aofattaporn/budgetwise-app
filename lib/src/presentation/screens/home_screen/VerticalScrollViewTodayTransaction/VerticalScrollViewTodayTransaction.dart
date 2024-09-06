@@ -1,3 +1,5 @@
+import 'package:budget_wise/src/presentation/widgets/Transaction/TransactionItem.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class VerticalScrollViewTodayTransaction extends StatelessWidget {
@@ -18,22 +20,7 @@ class VerticalScrollViewTodayTransaction extends StatelessWidget {
           height: 225,
           child: ListView.builder(
               itemCount: 20,
-              itemBuilder: (context, index) => Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xff7c94b6),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    margin: EdgeInsets.only(bottom: 12),
-                    padding: EdgeInsets.all(14),
-                    child: Row(
-                      children: [
-                        Container(),
-                        const Row(
-                          children: [Column(), Text("aaaa")],
-                        )
-                      ],
-                    ),
-                  )),
+              itemBuilder: (context, index) => TransactionItem()),
         ),
       ],
     );
