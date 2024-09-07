@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/presentation/screens/CreateTransaction/create_transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -37,7 +38,15 @@ class HorizontalSrollViewOperations extends StatelessWidget {
                       ),
                       child: Center(
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return const CreateTransacction();
+                                },
+                              );
+                            },
                             icon: const Icon(Icons.arrow_upward_outlined)),
                       )),
                   const SizedBox(height: 4),
@@ -64,7 +73,14 @@ class HorizontalSrollViewOperations extends StatelessWidget {
                       ),
                       child: Center(
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (BuildContext context) {
+                                    return const CreateTransacction();
+                                  });
+                            },
                             icon: const Icon(Icons.arrow_downward_rounded)),
                       )),
                   const SizedBox(height: 4),
@@ -91,7 +107,14 @@ class HorizontalSrollViewOperations extends StatelessWidget {
                       ),
                       child: Center(
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (BuildContext context) {
+                                    return const CreateTransacction();
+                                  });
+                            },
                             icon: const Icon(Icons.autorenew_rounded)),
                       )),
                   const SizedBox(height: 4),

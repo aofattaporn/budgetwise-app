@@ -30,29 +30,45 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme:
+          ThemeData(scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+        ),
         // backgroundColor: Colors.white,
         body: _widgetOptions.elementAt(_selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_work_outlined),
-              label: 'home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.line_axis),
-              label: 'transactions',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.cloud),
-              label: 'plan',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.purple,
-          onTap: _onItemTapped,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                blurRadius: 20,
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
+            elevation: 10,
+            backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_work_outlined),
+                label: 'home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.line_axis),
+                label: 'transactions',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.cloud),
+                label: 'plan',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.purple,
+            onTap: _onItemTapped,
+          ),
         ),
       ),
     );
