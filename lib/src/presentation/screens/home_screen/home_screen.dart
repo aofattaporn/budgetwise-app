@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Container(
-      margin: EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16),
       clipBehavior: Clip.none,
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,

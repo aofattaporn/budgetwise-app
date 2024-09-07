@@ -1,38 +1,27 @@
-import 'package:budget_wise/src/data/models/Account.dart';
+import 'package:budget_wise/src/data/models/operation.dart';
+import 'package:budget_wise/src/mock/mock_accounts_data.dart';
 import 'package:budget_wise/src/presentation/widgets/AccountCard/AccountCard.dart';
-import 'package:budget_wise/src/presentation/widgets/utils/customInoutField.dart';
+import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
+import 'package:budget_wise/src/presentation/utils/generic_column.dart';
+import 'package:budget_wise/src/presentation/utils/generic_row_generic.dart';
 import 'package:flutter/material.dart';
 
 class CreateTransacction extends StatelessWidget {
-  const CreateTransacction({
-    super.key,
-  });
+  final Operation operation;
+
+  final TextEditingController _titleController;
+  final TextEditingController _ammountController;
+  final TextEditingController _remarkController;
+  final TextEditingController _dateController;
+
+  CreateTransacction({super.key, required this.operation})
+      : _ammountController = TextEditingController(),
+        _dateController = TextEditingController(),
+        _titleController = TextEditingController(),
+        _remarkController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    List<Account> listAcount = [
-      Account(
-        "SCB",
-        14000.0,
-        DateTime.now(),
-        const Color.fromARGB(255, 82, 29, 125),
-        const Color.fromRGBO(108, 51, 163, 1),
-      ),
-      Account(
-        "BBL",
-        11588.33,
-        DateTime.now(),
-        const Color.fromRGBO(25, 23, 20, 1),
-        const Color.fromRGBO(34, 52, 174, 1),
-      ),
-      Account(
-        "Cash",
-        230,
-        DateTime.now(),
-        const Color.fromRGBO(0, 0, 0, 1),
-        const Color.fromRGBO(22, 109, 59, 1),
-      ),
-    ];
     return Container(
       padding: const EdgeInsets.only(top: 60),
       color: const Color.fromRGBO(250, 250, 250, 1),
@@ -43,7 +32,7 @@ class CreateTransacction extends StatelessWidget {
               icon: const Icon(Icons.close),
               onPressed: () => Navigator.pop(context)),
           title: const Text(
-            "Transaction ",
+            "Transaction",
             style: TextStyle(fontSize: 20),
           ),
         ),
@@ -52,46 +41,104 @@ class CreateTransacction extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 35),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: CustomInputField(labelText: "Title"),
+              GenericColumn(
+                genericWidgets: [
+                  GenericRow(
+                    genericWidgets: [
+                      GenericInputField(
+                          labelText: "title", controller: _titleController),
+                      GenericInputField(
+                          isDateFied: true,
+                          labelText: "date",
+                          suffixIcon: const Icon(Icons.date_range_outlined),
+                          controller: _dateController)
+                    ],
+                    gapSize: 20,
                   ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: CustomInputField(labelText: "Date"),
+                  GenericRow(
+                    genericWidgets: [
+                      GenericInputField(
+                          labelText: operation.name,
+                          disable: true,
+                          prefix: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              operation.icon,
+                              const SizedBox(width: 8),
+                              Text(operation.name),
+                              const SizedBox(width: 12),
+                            ],
+                          ),
+                          controller: _titleController),
+                      GenericInputField(
+                          isOnlyNumber: true,
+                          labelText: "Ammounts",
+                          suffixText: "B",
+                          controller: _ammountController),
+                    ],
+                    gapSize: 20,
+                  ),
+                  GenericInputField(
+                      hintText: "Enter your remark",
+                      maxLines: 3,
+                      minLines: 3,
+                      controller: _remarkController),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(children: [
+                      for (int index = 0;
+                          index < Mocks.listAcount.length;
+                          index++)
+                        AccountCard(account: Mocks.listAcount[index]),
+                    ]),
                   ),
                 ],
+                gapSize: 20,
               ),
-              // date
-
-              const SizedBox(height: 20),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: CustomInputField(labelText: "Tramfer"),
+              const Spacer(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      padding:
+                          const EdgeInsets.all(0), // Remove default padding
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                      ),
+                    ),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color.fromRGBO(
+                                147, 121, 224, 1), // Start color (blue)
+                            Color.fromRGBO(174, 120, 214, 1),
+                            Color.fromRGBO(
+                                215, 128, 225, 1), // End color (blue)
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        constraints: const BoxConstraints(minHeight: 50),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          "Create Transaction",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: CustomInputField(
-                        labelText: "Ammounts", suffixText: "B"),
-                  ),
-                ],
+                ),
               ),
-
-              const SizedBox(height: 20),
-              const CustomInputField(maxLines: 3, minLines: 3),
-
-              const SizedBox(height: 20),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(children: [
-                  for (int index = 0; index < listAcount.length; index++)
-                    AccountCard(account: listAcount[index]),
-                ]),
-              ),
+              const SizedBox(height: 40)
             ],
           ),
         ),
@@ -99,21 +146,3 @@ class CreateTransacction extends StatelessWidget {
     );
   }
 }
-
-
-// Container(
-//   color: Colors.white,
-//   child: Center(
-//     child: Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       mainAxisSize: MainAxisSize.min,
-//       children: <Widget>[
-//         const Text('Modal BottomSheet'),
-//         ElevatedButton(
-//           child: const Text('Close BottomSheet'),
-//           onPressed: () => Navigator.pop(context),
-//         ),
-//       ],
-//     ),
-//   ),
-// );
