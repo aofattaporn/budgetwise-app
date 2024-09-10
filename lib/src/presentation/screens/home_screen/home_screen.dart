@@ -1,6 +1,6 @@
-import 'package:budget_wise/src/presentation/screens/home_screen/HorizontalScollviewAccounts/HorizaontalScollviewAccounts.dart';
-import 'package:budget_wise/src/presentation/screens/home_screen/HorizontalSrollViewOperations/HorizontalSrollViewOperations.dart';
-import 'package:budget_wise/src/presentation/screens/home_screen/VerticalScrollViewTodayTransaction/VerticalScrollViewTodayTransaction.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/show_scrollview_accounts/HorizaontalScollviewAccounts.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/show_scrollview_operation/HorizontalSrollViewOperations.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/show_today_transaction/VerticalScrollViewTodayTransaction.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

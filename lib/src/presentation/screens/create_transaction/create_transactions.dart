@@ -1,6 +1,7 @@
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/operation.dart';
 import 'package:budget_wise/src/mock/mock_accounts_data.dart';
+import 'package:budget_wise/src/presentation/utils/generic_create_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
 import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/utils/generic_column.dart';
@@ -126,54 +127,18 @@ class _CreateTransactionState extends State<CreateTransaction> {
                 gapSize: 20,
               ),
               const Spacer(),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      // Handle transaction creation here
-                      print("xxxxxxxxx");
-                      print(widget._titleController.text);
-                      print(widget._dateController.text);
-                      print(widget._remarkController.text);
-                      print(widget._amountController.text);
-                      print(_account?.accountName);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(0),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                      ),
-                    ),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color.fromRGBO(147, 121, 224, 1),
-                            Color.fromRGBO(174, 120, 214, 1),
-                            Color.fromRGBO(215, 128, 225, 1),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        constraints: const BoxConstraints(minHeight: 50),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "Create Transaction",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              GenericCreateBTN(
+                  title: "Create Transaction",
+                  onPressed: () => {
+                        Navigator.pop(context),
+                        // Handle transaction creation here
+                        print("xxxxxxxxx"),
+                        print(widget._titleController.text),
+                        print(widget._dateController.text),
+                        print(widget._remarkController.text),
+                        print(widget._amountController.text),
+                        print(_account?.accountName),
+                      }),
               const SizedBox(height: 40)
             ],
           ),
