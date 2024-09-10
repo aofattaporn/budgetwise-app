@@ -4,17 +4,21 @@ import 'package:flutter/material.dart';
 class AccountCard extends StatelessWidget {
   final bool? isSelected;
   final Account account;
+  final bool? fullsize;
 
   const AccountCard({
     super.key,
     this.isSelected,
+    this.fullsize,
     required this.account,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 240,
+      height: this.fullsize == true ? 150 : null,
+      width:
+          this.fullsize == true ? MediaQuery.sizeOf(context).width * 0.9 : 240,
       margin: const EdgeInsets.only(left: 5, right: 36, bottom: 20, top: 0),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -50,6 +54,7 @@ class AccountCard extends StatelessWidget {
             children: [
               Text(account.accountName,
                   style: TextStyle(
+                      fontSize: this.fullsize == true ? 24 : null,
                       fontWeight: FontWeight.bold,
                       color: isSelected == true || isSelected == null
                           ? Colors.white

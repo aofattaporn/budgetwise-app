@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:budget_wise/src/data/models/Account.dart';
+import 'package:budget_wise/src/data/models/color_gradients.dart';
 
 class Mocks {
   static final List<Account> listAcount = [
@@ -25,5 +26,13 @@ class Mocks {
       const Color.fromRGBO(0, 0, 0, 1),
       const Color.fromRGBO(22, 109, 59, 1),
     ),
+  ];
+
+  final List<ColorGradients> colorGradients = [
+    ColorGradients(
+        Color.fromARGB(255, 82, 29, 125), Color.fromRGBO(108, 51, 163, 1)),
+    ColorGradients(
+        Color.fromRGBO(25, 23, 20, 1), Color.fromRGBO(34, 52, 174, 1)),
+    ColorGradients(Color.fromRGBO(0, 0, 0, 1), Color.fromRGBO(22, 109, 59, 1)),
   ];
 }
