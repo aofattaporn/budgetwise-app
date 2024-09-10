@@ -13,6 +13,7 @@ class GenericColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         for (int index = 0; index < genericWidgets.length; index++) ...[

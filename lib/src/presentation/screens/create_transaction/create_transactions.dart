@@ -103,23 +103,29 @@ class _CreateTransactionState extends State<CreateTransaction> {
                     scrollDirection: Axis.horizontal,
                     child: Row(children: [
                       for (int index = 0;
-                          index < Mocks.listAcount.length;
+                          index < Mocks.listAccount.length;
                           index++)
                         GestureDetector(
                           onTap: () {
                             handleAccount(Account(
-                                Mocks.listAcount[index].accountName,
-                                Mocks.listAcount[index].balance,
-                                Mocks.listAcount[index].lastOperated,
-                                Mocks.listAcount[index].colorStart,
-                                Mocks.listAcount[index].colorEnd));
+                              accountId: Mocks.listAccount[index]
+                                  .accountId, // Updated to include accountId
+                              accountName: Mocks.listAccount[index].accountName,
+                              balance: Mocks.listAccount[index].balance,
+                              createDate: Mocks.listAccount[index]
+                                  .createDate, // Updated to include createDate
+                              updatePlanDate: Mocks.listAccount[index]
+                                  .updatePlanDate, // Updated to include updatePlanDate
+                              colorStart: Mocks.listAccount[index].colorStart,
+                              colorEnd: Mocks.listAccount[index].colorEnd,
+                            ));
                           },
                           child: AccountCard(
                               isSelected: this._account?.accountName ==
-                                      Mocks.listAcount[index].accountName
+                                      Mocks.listAccount[index].accountName
                                   ? true
                                   : false,
-                              account: Mocks.listAcount[index]),
+                              account: Mocks.listAccount[index]),
                         ),
                     ]),
                   ),

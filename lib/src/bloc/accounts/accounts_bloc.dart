@@ -4,15 +4,17 @@ import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/data/repositories/accoutns_repository.dart';
 
 class AccountBloc extends Bloc<AccountsEvent, AccountState> {
-  final AccountsRepository repository;
+  AccountsRepository repository = AccountsRepository();
 
   // Constructor to initialize the AccountBloc with a repository
-  AccountBloc(this.repository) : super(InitialState()) {
+  AccountBloc() : super(InitialState()) {
     // Event handler for fetching all accounts
     on<GetAllAccountsEvent>((event, emit) async {
       emit(GetAllAccountsLoading());
       try {
-        final data = await repository.getAllDataThatMeetsRequirements();
+        final data = await repository.fetchAllAccounts();
+        print(data);
+        print("==============");
         emit(GetAllAccountsSuccess(data));
       } catch (error) {
         emit(GetAllAccountsFailure(error.toString()));
@@ -22,6 +24,13 @@ class AccountBloc extends Bloc<AccountsEvent, AccountState> {
     // Event handler for creating a new account
     on<CreateAccountEvent>((event, emit) async {
       emit(CreateAccountLoading());
+      try {
+        // Call your repository to create the account
+        // List<Account> accounts = await repository.createAccount(event.account);
+        emit(CreateAccountSuccess());
+      } catch (error) {
+        emit(CreateAccountFailure(error.toString()));
+      }
     });
   }
 }

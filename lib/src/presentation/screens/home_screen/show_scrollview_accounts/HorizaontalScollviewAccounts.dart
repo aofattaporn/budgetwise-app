@@ -1,9 +1,10 @@
-import 'package:budget_wise/src/presentation/constant/constants.dart';
-import 'package:budget_wise/src/data/models/Account.dart';
-import 'package:budget_wise/src/presentation/screens/create_transaction/create_transactions.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
 import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HorizontalScollviewAccounts extends StatelessWidget {
   const HorizontalScollviewAccounts({
@@ -12,38 +13,15 @@ class HorizontalScollviewAccounts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Account> listAcount = [
-      Account(
-        "SCB",
-        14000.0,
-        DateTime.now(),
-        const Color.fromARGB(255, 82, 29, 125),
-        const Color.fromRGBO(108, 51, 163, 1),
-      ),
-      Account(
-        "BBL",
-        11588.33,
-        DateTime.now(),
-        const Color.fromRGBO(25, 23, 20, 1),
-        const Color.fromRGBO(34, 52, 174, 1),
-      ),
-      Account(
-        "Cash",
-        230,
-        DateTime.now(),
-        const Color.fromRGBO(0, 0, 0, 1),
-        const Color.fromRGBO(22, 109, 59, 1),
-      ),
-    ];
+    // Dispatch the GetAllAccountsEvent when the widget is built
+    context.read<AccountBloc>().add(GetAllAccountsEvent());
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // labels
         const Row(
           children: [],
         ),
-
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,11 +45,10 @@ class HorizontalScollviewAccounts extends StatelessWidget {
                     Color(0xFFAE78D6), // Lighter purple
                     Color(0xFFD780E1), // Pinkish purple
                   ],
-                  begin: Alignment.topLeft, // Gradient start point
-                  end: Alignment.bottomRight, // Gradient end point
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                borderRadius:
-                    BorderRadius.circular(40), // Optional: Add rounded corners
+                borderRadius: BorderRadius.circular(40),
               ),
               child: TextButton(
                 onPressed: () {
@@ -88,22 +65,34 @@ class HorizontalScollviewAccounts extends StatelessWidget {
                   style: TextStyle(fontSize: 12),
                 ),
                 style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  foregroundColor: WidgetStateProperty.all(Colors.white),
                 ),
               ),
             )
           ],
         ),
-
         const SizedBox(height: 30),
-
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(children: [
-            for (int index = 0; index < listAcount.length; index++)
-              AccountCard(
-                  account: listAcount[index]), // Access account using the index
-          ]),
+          child:
+              BlocBuilder<AccountBloc, AccountState>(builder: (context, state) {
+            if (state is GetAllAccountsSuccess) {
+              return Row(
+                children: [
+                  for (int index = 0; index < state.data.length; index++)
+                    AccountCard(
+                      account: state.data[index],
+                    ), // Use the accounts from the state
+                ],
+              );
+            } else if (state is GetAllAccountsLoading) {
+              // Display loading indicator when accounts are loading
+              return Center(child: CircularProgressIndicator());
+            } else {
+              // Handle other states or errors
+              return Center(child: Text("No accounts available."));
+            }
+          }),
         ),
       ],
     );

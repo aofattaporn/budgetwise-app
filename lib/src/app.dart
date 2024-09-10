@@ -1,7 +1,9 @@
+import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen.dart';
 import 'package:budget_wise/src/presentation/screens/transactions_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -29,45 +31,48 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme:
-          ThemeData(scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromRGBO(250, 250, 250, 1),
-        ),
-        // backgroundColor: Colors.white,
-        body: _widgetOptions.elementAt(_selectedIndex),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.1),
-                blurRadius: 20,
-              ),
-            ],
-          ),
-          child: BottomNavigationBar(
-            elevation: 10,
+    return BlocProvider<AccountBloc>(
+      create: (_) => AccountBloc(),
+      child: MaterialApp(
+        theme:
+            ThemeData(scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
             backgroundColor: Color.fromRGBO(250, 250, 250, 1),
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_work_outlined),
-                label: 'home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.line_axis),
-                label: 'transactions',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.cloud),
-                label: 'plan',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.purple,
-            onTap: _onItemTapped,
+          ),
+          // backgroundColor: Colors.white,
+          body: _widgetOptions.elementAt(_selectedIndex),
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: BottomNavigationBar(
+              elevation: 10,
+              backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_work_outlined),
+                  label: 'home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.line_axis),
+                  label: 'transactions',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.cloud),
+                  label: 'plan',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.purple,
+              onTap: _onItemTapped,
+            ),
           ),
         ),
       ),

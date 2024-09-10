@@ -1,12 +1,15 @@
-import 'package:budget_wise/src/data/models/Account.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
+import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/color_gradients.dart';
 import 'package:budget_wise/src/data/mock/mock_accounts_data.dart';
 import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/utils/generic_column.dart';
-import 'package:budget_wise/src/presentation/utils/generic_create_btn.dart';
 import 'package:budget_wise/src/presentation/utils/generic_row_generic.dart';
 import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateAccount extends StatefulWidget {
   final TextEditingController titleController;
@@ -43,12 +46,12 @@ class _CreateAccountState extends State<CreateAccount> {
 
   void _onColorSelected(int index) {
     setState(() {
-      selectedColorGradient = Mocks().colorGradients[index];
+      selectedColorGradient = Mocks.colorGradients[index];
     });
   }
 
   Widget _buildColorOption(int index) {
-    final gradient = Mocks().colorGradients[index];
+    final gradient = Mocks.colorGradients[index];
     return GestureDetector(
       onTap: () => _onColorSelected(index),
       child: Padding(
@@ -70,8 +73,7 @@ class _CreateAccountState extends State<CreateAccount> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children:
-            List.generate(Mocks().colorGradients.length, _buildColorOption),
+        children: List.generate(Mocks.colorGradients.length, _buildColorOption),
       ),
     );
   }
@@ -88,52 +90,99 @@ class _CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.65,
-      padding: const EdgeInsets.only(top: 60),
-      color: const Color.fromRGBO(250, 250, 250, 1),
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              GenericColumn(
-                genericWidgets: [
-                  AccountCard(
-                    fullsize: true,
-                    isSelected: selectedColorGradient != null,
-                    account: Account(
-                      widget.titleController.text,
-                      double.tryParse(widget.amountController.text) ?? 0.0,
-                      DateTime.now(),
-                      _getSelectedStartColor(),
-                      _getSelectedEndColor(),
+    return BlocListener<AccountBloc, AccountState>(
+      listener: (context, AccountState state) {
+        if (state is CreateAccountSuccess) {
+          Navigator.pop(context);
+        }
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.65,
+        padding: const EdgeInsets.only(top: 60),
+        color: const Color.fromRGBO(250, 250, 250, 1),
+        child: Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GenericColumn(
+                  genericWidgets: [
+                    AccountCard(
+                      fullsize: true,
+                      isSelected: selectedColorGradient != null,
+                      account: Account(
+                        accountId: DateTime.now()
+                            .millisecondsSinceEpoch, // Generate a unique accountId
+                        accountName: widget.titleController.text,
+                        balance:
+                            double.tryParse(widget.amountController.text) ??
+                                0.0,
+                        createDate: DateTime.now(), // Set creation date to now
+                        updatePlanDate:
+                            DateTime.now(), // Set update date to now
+                        colorStart: _getSelectedStartColor(),
+                        colorEnd: _getSelectedEndColor(),
+                      ),
                     ),
-                  ),
-                  GenericRow(
-                    genericWidgets: [
-                      GenericInputField(
-                        labelText: "Account name",
-                        controller: widget.titleController,
-                      ),
-                      GenericInputField(
-                        labelText: "Amounts",
-                        isOnlyNumber: true,
-                        suffixText: "B",
-                        controller: widget.amountController,
-                      ),
-                    ],
-                    gapSize: 16,
-                  ),
-                ],
-                gapSize: 16,
-              ),
-              _buildColorSelectionRow(),
-              const Spacer(),
-              GenericCreateBTN(title: "create account", onPressed: () => {}),
-              const SizedBox(height: 40),
-            ],
+                    GenericRow(
+                      genericWidgets: [
+                        GenericInputField(
+                          labelText: "Account name",
+                          controller: widget.titleController,
+                        ),
+                        GenericInputField(
+                          labelText: "Amounts",
+                          isOnlyNumber: true,
+                          suffixText: "B",
+                          controller: widget.amountController,
+                        ),
+                      ],
+                      gapSize: 16,
+                    ),
+                  ],
+                  gapSize: 16,
+                ),
+                _buildColorSelectionRow(),
+                const Spacer(),
+                TextButton(
+                    onPressed: () {
+                      context.read<AccountBloc>().add(
+                            CreateAccountEvent(
+                              account: Account(
+                                accountId:
+                                    DateTime.now().millisecondsSinceEpoch,
+                                accountName: widget.titleController.text,
+                                balance: double.tryParse(
+                                        widget.amountController.text) ??
+                                    0.0,
+                                createDate: DateTime.now(),
+                                updatePlanDate: DateTime.now(),
+                                colorStart: _getSelectedStartColor(),
+                                colorEnd: _getSelectedEndColor(),
+                              ),
+                            ),
+                          );
+                    },
+                    child: Text("clicck")),
+                // GenericCreateBTN(
+                //   title: "Create Account",
+                //   onPressed: () => context.read<AccountBloc>().add(
+                //         CreateAccountEvent(
+                //           account: Account(
+                //             widget.titleController.text,
+                //             double.tryParse(widget.amountController.text) ??
+                //                 0.0,
+                //             DateTime.now(),
+                //             _getSelectedStartColor(),
+                //             _getSelectedEndColor(),
+                //           ),
+                //         ),
+                //       ),
+                // ),
+                const SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),

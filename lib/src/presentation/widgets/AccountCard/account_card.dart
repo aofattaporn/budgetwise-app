@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/data/models/Account.dart';
+import 'package:budget_wise/src/data/models/account.dart';
 import 'package:flutter/material.dart';
 
 class AccountCard extends StatelessWidget {

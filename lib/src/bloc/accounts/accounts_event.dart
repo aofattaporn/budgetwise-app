@@ -23,8 +23,7 @@ final class GetAllAccountsFailure extends AccountState {
 
 // state : create a account
 final class CreateAccountSuccess extends AccountState {
-  final List<Account> data;
-  CreateAccountSuccess(this.data);
+  CreateAccountSuccess();
 }
 
 final class CreateAccountLoading extends AccountState {
