@@ -1,24 +1,38 @@
+import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/operation.dart';
 import 'package:budget_wise/src/mock/mock_accounts_data.dart';
-import 'package:budget_wise/src/presentation/widgets/AccountCard/AccountCard.dart';
+import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
 import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/utils/generic_column.dart';
 import 'package:budget_wise/src/presentation/utils/generic_row_generic.dart';
 import 'package:flutter/material.dart';
 
-class CreateTransacction extends StatelessWidget {
+class CreateTransaction extends StatefulWidget {
   final Operation operation;
 
   final TextEditingController _titleController;
-  final TextEditingController _ammountController;
+  final TextEditingController _amountController;
   final TextEditingController _remarkController;
   final TextEditingController _dateController;
 
-  CreateTransacction({super.key, required this.operation})
-      : _ammountController = TextEditingController(),
+  CreateTransaction({super.key, required this.operation})
+      : _amountController = TextEditingController(),
         _dateController = TextEditingController(),
         _titleController = TextEditingController(),
         _remarkController = TextEditingController();
+
+  @override
+  State<CreateTransaction> createState() => _CreateTransactionState();
+}
+
+class _CreateTransactionState extends State<CreateTransaction> {
+  Account? _account;
+
+  void handleAccount(Account account) {
+    setState(() {
+      _account = account;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,35 +60,36 @@ class CreateTransacction extends StatelessWidget {
                   GenericRow(
                     genericWidgets: [
                       GenericInputField(
-                          labelText: "title", controller: _titleController),
+                          labelText: "Title",
+                          controller: widget._titleController),
                       GenericInputField(
                           isDateFied: true,
-                          labelText: "date",
+                          labelText: "Date",
                           suffixIcon: const Icon(Icons.date_range_outlined),
-                          controller: _dateController)
+                          controller: widget._dateController)
                     ],
                     gapSize: 20,
                   ),
                   GenericRow(
                     genericWidgets: [
                       GenericInputField(
-                          labelText: operation.name,
+                          labelText: widget.operation.name,
                           disable: true,
                           prefix: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              operation.icon,
+                              widget.operation.icon,
                               const SizedBox(width: 8),
-                              Text(operation.name),
+                              Text(widget.operation.name),
                               const SizedBox(width: 12),
                             ],
                           ),
-                          controller: _titleController),
+                          controller: widget._titleController),
                       GenericInputField(
                           isOnlyNumber: true,
-                          labelText: "Ammounts",
+                          labelText: "Amounts",
                           suffixText: "B",
-                          controller: _ammountController),
+                          controller: widget._amountController),
                     ],
                     gapSize: 20,
                   ),
@@ -82,14 +97,29 @@ class CreateTransacction extends StatelessWidget {
                       hintText: "Enter your remark",
                       maxLines: 3,
                       minLines: 3,
-                      controller: _remarkController),
+                      controller: widget._remarkController),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(children: [
                       for (int index = 0;
                           index < Mocks.listAcount.length;
                           index++)
-                        AccountCard(account: Mocks.listAcount[index]),
+                        GestureDetector(
+                          onTap: () {
+                            handleAccount(Account(
+                                Mocks.listAcount[index].accountName,
+                                Mocks.listAcount[index].Balance,
+                                Mocks.listAcount[index].lastOperated,
+                                Mocks.listAcount[index].colorStart,
+                                Mocks.listAcount[index].colorEnd));
+                          },
+                          child: AccountCard(
+                              isSelected: this._account?.accountName ==
+                                      Mocks.listAcount[index].accountName
+                                  ? true
+                                  : false,
+                              account: Mocks.listAcount[index]),
+                        ),
                     ]),
                   ),
                 ],
@@ -101,10 +131,18 @@ class CreateTransacction extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                      // Handle transaction creation here
+                      print("xxxxxxxxx");
+                      print(widget._titleController.text);
+                      print(widget._dateController.text);
+                      print(widget._remarkController.text);
+                      print(widget._amountController.text);
+                      print(_account?.accountName);
+                    },
                     style: ElevatedButton.styleFrom(
-                      padding:
-                          const EdgeInsets.all(0), // Remove default padding
+                      padding: const EdgeInsets.all(0),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                       ),
@@ -113,11 +151,9 @@ class CreateTransacction extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [
-                            Color.fromRGBO(
-                                147, 121, 224, 1), // Start color (blue)
+                            Color.fromRGBO(147, 121, 224, 1),
                             Color.fromRGBO(174, 120, 214, 1),
-                            Color.fromRGBO(
-                                215, 128, 225, 1), // End color (blue)
+                            Color.fromRGBO(215, 128, 225, 1),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(16),

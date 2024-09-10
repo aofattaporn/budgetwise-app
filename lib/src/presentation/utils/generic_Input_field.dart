@@ -15,7 +15,7 @@ class GenericInputField extends StatelessWidget {
   final Widget? prefix;
   final bool? disable;
 
-  const GenericInputField({
+  GenericInputField({
     super.key,
     this.isDateFied,
     this.isOnlyNumber,
@@ -28,7 +28,12 @@ class GenericInputField extends StatelessWidget {
     this.prefix,
     this.disable,
     required this.controller,
-  });
+  }) {
+    // Set the default value to today's date if it's a date field
+    if (isDateFied == true) {
+      controller.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    }
+  }
 
   Future<void> onTapDatePicker({
     required BuildContext context,

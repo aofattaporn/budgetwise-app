@@ -14,4 +14,25 @@ class Account {
     this.colorStart,
     this.colorEnd,
   );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Account &&
+        other.accountName == accountName &&
+        other.Balance == Balance &&
+        other.lastOperated == lastOperated &&
+        other.colorStart == colorStart &&
+        other.colorEnd == colorEnd;
+  }
+
+  @override
+  int get hashCode {
+    return accountName.hashCode ^
+        Balance.hashCode ^
+        lastOperated.hashCode ^
+        colorStart.hashCode ^
+        colorEnd.hashCode;
+  }
 }

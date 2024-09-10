@@ -17,9 +17,10 @@ class TransactionItem extends StatelessWidget {
         ],
       ),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       clipBehavior: Clip.none,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
@@ -43,20 +44,41 @@ class TransactionItem extends StatelessWidget {
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Rental Income",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black,
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Rental Income",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " SCB", // The appended text
+                          style: TextStyle(
+                            fontWeight: FontWeight
+                                .normal, // You can change the style here
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 4),
                   Text(
-                    "14 July 2021",
+                    "เงินเดือนออก",
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: 14,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Text(
+                    "Wed 14 July 2021",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
                     ),
                   ),
                 ],
@@ -70,7 +92,7 @@ class TransactionItem extends StatelessWidget {
             style: TextStyle(
               color: Colors.green,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
         ],

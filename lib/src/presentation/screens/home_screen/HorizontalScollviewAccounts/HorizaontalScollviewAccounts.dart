@@ -1,5 +1,8 @@
+import 'package:budget_wise/src/constant/constants.dart';
 import 'package:budget_wise/src/data/models/Account.dart';
-import 'package:budget_wise/src/presentation/widgets/AccountCard/AccountCard.dart';
+import 'package:budget_wise/src/presentation/screens/create_transaction/create_transactions.dart';
+import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
+import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalScollviewAccounts extends StatelessWidget {
@@ -41,15 +44,54 @@ class HorizontalScollviewAccounts extends StatelessWidget {
           children: [],
         ),
 
-        const Column(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Welcome",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+            const Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Welcome",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                ),
+                Text("Wed 4 Sep 2024", style: TextStyle(fontSize: 14)),
+              ],
             ),
-            Text("Wed 4 Sep 2024", style: TextStyle(fontSize: 14)),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF9379E0), // Purple shade
+                    Color(0xFFAE78D6), // Lighter purple
+                    Color(0xFFD780E1), // Pinkish purple
+                  ],
+                  begin: Alignment.topLeft, // Gradient start point
+                  end: Alignment.bottomRight, // Gradient end point
+                ),
+                borderRadius:
+                    BorderRadius.circular(40), // Optional: Add rounded corners
+              ),
+              child: TextButton(
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return CreateAccount();
+                    },
+                  );
+                },
+                child: Text(
+                  "create account",
+                  style: TextStyle(fontSize: 12),
+                ),
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+              ),
+            )
           ],
         ),
 

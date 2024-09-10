@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/widgets/Transaction/TransactionItem.dart';
+import 'package:budget_wise/src/presentation/widgets/transaction_item/transacction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
