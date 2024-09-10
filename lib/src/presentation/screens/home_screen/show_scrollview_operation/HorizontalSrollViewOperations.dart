@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/constant/constants.dart';
+import 'package:budget_wise/src/presentation/constant/constants.dart';
 import 'package:budget_wise/src/presentation/screens/create_transaction/create_transactions.dart';
 import 'package:flutter/material.dart';
 

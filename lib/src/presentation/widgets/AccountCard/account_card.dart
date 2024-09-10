@@ -83,7 +83,7 @@ class AccountCard extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                    text: '${account.Balance.toString()} ',
+                    text: '${account.balance.toString()} ',
                     style: TextStyle(
                       fontSize: 16,
                       color: isSelected == true || isSelected == null

@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/data/models/Account.dart';
 import 'package:budget_wise/src/data/models/color_gradients.dart';
-import 'package:budget_wise/src/mock/mock_accounts_data.dart';
+import 'package:budget_wise/src/data/mock/mock_accounts_data.dart';
 import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/utils/generic_column.dart';
 import 'package:budget_wise/src/presentation/utils/generic_create_btn.dart';

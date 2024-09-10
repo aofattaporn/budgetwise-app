@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/operation.dart';
-import 'package:budget_wise/src/mock/mock_accounts_data.dart';
+import 'package:budget_wise/src/data/mock/mock_accounts_data.dart';
 import 'package:budget_wise/src/presentation/utils/generic_create_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
 import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
@@ -109,7 +109,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
                           onTap: () {
                             handleAccount(Account(
                                 Mocks.listAcount[index].accountName,
-                                Mocks.listAcount[index].Balance,
+                                Mocks.listAcount[index].balance,
                                 Mocks.listAcount[index].lastOperated,
                                 Mocks.listAcount[index].colorStart,
                                 Mocks.listAcount[index].colorEnd));

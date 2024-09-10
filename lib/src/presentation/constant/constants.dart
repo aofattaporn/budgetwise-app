@@ -16,4 +16,8 @@ class Constants {
     Operation("Incomin", const Icon(Icons.arrow_downward_rounded)),
     Operation("Change", const Icon(Icons.autorenew_rounded))
   ];
+
+  static const String baseUrl = "http://127.0.0.1:8080";
+  static const String contextPath = "/api";
+  static const String accounts = "/accounts";
 }
