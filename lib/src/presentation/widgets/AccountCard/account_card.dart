@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/data/models/account.dart';
+import 'package:budget_wise/src/presentation/constant/colors.dart';
 import 'package:flutter/material.dart';
 
 class AccountCard extends StatelessWidget {
@@ -27,8 +28,9 @@ class AccountCard extends StatelessWidget {
             end: const Alignment(0.8, 1),
             colors: (isSelected == true || isSelected == null)
                 ? [
-                    account.colorStart,
-                    account.colorEnd,
+                    ColorConstants
+                        .colorGradients[account.colorIndex].startColor,
+                    ColorConstants.colorGradients[account.colorIndex].endColor,
                   ]
                 : [
                     const Color.fromRGBO(250, 240, 240, 1),

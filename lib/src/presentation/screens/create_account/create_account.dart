@@ -3,7 +3,7 @@ import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/color_gradients.dart';
-import 'package:budget_wise/src/data/mock/mock_accounts_data.dart';
+import 'package:budget_wise/src/presentation/constant/colors.dart';
 import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/utils/generic_column.dart';
 import 'package:budget_wise/src/presentation/utils/generic_row_generic.dart';
@@ -25,6 +25,7 @@ class CreateAccount extends StatefulWidget {
 
 class _CreateAccountState extends State<CreateAccount> {
   ColorGradients? selectedColorGradient;
+  int? selectedColorGradient2;
 
   @override
   void initState() {
@@ -46,12 +47,13 @@ class _CreateAccountState extends State<CreateAccount> {
 
   void _onColorSelected(int index) {
     setState(() {
-      selectedColorGradient = Mocks.colorGradients[index];
+      selectedColorGradient2 = index;
+      selectedColorGradient = ColorConstants.colorGradients[index];
     });
   }
 
   Widget _buildColorOption(int index) {
-    final gradient = Mocks.colorGradients[index];
+    final gradient = ColorConstants.colorGradients[index];
     return GestureDetector(
       onTap: () => _onColorSelected(index),
       child: Padding(
@@ -73,19 +75,10 @@ class _CreateAccountState extends State<CreateAccount> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: List.generate(Mocks.colorGradients.length, _buildColorOption),
+        children: List.generate(
+            ColorConstants.colorGradients.length, _buildColorOption),
       ),
     );
-  }
-
-  Color _getSelectedStartColor() {
-    return selectedColorGradient?.startColor ??
-        const Color.fromARGB(255, 29, 28, 30);
-  }
-
-  Color _getSelectedEndColor() {
-    return selectedColorGradient?.endColor ??
-        const Color.fromARGB(255, 29, 28, 30);
   }
 
   @override
@@ -121,8 +114,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         createDate: DateTime.now(), // Set creation date to now
                         updatePlanDate:
                             DateTime.now(), // Set update date to now
-                        colorStart: _getSelectedStartColor(),
-                        colorEnd: _getSelectedEndColor(),
+                        colorIndex: selectedColorGradient2 ?? 0,
                       ),
                     ),
                     GenericRow(
@@ -158,13 +150,12 @@ class _CreateAccountState extends State<CreateAccount> {
                                     0.0,
                                 createDate: DateTime.now(),
                                 updatePlanDate: DateTime.now(),
-                                colorStart: _getSelectedStartColor(),
-                                colorEnd: _getSelectedEndColor(),
+                                colorIndex: selectedColorGradient2 ?? 1,
                               ),
                             ),
                           );
                     },
-                    child: Text("clicck")),
+                    child: Text("click")),
                 // GenericCreateBTN(
                 //   title: "Create Account",
                 //   onPressed: () => context.read<AccountBloc>().add(

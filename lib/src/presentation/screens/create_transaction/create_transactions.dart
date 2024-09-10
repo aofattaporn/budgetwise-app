@@ -116,8 +116,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
                                   .createDate, // Updated to include createDate
                               updatePlanDate: Mocks.listAccount[index]
                                   .updatePlanDate, // Updated to include updatePlanDate
-                              colorStart: Mocks.listAccount[index].colorStart,
-                              colorEnd: Mocks.listAccount[index].colorEnd,
+                              colorIndex: 0,
                             ));
                           },
                           child: AccountCard(

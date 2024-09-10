@@ -34,8 +34,8 @@ class _MyAppState extends State<MyApp> {
     return BlocProvider<AccountBloc>(
       create: (_) => AccountBloc(),
       child: MaterialApp(
-        theme:
-            ThemeData(scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),
+        theme: ThemeData(
+            scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(

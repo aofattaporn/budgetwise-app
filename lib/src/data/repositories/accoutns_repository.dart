@@ -26,10 +26,10 @@ class AccountsRepository {
 
         // Ensure the data is a List and map it to Account objects
         List<dynamic> accountList = (generalResponse.data as List);
-        List<Account> accounts =
-            accountList.map((x) => Account.fromJson(x)).toList();
+        // List<Account> accounts =
+        //     accountList.map((x) => Account.fromJson(x)).toList();
 
-        print(accounts);
+        print(accountList);
         print("=====================================");
         return [];
       } else {
