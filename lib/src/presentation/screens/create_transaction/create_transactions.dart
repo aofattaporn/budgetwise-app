@@ -137,7 +137,6 @@ class _CreateTransactionState extends State<CreateTransaction> {
                   onPressed: () => {
                         Navigator.pop(context),
                         // Handle transaction creation here
-                        print("xxxxxxxxx"),
                         print(widget._titleController.text),
                         print(widget._dateController.text),
                         print(widget._remarkController.text),

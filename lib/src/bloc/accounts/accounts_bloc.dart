@@ -4,7 +4,7 @@ import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/data/repositories/accoutns_repository.dart';
 
 class AccountBloc extends Bloc<AccountsEvent, AccountState> {
-  AccountsRepository repository = AccountsRepository();
+  final AccountsRepository repository = AccountsRepository();
 
   // Constructor to initialize the AccountBloc with a repository
   AccountBloc() : super(InitialState()) {

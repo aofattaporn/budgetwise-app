@@ -19,7 +19,7 @@ class _AccountCardState extends State<AccountCardSkeleton> {
     return Skeletonizer(
       enabled: true,
       child: Container(
-        height: widget.fullsize == true ? 150 : null,
+        height: widget.fullsize == true ? 150 : 120,
         width: widget.fullsize == true
             ? MediaQuery.sizeOf(context).width * 0.9
             : 240,
