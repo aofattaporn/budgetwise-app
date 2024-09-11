@@ -1,11 +1,9 @@
-import 'package:flutter/widgets.dart';
-
 class Account {
-  final int accountId; // Corresponds to account_id
+  final int? accountId; // Corresponds to account_id
   final String accountName; // Corresponds to name
   final double balance; // Corresponds to amount
-  final DateTime createDate; // Corresponds to create_date
-  final DateTime updatePlanDate; // Corresponds to update_plan_date
+  final DateTime? createDate; // Corresponds to create_date
+  final DateTime? updatePlanDate; // Corresponds to update_plan_date
   final int colorIndex; // New field
 
   Account({
@@ -17,15 +15,21 @@ class Account {
     required this.colorIndex,
   });
 
-  // Convert an Account object into a Map (JSON).
-  Map<String, dynamic> toJson() {
+  // todo hande request be for create data
+  // Constructor for creating an Account object to send to the server (without accountId, createDate, etc.)
+  Account.forCreation({
+    required this.accountName,
+    required this.balance,
+    required this.colorIndex,
+  })  : accountId = null,
+        createDate = null,
+        updatePlanDate = null;
+
+  Map<String, dynamic> createJsonRequest() {
     return {
-      'accountId': accountId,
       'accountName': accountName,
       'balance': balance,
-      'createDate': createDate.toIso8601String(),
-      'updatePlanDate': updatePlanDate.toIso8601String(),
-      'colorIndex': colorIndex, // Convert color to int representation
+      'colorIndex': colorIndex,
     };
   }
 

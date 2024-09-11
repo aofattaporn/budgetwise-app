@@ -26,7 +26,7 @@ class AccountBloc extends Bloc<AccountsEvent, AccountState> {
       emit(CreateAccountLoading());
       try {
         // Call your repository to create the account
-        // List<Account> accounts = await repository.createAccount(event.account);
+        await repository.createAccount(event.account);
         emit(CreateAccountSuccess());
       } catch (error) {
         emit(CreateAccountFailure(error.toString()));

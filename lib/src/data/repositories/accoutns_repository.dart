@@ -16,22 +16,14 @@ class AccountsRepository {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         dynamic responseBody = jsonDecode(response.body);
-
         GeneralResponse generalResponse =
             GeneralResponse.fromJson(responseBody);
-
-        print("=====================================");
-        print(generalResponse.data);
-        print("*************************************");
-
-        // Ensure the data is a List and map it to Account objects
-        List<dynamic> accountList = (generalResponse.data as List);
-        // List<Account> accounts =
-        //     accountList.map((x) => Account.fromJson(x)).toList();
+        List<Account> accountList = (generalResponse.data as List)
+            .map((x) => Account.fromJson(x))
+            .toList();
 
         print(accountList);
-        print("=====================================");
-        return [];
+        return accountList;
       } else {
         throw Exception(
             'Failed to load accounts. Status code: ${response.statusCode}');
@@ -41,19 +33,34 @@ class AccountsRepository {
     }
   }
 
-  Future<List<Account>> createAccount(Account account) async {
-    final url = Uri.parse('$accountsPath');
+  // Create a new account
+  Future<void> createAccount(Account account) async {
+    final url = Uri.parse(accountsPath);
     try {
-      final response = await http.get(url);
-      print(response.body);
+      // Convert Account object to JSON
+      Account x = Account.forCreation(
+          accountName: account.accountName,
+          balance: account.balance,
+          colorIndex: account.colorIndex);
+      String accountJson = jsonEncode(x.createJsonRequest());
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: accountJson,
+      );
+
       if (response.statusCode == 200) {
-        List<dynamic> data = jsonDecode(response.body);
-        return data.map((item) => Account.fromJson(item)).toList();
+        // Assuming the server returns the created account as JSON
+        dynamic responseBody = jsonDecode(response.body);
+        print(responseBody);
       } else {
-        throw Exception('Failed to load accounts: ${response.statusCode}');
+        throw Exception(
+            'Failed to create account. Status code: ${response.statusCode}');
       }
-    } catch (e) {
-      throw Exception('Error occurred while fetching accounts: $e');
+    } catch (error) {
+      throw Exception('Error occurred while creating account: $error');
     }
   }
 }
