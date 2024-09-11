@@ -2,10 +2,10 @@ import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/operation.dart';
 import 'package:budget_wise/src/data/mock/mock_accounts_data.dart';
 import 'package:budget_wise/src/presentation/utils/generic_create_btn.dart';
-import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
 import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/utils/generic_column.dart';
 import 'package:budget_wise/src/presentation/utils/generic_row_generic.dart';
+import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:flutter/material.dart';
 
 class CreateTransaction extends StatefulWidget {

@@ -8,7 +8,7 @@ import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/utils/generic_column.dart';
 import 'package:budget_wise/src/presentation/utils/generic_create_btn.dart';
 import 'package:budget_wise/src/presentation/utils/generic_row_generic.dart';
-import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
+import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -168,9 +168,6 @@ class _CreateAccountState extends State<CreateAccount> {
                                     0.0,
                             colorIndex: selectedColorGradient2 ?? 0)))
                   },
-                  // onPressed: () => context.read<AccountBloc>().add(
-                  // CreateAccountEvent(),
-                  // ),
                 ),
                 const SizedBox(height: 40),
               ],

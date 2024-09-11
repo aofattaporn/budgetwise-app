@@ -2,7 +2,8 @@ import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
-import 'package:budget_wise/src/presentation/widgets/AccountCard/account_card.dart';
+import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
+import 'package:budget_wise/src/presentation/widgets/account_card/account_card_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -88,12 +89,12 @@ class HorizontalScollviewAccounts extends StatelessWidget {
                     for (int index = 0; index < state.data.length; index++)
                       AccountCard(
                         account: state.data[index],
-                      ), // Use the accounts from the state
+                      ),
                   ],
                 );
               } else if (state is GetAllAccountsLoading) {
                 // Display loading indicator when accounts are loading
-                return Center(child: CircularProgressIndicator());
+                return AccountCardSkeleton();
               } else {
                 // Handle other states or errors
                 return Center(child: Text("No accounts available."));

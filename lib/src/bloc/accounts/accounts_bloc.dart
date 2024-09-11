@@ -13,8 +13,6 @@ class AccountBloc extends Bloc<AccountsEvent, AccountState> {
       emit(GetAllAccountsLoading());
       try {
         final data = await repository.fetchAllAccounts();
-        print(data);
-        print("==============");
         emit(GetAllAccountsSuccess(data));
       } catch (error) {
         emit(GetAllAccountsFailure(error.toString()));
