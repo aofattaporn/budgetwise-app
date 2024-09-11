@@ -1,9 +1,9 @@
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/operation.dart';
 import 'package:budget_wise/src/mock/mock_accounts_data.dart';
-import 'package:budget_wise/src/presentation/utils/generic_create_btn.dart';
 import 'package:budget_wise/src/presentation/utils/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/utils/generic_column.dart';
+import 'package:budget_wise/src/presentation/utils/generic_create_btn.dart';
 import 'package:budget_wise/src/presentation/utils/generic_row_generic.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:flutter/material.dart';
@@ -11,23 +11,37 @@ import 'package:flutter/material.dart';
 class CreateTransaction extends StatefulWidget {
   final Operation operation;
 
-  final TextEditingController _titleController;
-  final TextEditingController _amountController;
-  final TextEditingController _remarkController;
-  final TextEditingController _dateController;
-
-  CreateTransaction({super.key, required this.operation})
-      : _amountController = TextEditingController(),
-        _dateController = TextEditingController(),
-        _titleController = TextEditingController(),
-        _remarkController = TextEditingController();
+  const CreateTransaction({super.key, required this.operation});
 
   @override
   State<CreateTransaction> createState() => _CreateTransactionState();
 }
 
 class _CreateTransactionState extends State<CreateTransaction> {
+  late TextEditingController _titleController;
+  late TextEditingController _amountController;
+  late TextEditingController _remarkController;
+  late TextEditingController _dateController;
+
   Account? _account;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController();
+    _amountController = TextEditingController();
+    _remarkController = TextEditingController();
+    _dateController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _amountController.dispose();
+    _remarkController.dispose();
+    _dateController.dispose();
+    super.dispose();
+  }
 
   void handleAccount(Account account) {
     setState(() {
@@ -41,6 +55,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
       padding: const EdgeInsets.only(top: 60),
       color: const Color.fromRGBO(250, 250, 250, 1),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
           leading: IconButton(
@@ -61,13 +76,12 @@ class _CreateTransactionState extends State<CreateTransaction> {
                   GenericRow(
                     genericWidgets: [
                       GenericInputField(
-                          labelText: "Title",
-                          controller: widget._titleController),
+                          labelText: "Title", controller: _titleController),
                       GenericInputField(
-                          isDateFied: true,
+                          isDateField: true,
                           labelText: "Date",
                           suffixIcon: const Icon(Icons.date_range_outlined),
-                          controller: widget._dateController)
+                          controller: _dateController)
                     ],
                     gapSize: 20,
                   ),
@@ -85,12 +99,12 @@ class _CreateTransactionState extends State<CreateTransaction> {
                               const SizedBox(width: 12),
                             ],
                           ),
-                          controller: widget._titleController),
+                          controller: _titleController),
                       GenericInputField(
                           isOnlyNumber: true,
                           labelText: "Amounts",
                           suffixText: "B",
-                          controller: widget._amountController),
+                          controller: _amountController),
                     ],
                     gapSize: 20,
                   ),
@@ -98,33 +112,36 @@ class _CreateTransactionState extends State<CreateTransaction> {
                       hintText: "Enter your remark",
                       maxLines: 3,
                       minLines: 3,
-                      controller: widget._remarkController),
+                      controller: _remarkController),
                   SingleChildScrollView(
+                    clipBehavior: Clip.none,
                     scrollDirection: Axis.horizontal,
                     child: Row(children: [
                       for (int index = 0;
                           index < Mocks.listAccount.length;
                           index++)
-                        GestureDetector(
-                          onTap: () {
-                            handleAccount(Account(
-                              accountId: Mocks.listAccount[index]
-                                  .accountId, // Updated to include accountId
-                              accountName: Mocks.listAccount[index].accountName,
-                              balance: Mocks.listAccount[index].balance,
-                              createDate: Mocks.listAccount[index]
-                                  .createDate, // Updated to include createDate
-                              updatePlanDate: Mocks.listAccount[index]
-                                  .updatePlanDate, // Updated to include updatePlanDate
-                              colorIndex: 0,
-                            ));
-                          },
-                          child: AccountCard(
-                              isSelected: this._account?.accountName ==
-                                      Mocks.listAccount[index].accountName
-                                  ? true
-                                  : false,
-                              account: Mocks.listAccount[index]),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              handleAccount(Account(
+                                accountId: Mocks.listAccount[index].accountId,
+                                accountName:
+                                    Mocks.listAccount[index].accountName,
+                                balance: Mocks.listAccount[index].balance,
+                                createDate: Mocks.listAccount[index].createDate,
+                                updatePlanDate:
+                                    Mocks.listAccount[index].updatePlanDate,
+                                colorIndex: 0,
+                              ));
+                            },
+                            child: AccountCard(
+                                isSelected: this._account?.accountName ==
+                                        Mocks.listAccount[index].accountName
+                                    ? true
+                                    : false,
+                                account: Mocks.listAccount[index]),
+                          ),
                         ),
                     ]),
                   ),
@@ -137,10 +154,10 @@ class _CreateTransactionState extends State<CreateTransaction> {
                   onPressed: () => {
                         Navigator.pop(context),
                         // Handle transaction creation here
-                        print(widget._titleController.text),
-                        print(widget._dateController.text),
-                        print(widget._remarkController.text),
-                        print(widget._amountController.text),
+                        print(_titleController.text),
+                        print(_dateController.text),
+                        print(_remarkController.text),
+                        print(_amountController.text),
                         print(_account?.accountName),
                       }),
               const SizedBox(height: 40)

@@ -2,6 +2,7 @@ import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AccountCard extends StatefulWidget {
@@ -24,6 +25,21 @@ class AccountCard extends StatefulWidget {
 
 class _AccountCardState extends State<AccountCard> {
   bool _isLoading = false;
+
+  String formatNumber(String rawNumber) {
+    String cleanedValue = rawNumber.replaceAll(RegExp(r'[^\d.]'), '');
+
+    if (cleanedValue.isEmpty || cleanedValue == '.') return '';
+    List<String> parts = cleanedValue.split('.');
+    final NumberFormat formatter = NumberFormat('#,###');
+    String formattedIntegerPart = formatter.format(int.parse(parts[0]));
+    if (parts.length > 1) {
+      String decimalPart = parts[1];
+      return '$formattedIntegerPart.$decimalPart';
+    }
+
+    return formattedIntegerPart;
+  }
 
   void _showAlertDialog(BuildContext context) {
     showCupertinoDialog<void>(
@@ -188,7 +204,8 @@ class _AccountCardState extends State<AccountCard> {
               children: [
                 RichText(
                   text: TextSpan(
-                      text: '${widget.account.balance.toString()} ',
+                      text:
+                          '${formatNumber(widget.account.balance.toString())} ',
                       style: TextStyle(
                         fontSize: 16,
                         color: widget.isSelected == true ||

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 class GenericInputField extends StatelessWidget {
   final bool? isOnlyNumber;
-  final bool? isDateFied;
+  final bool? isDateField;
   final String? labelText;
   final int? maxLines;
   final int? minLines;
@@ -17,7 +17,7 @@ class GenericInputField extends StatelessWidget {
 
   GenericInputField({
     super.key,
-    this.isDateFied,
+    this.isDateField,
     this.isOnlyNumber,
     this.labelText,
     this.suffixText,
@@ -30,7 +30,7 @@ class GenericInputField extends StatelessWidget {
     required this.controller,
   }) {
     // Set the default value to today's date if it's a date field
-    if (isDateFied == true) {
+    if (isDateField == true) {
       controller.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
     }
   }
@@ -62,9 +62,9 @@ class GenericInputField extends StatelessWidget {
       controller: controller,
       minLines: adjustedMinLines,
       maxLines: maxLines ?? 1,
-      enabled: disable,
-      readOnly: isDateFied == true,
-      onTap: isDateFied == true
+      enabled: disable == null ? true : !disable!,
+      readOnly: isDateField == true,
+      onTap: isDateField == true
           ? () => onTapDatePicker(
               context: context, datePickerController: controller)
           : null,
@@ -73,26 +73,28 @@ class GenericInputField extends StatelessWidget {
           : TextInputType.text,
       inputFormatters: isOnlyNumber == true
           ? <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+              // This allows numbers with a decimal point, but does not restrict the decimal places
             ]
           : null,
       decoration: InputDecoration(
-          prefixIcon: prefix,
-          hintText: hintText,
-          border: const OutlineInputBorder(),
-          filled: true,
-          fillColor: disable == true ? Colors.grey.shade100 : Colors.white,
-          labelText: labelText,
-          suffixText: suffixText,
-          suffixIcon: suffixIcon),
+        prefixIcon: prefix,
+        hintText: hintText,
+        border: const OutlineInputBorder(),
+        filled: true,
+        fillColor: disable == true ? Colors.grey.shade100 : Colors.white,
+        labelText: labelText,
+        suffixText: suffixText,
+        suffixIcon: suffixIcon,
+      ),
       onChanged: (value) {
         if (isOnlyNumber == true) {
           String formattedValue = formatNumber(value);
           // Only update the text if the formatted value is different
           if (formattedValue != controller.text) {
-            controller.text = formattedValue;
-            controller.selection = TextSelection.fromPosition(
-              TextPosition(offset: formattedValue.length),
+            controller.value = TextEditingValue(
+              text: formattedValue,
+              selection: TextSelection.collapsed(offset: formattedValue.length),
             );
           }
         }
@@ -101,13 +103,21 @@ class GenericInputField extends StatelessWidget {
   }
 
   String formatNumber(String value) {
-    // Remove any non-numeric characters
-    String cleanedValue = value.replaceAll(RegExp(r'[^0-9]'), '');
+    // Remove any non-digit or non-decimal point characters
+    String cleanedValue = value.replaceAll(RegExp(r'[^\d.]'), '');
     if (cleanedValue.isEmpty) return '';
 
-    final int parsedValue = int.parse(cleanedValue);
-    // Format with commas
-    final NumberFormat formatter = NumberFormat('#,###');
-    return formatter.format(parsedValue);
+    // Split into integer and decimal parts
+    List<String> parts = cleanedValue.split('.');
+
+    // Keep the integer part as-is without formatting into thousands
+    String integerPart = parts[0];
+
+    // If there's a decimal part, return the combined result, otherwise return just the integer part
+    if (parts.length > 1) {
+      return '$integerPart.${parts[1]}'; // Keep the decimal part as it is, no length limitation
+    }
+
+    return integerPart;
   }
 }

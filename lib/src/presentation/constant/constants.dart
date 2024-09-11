@@ -17,7 +17,7 @@ class Constants {
     Operation("Change", const Icon(Icons.autorenew_rounded))
   ];
 
-  static const String baseUrl = "http://127.0.0.1:8080";
+  static const String baseUrl = "http://192.168.1.39:8080";
   static const String contextPath = "/api";
   static const String accounts = "/accounts";
 }

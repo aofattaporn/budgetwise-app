@@ -35,6 +35,10 @@ class _CreateAccountState extends State<CreateAccount> {
     widget.amountController.addListener(_onTextChanged);
   }
 
+  void _onTextChanged() {
+    setState(() {});
+  }
+
   @override
   void dispose() {
     widget.titleController.removeListener(_onTextChanged);
@@ -43,8 +47,6 @@ class _CreateAccountState extends State<CreateAccount> {
     widget.amountController.dispose();
     super.dispose();
   }
-
-  void _onTextChanged() => setState(() {});
 
   void _onColorSelected(int index) {
     setState(() {
@@ -83,6 +85,7 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return BlocListener<AccountBloc, AccountState>(
       listener: (context, AccountState state) {
@@ -91,54 +94,50 @@ class _CreateAccountState extends State<CreateAccount> {
         }
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.65,
-        padding: const EdgeInsets.only(top: 60),
-        color: const Color.fromRGBO(250, 250, 250, 1),
-        child: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GenericColumn(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.all(24),
+        child: Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GenericColumn(
+                gapSize: 16,
+                genericWidgets: [
+                  AccountCard(
+                    fullsize: true,
+                    isSelected: selectedColorGradient != null,
+                    account: Account(
+                      accountId: DateTime.now().millisecondsSinceEpoch,
+                      accountName: widget.titleController.text, // Updated name
+                      balance: double.tryParse(widget.amountController.text) ??
+                          0.0, // Updated balance
+                      createDate: DateTime.now(),
+                      updatePlanDate: DateTime.now(),
+                      colorIndex: selectedColorGradient2 ?? 0,
+                    ),
+                  ),
+                  GenericRow(
                     genericWidgets: [
-                      AccountCard(
-                        fullsize: true,
-                        isSelected: selectedColorGradient != null,
-                        account: Account(
-                          accountId: DateTime.now()
-                              .millisecondsSinceEpoch, // Generate a unique accountId
-                          accountName: widget.titleController.text,
-                          balance:
-                              double.tryParse(widget.amountController.text) ??
-                                  0.0,
-                          createDate:
-                              DateTime.now(), // Set creation date to now
-                          updatePlanDate:
-                              DateTime.now(), // Set update date to now
-                          colorIndex: selectedColorGradient2 ?? 0,
-                        ),
+                      GenericInputField(
+                        labelText: "Account name",
+                        controller: widget.titleController,
                       ),
-                      GenericRow(
-                        genericWidgets: [
-                          GenericInputField(
-                            labelText: "Account name",
-                            controller: widget.titleController,
-                          ),
-                          GenericInputField(
-                            labelText: "Amounts",
-                            isOnlyNumber: true,
-                            suffixText: "B",
-                            controller: widget.amountController,
-                          ),
-                        ],
-                        gapSize: 16,
+                      GenericInputField(
+                        labelText: "Amounts",
+                        isOnlyNumber: true,
+                        suffixText: "B",
+                        controller: widget.amountController,
                       ),
                     ],
                     gapSize: 16,
                   ),
                   _buildColorSelectionRow(),
-                  const Spacer(),
                   GenericCreateBTN(
                     title: "Create Account",
                     onPressed: () => {
@@ -151,8 +150,10 @@ class _CreateAccountState extends State<CreateAccount> {
                               colorIndex: selectedColorGradient2 ?? 0)))
                     },
                   ),
-                  const SizedBox(height: 40),
-                ]),
+                  SizedBox(height: 20)
+                ],
+              ),
+            ],
           ),
         ),
       ),
