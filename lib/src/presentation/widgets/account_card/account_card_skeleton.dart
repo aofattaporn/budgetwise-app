@@ -19,11 +19,10 @@ class _AccountCardState extends State<AccountCardSkeleton> {
     return Skeletonizer(
       enabled: true,
       child: Container(
-        height: widget.fullsize == true ? 150 : 120,
+        height: 120,
         width: widget.fullsize == true
             ? MediaQuery.sizeOf(context).width * 0.9
             : 240,
-        margin: const EdgeInsets.only(left: 5, right: 36, bottom: 20, top: 0),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(

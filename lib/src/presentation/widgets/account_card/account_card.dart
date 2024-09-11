@@ -1,15 +1,18 @@
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AccountCard extends StatefulWidget {
+  final bool? isHanlder;
   final bool? isSelected;
   final bool? fullsize;
   final Account account;
 
   const AccountCard({
     super.key,
+    this.isHanlder,
     this.isSelected,
     this.fullsize,
     required this.account,
@@ -22,6 +25,37 @@ class AccountCard extends StatefulWidget {
 class _AccountCardState extends State<AccountCard> {
   bool _isLoading = false;
 
+  void _showAlertDialog(BuildContext context) {
+    showCupertinoDialog<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text('Alert'),
+        content: const Text('Proceed with destructive action?'),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            /// This parameter indicates this action is the default,
+            /// and turns the action's text to bold text.
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('No'),
+          ),
+          CupertinoDialogAction(
+            /// This parameter indicates the action would perform
+            /// a destructive action such as deletion, and turns
+            /// the action's text color to red.
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
@@ -31,7 +65,7 @@ class _AccountCardState extends State<AccountCard> {
         width: widget.fullsize == true
             ? MediaQuery.sizeOf(context).width * 0.9
             : 240,
-        margin: const EdgeInsets.only(left: 5, right: 36, bottom: 20, top: 0),
+        // margin: const EdgeInsets.only(left: 5, right: 36, bottom: 20, top: 0),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -69,18 +103,67 @@ class _AccountCardState extends State<AccountCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                    widget.account.accountName.length == 0
-                        ? "Account Name"
-                        : widget.account.accountName,
-                    style: TextStyle(
-                        fontSize: widget.fullsize == true ? 18 : null,
-                        fontWeight: FontWeight.bold,
-                        color: widget.isSelected == true ||
-                                widget.isSelected == null
+                  widget.account.accountName.isEmpty
+                      ? "Account Name"
+                      : widget.account.accountName,
+                  style: TextStyle(
+                    fontSize: widget.fullsize == true ? 18 : null,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        widget.isSelected == true || widget.isSelected == null
                             ? Colors.white
-                            : const Color.fromRGBO(192, 192, 192, 1)))
+                            : const Color.fromRGBO(192, 192, 192, 1),
+                  ),
+                ),
+
+                // Conditional display of the operation buttons based on widget.isHandler
+                if (widget.isHanlder ==
+                    true) // Show this only if isHandler is true
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // Handle edit button press
+                        },
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromRGBO(255, 224, 223, 0.1),
+                          ),
+                          child: const Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // Handle delete button press
+                          _showAlertDialog(context);
+                        },
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromRGBO(255, 224, 223, 0.1),
+                          ),
+                          child: const Icon(
+                            Icons.delete_forever,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
               ],
             ),
             Text(

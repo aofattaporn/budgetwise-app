@@ -61,7 +61,7 @@ class _CreateAccountState extends State<CreateAccount> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: 48,
-          width: 120,
+          width: 48,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             gradient: LinearGradient(
@@ -98,80 +98,61 @@ class _CreateAccountState extends State<CreateAccount> {
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                GenericColumn(
-                  genericWidgets: [
-                    AccountCard(
-                      fullsize: true,
-                      isSelected: selectedColorGradient != null,
-                      account: Account(
-                        accountId: DateTime.now()
-                            .millisecondsSinceEpoch, // Generate a unique accountId
-                        accountName: widget.titleController.text,
-                        balance:
-                            double.tryParse(widget.amountController.text) ??
-                                0.0,
-                        createDate: DateTime.now(), // Set creation date to now
-                        updatePlanDate:
-                            DateTime.now(), // Set update date to now
-                        colorIndex: selectedColorGradient2 ?? 0,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GenericColumn(
+                    genericWidgets: [
+                      AccountCard(
+                        fullsize: true,
+                        isSelected: selectedColorGradient != null,
+                        account: Account(
+                          accountId: DateTime.now()
+                              .millisecondsSinceEpoch, // Generate a unique accountId
+                          accountName: widget.titleController.text,
+                          balance:
+                              double.tryParse(widget.amountController.text) ??
+                                  0.0,
+                          createDate:
+                              DateTime.now(), // Set creation date to now
+                          updatePlanDate:
+                              DateTime.now(), // Set update date to now
+                          colorIndex: selectedColorGradient2 ?? 0,
+                        ),
                       ),
-                    ),
-                    GenericRow(
-                      genericWidgets: [
-                        GenericInputField(
-                          labelText: "Account name",
-                          controller: widget.titleController,
-                        ),
-                        GenericInputField(
-                          labelText: "Amounts",
-                          isOnlyNumber: true,
-                          suffixText: "B",
-                          controller: widget.amountController,
-                        ),
-                      ],
-                      gapSize: 16,
-                    ),
-                  ],
-                  gapSize: 16,
-                ),
-                _buildColorSelectionRow(),
-                const Spacer(),
-                TextButton(
-                    onPressed: () {
-                      context.read<AccountBloc>().add(
-                            CreateAccountEvent(
-                              account: Account(
-                                accountId:
-                                    DateTime.now().millisecondsSinceEpoch,
-                                accountName: widget.titleController.text,
-                                balance: double.tryParse(
-                                        widget.amountController.text) ??
-                                    0.0,
-                                createDate: DateTime.now(),
-                                updatePlanDate: DateTime.now(),
-                                colorIndex: selectedColorGradient2 ?? 1,
-                              ),
-                            ),
-                          );
+                      GenericRow(
+                        genericWidgets: [
+                          GenericInputField(
+                            labelText: "Account name",
+                            controller: widget.titleController,
+                          ),
+                          GenericInputField(
+                            labelText: "Amounts",
+                            isOnlyNumber: true,
+                            suffixText: "B",
+                            controller: widget.amountController,
+                          ),
+                        ],
+                        gapSize: 16,
+                      ),
+                    ],
+                    gapSize: 16,
+                  ),
+                  _buildColorSelectionRow(),
+                  const Spacer(),
+                  GenericCreateBTN(
+                    title: "Create Account",
+                    onPressed: () => {
+                      context.read<AccountBloc>().add(CreateAccountEvent(
+                          account: Account.forCreation(
+                              accountName: widget.titleController.text,
+                              balance: double.tryParse(
+                                      widget.amountController.text) ??
+                                  0.0,
+                              colorIndex: selectedColorGradient2 ?? 0)))
                     },
-                    child: Text("click")),
-                GenericCreateBTN(
-                  title: "Create Account",
-                  onPressed: () => {
-                    context.read<AccountBloc>().add(CreateAccountEvent(
-                        account: Account.forCreation(
-                            accountName: widget.titleController.text,
-                            balance:
-                                double.tryParse(widget.amountController.text) ??
-                                    0.0,
-                            colorIndex: selectedColorGradient2 ?? 0)))
-                  },
-                ),
-                const SizedBox(height: 40),
-              ],
-            ),
+                  ),
+                  const SizedBox(height: 40),
+                ]),
           ),
         ),
       ),

@@ -16,7 +16,6 @@ class AccountCardFailure extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
         ),
-        margin: const EdgeInsets.only(left: 5, right: 36, bottom: 20, top: 0),
         padding: const EdgeInsets.all(20),
         child: Center(
             child: Column(

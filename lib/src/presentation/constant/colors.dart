@@ -14,7 +14,11 @@ class ColorConstants {
 
   static final List<ColorGradients> colorGradients = [
     ColorGradients(
-      Color.fromARGB(255, 82, 29, 125),
+      Color.fromRGBO(33, 31, 47, 1),
+      Color.fromRGBO(145, 140, 169, 1),
+    ),
+    ColorGradients(
+      Color.fromARGB(255, 47, 10, 77),
       Color.fromRGBO(108, 51, 163, 1),
     ),
     ColorGradients(
@@ -24,6 +28,18 @@ class ColorConstants {
     ColorGradients(
       Color.fromRGBO(0, 0, 0, 1),
       Color.fromRGBO(22, 109, 59, 1),
+    ),
+    ColorGradients(
+      Color.fromRGBO(25, 23, 20, 1),
+      Color.fromRGBO(178, 143, 18, 1),
+    ),
+    ColorGradients(
+      Color.fromRGBO(184, 46, 31, 1),
+      Color.fromRGBO(242, 180, 125, 1),
+    ),
+    ColorGradients(
+      Color.fromRGBO(68, 0, 11, 1),
+      Color.fromRGBO(224, 69, 95, 1),
     ),
   ];
 }

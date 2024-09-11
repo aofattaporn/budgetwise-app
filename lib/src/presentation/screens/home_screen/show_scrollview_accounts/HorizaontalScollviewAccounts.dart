@@ -1,10 +1,13 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
+import 'package:budget_wise/src/data/models/account.dart';
+import 'package:budget_wise/src/presentation/screens/account_details/accounts_details.dart';
 import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card_failure.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card_skeleton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -85,19 +88,41 @@ class HorizontalScollviewAccounts extends StatelessWidget {
             const SizedBox(height: 30),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.none,
               child: BlocBuilder<AccountBloc, AccountState>(
                   builder: (context, state) {
                 if (state is GetAllAccountsSuccess && state.data.length > 0) {
                   return Row(
                     children: [
                       for (int index = 0; index < state.data.length; index++)
-                        AccountCard(
-                          account: state.data[index],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => AccountDetails(
+                                        account: state.data[index])),
+                              );
+                            },
+                            child: AccountCard(
+                              account: state.data[index],
+                            ),
+                          ),
                         ),
                     ],
                   );
                 } else if (state is GetAllAccountsLoading) {
-                  return AccountCardFailure();
+                  return Row(
+                    children: [
+                      for (int index = 0; index < 3; index++)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AccountCardSkeleton(),
+                        ),
+                    ],
+                  );
                 } else {
                   return AccountCardFailure();
                 }

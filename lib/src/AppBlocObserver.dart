@@ -2,7 +2,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/web.dart';
 
 class AppBlocObserver extends BlocObserver {
-  final Logger logger = Logger();
+  final Logger logger = Logger(
+    printer: PrettyPrinter(
+      methodCount: 2, // Number of method calls to be displayed
+      errorMethodCount: 8, // Number of method calls if stacktrace is provided
+      lineLength: 20, // Width of the output
+      colors: true, // Colorful log messages
+      printEmojis: true, // Print an emoji for each log message
+      // Should each log print contain a timestamp
+      dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
+    ),
+  );
 
   ///We can run something, when we create our Bloc
   @override
