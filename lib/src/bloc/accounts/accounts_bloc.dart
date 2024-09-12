@@ -30,5 +30,16 @@ class AccountBloc extends Bloc<AccountsEvent, AccountState> {
         emit(CreateAccountFailure(error.toString()));
       }
     });
+
+    // Event handler for deleting a new account
+    on<DeleteAccountsByIdEvent>((event, emit) async {
+      emit(GetAllAccountsLoading());
+      try {
+        await repository.deleteAccountById(event.accountId);
+        emit(DeleteAccountSuccess());
+      } catch (error) {
+        emit(DeleteAccountFailure(error.toString()));
+      }
+    });
   }
 }

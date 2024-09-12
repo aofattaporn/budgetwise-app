@@ -23,7 +23,7 @@ class HorizontalScollviewAccounts extends StatelessWidget {
 
     return BlocListener<AccountBloc, AccountState>(
       listener: (BuildContext context, state) {
-        if (state is CreateAccountSuccess) {
+        if (state is CreateAccountSuccess || state is DeleteAccountSuccess) {
           context.read<AccountBloc>().add(GetAllAccountsEvent());
         }
       },

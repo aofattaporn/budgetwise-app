@@ -34,3 +34,12 @@ final class CreateAccountFailure extends AccountState {
   final String error;
   CreateAccountFailure(this.error);
 }
+
+final class DeleteAccountSuccess extends AccountState {
+  DeleteAccountSuccess();
+}
+
+final class DeleteAccountFailure extends AccountState {
+  final String error;
+  DeleteAccountFailure(this.error);
+}

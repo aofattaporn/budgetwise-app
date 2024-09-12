@@ -11,3 +11,8 @@ final class CreateAccountEvent extends AccountsEvent {
 }
 
 final class GetAllAccountsEvent extends AccountsEvent {}
+
+final class DeleteAccountsByIdEvent extends AccountsEvent {
+  final int accountId;
+  DeleteAccountsByIdEvent({required this.accountId});
+}

@@ -1,7 +1,10 @@
+import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -41,11 +44,11 @@ class _AccountCardState extends State<AccountCard> {
     return formattedIntegerPart;
   }
 
-  void _showAlertDialog(BuildContext context) {
+  void _showAlertDialog(BuildContext context, int accountId) {
     showCupertinoDialog<void>(
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
-        title: const Text('Alert'),
+        title: const Text('Confirm Deletion'),
         content: const Text('Proceed with destructive action?'),
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(
@@ -58,12 +61,11 @@ class _AccountCardState extends State<AccountCard> {
             child: const Text('No'),
           ),
           CupertinoDialogAction(
-            /// This parameter indicates the action would perform
-            /// a destructive action such as deletion, and turns
-            /// the action's text color to red.
             isDestructiveAction: true,
             onPressed: () {
-              Navigator.pop(context);
+              context
+                  .read<AccountBloc>()
+                  .add(DeleteAccountsByIdEvent(accountId: accountId));
             },
             child: const Text('Yes'),
           ),
@@ -163,7 +165,8 @@ class _AccountCardState extends State<AccountCard> {
                       InkWell(
                         onTap: () {
                           // Handle delete button press
-                          _showAlertDialog(context);
+                          _showAlertDialog(
+                              context, widget.account.accountId ?? -1);
                         },
                         child: Container(
                           width: 36,

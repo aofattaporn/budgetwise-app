@@ -60,4 +60,28 @@ class AccountsRepository {
       throw Exception('Error occurred while creating account: $error');
     }
   }
+
+  // Create a new account
+  Future<void> deleteAccountById(int accountId) async {
+    final url = Uri.parse(accountsPath + '/${accountId}');
+    try {
+      final response = await http.delete(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Assuming the server returns the created account as JSON
+        dynamic responseBody = jsonDecode(response.body);
+        print(responseBody);
+      } else {
+        throw Exception(
+            'Failed to create account. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      throw Exception('Error occurred while creating account: $error');
+    }
+  }
 }
