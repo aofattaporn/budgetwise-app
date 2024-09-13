@@ -103,17 +103,11 @@ class GenericInputField extends StatelessWidget {
   }
 
   String formatNumber(String value) {
-    // Remove any non-digit or non-decimal point characters
     String cleanedValue = value.replaceAll(RegExp(r'[^\d.]'), '');
     if (cleanedValue.isEmpty) return '';
-
-    // Split into integer and decimal parts
     List<String> parts = cleanedValue.split('.');
 
-    // Keep the integer part as-is without formatting into thousands
     String integerPart = parts[0];
-
-    // If there's a decimal part, return the combined result, otherwise return just the integer part
     if (parts.length > 1) {
       return '$integerPart.${parts[1]}'; // Keep the decimal part as it is, no length limitation
     }

@@ -2,7 +2,8 @@ import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:budget_wise/src/presentation/ui/generic_alert_dialog.dart';
+import 'package:budget_wise/src/presentation/ui/generic_circle_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -42,36 +43,6 @@ class _AccountCardState extends State<AccountCard> {
     }
 
     return formattedIntegerPart;
-  }
-
-  void _showAlertDialog(BuildContext context, int accountId) {
-    showCupertinoDialog<void>(
-      context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-        title: const Text('Confirm Deletion'),
-        content: const Text('Proceed with destructive action?'),
-        actions: <CupertinoDialogAction>[
-          CupertinoDialogAction(
-            /// This parameter indicates this action is the default,
-            /// and turns the action's text to bold text.
-            isDefaultAction: true,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('No'),
-          ),
-          CupertinoDialogAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              context
-                  .read<AccountBloc>()
-                  .add(DeleteAccountsByIdEvent(accountId: accountId));
-            },
-            child: const Text('Yes'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -138,51 +109,7 @@ class _AccountCardState extends State<AccountCard> {
                 ),
 
                 // Conditional display of the operation buttons based on widget.isHandler
-                if (widget.isHanlder ==
-                    true) // Show this only if isHandler is true
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          // Handle edit button press
-                        },
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromRGBO(255, 224, 223, 0.1),
-                          ),
-                          child: const Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // Handle delete button press
-                          _showAlertDialog(
-                              context, widget.account.accountId ?? -1);
-                        },
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromRGBO(255, 224, 223, 0.1),
-                          ),
-                          child: const Icon(
-                            Icons.delete_forever,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                if (widget.isHanlder == true) _rowHandlerCard(context),
               ],
             ),
             Text(
@@ -227,6 +154,33 @@ class _AccountCardState extends State<AccountCard> {
           ],
         ),
       ),
+    );
+  }
+
+  Row _rowHandlerCard(BuildContext context) {
+    return Row(
+      children: [
+        GenericCircleIcons(customIcon: Icons.edit, onhandle: () => {}),
+        const SizedBox(
+          width: 12,
+        ),
+        GenericCircleIcons(
+            customIcon: Icons.delete,
+            onhandle: () => {
+                  AlertDialogUtils.showAlertDialog(
+                      context: context,
+                      title: 'Confirm Deletion',
+                      content: 'Proceed with destructive action?',
+                      onConfirm: () => {
+                            context.read<AccountBloc>().add(
+                                DeleteAccountsByIdEvent(
+                                    accountId: widget.account.accountId ?? -1))
+                          },
+                      onCancel: () {
+                        print("Deletion canceled");
+                      })
+                })
+      ],
     );
   }
 }

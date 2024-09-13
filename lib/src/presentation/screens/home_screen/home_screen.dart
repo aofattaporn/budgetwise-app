@@ -1,6 +1,6 @@
-import 'package:budget_wise/src/presentation/screens/home_screen/show_scrollview_accounts/HorizaontalScollviewAccounts.dart';
-import 'package:budget_wise/src/presentation/screens/home_screen/show_scrollview_operation/HorizontalSrollViewOperations.dart';
-import 'package:budget_wise/src/presentation/screens/home_screen/show_today_transaction/VerticalScrollViewTodayTransaction.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/show_allAccounts_homepage/show_allAccounts_homepage.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/show_operations_homepage/show_operations_homepage.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/show_today_transaction_homepage/show_today_transaction_homepage.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,11 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HorizontalScollviewAccounts(),
+          ShowAllAccountsHomepage(),
           SizedBox(height: 10),
-          HorizontalSrollViewOperations(),
+          ShowOperationsHomepage(),
           SizedBox(height: 30),
-          VerticalScrollViewTodayTransaction(),
+          ShowTodayTransactionHomepage(),
         ],
       ),
     ));

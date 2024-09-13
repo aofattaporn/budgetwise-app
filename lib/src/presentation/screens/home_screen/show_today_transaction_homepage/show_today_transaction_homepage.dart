@@ -2,8 +2,8 @@ import 'package:budget_wise/src/presentation/widgets/transaction_item/transaccti
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class VerticalScrollViewTodayTransaction extends StatelessWidget {
-  const VerticalScrollViewTodayTransaction({
+class ShowTodayTransactionHomepage extends StatelessWidget {
+  const ShowTodayTransactionHomepage({
     super.key,
   });
 
@@ -14,8 +14,6 @@ class VerticalScrollViewTodayTransaction extends StatelessWidget {
       children: [
         Text("Today Transactions"),
         SizedBox(height: 16),
-
-        // add list view avoid over flow
         SizedBox(
           height: 225,
           child: ListView.builder(
