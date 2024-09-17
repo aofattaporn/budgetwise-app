@@ -55,7 +55,7 @@ class _PlanScreenState extends State<PlanScreen> {
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
                 crossAxisCount: 2,
-                childAspectRatio: 1.8,
+                childAspectRatio: 1.5,
                 children: [
                   PlanPocket(isFullSize: false),
                   PlanPocket(isFullSize: false),

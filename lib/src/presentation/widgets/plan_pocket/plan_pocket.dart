@@ -46,12 +46,11 @@ class PlanPocket extends StatelessWidget {
                   Text("data testing",
                       style: TextStyle(
                           fontSize: isFullSize ? 20 : 14,
-                          fontWeight:
-                              isFullSize ? FontWeight.bold : FontWeight.bold,
+                          fontWeight: isFullSize ? FontWeight.bold : null,
                           overflow: TextOverflow.clip)),
                   Text(
                     "SCB",
-                    style: TextStyle(fontSize: 10),
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                   ),
                 ],
               )

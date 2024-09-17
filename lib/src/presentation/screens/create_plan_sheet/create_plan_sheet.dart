@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label.dart';
 import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/ui/generic_btn.dart';
@@ -15,8 +16,15 @@ class CreatePlanSheet extends StatefulWidget {
 }
 
 class _CreatePlanSheetState extends State<CreatePlanSheet> {
-  final TextEditingController planingName = TextEditingController();
-  final TextEditingController amountController = TextEditingController();
+  final TextEditingController planingController = TextEditingController();
+  final TextEditingController limitAmountController = TextEditingController();
+  Account? accountVisit = null;
+
+  void handleAccount(Account account) {
+    setState(() {
+      accountVisit = account;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +48,17 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
             SizedBox(height: 24),
             GenericRow(genericWidgets: [
               GenericInputField(
-                controller: planingName,
+                controller: planingController,
                 labelText: "Plan Name",
               ),
-              GenericInputField(controller: planingName, labelText: "Limit"),
+              GenericInputField(
+                  controller: limitAmountController,
+                  isOnlyNumber: true,
+                  labelText: "Limit"),
             ], gapSize: 24),
             SelectAllIcons(),
-            SelectAllAccounts(),
+            SelectAllAccounts(
+                onAccountSelected: handleAccount, accountVisit: accountVisit),
             SizedBox(height: 24),
             GenericCreateBTN(onPressed: () {}, title: "Create Plan"),
           ],
