@@ -6,10 +6,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AccountDetails extends StatelessWidget {
+class AccountDetails extends StatefulWidget {
   final Account account;
-
   const AccountDetails({super.key, required this.account});
+
+  @override
+  State<AccountDetails> createState() => _AccountDetailsState();
+}
+
+class _AccountDetailsState extends State<AccountDetails> {
+  late Account selectedAccount;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedAccount = widget.account;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +29,15 @@ class AccountDetails extends StatelessWidget {
       listener: (BuildContext context, AccountState state) {
         if (state is DeleteAccountSuccess) {
           Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+        } else if (state is GetAllAccountsSuccess) {
+          final updatedAccount = state.data.firstWhere(
+            (account) => account.accountId == widget.account.accountId,
+            orElse: () => widget.account,
+          );
+
+          setState(() {
+            selectedAccount = updatedAccount;
+          });
         }
       },
       child: CupertinoPageScaffold(
@@ -40,7 +61,7 @@ class AccountDetails extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: AccountCard(
                       fullsize: true,
-                      account: account,
+                      account: selectedAccount,
                       isHanlder: true,
                     ),
                   )

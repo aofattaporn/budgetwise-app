@@ -30,8 +30,14 @@ class AccountCard extends StatefulWidget {
 }
 
 class _AccountCardState extends State<AccountCard> {
-  Account? selectedAccount;
+  // late Account selectedAccount;
   bool _isLoading = false;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   selectedAccount = widget.account;
+  // }
 
   String formatNumber(String rawNumber) {
     String cleanedValue = rawNumber.replaceAll(RegExp(r'[^\d.]'), '');
@@ -54,8 +60,9 @@ class _AccountCardState extends State<AccountCard> {
       listener: (BuildContext context, AccountState state) {
         if (state is UpdateAccountSuccess) {
           // listener from parent again
-          print(widget.account.accountName);
-          print("===========================");
+          // setState(() {
+          //   selectedAccount = widget.account;
+          // });
         }
       },
       child: Skeletonizer(
