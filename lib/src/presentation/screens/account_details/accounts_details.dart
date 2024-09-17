@@ -1,5 +1,5 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
-import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:flutter/cupertino.dart';

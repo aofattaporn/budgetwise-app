@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
-import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/color_gradients.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
@@ -13,12 +13,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateAccount extends StatefulWidget {
+  final Account? account;
   final TextEditingController titleController;
   final TextEditingController amountController;
 
-  CreateAccount({super.key})
-      : titleController = TextEditingController(),
-        amountController = TextEditingController();
+  CreateAccount({super.key, this.account})
+      : titleController = TextEditingController(
+            text: account != null ? account.accountName : ''),
+        amountController = TextEditingController(
+            text: account != null ? account.balance.toString() : '');
 
   @override
   State<CreateAccount> createState() => _CreateAccountState();
@@ -31,6 +34,14 @@ class _CreateAccountState extends State<CreateAccount> {
   @override
   void initState() {
     super.initState();
+
+    // Initialize controllers with account data if in edit mode
+    if (widget.account != null) {
+      selectedColorGradient2 = widget.account!.colorIndex;
+      selectedColorGradient =
+          ColorConstants.colorGradients[selectedColorGradient2!];
+    }
+
     widget.titleController.addListener(_onTextChanged);
     widget.amountController.addListener(_onTextChanged);
   }
@@ -85,11 +96,13 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
+    // Check if this is edit mode or create mode
+    final bool isEditMode = widget.account != null;
+
     return BlocListener<AccountBloc, AccountState>(
       listener: (context, AccountState state) {
-        if (state is CreateAccountSuccess) {
+        if (state is CreateAccountSuccess || state is UpdateAccountSuccess) {
           Navigator.pop(context);
         }
       },
@@ -113,11 +126,15 @@ class _CreateAccountState extends State<CreateAccount> {
                     fullsize: true,
                     isSelected: selectedColorGradient != null,
                     account: Account(
-                      accountId: DateTime.now().millisecondsSinceEpoch,
-                      accountName: widget.titleController.text, // Updated name
-                      balance: double.tryParse(widget.amountController.text) ??
-                          0.0, // Updated balance
-                      createDate: DateTime.now(),
+                      accountId: isEditMode
+                          ? widget.account!.accountId
+                          : DateTime.now().millisecondsSinceEpoch,
+                      accountName: widget.titleController.text,
+                      balance:
+                          double.tryParse(widget.amountController.text) ?? 0.0,
+                      createDate: isEditMode
+                          ? widget.account!.createDate
+                          : DateTime.now(),
                       updatePlanDate: DateTime.now(),
                       colorIndex: selectedColorGradient2 ?? 0,
                     ),
@@ -139,15 +156,29 @@ class _CreateAccountState extends State<CreateAccount> {
                   ),
                   _buildColorSelectionRow(),
                   GenericCreateBTN(
-                    title: "Create Account",
-                    onPressed: () => {
-                      context.read<AccountBloc>().add(CreateAccountEvent(
-                          account: Account.forCreation(
+                    title: isEditMode ? "Update Account" : "Create Account",
+                    onPressed: () {
+                      if (isEditMode) {
+                        context.read<AccountBloc>().add(UpdateAccountByIdEvent(
+                                account: Account(
+                              accountId: widget.account!.accountId,
                               accountName: widget.titleController.text,
                               balance: double.tryParse(
                                       widget.amountController.text) ??
                                   0.0,
-                              colorIndex: selectedColorGradient2 ?? 0)))
+                              colorIndex: selectedColorGradient2 ?? 0,
+                              createDate: widget.account!.createDate,
+                              updatePlanDate: DateTime.now(),
+                            )));
+                      } else {
+                        context.read<AccountBloc>().add(CreateAccountEvent(
+                            account: Account.forCreation(
+                                accountName: widget.titleController.text,
+                                balance: double.tryParse(
+                                        widget.amountController.text) ??
+                                    0.0,
+                                colorIndex: selectedColorGradient2 ?? 0)));
+                      }
                     },
                   ),
                   SizedBox(height: 20)

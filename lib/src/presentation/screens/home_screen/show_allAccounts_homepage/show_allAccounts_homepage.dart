@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
-import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/presentation/screens/account_details/accounts_details.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
@@ -27,7 +27,9 @@ class ShowAllAccountsHomepage extends StatelessWidget {
 
     return BlocListener<AccountBloc, AccountState>(
       listener: (BuildContext context, state) {
-        if (state is CreateAccountSuccess || state is DeleteAccountSuccess) {
+        if (state is CreateAccountSuccess ||
+            state is DeleteAccountSuccess ||
+            state is UpdateAccountSuccess) {
           context.read<AccountBloc>().add(GetAllAccountsEvent());
         }
       },

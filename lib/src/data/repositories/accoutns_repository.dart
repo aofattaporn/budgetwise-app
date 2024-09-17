@@ -36,11 +36,11 @@ class AccountsRepository {
     final url = Uri.parse(accountsPath);
     try {
       // Convert Account object to JSON
-      Account x = Account.forCreation(
+      Account createAccount = Account.forCreation(
           accountName: account.accountName,
           balance: account.balance,
           colorIndex: account.colorIndex);
-      String accountJson = jsonEncode(x.createJsonRequest());
+      String accountJson = jsonEncode(createAccount.createJsonRequest());
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -52,6 +52,7 @@ class AccountsRepository {
       if (response.statusCode == 200) {
         // Assuming the server returns the created account as JSON
         dynamic responseBody = jsonDecode(response.body);
+        print(responseBody);
       } else {
         throw Exception(
             'Failed to create account. Status code: ${response.statusCode}');
@@ -61,7 +62,7 @@ class AccountsRepository {
     }
   }
 
-  // Create a new account
+  // client api: delete accounts
   Future<void> deleteAccountById(int accountId) async {
     final url = Uri.parse(accountsPath + '/${accountId}');
     try {
@@ -70,6 +71,40 @@ class AccountsRepository {
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
+      );
+
+      if (response.statusCode == 200) {
+        // Assuming the server returns the created account as JSON
+        dynamic responseBody = jsonDecode(response.body);
+        print(responseBody);
+      } else {
+        throw Exception(
+            'Failed to create account. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      throw Exception('Error occurred while creating account: $error');
+    }
+  }
+
+  // client api: update accounts by id
+  Future<void> updateAccountById(Account acccount) async {
+    final url = Uri.parse(accountsPath + '/${acccount.accountId}');
+    try {
+      Account createAccount = Account.forCreation(
+          accountName: acccount.accountName,
+          balance: acccount.balance,
+          colorIndex: acccount.colorIndex);
+      String accountJson = jsonEncode(createAccount.createJsonRequest());
+
+      print(createAccount);
+
+      print("********************");
+      final response = await http.patch(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: accountJson,
       );
 
       if (response.statusCode == 200) {

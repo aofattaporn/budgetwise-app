@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/data/repositories/accoutns_repository.dart';
 
 class AccountBloc extends Bloc<AccountsEvent, AccountState> {
@@ -21,13 +21,24 @@ class AccountBloc extends Bloc<AccountsEvent, AccountState> {
 
     // Event handler for creating a new account
     on<CreateAccountEvent>((event, emit) async {
-      emit(CreateAccountLoading());
+      emit(GetAllAccountsLoading());
       try {
         // Call your repository to create the account
         await repository.createAccount(event.account);
         emit(CreateAccountSuccess());
       } catch (error) {
         emit(CreateAccountFailure(error.toString()));
+      }
+    });
+
+    // Event handler for deleting a new account
+    on<UpdateAccountByIdEvent>((event, emit) async {
+      emit(GetAllAccountsLoading());
+      try {
+        await repository.updateAccountById(event.account);
+        emit(UpdateAccountSuccess());
+      } catch (error) {
+        emit(UpdateAccountFailure(error.toString()));
       }
     });
 
