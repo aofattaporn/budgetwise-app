@@ -95,10 +95,6 @@ class AccountsRepository {
           balance: acccount.balance,
           colorIndex: acccount.colorIndex);
       String accountJson = jsonEncode(createAccount.createJsonRequest());
-
-      print(createAccount);
-
-      print("********************");
       final response = await http.patch(
         url,
         headers: <String, String>{

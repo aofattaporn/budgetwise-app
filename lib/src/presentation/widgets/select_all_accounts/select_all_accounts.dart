@@ -7,12 +7,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SelectAllAccounts extends StatelessWidget {
-  final Function(Account) onAccountSelected; // Add this callback
+  final Function(Account) onAccountSelected;
   Account? accountVisit;
 
   SelectAllAccounts({
     required this.accountVisit,
-    required this.onAccountSelected, // Initialize in the constructor
+    required this.onAccountSelected,
     super.key,
   });
 

@@ -155,7 +155,7 @@ class _AccountCardState extends State<AccountCard> {
                   RichText(
                     text: TextSpan(
                         text:
-                            '${formatNumber(widget.account.balance.toString())} ',
+                            '${formatNumber(widget.account.balance.toString())}',
                         style: TextStyle(
                           fontSize: 16,
                           color: widget.isSelected == true ||

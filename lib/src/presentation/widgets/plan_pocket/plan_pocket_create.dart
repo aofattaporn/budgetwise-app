@@ -1,19 +1,41 @@
+import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/planning_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class PlanPocket extends StatelessWidget {
-  Planning? planning;
+class PlanPocketCreate extends StatelessWidget {
+  Planning planning;
+  Account? account;
   bool isFullSize;
-  PlanPocket({
+  IconData iconData;
+
+  PlanPocketCreate({
+    required this.iconData,
     required this.isFullSize,
-    this.planning,
+    required this.planning,
+    required this.account,
     super.key,
   });
+
+  String formatNumber(String rawNumber) {
+    String cleanedValue = rawNumber.replaceAll(RegExp(r'[^\d.]'), '');
+
+    if (cleanedValue.isEmpty || cleanedValue == '.') return '';
+    List<String> parts = cleanedValue.split('.');
+    final NumberFormat formatter = NumberFormat('#,###');
+    String formattedIntegerPart = formatter.format(int.parse(parts[0]));
+    if (parts.length > 1) {
+      String decimalPart = parts[1];
+      return '$formattedIntegerPart.$decimalPart';
+    }
+
+    return formattedIntegerPart;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      height: 145,
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -39,20 +61,23 @@ class PlanPocket extends StatelessWidget {
                   color: const Color.fromRGBO(240, 240, 240, 1),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(Icons.home_outlined,
+                child: Icon(iconData,
                     color: Colors.grey, size: isFullSize ? 32 : 20),
               ),
               SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(planning != null ? planning!.name : "",
+                  Text(planning.name,
                       style: TextStyle(
+                          color: planning.name == "Planning"
+                              ? Colors.grey.shade400
+                              : Colors.black,
                           fontSize: isFullSize ? 20 : 14,
                           fontWeight: isFullSize ? FontWeight.bold : null,
                           overflow: TextOverflow.clip)),
                   Text(
-                    "SCB",
+                    account != null ? account!.accountName : "",
                     style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -60,21 +85,19 @@ class PlanPocket extends StatelessWidget {
             ],
           ),
           Spacer(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text("B 5000 / 2000"),
-              IntrinsicWidth(
-                  child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(240, 240, 240, 1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                height: 10,
-                width: MediaQuery.sizeOf(context).width,
-              ))
+              Text('${formatNumber(planning!.limit.toString())} B',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: planning.limit == 0
+                        ? Colors.grey.shade400
+                        : Colors.black,
+                  )),
             ],
-          ),
+          )
         ],
       ),
     );

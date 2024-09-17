@@ -20,4 +20,5 @@ class Constants {
   static const String baseUrl = "http://192.168.1.39:8080";
   static const String contextPath = "/api";
   static const String accounts = "/accounts";
+  static const String plans = "/plans";
 }
