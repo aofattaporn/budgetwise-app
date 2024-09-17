@@ -1,8 +1,13 @@
-import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class GenericTxtBTN extends StatelessWidget {
-  const GenericTxtBTN({
+  String title;
+  final VoidCallback handler;
+
+  GenericTxtBTN({
+    required this.title,
+    required this.handler,
     super.key,
   });
 
@@ -10,30 +15,17 @@ class GenericTxtBTN extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color(0xFF9379E0), // Purple shade
-            Color(0xFFAE78D6), // Lighter purple
-            Color(0xFFD780E1), // Pinkish purple
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
         borderRadius: BorderRadius.circular(40),
       ),
       child: TextButton(
-        onPressed: () {
-          showModalBottomSheet<void>(
-            context: context,
-            isScrollControlled: true,
-            builder: (BuildContext context) {
-              return CreateAccount();
-            },
-          );
-        },
+        onPressed: handler,
         child: Text(
-          "create account",
-          style: TextStyle(fontSize: 12),
+          title,
+          style: TextStyle(
+              fontSize: 16,
+              color: const Color.fromARGB(255, 168, 21, 194),
+              fontWeight: FontWeight.bold),
+          selectionColor: Colors.purple,
         ),
         style: ButtonStyle(
           foregroundColor: WidgetStateProperty.all(Colors.white),

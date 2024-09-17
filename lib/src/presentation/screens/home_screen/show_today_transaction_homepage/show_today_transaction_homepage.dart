@@ -14,6 +14,8 @@ class ShowTodayTransactionHomepage extends StatelessWidget {
       children: [
         Text("Today Transactions"),
         SizedBox(height: 16),
+
+        // TODO : handler height of list item
         SizedBox(
           height: 225,
           child: ListView.builder(

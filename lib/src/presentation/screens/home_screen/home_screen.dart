@@ -16,19 +16,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+        clipBehavior: Clip.none,
         child: Container(
-      margin: const EdgeInsets.all(16),
-      clipBehavior: Clip.none,
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ShowAllAccountsHomepage(),
-          SizedBox(height: 10),
-          ShowOperationsHomepage(),
-          SizedBox(height: 30),
-          ShowTodayTransactionHomepage(),
-        ],
-      ),
-    ));
+          margin: const EdgeInsets.all(16),
+          clipBehavior: Clip.none,
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShowAllAccountsHomepage(),
+              SizedBox(height: 10),
+              ShowOperationsHomepage(),
+              SizedBox(height: 30),
+              ShowTodayTransactionHomepage(),
+            ],
+          ),
+        ));
   }
 }

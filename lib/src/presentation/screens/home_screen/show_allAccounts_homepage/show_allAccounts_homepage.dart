@@ -2,11 +2,13 @@ import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/presentation/screens/account_details/accounts_details.dart';
+import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card_failure.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card_skeleton.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -16,6 +18,16 @@ class ShowAllAccountsHomepage extends StatelessWidget {
   const ShowAllAccountsHomepage({
     super.key,
   });
+
+  _popUpShowCreateAccount(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return CreateAccount();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +68,9 @@ class ShowAllAccountsHomepage extends StatelessWidget {
                     Text(currentDate, style: TextStyle(fontSize: 14)),
                   ],
                 ),
-                GenericTxtBTN(),
+                GenericTxtBTN(
+                    title: "+ Create account",
+                    handler: () => _popUpShowCreateAccount(context)),
               ],
             ),
             const SizedBox(height: 30),
