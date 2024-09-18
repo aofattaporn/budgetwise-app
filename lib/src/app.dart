@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
+import 'package:budget_wise/src/bloc/users/users_bloc.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
 import 'package:budget_wise/src/presentation/screens/transactions_screen.dart';
@@ -31,8 +32,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AccountBloc>(
-      create: (_) => AccountBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AccountBloc>(
+          create: (BuildContext context) => AccountBloc(),
+        ),
+        BlocProvider<UsersBloc>(
+          create: (BuildContext context) => UsersBloc(),
+        ),
+      ],
       child: MaterialApp(
         theme: ThemeData(
             scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),

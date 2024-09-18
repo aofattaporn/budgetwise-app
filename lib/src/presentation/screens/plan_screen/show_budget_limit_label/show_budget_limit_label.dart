@@ -1,7 +1,13 @@
+import 'package:budget_wise/src/bloc/users/users_bloc.dart';
+import 'package:budget_wise/src/bloc/users/users_evenet.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BudgetLimitLabel extends StatelessWidget {
+  final double salary;
+
   const BudgetLimitLabel({
+    required this.salary,
     super.key,
   });
 
@@ -12,7 +18,7 @@ class BudgetLimitLabel extends StatelessWidget {
       child: Column(
         children: [
           Container(
-              child: Text("500/1500 B",
+              child: Text('... / ${salary} B',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

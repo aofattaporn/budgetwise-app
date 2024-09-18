@@ -70,7 +70,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            BudgetLimitLabel(),
+            BudgetLimitLabel(salary: 200),
             PlanPocketCreate(
                 iconData: IconConstants.icons[indexIcon],
                 isFullSize: true,

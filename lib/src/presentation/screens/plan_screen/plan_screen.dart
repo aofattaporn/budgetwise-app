@@ -1,8 +1,13 @@
+import 'package:budget_wise/src/bloc/users/users_bloc.dart';
+import 'package:budget_wise/src/bloc/users/users_evenet.dart';
+import 'package:budget_wise/src/bloc/users/users_state.dart';
 import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label_loading.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key});
@@ -24,6 +29,8 @@ class _PlanScreenState extends State<PlanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<UsersBloc>().add(GetSalaryEvent());
+
     return SingleChildScrollView(
       clipBehavior: Clip.none,
       child: Container(
@@ -32,7 +39,14 @@ class _PlanScreenState extends State<PlanScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            BudgetLimitLabel(),
+            BlocBuilder<UsersBloc, UsersState>(builder: (context, state) {
+              if (state is GetSalaryAndDateResetSuccess)
+                return BudgetLimitLabel(salary: 2000);
+              else if (state is GetSalaryAndDateResetSuccess)
+                return BudgetLimitLabelLoading();
+              else
+                return BudgetLimitLabelLoading();
+            }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

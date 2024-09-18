@@ -21,4 +21,5 @@ class Constants {
   static const String contextPath = "/api";
   static const String accounts = "/accounts";
   static const String plans = "/plans";
+  static const String users = "/users";
 }
