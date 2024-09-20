@@ -41,7 +41,10 @@ class _PlanScreenState extends State<PlanScreen> {
           children: [
             BlocBuilder<UsersBloc, UsersState>(builder: (context, state) {
               if (state is GetSalaryAndDateResetSuccess)
-                return BudgetLimitLabel(salary: 2000);
+                return BudgetLimitLabel(
+                    currentUsage: 5000,
+                    limitBudgetPlan: state.data.salary,
+                    dateReset: state.data.resetDatePlanning);
               else if (state is GetSalaryAndDateResetSuccess)
                 return BudgetLimitLabelLoading();
               else

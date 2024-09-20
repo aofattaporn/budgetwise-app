@@ -74,7 +74,6 @@ class GenericInputField extends StatelessWidget {
       inputFormatters: isOnlyNumber == true
           ? <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-              // This allows numbers with a decimal point, but does not restrict the decimal places
             ]
           : null,
       decoration: InputDecoration(
@@ -109,7 +108,7 @@ class GenericInputField extends StatelessWidget {
 
     String integerPart = parts[0];
     if (parts.length > 1) {
-      return '$integerPart.${parts[1]}'; // Keep the decimal part as it is, no length limitation
+      return '$integerPart.${parts[1]}';
     }
 
     return integerPart;
