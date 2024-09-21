@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:budget_wise/src/bloc/plans/plans_event.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/data/repositories/planning_repository.dart';
@@ -17,6 +19,19 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       } catch (error) {
         print(error);
         emit(GetPlanFailure(error.toString()));
+      }
+    });
+
+    // Event handler for fetching all accounts
+    on<CreatePlanEvent>((event, emit) async {
+      emit(CreatePlanLoading());
+      try {
+        final data = await _planningRepository.createPlanning(event.planning);
+        emit(CreatePlanSuccess(data));
+        emit(GetPlanSuccess(data));
+      } catch (error) {
+        print(error);
+        emit(CreatePlanFailure(error.toString()));
       }
     });
   }

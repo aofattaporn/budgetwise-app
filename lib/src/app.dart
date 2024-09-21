@@ -1,12 +1,12 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/users/users_bloc.dart';
-import 'package:budget_wise/src/data/repositories/planning_repository.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
 import 'package:budget_wise/src/presentation/screens/transactions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -50,6 +50,15 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
             scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en'), // English
+          Locale('th'), // Spanish
+        ],
         home: Scaffold(
           appBar: AppBar(
             backgroundColor: Color.fromRGBO(250, 250, 250, 1),

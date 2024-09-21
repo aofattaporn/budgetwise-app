@@ -1,11 +1,12 @@
 class Planning {
-  int planId;
+  int? planId;
   String name;
   double limit;
   int indexIcon;
-  String accountName;
-  DateTime createDate;
-  DateTime updateDate;
+  int? accountId;
+  String? accountName;
+  DateTime? createDate;
+  DateTime? updateDate;
 
   Planning(
     this.planId,
@@ -17,7 +18,7 @@ class Planning {
     this.accountName,
   );
 
-  Planning.create({
+  Planning.Details({
     required this.planId,
     required this.name,
     required this.limit,
@@ -25,6 +26,13 @@ class Planning {
     required this.accountName,
     required this.createDate,
     required this.updateDate,
+  });
+
+  Planning.create({
+    required this.name,
+    required this.limit,
+    required this.indexIcon,
+    required this.accountId,
   });
 
   // Convert a Map (JSON) into a Planning object
@@ -38,8 +46,8 @@ class Planning {
       json['amount'] != null
           ? (json['amount'] as num).toDouble()
           : 0.0, // Default to 0.0 if null
-      json['indexIcon'] != null
-          ? (json['indexIcon'] as num).toInt()
+      json['iconIndex'] != null
+          ? (json['iconIndex'] as num).toInt()
           : 0, // Default to 0 if null
       json['createDate'] != null
           ? DateTime.parse(json['createDate'])
@@ -54,14 +62,10 @@ class Planning {
   // Convert the Planning object to a Map (JSON)
   Map<String, dynamic> toJson() {
     return {
-      'planId': planId,
       'name': name,
-      'limit': limit,
-      'indexIcon': indexIcon,
-      'accountName': accountName,
-      'createDate': createDate.toIso8601String(),
-      'updateDate':
-          updateDate.toIso8601String(), // Consistent with the field name
+      'amount': limit,
+      'iconIndex': indexIcon,
+      'accountId': accountId,
     };
   }
 }

@@ -65,7 +65,7 @@ class PlanPocket extends StatelessWidget {
                       maxLines: 1,
                     ),
                     Text(
-                      planning.accountName,
+                      planning.accountName ?? "",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
@@ -102,7 +102,7 @@ class PlanPocket extends StatelessWidget {
               ),
               ProgressBar(
                 // convert percentage -> normalize [0, 1]
-                progress: Numbers.calPercentage(500, planning.limit) / 100,
+                progress: Numbers.calPercentage(0, planning.limit) / 100,
                 isFullSize: false,
               )
             ],

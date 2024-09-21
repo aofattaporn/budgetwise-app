@@ -19,3 +19,18 @@ final class GetPlanFailure extends PlansState {
   final String error;
   GetPlanFailure(this.error);
 }
+
+// state : get salary
+final class CreatePlanSuccess extends PlansState {
+  final List<Planning> data;
+  CreatePlanSuccess(this.data);
+}
+
+final class CreatePlanLoading extends PlansState {
+  CreatePlanLoading();
+}
+
+final class CreatePlanFailure extends PlansState {
+  final String error;
+  CreatePlanFailure(this.error);
+}

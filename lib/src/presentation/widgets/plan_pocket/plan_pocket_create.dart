@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class PlanPocketCreate extends StatelessWidget {
-  Planning planning;
-  Account? account;
-  bool isFullSize;
-  IconData iconData;
+  final Planning planning;
+  final Account? account;
+  final bool isFullSize;
+  final IconData iconData;
 
   PlanPocketCreate({
     required this.iconData,
@@ -77,8 +77,15 @@ class PlanPocketCreate extends StatelessWidget {
                           fontWeight: isFullSize ? FontWeight.bold : null,
                           overflow: TextOverflow.clip)),
                   Text(
-                    account != null ? account!.accountName : "",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    account != null
+                        ? account!.accountName
+                        : "Account Selecting",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color:
+                          account != null ? Colors.black : Colors.grey.shade400,
+                    ),
                   ),
                 ],
               )

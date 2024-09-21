@@ -151,6 +151,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
               ),
               const Spacer(),
               GenericCreateBTN(
+                  disable: false,
                   title: "Create Transaction",
                   onPressed: () => {
                         Navigator.pop(context),

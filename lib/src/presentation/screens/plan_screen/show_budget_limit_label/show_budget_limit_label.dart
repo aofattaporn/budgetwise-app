@@ -7,12 +7,14 @@ import 'package:intl/intl.dart';
 class BudgetLimitLabel extends StatelessWidget {
   final double currentUsage;
   final double limitBudgetPlan;
+  final double? predictionAmount;
   final DateTime dateReset;
 
   const BudgetLimitLabel({
     required this.currentUsage,
     required this.limitBudgetPlan,
     required this.dateReset,
+    this.predictionAmount,
     super.key,
   });
 
@@ -69,6 +71,10 @@ class BudgetLimitLabel extends StatelessWidget {
             progress:
                 Numbers.calPercentage(currentUsage, limitBudgetPlan) / 100,
             isFullSize: true,
+            predicProgress: predictionAmount != null
+                ? Numbers.calPercentage(predictionAmount!, limitBudgetPlan) /
+                    100
+                : null,
           )
         ],
       ),

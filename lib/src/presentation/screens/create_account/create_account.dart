@@ -156,6 +156,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   ),
                   _buildColorSelectionRow(),
                   GenericCreateBTN(
+                    disable: false,
                     title: isEditMode ? "Update Account" : "Create Account",
                     onPressed: () {
                       if (isEditMode) {

@@ -39,27 +39,32 @@ class PlanningRepository {
   }
 
   // Create a new account
-  Future<void> createAccount(Planning plan) async {
+  Future<List<Planning>> createPlanning(Planning plan) async {
     final url = Uri.parse(planningPath);
     try {
-      // Convert Account object to JSON
-      // Planning createAccount = Planning.forCreation(
-      //     accountName: account.accountName,
-      //     balance: account.balance,
-      //     colorIndex: account.colorIndex);
-      // String accountJson = jsonEncode(createAccount.createJsonRequest());
+      Planning planning = Planning.create(
+          name: plan.name,
+          limit: plan.limit,
+          indexIcon: plan.indexIcon,
+          accountId: plan.accountId);
+      String accountJson = jsonEncode(planning.toJson());
       final response = await http.post(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
-        body: {},
+        body: accountJson,
       );
 
       if (response.statusCode == 200) {
         // Assuming the server returns the created account as JSON
         dynamic responseBody = jsonDecode(response.body);
-        print(responseBody);
+        GeneralResponse generalResponse =
+            GeneralResponse.fromJson(responseBody);
+        List<Planning> plansList = (generalResponse.data as List)
+            .map((plan) => Planning.fromJson(plan))
+            .toList();
+        return plansList;
       } else {
         throw Exception(
             'Failed to create account. Status code: ${response.statusCode}');

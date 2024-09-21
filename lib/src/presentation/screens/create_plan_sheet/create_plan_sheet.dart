@@ -1,3 +1,7 @@
+import 'package:budget_wise/main.dart';
+import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
+import 'package:budget_wise/src/bloc/plans/plans_event.dart';
+import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/planning_model.dart';
 import 'package:budget_wise/src/presentation/constant/icons.dart';
@@ -9,9 +13,14 @@ import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket_cre
 import 'package:budget_wise/src/presentation/widgets/select_all_accounts/select_all_accounts.dart';
 import 'package:budget_wise/src/presentation/widgets/select_all_icons/select_all_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreatePlanSheet extends StatefulWidget {
-  const CreatePlanSheet({super.key});
+  final double limitAmount;
+  final double currentTotalUsage;
+
+  CreatePlanSheet(
+      {required this.limitAmount, required this.currentTotalUsage, super.key});
 
   @override
   State<CreatePlanSheet> createState() => _CreatePlanSheetState();
@@ -57,62 +66,76 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16), topRight: Radius.circular(16))),
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(24),
-      child: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BudgetLimitLabel(
-                currentUsage: 0,
-                limitBudgetPlan: 200,
-                dateReset: DateTime.now()),
-            PlanPocketCreate(
-                iconData: IconConstants.icons[indexIcon],
-                isFullSize: true,
-                account: accountVisit,
-                planning: Planning.create(
-                    planId: 1,
-                    name: !planingController.text.isEmpty
-                        ? planingController.text
-                        : "Planning",
-                    limit: double.tryParse(limitAmountController.text) ?? 0.0,
-                    indexIcon: indexIcon,
-                    accountName: "s",
-                    createDate: DateTime.now(),
-                    updateDate: DateTime.now())
-                //   !planingController.text.isEmpty
-                //       ? planingController.text
-                //       : "Planning",
-                //   double.tryParse(limitAmountController.text) ?? 0.0,
-                //   0,
-                // ),
+    return BlocListener<PlansBloc, PlansState>(
+      listener: (BuildContext context, state) {
+        if (state is CreatePlanSuccess) {
+          Navigator.pop(context);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.all(24),
+        child: Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BudgetLimitLabel(
+                  currentUsage: widget.currentTotalUsage,
+                  limitBudgetPlan: widget.limitAmount,
+                  predictionAmount:
+                      double.tryParse(limitAmountController.text) ?? 0.0,
+                  dateReset: DateTime.now()),
+              PlanPocketCreate(
+                  iconData: IconConstants.icons[indexIcon],
+                  isFullSize: true,
+                  account: accountVisit,
+                  planning: Planning.Details(
+                      planId: 1,
+                      name: !planingController.text.isEmpty
+                          ? planingController.text
+                          : "Planning",
+                      limit: double.tryParse(limitAmountController.text) ?? 0.0,
+                      indexIcon: indexIcon,
+                      accountName: accountVisit?.accountName ?? "",
+                      createDate: DateTime.now(),
+                      updateDate: DateTime.now())),
+              SizedBox(height: 24),
+              GenericRow(genericWidgets: [
+                GenericInputField(
+                  controller: planingController,
+                  labelText: "Plan Name",
                 ),
-            SizedBox(height: 24),
-            GenericRow(genericWidgets: [
-              GenericInputField(
-                controller: planingController,
-                labelText: "Plan Name",
-              ),
-              GenericInputField(
-                  controller: limitAmountController,
-                  isOnlyNumber: true,
-                  labelText: "Limit"),
-            ], gapSize: 24),
-            SelectAllIcons(onIconSelected: handleIcon),
-            SelectAllAccounts(
-                onAccountSelected: handleAccount, accountVisit: accountVisit),
-            SizedBox(height: 24),
-            GenericCreateBTN(onPressed: () {}, title: "Create Plan"),
-          ],
+                GenericInputField(
+                    controller: limitAmountController,
+                    isOnlyNumber: true,
+                    labelText: "Limit"),
+              ], gapSize: 24),
+              SelectAllIcons(onIconSelected: handleIcon),
+              SelectAllAccounts(
+                  onAccountSelected: handleAccount, accountVisit: accountVisit),
+              SizedBox(height: 24),
+              GenericCreateBTN(
+                  disable: false,
+                  onPressed: () {
+                    context.read<PlansBloc>().add((CreatePlanEvent(
+                        planning: Planning.create(
+                            name: planingController.text,
+                            limit:
+                                double.tryParse(limitAmountController.text) ??
+                                    0.0,
+                            indexIcon: indexIcon,
+                            accountId: accountVisit?.accountId ?? -1))));
+                  },
+                  title: "Create Plan"),
+            ],
+          ),
         ),
       ),
     );

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 class GenericCreateBTN extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
+  final bool disable;
 
   const GenericCreateBTN({
     super.key,
+    required this.disable,
     required this.onPressed,
     required this.title,
   });
@@ -53,7 +55,8 @@ class GenericCreateBTN extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: onPressed, // Use the passed function
+          onPressed:
+              disable == false ? onPressed : null, // Use the passed function
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(0),
             shape: RoundedRectangleBorder(
