@@ -1,3 +1,6 @@
+import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
+import 'package:budget_wise/src/bloc/plans/plans_event.dart';
+import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/bloc/users/users_bloc.dart';
 import 'package:budget_wise/src/bloc/users/users_evenet.dart';
 import 'package:budget_wise/src/bloc/users/users_state.dart';
@@ -30,6 +33,7 @@ class _PlanScreenState extends State<PlanScreen> {
   @override
   Widget build(BuildContext context) {
     context.read<UsersBloc>().add(GetSalaryEvent());
+    context.read<PlansBloc>().add(GetPlansEvent());
 
     return SingleChildScrollView(
       clipBehavior: Clip.none,
@@ -67,18 +71,26 @@ class _PlanScreenState extends State<PlanScreen> {
             Container(
               height: MediaQuery.sizeOf(context).height * 0.9,
               clipBehavior: Clip.none,
-              child: GridView.count(
-                primary: false,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                crossAxisCount: 2,
-                childAspectRatio: 1.5,
-                children: [
-                  PlanPocket(isFullSize: false),
-                  PlanPocket(isFullSize: false),
-                  PlanPocket(isFullSize: false),
-                  PlanPocket(isFullSize: false),
-                ],
+              child: BlocBuilder<PlansBloc, PlansState>(
+                builder: (context, state) {
+                  if (state is GetPlanSuccess) {
+                    return GridView.count(
+                      primary: false,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5,
+                      children: List.generate(state.data.length, (index) {
+                        return PlanPocket(
+                            isFullSize: false, planning: state.data[index]);
+                      }),
+                    );
+                  } else if (state is GetPlanLoading) {
+                    return BudgetLimitLabelLoading();
+                  } else {
+                    return Center(child: Text('No plans available'));
+                  }
+                },
               ),
             ),
           ],

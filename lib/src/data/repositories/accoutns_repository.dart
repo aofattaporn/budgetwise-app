@@ -82,7 +82,7 @@ class AccountsRepository {
             'Failed to create account. Status code: ${response.statusCode}');
       }
     } catch (error) {
-      throw Exception('Error occurred while creating account: $error');
+      throw Exception('Error occurred while deleting account: $error');
     }
   }
 
@@ -112,7 +112,7 @@ class AccountsRepository {
             'Failed to create account. Status code: ${response.statusCode}');
       }
     } catch (error) {
-      throw Exception('Error occurred while creating account: $error');
+      throw Exception('Error occurred while updating account: $error');
     }
   }
 }

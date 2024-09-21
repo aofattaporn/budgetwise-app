@@ -78,7 +78,7 @@ class PlanPocketCreate extends StatelessWidget {
                           overflow: TextOverflow.clip)),
                   Text(
                     account != null ? account!.accountName : "",
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               )

@@ -69,6 +69,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BudgetLimitLabel(
                 currentUsage: 0,
@@ -79,13 +80,15 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                 isFullSize: true,
                 account: accountVisit,
                 planning: Planning.create(
-                  name: !planingController.text.isEmpty
-                      ? planingController.text
-                      : "Plannin",
-                  limit: double.tryParse(limitAmountController.text) ?? 0.0,
-                  indexIcon: indexIcon,
-                  accountId: 0,
-                )
+                    planId: 1,
+                    name: !planingController.text.isEmpty
+                        ? planingController.text
+                        : "Planning",
+                    limit: double.tryParse(limitAmountController.text) ?? 0.0,
+                    indexIcon: indexIcon,
+                    accountName: "s",
+                    createDate: DateTime.now(),
+                    updateDate: DateTime.now())
                 //   !planingController.text.isEmpty
                 //       ? planingController.text
                 //       : "Planning",

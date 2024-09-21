@@ -65,9 +65,11 @@ class BudgetLimitLabel extends StatelessWidget {
             ),
           ),
           ProgressBar(
-              // convert percentage -> normalize [0, 1]
-              progress:
-                  Numbers.calPercentage(currentUsage, limitBudgetPlan) / 100)
+            // convert percentage -> normalize [0, 1]
+            progress:
+                Numbers.calPercentage(currentUsage, limitBudgetPlan) / 100,
+            isFullSize: true,
+          )
         ],
       ),
     );

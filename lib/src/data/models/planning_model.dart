@@ -1,61 +1,67 @@
-import 'package:budget_wise/src/data/models/account.dart';
-
 class Planning {
-  String planId;
+  int planId;
   String name;
   double limit;
   int indexIcon;
-  int accountId;
-  DateTime? createDate;
-  DateTime? updatePlanDate;
+  String accountName;
+  DateTime createDate;
+  DateTime updateDate;
 
   Planning(
     this.planId,
     this.name,
     this.limit,
     this.indexIcon,
-    this.accountId,
+    this.createDate,
+    this.updateDate,
+    this.accountName,
   );
 
   Planning.create({
+    required this.planId,
     required this.name,
     required this.limit,
     required this.indexIcon,
-    required this.accountId,
-  })  : planId = _generatePlanId(),
-        createDate = DateTime.now(),
-        updatePlanDate = null;
+    required this.accountName,
+    required this.createDate,
+    required this.updateDate,
+  });
 
-  // Method to generate a unique planId (you can modify the logic as needed)
-  static String _generatePlanId() {
-    return DateTime.now()
-        .millisecondsSinceEpoch
-        .toString(); // Example: using timestamp as ID
+  // Convert a Map (JSON) into a Planning object
+// Convert a Map (JSON) into a Planning object
+  factory Planning.fromJson(Map<String, dynamic> json) {
+    return Planning(
+      json['planId'] != null
+          ? (json['planId'] as num).toInt()
+          : 0, // Default to 0 if null
+      json['name'] ?? '', // Provide default empty string if null
+      json['amount'] != null
+          ? (json['amount'] as num).toDouble()
+          : 0.0, // Default to 0.0 if null
+      json['indexIcon'] != null
+          ? (json['indexIcon'] as num).toInt()
+          : 0, // Default to 0 if null
+      json['createDate'] != null
+          ? DateTime.parse(json['createDate'])
+          : DateTime.now(), // Default to current date if null
+      json['updateDate'] != null
+          ? DateTime.parse(json['updateDate'])
+          : DateTime.now(), // Default to current date if null
+      json['accountName'] ?? '', // Provide default empty string if null
+    );
   }
 
-  // Method to validate the Planning data
-  bool validate() {
-    if (name.isEmpty) {
-      throw Exception("Name cannot be empty.");
-    }
-    if (limit <= 0) {
-      throw Exception("Limit must be greater than zero.");
-    }
-    if (accountId == null) {
-      throw Exception("An account must be selected.");
-    }
-    return true;
-  }
-
-  // Method to handle the request before creating the data
+  // Convert the Planning object to a Map (JSON)
   Map<String, dynamic> toJson() {
     return {
       'planId': planId,
       'name': name,
       'limit': limit,
       'indexIcon': indexIcon,
-      'account': accountId,
-      'createDate': createDate
+      'accountName': accountName,
+      'createDate': createDate.toIso8601String(),
+      'updateDate':
+          updateDate.toIso8601String(), // Consistent with the field name
     };
   }
 }
