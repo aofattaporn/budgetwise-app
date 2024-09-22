@@ -4,12 +4,15 @@ import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/bloc/users/users_bloc.dart';
 import 'package:budget_wise/src/bloc/users/users_evenet.dart';
 import 'package:budget_wise/src/bloc/users/users_state.dart';
+import 'package:budget_wise/src/presentation/screens/account_details/accounts_details.dart';
 import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
+import 'package:budget_wise/src/presentation/screens/plan_details_screen/plan_details_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label_loading.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket.dart';
 import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket_loading.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -120,8 +123,18 @@ class _PlanScreenState extends State<PlanScreen> {
                         crossAxisCount: 2,
                         childAspectRatio: 1.5,
                         children: List.generate(state.data.length, (index) {
-                          return PlanPocket(
-                              isFullSize: false, planning: state.data[index]);
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          PlansDetailsScreenDetails(
+                                              planning: state.data[index])));
+                            },
+                            child: PlanPocket(
+                                isFullSize: false, planning: state.data[index]),
+                          );
                         }),
                       );
                     } else if (state is GetPlanLoading) {

@@ -11,3 +11,8 @@ final class CreatePlanEvent extends PlansEvent {
   final Planning planning;
   CreatePlanEvent({required this.planning});
 }
+
+final class DeletePlanEvent extends PlansEvent {
+  final int planId;
+  DeletePlanEvent({required this.planId});
+}

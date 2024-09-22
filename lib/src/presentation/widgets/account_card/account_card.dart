@@ -33,12 +33,6 @@ class _AccountCardState extends State<AccountCard> {
   // late Account selectedAccount;
   bool _isLoading = false;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   selectedAccount = widget.account;
-  // }
-
   String formatNumber(String rawNumber) {
     String cleanedValue = rawNumber.replaceAll(RegExp(r'[^\d.]'), '');
 
@@ -58,12 +52,7 @@ class _AccountCardState extends State<AccountCard> {
   Widget build(BuildContext context) {
     return BlocListener<AccountBloc, AccountState>(
       listener: (BuildContext context, AccountState state) {
-        if (state is UpdateAccountSuccess) {
-          // listener from parent again
-          // setState(() {
-          //   selectedAccount = widget.account;
-          // });
-        }
+        if (state is UpdateAccountSuccess) {}
       },
       child: Skeletonizer(
         enabled: _isLoading,
@@ -72,7 +61,6 @@ class _AccountCardState extends State<AccountCard> {
           width: widget.fullsize == true
               ? MediaQuery.sizeOf(context).width * 0.9
               : 240,
-          // margin: const EdgeInsets.only(left: 5, right: 36, bottom: 20, top: 0),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -185,6 +173,7 @@ class _AccountCardState extends State<AccountCard> {
     return Row(
       children: [
         GenericCircleIcons(
+            isDarkTheme: true,
             customIcon: Icons.edit,
             onhandle: () => {
                   showModalBottomSheet<void>(
@@ -199,6 +188,7 @@ class _AccountCardState extends State<AccountCard> {
           width: 12,
         ),
         GenericCircleIcons(
+            isDarkTheme: true,
             customIcon: Icons.delete,
             onhandle: () => {
                   AlertDialogUtils.showAlertDialog(

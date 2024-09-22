@@ -73,4 +73,30 @@ class PlanningRepository {
       throw Exception('Error occurred while creating planning: $error');
     }
   }
+
+  // delete a new planning
+  Future<List<Planning>> deletPlanning(int planId) async {
+    final url = Uri.parse('${planningPath}/${planId}');
+    try {
+      final response = await http.delete(url, headers: <String, String>{
+        'Content-Type': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        // Assuming the server returns the created account as JSON
+        dynamic responseBody = jsonDecode(response.body);
+        GeneralResponse generalResponse =
+            GeneralResponse.fromJson(responseBody);
+        List<Planning> plansList = (generalResponse.data as List)
+            .map((plan) => Planning.fromJson(plan))
+            .toList();
+        return plansList;
+      } else {
+        throw Exception(
+            'Failed to delete account. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      throw Exception('Error occurred while deleting planning: $error');
+    }
+  }
 }

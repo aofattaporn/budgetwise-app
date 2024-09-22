@@ -34,3 +34,17 @@ final class CreatePlanFailure extends PlansState {
   final String error;
   CreatePlanFailure(this.error);
 }
+
+// state : get salary
+final class DeletePlanSuccess extends PlansState {
+  DeletePlanSuccess();
+}
+
+final class DeletePlanLoading extends PlansState {
+  DeletePlanLoading();
+}
+
+final class DeletePlanFailure extends PlansState {
+  final String error;
+  DeletePlanFailure(this.error);
+}

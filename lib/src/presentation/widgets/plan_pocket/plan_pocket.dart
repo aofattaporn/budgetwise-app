@@ -1,113 +1,183 @@
+import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
+import 'package:budget_wise/src/bloc/plans/plans_event.dart';
+import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/presentation/constant/icons.dart';
+import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
+import 'package:budget_wise/src/presentation/ui/generic_alert_dialog.dart';
+import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket_create.dart';
 import 'package:budget_wise/src/presentation/widgets/progress_bar/progress_bar.dart';
 import 'package:budget_wise/src/utils/Numbers.dart';
 import 'package:budget_wise/src/utils/Strings.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PlanPocket extends StatelessWidget {
+import '../../ui/generic_circle_icon.dart';
+
+class PlanPocket extends StatefulWidget {
+  final bool? isHandler;
   final Planning planning;
   final bool isFullSize;
 
   PlanPocket({
     required this.isFullSize,
     required this.planning,
+    this.isHandler,
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 150,
-      padding: EdgeInsets.all(12),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 10,
-            blurRadius: 15,
-            offset: const Offset(3, 6),
-          )
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                height: isFullSize ? 58 : 36,
-                width: isFullSize ? 58 : 36,
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(240, 240, 240, 1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(IconConstants.icons[planning.indexIcon],
-                    color: Colors.grey, size: isFullSize ? 32 : 20),
-              ),
-              const SizedBox(width: 10),
+  State<PlanPocket> createState() => _PlanPocketState();
+}
 
-              // Wrap the Column in Flexible to prevent overflow
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      planning.name,
-                      style: TextStyle(
-                        fontSize: isFullSize ? 20 : 14,
-                        fontWeight: isFullSize ? FontWeight.bold : null,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    Text(
-                      planning.accountName ?? "",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+class _PlanPocketState extends State<PlanPocket> {
+  Row _rowHandlerCard(BuildContext context) {
+    final String confirmDelete = "Confirm Deletion";
+    final String confirmDeleteDesc = "Proceed with destructive action?";
+
+    return Row(
+      children: [
+        GenericCircleIcons(
+            customIcon: Icons.edit,
+            onhandle: () => {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return CreatePlanSheet(
+                        currentTotalUsage: 0,
+                        limitAmount: 2000,
+                      );
+                    },
+                  )
+                }),
+        const SizedBox(
+          width: 12,
+        ),
+        GenericCircleIcons(
+            customIcon: Icons.delete,
+            onhandle: () => {
+                  AlertDialogUtils.showAlertDialog(
+                      context: context,
+                      title: confirmDelete,
+                      content: confirmDeleteDesc,
+                      onConfirm: () => {
+                            context.read<PlansBloc>().add(DeletePlanEvent(
+                                planId: widget.planning.planId ?? -1))
+                          },
+                      onCancel: () {})
+                })
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<PlansBloc, PlansState>(
+      listener: (BuildContext context, PlansState state) {
+        if (state is DeletePlanSuccess) {
+          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+        }
+      },
+      child: Container(
+        height: 150,
+        padding: EdgeInsets.all(12),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 10,
+              blurRadius: 15,
+              offset: const Offset(3, 6),
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: widget.isFullSize ? 58 : 36,
+                  width: widget.isFullSize ? 58 : 36,
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(240, 240, 240, 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(IconConstants.icons[widget.planning.indexIcon],
+                      color: Colors.grey, size: widget.isFullSize ? 32 : 20),
                 ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child: Text.rich(
-                  TextSpan(
-                    text: '${Strings.normalizeNumber(500.toString())}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text:
-                            '/ ${Strings.normalizeNumber(planning.limit.toString())} B',
+                const SizedBox(width: 10),
+
+                // Wrap the Column in Flexible to prevent overflow
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.planning.name,
                         style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.grey,
+                          fontSize: widget.isFullSize ? 20 : 14,
+                          fontWeight:
+                              widget.isFullSize ? FontWeight.bold : null,
                         ),
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                      ),
+                      Text(
+                        widget.planning.accountName ?? "",
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-              ),
-              ProgressBar(
-                // convert percentage -> normalize [0, 1]
-                progress: Numbers.calPercentage(0, planning.limit) / 100,
-                isFullSize: false,
-              )
-            ],
-          ),
-        ],
+
+                if (widget.isHandler == true) Spacer(),
+                if (widget.isHandler == true) _rowHandlerCard(context),
+              ],
+            ),
+            const Spacer(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Text.rich(
+                    TextSpan(
+                      text: '${Strings.normalizeNumber(500.toString())}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text:
+                              '/ ${Strings.normalizeNumber(widget.planning.limit.toString())} B',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ProgressBar(
+                  // convert percentage -> normalize [0, 1]
+                  progress:
+                      Numbers.calPercentage(0, widget.planning.limit) / 100,
+                  isFullSize: false,
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

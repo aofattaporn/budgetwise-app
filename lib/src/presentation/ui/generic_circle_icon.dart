@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class GenericCircleIcons extends StatelessWidget {
+  final bool? isDarkTheme;
   final VoidCallback onhandle;
   final IconData customIcon;
 
   const GenericCircleIcons({
     super.key,
+    this.isDarkTheme,
     required this.onhandle,
     required this.customIcon,
   });
@@ -17,13 +19,17 @@ class GenericCircleIcons extends StatelessWidget {
       child: Container(
         width: 36,
         height: 36,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Color.fromRGBO(255, 224, 223, 0.1),
+          color: isDarkTheme == true
+              ? Color.fromRGBO(255, 224, 223, 0.1)
+              : Color.fromRGBO(210, 200, 200, 0.3),
+
+          // color: Color.fromRGBO(255, 224, 223, 0.1),
         ),
         child: Icon(
           customIcon,
-          color: Colors.white,
+          color: isDarkTheme == true ? Colors.white : Colors.grey,
         ),
       ),
     );

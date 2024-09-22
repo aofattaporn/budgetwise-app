@@ -34,5 +34,18 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
         emit(CreatePlanFailure(error.toString()));
       }
     });
+
+    // Event handler for fetching all accounts
+    on<DeletePlanEvent>((event, emit) async {
+      emit(DeletePlanLoading());
+      try {
+        final data = await _planningRepository.deletPlanning(event.planId);
+        emit(DeletePlanSuccess());
+        emit(GetPlanSuccess(data));
+      } catch (error) {
+        print(error);
+        emit(CreatePlanFailure(error.toString()));
+      }
+    });
   }
 }
