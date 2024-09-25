@@ -1,8 +1,12 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_event.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
+import 'package:budget_wise/src/bloc/users/users_bloc.dart';
+import 'package:budget_wise/src/bloc/users/users_evenet.dart';
+import 'package:budget_wise/src/bloc/users/users_state.dart';
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/planning_model.dart';
 import 'package:budget_wise/src/presentation/constant/icons.dart';
@@ -17,21 +21,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreatePlanSheet extends StatefulWidget {
-  final double limitAmount;
-  final double currentTotalUsage;
-
-  CreatePlanSheet(
-      {required this.limitAmount, required this.currentTotalUsage, super.key});
+  final Planning? existingPlan;
+  final bool isEdit;
+  CreatePlanSheet({this.existingPlan, required this.isEdit, super.key});
 
   @override
   State<CreatePlanSheet> createState() => _CreatePlanSheetState();
 }
 
 class _CreatePlanSheetState extends State<CreatePlanSheet> {
+  // local variable for manage data
   final planingController = TextEditingController();
   final TextEditingController limitAmountController = TextEditingController();
   Account? accountVisit = null;
   int indexIcon = 0;
+
+  // variable retrive from blocs
+  double litAmountMonthly = 0;
+  double currentTotalUsage = 0;
+  List<Account> accounts = [];
 
   void handleAccount(Account account) {
     setState(() {
@@ -50,6 +58,15 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
   @override
   void initState() {
     super.initState();
+    context.read<AccountBloc>().add(GetAllLocalAccountsEvent());
+    context.read<UsersBloc>().add(GetData());
+    context.read<PlansBloc>().add(GetCurrentSpendingEvent());
+
+    if (widget.existingPlan != null) {
+      planingController.text = widget.existingPlan!.name;
+      limitAmountController.text = widget.existingPlan!.limit.toString();
+      indexIcon = widget.existingPlan!.indexIcon;
+    }
     planingController.addListener(_onTextChanged);
     limitAmountController.addListener(_onTextChanged);
   }
@@ -69,16 +86,38 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        BlocListener<UsersBloc, UsersState>(
+          listener: (BuildContext context, UsersState state) {
+            if (state is GetSalaryAndDateResetSuccess) {
+              setState(() {
+                litAmountMonthly = state.data.salary;
+              });
+            }
+          },
+        ),
         BlocListener<AccountBloc, AccountState>(
           listener: (BuildContext context, AccountState state) {
             if (state is GetAllAccountsSuccess) {
-              Navigator.pop(context);
+              if (widget.existingPlan?.accountId != null) {
+                setState(() {
+                  accountVisit = state.data.firstWhere((account) =>
+                      account.accountName == widget.existingPlan!.accountName);
+                });
+              }
             }
           },
         ),
         BlocListener<PlansBloc, PlansState>(
             listener: (BuildContext context, state) {
+          if (state is GetPlanSuccess) {
+            setState(() {
+              currentTotalUsage = state.totalPlanUsage;
+            });
+          }
           if (state is CreatePlanSuccess) {
+            Navigator.pop(context);
+          }
+          if (state is UpdatePlanSuccess) {
             Navigator.pop(context);
           }
         })
@@ -98,8 +137,8 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BudgetLimitLabel(
-                  currentUsage: widget.currentTotalUsage,
-                  limitBudgetPlan: widget.limitAmount,
+                  currentUsage: currentTotalUsage,
+                  limitBudgetPlan: litAmountMonthly,
                   predictionAmount:
                       double.tryParse(limitAmountController.text) ?? 0.0,
                   dateReset: DateTime.now()),
@@ -134,8 +173,20 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                   onAccountSelected: handleAccount, accountVisit: accountVisit),
               SizedBox(height: 24),
               GenericCreateBTN(
-                  disable: false,
-                  onPressed: () {
+                disable: false,
+                title: widget.isEdit ? "Update Plan" : "Create Plan",
+                onPressed: () {
+                  if (widget.isEdit) {
+                    context.read<PlansBloc>().add((UpdatePlanEvent(
+                        planning: Planning.update(
+                            planId: widget.existingPlan!.planId,
+                            name: planingController.text,
+                            limit:
+                                double.tryParse(limitAmountController.text) ??
+                                    0.0,
+                            indexIcon: indexIcon,
+                            accountId: accountVisit!.accountId))));
+                  } else {
                     context.read<PlansBloc>().add((CreatePlanEvent(
                         planning: Planning.create(
                             name: planingController.text,
@@ -144,8 +195,9 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                                     0.0,
                             indexIcon: indexIcon,
                             accountId: accountVisit?.accountId ?? -1))));
-                  },
-                  title: "Create Plan"),
+                  }
+                },
+              ),
             ],
           ),
         ),

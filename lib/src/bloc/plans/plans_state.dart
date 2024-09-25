@@ -12,6 +12,12 @@ final class GetPlanSuccess extends PlansState {
   GetPlanSuccess(this.plans, this.totalPlanUsage);
 }
 
+final class GetCurrentSpendingSuccess extends PlansState {
+  final List<Planning> plans;
+  final double totalPlanUsage;
+  GetCurrentSpendingSuccess(this.plans, this.totalPlanUsage);
+}
+
 final class GetPlanLoading extends PlansState {
   GetPlanLoading();
 }
@@ -25,6 +31,10 @@ final class GetPlanFailure extends PlansState {
 final class CreatePlanSuccess extends PlansState {
   final List<Planning> data;
   CreatePlanSuccess(this.data);
+}
+
+final class UpdatePlanSuccess extends PlansState {
+  UpdatePlanSuccess();
 }
 
 final class CreatePlanLoading extends PlansState {

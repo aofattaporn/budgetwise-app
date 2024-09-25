@@ -74,6 +74,44 @@ class PlanningRepository {
     }
   }
 
+  // Create a new account
+  Future<List<Planning>> updatePlanning(int planId, Planning plan) async {
+    print(planId);
+    print("**************");
+    final url = Uri.parse(planningPath + "/" + planId.toString());
+    try {
+      Planning planning = Planning.create(
+          name: plan.name,
+          limit: plan.limit,
+          indexIcon: plan.indexIcon,
+          accountId: plan.accountId);
+      String accountJson = jsonEncode(planning.toJson());
+      final response = await http.put(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: accountJson,
+      );
+
+      if (response.statusCode == 200) {
+        // Assuming the server returns the created account as JSON
+        dynamic responseBody = jsonDecode(response.body);
+        GeneralResponse generalResponse =
+            GeneralResponse.fromJson(responseBody);
+        List<Planning> plansList = (generalResponse.data as List)
+            .map((plan) => Planning.fromJson(plan))
+            .toList();
+        return plansList;
+      } else {
+        throw Exception(
+            'Failed to create account. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      throw Exception('Error occurred while creating planning: $error');
+    }
+  }
+
   // delete a new planning
   Future<List<Planning>> deletPlanning(int planId) async {
     final url = Uri.parse('${planningPath}/${planId}');

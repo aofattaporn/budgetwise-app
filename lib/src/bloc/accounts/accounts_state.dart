@@ -12,6 +12,11 @@ final class GetAllAccountsSuccess extends AccountState {
   GetAllAccountsSuccess(this.data);
 }
 
+final class GetAllLocalAccountsSuccess extends AccountState {
+  final List<Account> data;
+  GetAllLocalAccountsSuccess(this.data);
+}
+
 final class GetAllAccountsLoading extends AccountState {
   GetAllAccountsLoading();
 }

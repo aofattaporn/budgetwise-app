@@ -30,46 +30,6 @@ class PlanPocket extends StatefulWidget {
 }
 
 class _PlanPocketState extends State<PlanPocket> {
-  Row _rowHandlerCard(BuildContext context) {
-    final String confirmDelete = "Confirm Deletion";
-    final String confirmDeleteDesc = "Proceed with destructive action?";
-
-    return Row(
-      children: [
-        GenericCircleIcons(
-            customIcon: Icons.edit,
-            onhandle: () => {
-                  showModalBottomSheet<void>(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (BuildContext context) {
-                      return CreatePlanSheet(
-                        currentTotalUsage: 0,
-                        limitAmount: 2000,
-                      );
-                    },
-                  )
-                }),
-        const SizedBox(
-          width: 12,
-        ),
-        GenericCircleIcons(
-            customIcon: Icons.delete,
-            onhandle: () => {
-                  AlertDialogUtils.showAlertDialog(
-                      context: context,
-                      title: confirmDelete,
-                      content: confirmDeleteDesc,
-                      onConfirm: () => {
-                            context.read<PlansBloc>().add(DeletePlanEvent(
-                                planId: widget.planning.planId ?? -1))
-                          },
-                      onCancel: () {})
-                })
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<PlansBloc, PlansState>(
@@ -180,6 +140,42 @@ class _PlanPocketState extends State<PlanPocket> {
           ],
         ),
       ),
+    );
+  }
+
+  Row _rowHandlerCard(BuildContext context) {
+    final String confirmDelete = "Confirm Deletion";
+    final String confirmDeleteDesc = "Proceed with destructive action?";
+
+    void showEditPlanning() {
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return CreatePlanSheet(existingPlan: widget.planning, isEdit: true);
+        },
+      );
+    }
+
+    void showDeleteDialog() {
+      AlertDialogUtils.showAlertDialog(
+          context: context,
+          title: confirmDelete,
+          content: confirmDeleteDesc,
+          onConfirm: () => {
+                context
+                    .read<PlansBloc>()
+                    .add(DeletePlanEvent(planId: widget.planning.planId ?? -1))
+              },
+          onCancel: () {});
+    }
+
+    return Row(
+      children: [
+        GenericCircleIcons(customIcon: Icons.edit, onhandle: showEditPlanning),
+        const SizedBox(width: 12),
+        GenericCircleIcons(customIcon: Icons.delete, onhandle: showDeleteDialog)
+      ],
     );
   }
 }

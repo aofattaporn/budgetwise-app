@@ -35,16 +35,13 @@ class _PlanScreenState extends State<PlanScreen> {
     context.read<PlansBloc>().add(GetPlansEvent());
   }
 
-  _popUpShowCreatePlan(
+  void _popUpShowCreatePlan(
       BuildContext context, double currentTotalUsage, limitAmount) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return CreatePlanSheet(
-          currentTotalUsage: currentTotalUsage,
-          limitAmount: limitAmount,
-        );
+        return CreatePlanSheet(isEdit: false);
       },
     );
   }
@@ -91,22 +88,7 @@ class _PlanScreenState extends State<PlanScreen> {
                 else
                   return BudgetLimitLabelLoading();
               }),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "My Planing",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  GenericTxtBTN(
-                    title: "+ Create Planning",
-                    handler: () => {
-                      _popUpShowCreatePlan(
-                          context, this.currentTotalUsage, this.limitAmount)
-                    },
-                  ),
-                ],
-              ),
+              ShowPlanningLabels(context),
               SizedBox(height: 16),
               Container(
                 height: MediaQuery.sizeOf(context).height * 0.9,
@@ -148,7 +130,12 @@ class _PlanScreenState extends State<PlanScreen> {
                         }),
                       );
                     } else {
-                      return Center(child: Text('No plans available'));
+                      return Column(
+                        children: [
+                          Center(child: Text('No plans available')),
+                          Spacer()
+                        ],
+                      );
                     }
                   },
                 ),
@@ -157,6 +144,28 @@ class _PlanScreenState extends State<PlanScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Row ShowPlanningLabels(BuildContext context) {
+    String planningLabel = "My Planing";
+    String creatingTitle = "+ Create Planning";
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          planningLabel,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        GenericTxtBTN(
+          title: creatingTitle,
+          handler: () => {
+            _popUpShowCreatePlan(
+                context, this.currentTotalUsage, this.limitAmount)
+          },
+        ),
+      ],
     );
   }
 }

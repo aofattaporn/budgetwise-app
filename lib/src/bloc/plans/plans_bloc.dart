@@ -7,6 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PlansBloc extends Bloc<PlansEvent, PlansState> {
   final PlanningRepository _planningRepository = PlanningRepository();
 
+  double currentTotalUsage = 0;
+  List<Planning>? planning;
+
   // Constructor to initialize the AccountBloc with a repository
   PlansBloc() : super(InitialState()) {
     // Event handler for fetching all accounts
@@ -14,8 +17,9 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       emit(GetPlanLoading());
       try {
         final List<Planning> plans = await _planningRepository.getPlans();
-        final double currentTotalUsage =
+        currentTotalUsage =
             plans.fold(0, (sum, item) => sum + (item.usage ?? 0));
+        planning = plans;
         emit(GetPlanSuccess(plans, currentTotalUsage));
       } catch (error) {
         print(error);
@@ -28,9 +32,21 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       emit(CreatePlanLoading());
       try {
         final data = await _planningRepository.createPlanning(event.planning);
-        final double currentTotalUsage =
-            data.fold(0, (sum, item) => sum + (item.usage ?? 0));
         emit(CreatePlanSuccess(data));
+        emit(GetPlanSuccess(data, currentTotalUsage));
+      } catch (error) {
+        print(error);
+        emit(CreatePlanFailure(error.toString()));
+      }
+    });
+
+    // Event handler for fetching all accounts
+    on<UpdatePlanEvent>((event, emit) async {
+      emit(CreatePlanLoading());
+      try {
+        final data = await _planningRepository.updatePlanning(
+            event.planning.planId ?? -1, event.planning);
+        emit(UpdatePlanSuccess());
         emit(GetPlanSuccess(data, currentTotalUsage));
       } catch (error) {
         print(error);
@@ -43,13 +59,21 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       emit(DeletePlanLoading());
       try {
         final data = await _planningRepository.deletPlanning(event.planId);
-        final double currentTotalUsage =
+        currentTotalUsage =
             data.fold(0, (sum, item) => sum + (item.usage ?? 0));
+        planning = data;
         emit(DeletePlanSuccess());
         emit(GetPlanSuccess(data, currentTotalUsage));
       } catch (error) {
         print(error);
         emit(CreatePlanFailure(error.toString()));
+      }
+    });
+
+    // Event handler for fetching all accounts
+    on<GetCurrentSpendingEvent>((event, emit) async {
+      if (planning != null) {
+        emit(GetPlanSuccess(planning!, currentTotalUsage));
       }
     });
   }

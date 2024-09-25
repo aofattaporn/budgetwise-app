@@ -12,6 +12,9 @@ final class CreateAccountEvent extends AccountsEvent {
 // event: get all accounts
 final class GetAllAccountsEvent extends AccountsEvent {}
 
+// event: get all locals accounts
+final class GetAllLocalAccountsEvent extends AccountsEvent {}
+
 // event: delete accounts by id
 final class DeleteAccountsByIdEvent extends AccountsEvent {
   final int accountId;

@@ -38,6 +38,14 @@ class Planning {
     required this.accountId,
   });
 
+  Planning.update({
+    required this.planId,
+    required this.name,
+    required this.limit,
+    required this.indexIcon,
+    required this.accountId,
+  });
+
   // Convert a Map (JSON) into a Planning object
 // Convert a Map (JSON) into a Planning object
   factory Planning.fromJson(Map<String, dynamic> json) {

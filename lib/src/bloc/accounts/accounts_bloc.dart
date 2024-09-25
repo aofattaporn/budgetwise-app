@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
+import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/repositories/accoutns_repository.dart';
 
 class AccountBloc extends Bloc<AccountsEvent, AccountState> {
   final AccountsRepository repository = AccountsRepository();
+  List<Account>? accounts;
 
   // Constructor to initialize the AccountBloc with a repository
   AccountBloc() : super(InitialState()) {
@@ -13,6 +15,7 @@ class AccountBloc extends Bloc<AccountsEvent, AccountState> {
       emit(GetAllAccountsLoading());
       try {
         final data = await repository.fetchAllAccounts();
+        accounts = data;
         emit(GetAllAccountsSuccess(data));
       } catch (error) {
         emit(GetAllAccountsFailure(error.toString()));
@@ -50,6 +53,13 @@ class AccountBloc extends Bloc<AccountsEvent, AccountState> {
         emit(DeleteAccountSuccess());
       } catch (error) {
         emit(DeleteAccountFailure(error.toString()));
+      }
+    });
+
+    on<GetAllLocalAccountsEvent>((event, emit) async {
+      if (accounts != null) {
+        emit(GetAllLocalAccountsSuccess(this.accounts!));
+        emit(GetAllAccountsSuccess(this.accounts!));
       }
     });
   }
