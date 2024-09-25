@@ -125,9 +125,13 @@ class PlanningRepository {
         dynamic responseBody = jsonDecode(response.body);
         GeneralResponse generalResponse =
             GeneralResponse.fromJson(responseBody);
+        if (generalResponse.data == null) {
+          return [];
+        }
         List<Planning> plansList = (generalResponse.data as List)
             .map((plan) => Planning.fromJson(plan))
             .toList();
+
         return plansList;
       } else {
         throw Exception(

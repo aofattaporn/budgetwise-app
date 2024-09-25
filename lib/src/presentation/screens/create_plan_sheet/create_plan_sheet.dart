@@ -98,7 +98,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
         BlocListener<AccountBloc, AccountState>(
           listener: (BuildContext context, AccountState state) {
             if (state is GetAllAccountsSuccess) {
-              if (widget.existingPlan?.accountId != null) {
+              if (widget.existingPlan != null) {
                 setState(() {
                   accountVisit = state.data.firstWhere((account) =>
                       account.accountName == widget.existingPlan!.accountName);

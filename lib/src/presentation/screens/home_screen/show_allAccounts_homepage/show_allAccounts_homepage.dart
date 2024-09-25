@@ -93,7 +93,7 @@ class ShowAllAccountsHomepage extends StatelessWidget {
               for (int index = 0; index < state.data.length; index++)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
+                  child: InkWell(
                     onTap: () {
                       Navigator.push(
                         context,

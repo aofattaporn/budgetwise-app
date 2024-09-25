@@ -71,13 +71,13 @@ class _PlanScreenState extends State<PlanScreen> {
       ],
       child: SingleChildScrollView(
         clipBehavior: Clip.none,
-        child: Container(
-          margin: const EdgeInsets.all(16),
-          clipBehavior: Clip.none,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              BlocBuilder<UsersBloc, UsersState>(builder: (context, state) {
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child:
+                  BlocBuilder<UsersBloc, UsersState>(builder: (context, state) {
                 if (state is GetSalaryAndDateResetSuccess)
                   return BudgetLimitLabel(
                       currentUsage: currentTotalUsage,
@@ -88,84 +88,88 @@ class _PlanScreenState extends State<PlanScreen> {
                 else
                   return BudgetLimitLabelLoading();
               }),
-              ShowPlanningLabels(context),
-              SizedBox(height: 16),
-              Container(
-                height: MediaQuery.sizeOf(context).height * 0.9,
-                clipBehavior: Clip.none,
-                child: BlocBuilder<PlansBloc, PlansState>(
-                  builder: (context, state) {
-                    if (state is GetPlanSuccess) {
-                      return GridView.count(
-                        primary: false,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.5,
-                        children: List.generate(state.plans.length, (index) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) =>
-                                          PlansDetailsScreenDetails(
-                                              planning: state.plans[index])));
-                            },
-                            child: PlanPocket(
-                                isFullSize: false,
-                                planning: state.plans[index]),
-                          );
-                        }),
-                      );
-                    } else if (state is GetPlanLoading) {
-                      return GridView.count(
-                        primary: false,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.5,
-                        children: List.generate(6, (index) {
-                          return PlanPocketLoading();
-                        }),
-                      );
-                    } else {
-                      return Column(
-                        children: [
-                          Center(child: Text('No plans available')),
-                          Spacer()
-                        ],
-                      );
-                    }
-                  },
-                ),
+            ),
+            ShowPlanningLabels(context),
+            SizedBox(height: 16),
+            Container(
+              height: MediaQuery.sizeOf(context).height * 0.58,
+              clipBehavior: Clip.none,
+              child: BlocBuilder<PlansBloc, PlansState>(
+                builder: (context, state) {
+                  if (state is GetPlanSuccess) {
+                    return GridView.count(
+                      padding: EdgeInsets.all(16),
+                      primary: false,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5,
+                      children: List.generate(state.plans.length, (index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) =>
+                                        PlansDetailsScreenDetails(
+                                            planning: state.plans[index])));
+                          },
+                          child: PlanPocket(
+                              isFullSize: false, planning: state.plans[index]),
+                        );
+                      }),
+                    );
+                  } else if (state is GetPlanLoading) {
+                    return GridView.count(
+                      padding: EdgeInsets.all(16),
+                      primary: false,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5,
+                      children: List.generate(6, (index) {
+                        return PlanPocketLoading();
+                      }),
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        Center(child: Text('No plans available')),
+                        Spacer()
+                      ],
+                    );
+                  }
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Row ShowPlanningLabels(BuildContext context) {
+  Padding ShowPlanningLabels(BuildContext context) {
     String planningLabel = "My Planing";
     String creatingTitle = "+ Create Planning";
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          planningLabel,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        GenericTxtBTN(
-          title: creatingTitle,
-          handler: () => {
-            _popUpShowCreatePlan(
-                context, this.currentTotalUsage, this.limitAmount)
-          },
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            planningLabel,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          GenericTxtBTN(
+            title: creatingTitle,
+            handler: () => {
+              _popUpShowCreatePlan(
+                  context, this.currentTotalUsage, this.limitAmount)
+            },
+          ),
+        ],
+      ),
     );
   }
 }

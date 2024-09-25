@@ -1,8 +1,4 @@
-import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
-import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
-import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
-import 'package:budget_wise/src/bloc/plans/plans_event.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/data/models/planning_model.dart';
 import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket.dart';
@@ -38,10 +34,12 @@ class _AccountDetailsState extends State<PlansDetailsScreenDetails> {
               (plan) => plan.planId == widget.planning.planId,
               orElse: () => widget.planning,
             );
-
             setState(() {
               planning = updatedAccount;
             });
+          } else if (state is DeletePlanSuccess) {
+            Navigator.popUntil(
+                context, (Route<dynamic> route) => route.isFirst);
           }
         })
       ],
