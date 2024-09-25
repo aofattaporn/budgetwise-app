@@ -4,7 +4,6 @@ import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/bloc/users/users_bloc.dart';
 import 'package:budget_wise/src/bloc/users/users_evenet.dart';
 import 'package:budget_wise/src/bloc/users/users_state.dart';
-import 'package:budget_wise/src/presentation/screens/account_details/accounts_details.dart';
 import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
 import 'package:budget_wise/src/presentation/screens/plan_details_screen/plan_details_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label.dart';
@@ -67,8 +66,7 @@ class _PlanScreenState extends State<PlanScreen> {
           listener: (context, state) {
             if (state is GetPlanSuccess) {
               setState(() {
-                this.currentTotalUsage =
-                    state.data.fold(0, (sum, item) => sum + item.limit);
+                this.currentTotalUsage = state.totalPlanUsage;
               });
             }
           },
@@ -85,7 +83,7 @@ class _PlanScreenState extends State<PlanScreen> {
               BlocBuilder<UsersBloc, UsersState>(builder: (context, state) {
                 if (state is GetSalaryAndDateResetSuccess)
                   return BudgetLimitLabel(
-                      currentUsage: 5000,
+                      currentUsage: currentTotalUsage,
                       limitBudgetPlan: state.data.salary,
                       dateReset: state.data.resetDatePlanning);
                 else if (state is GetSalaryAndDateResetSuccess)
@@ -122,7 +120,7 @@ class _PlanScreenState extends State<PlanScreen> {
                         mainAxisSpacing: 20,
                         crossAxisCount: 2,
                         childAspectRatio: 1.5,
-                        children: List.generate(state.data.length, (index) {
+                        children: List.generate(state.plans.length, (index) {
                           return InkWell(
                             onTap: () {
                               Navigator.push(
@@ -130,10 +128,11 @@ class _PlanScreenState extends State<PlanScreen> {
                                   CupertinoPageRoute(
                                       builder: (context) =>
                                           PlansDetailsScreenDetails(
-                                              planning: state.data[index])));
+                                              planning: state.plans[index])));
                             },
                             child: PlanPocket(
-                                isFullSize: false, planning: state.data[index]),
+                                isFullSize: false,
+                                planning: state.plans[index]),
                           );
                         }),
                       );

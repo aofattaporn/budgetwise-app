@@ -7,8 +7,9 @@ final class InitialState extends PlansState {}
 
 // state : get salary
 final class GetPlanSuccess extends PlansState {
-  final List<Planning> data;
-  GetPlanSuccess(this.data);
+  final List<Planning> plans;
+  final double totalPlanUsage;
+  GetPlanSuccess(this.plans, this.totalPlanUsage);
 }
 
 final class GetPlanLoading extends PlansState {

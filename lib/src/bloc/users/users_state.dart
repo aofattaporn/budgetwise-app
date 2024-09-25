@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/data/models/salary.dart';
+import 'package:budget_wise/src/data/models/userInfo.dart';
 
 sealed class UsersState {}
 
@@ -7,7 +7,7 @@ final class InitialState extends UsersState {}
 
 // state : get salary
 final class GetSalaryAndDateResetSuccess extends UsersState {
-  final Salary data;
+  final UserInfo data;
   GetSalaryAndDateResetSuccess(this.data);
 }
 

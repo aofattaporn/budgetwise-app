@@ -1,6 +1,7 @@
 class Planning {
   int? planId;
   String name;
+  double? usage;
   double limit;
   int indexIcon;
   int? accountId;
@@ -11,6 +12,7 @@ class Planning {
   Planning(
     this.planId,
     this.name,
+    this.usage,
     this.limit,
     this.indexIcon,
     this.createDate,
@@ -21,6 +23,7 @@ class Planning {
   Planning.Details({
     required this.planId,
     required this.name,
+    required this.usage,
     required this.limit,
     required this.indexIcon,
     required this.accountName,
@@ -43,6 +46,9 @@ class Planning {
           ? (json['planId'] as num).toInt()
           : 0, // Default to 0 if null
       json['name'] ?? '', // Provide default empty string if null
+      json['usage'] != null
+          ? (json['usage'] as num).toDouble()
+          : 0.0, // Default to 0.0 if null
       json['amount'] != null
           ? (json['amount'] as num).toDouble()
           : 0.0, // Default to 0.0 if null

@@ -1,3 +1,5 @@
+import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
+import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_event.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
@@ -65,12 +67,22 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PlansBloc, PlansState>(
-      listener: (BuildContext context, state) {
-        if (state is CreatePlanSuccess) {
-          Navigator.pop(context);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AccountBloc, AccountState>(
+          listener: (BuildContext context, AccountState state) {
+            if (state is GetAllAccountsSuccess) {
+              Navigator.pop(context);
+            }
+          },
+        ),
+        BlocListener<PlansBloc, PlansState>(
+            listener: (BuildContext context, state) {
+          if (state is CreatePlanSuccess) {
+            Navigator.pop(context);
+          }
+        })
+      ],
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
@@ -97,6 +109,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                   account: accountVisit,
                   planning: Planning.Details(
                       planId: 1,
+                      usage: 0,
                       name: !planingController.text.isEmpty
                           ? planingController.text
                           : "Planning",

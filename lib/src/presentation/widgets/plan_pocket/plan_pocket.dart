@@ -4,7 +4,6 @@ import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/presentation/constant/icons.dart';
 import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
 import 'package:budget_wise/src/presentation/ui/generic_alert_dialog.dart';
-import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket_create.dart';
 import 'package:budget_wise/src/presentation/widgets/progress_bar/progress_bar.dart';
 import 'package:budget_wise/src/utils/Numbers.dart';
 import 'package:budget_wise/src/utils/Strings.dart';
@@ -149,7 +148,8 @@ class _PlanPocketState extends State<PlanPocket> {
                 Container(
                   child: Text.rich(
                     TextSpan(
-                      text: '${Strings.normalizeNumber(500.toString())}',
+                      text:
+                          '${Strings.normalizeNumber(widget.planning.usage.toString())}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -170,8 +170,9 @@ class _PlanPocketState extends State<PlanPocket> {
                 ),
                 ProgressBar(
                   // convert percentage -> normalize [0, 1]
-                  progress:
-                      Numbers.calPercentage(0, widget.planning.limit) / 100,
+                  progress: Numbers.calPercentage(
+                          widget.planning.usage ?? 0, widget.planning.limit) /
+                      100,
                   isFullSize: false,
                 )
               ],

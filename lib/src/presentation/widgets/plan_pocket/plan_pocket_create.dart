@@ -95,7 +95,7 @@ class PlanPocketCreate extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text('${formatNumber(planning!.limit.toString())} B',
+              Text('${formatNumber(planning.limit.toString())} B',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,

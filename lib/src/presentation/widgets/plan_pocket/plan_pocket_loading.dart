@@ -1,5 +1,3 @@
-import 'package:budget_wise/src/presentation/widgets/progress_bar/progress_bar.dart';
-import 'package:budget_wise/src/utils/Numbers.dart';
 import 'package:budget_wise/src/utils/Strings.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
