@@ -12,9 +12,9 @@ class Constants {
   static const Color bgPrimary = Color.fromARGB(250, 250, 250, 100);
 
   static final List<Operation> operations = [
-    Operation("Tranfer", const Icon(Icons.arrow_upward_rounded)),
-    Operation("Incomin", const Icon(Icons.arrow_downward_rounded)),
-    Operation("Change", const Icon(Icons.autorenew_rounded))
+    Operation("transfer", const Icon(Icons.arrow_upward_rounded)),
+    Operation("income", const Icon(Icons.arrow_downward_rounded)),
+    Operation("change", const Icon(Icons.autorenew_rounded))
   ];
 
   static const String baseUrl = "http://127.0.0.1:8080";
@@ -22,4 +22,5 @@ class Constants {
   static const String accounts = "/accounts";
   static const String plans = "/plans";
   static const String users = "/users";
+  static const String transactions = "/transactions";
 }

@@ -76,8 +76,6 @@ class PlanningRepository {
 
   // Create a new account
   Future<List<Planning>> updatePlanning(int planId, Planning plan) async {
-    print(planId);
-    print("**************");
     final url = Uri.parse(planningPath + "/" + planId.toString());
     try {
       Planning planning = Planning.create(

@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
+import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
 import 'package:budget_wise/src/bloc/users/users_bloc.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
@@ -44,6 +45,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider<PlansBloc>(
           create: (BuildContext context) => PlansBloc(),
+        ),
+        BlocProvider<TransactionsBloc>(
+          create: (BuildContext context) => TransactionsBloc(),
         ),
       ],
       child: MaterialApp(

@@ -1,6 +1,13 @@
+import 'package:budget_wise/src/data/models/transaction.dart';
+import 'package:budget_wise/src/presentation/constant/icons.dart';
+import 'package:budget_wise/src/utils/DateTie.dart';
 import 'package:flutter/material.dart';
 
 class TransactionItem extends StatelessWidget {
+  final Transaction transaction;
+
+  TransactionItem(this.transaction);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,21 +41,21 @@ class TransactionItem extends StatelessWidget {
                       240, 240, 240, 1), // Light gray background
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.home_outlined,
+                child: Icon(IconConstants.icons[transaction.indexIcon!],
                     color: Colors.grey, size: 30),
               ),
 
               const SizedBox(width: 16), // Spacing between icon and text
 
               // Text Column
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text.rich(
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: "Rental Income",
+                          text: transaction.planName,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -56,7 +63,8 @@ class TransactionItem extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: " SCB", // The appended text
+                          text: " " +
+                              transaction.accountName!, // The appended text
                           style: TextStyle(
                             fontWeight: FontWeight
                                 .normal, // You can change the style here
@@ -68,14 +76,14 @@ class TransactionItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "เงินเดือนออก",
+                    transaction.name,
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
                     ),
                   ),
                   Text(
-                    "Wed 14 July 2021",
+                    UtilsDateTime.formatDate(transaction.createDate!),
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
@@ -87,8 +95,8 @@ class TransactionItem extends StatelessWidget {
           ),
 
           // Amount
-          const Text(
-            "+\$6,500.00",
+          Text(
+            "+" + transaction.amount.toString() + " B",
             style: TextStyle(
               color: Colors.green,
               fontWeight: FontWeight.bold,

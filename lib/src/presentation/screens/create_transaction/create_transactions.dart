@@ -1,12 +1,20 @@
+import 'package:budget_wise/main.dart';
+import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
+import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
+import 'package:budget_wise/src/bloc/transactions/transactions_event.dart';
 import 'package:budget_wise/src/data/models/account.dart';
 import 'package:budget_wise/src/data/models/operation.dart';
-import 'package:budget_wise/src/mock/mock_accounts_data.dart';
+import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/data/models/transaction.dart';
+import 'package:budget_wise/src/presentation/screens/all_planning_screen/all_planning_screen.dart';
 import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/ui/generic_column.dart';
 import 'package:budget_wise/src/presentation/ui/generic_btn.dart';
 import 'package:budget_wise/src/presentation/ui/generic_row_generic.dart';
-import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
+import 'package:budget_wise/src/presentation/widgets/select_all_accounts/select_all_accounts.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateTransaction extends StatefulWidget {
   final Operation operation;
@@ -22,8 +30,8 @@ class _CreateTransactionState extends State<CreateTransaction> {
   late TextEditingController _amountController;
   late TextEditingController _remarkController;
   late TextEditingController _dateController;
-
-  Account? _account;
+  late Account? _accountVisit;
+  late Planning? _planningVisit;
 
   @override
   void initState() {
@@ -32,6 +40,8 @@ class _CreateTransactionState extends State<CreateTransaction> {
     _amountController = TextEditingController();
     _remarkController = TextEditingController();
     _dateController = TextEditingController();
+    _accountVisit = null;
+    _planningVisit = null;
   }
 
   @override
@@ -45,7 +55,13 @@ class _CreateTransactionState extends State<CreateTransaction> {
 
   void handleAccount(Account account) {
     setState(() {
-      _account = account;
+      _accountVisit = account;
+    });
+  }
+
+  void handlePlanning(Planning planning) {
+    setState(() {
+      _planningVisit = planning;
     });
   }
 
@@ -113,38 +129,29 @@ class _CreateTransactionState extends State<CreateTransaction> {
                       maxLines: 3,
                       minLines: 3,
                       controller: _remarkController),
-                  // SelectAllAccounts(handler: () {}),
-                  SingleChildScrollView(
-                    clipBehavior: Clip.none,
-                    scrollDirection: Axis.horizontal,
-                    child: Row(children: [
-                      for (int index = 0;
-                          index < Mocks.listAccount.length;
-                          index++)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              handleAccount(Account(
-                                accountId: Mocks.listAccount[index].accountId,
-                                accountName:
-                                    Mocks.listAccount[index].accountName,
-                                balance: Mocks.listAccount[index].balance,
-                                createDate: Mocks.listAccount[index].createDate,
-                                updatePlanDate:
-                                    Mocks.listAccount[index].updatePlanDate,
-                                colorIndex: 0,
-                              ));
-                            },
-                            child: AccountCard(
-                                isSelected: this._account?.accountName ==
-                                        Mocks.listAccount[index].accountName
-                                    ? true
-                                    : false,
-                                account: Mocks.listAccount[index]),
-                          ),
-                        ),
-                    ]),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => AllPlanningScreen(
+                                  planningVisit: _planningVisit,
+                                  onPlanningSelected: handlePlanning,
+                                )), // Replace with your next page
+                      );
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 215, 213, 213),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                          child: Text(_planningVisit?.name ?? "planning")),
+                    ),
+                  ),
+                  SelectAllAccounts(
+                    accountVisit: _accountVisit,
+                    onAccountSelected: handleAccount,
                   ),
                 ],
                 gapSize: 20,
@@ -154,13 +161,15 @@ class _CreateTransactionState extends State<CreateTransaction> {
                   disable: false,
                   title: "Create Transaction",
                   onPressed: () => {
-                        Navigator.pop(context),
-                        // Handle transaction creation here
-                        print(_titleController.text),
-                        print(_dateController.text),
-                        print(_remarkController.text),
-                        print(_amountController.text),
-                        print(_account?.accountName),
+                        context.read<TransactionsBloc>().add(
+                            CreateTransactionsEvent(Transaction.create(
+                                name: _titleController.text,
+                                amount:
+                                    double.tryParse(_amountController.text) ??
+                                        0.0,
+                                operation: widget.operation.name,
+                                planId: _planningVisit?.planId ?? 0,
+                                accountId: _accountVisit?.accountId ?? 0)))
                       }),
               const SizedBox(height: 40)
             ],
