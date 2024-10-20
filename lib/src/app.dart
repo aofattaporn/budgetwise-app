@@ -4,7 +4,7 @@ import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
 import 'package:budget_wise/src/bloc/users/users_bloc.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
-import 'package:budget_wise/src/presentation/screens/transactions_screen.dart';
+import 'package:budget_wise/src/presentation/screens/transactions_screen/transactions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
   // List of widgets to display based on the selected tab
-  final List<Widget> _widgetOptions = const <Widget>[
+  final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     TransactionsScreen(),
     PlanScreen()

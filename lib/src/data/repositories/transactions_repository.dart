@@ -4,6 +4,7 @@ import 'package:budget_wise/src/data/models/GeneralResponse.dart';
 import 'package:budget_wise/src/data/models/transaction.dart';
 import 'package:budget_wise/src/presentation/constant/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class TransactionsRepository {
   // global request context
@@ -12,7 +13,9 @@ class TransactionsRepository {
 
   // Fetch transactions
   Future<List<Transaction>> getTransactions() async {
-    final url = Uri.parse(transactionsPath);
+    final formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    final url = Uri.parse(transactionsPath + "?date=" + formattedDate);
     try {
       final response = await http.get(url, headers: <String, String>{
         'Content-Type': 'application/json',
