@@ -2,7 +2,8 @@ sealed class UsersEvent {}
 
 // event: get oney infomation
 final class GetSalaryEvent extends UsersEvent {
-  GetSalaryEvent();
+  final String monthYear;
+  GetSalaryEvent({required this.monthYear});
 }
 
 // event: get amount data state

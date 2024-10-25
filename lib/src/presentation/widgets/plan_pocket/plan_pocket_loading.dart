@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/utils/Strings.dart';
+import 'package:budget_wise/src/utils/strings_util.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

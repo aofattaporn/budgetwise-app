@@ -1,21 +1,24 @@
-import 'package:budget_wise/src/data/models/userInfo.dart';
+import 'package:budget_wise/src/data/models/GeneralError.dart';
+import 'package:budget_wise/src/data/models/userFin.dart';
 
-sealed class UsersState {}
+sealed class UsersFinState {}
 
 // Initial state when nothing has happened yet
-final class InitialState extends UsersState {}
+final class InitialState extends UsersFinState {}
 
-// state : get salary
-final class GetSalaryAndDateResetSuccess extends UsersState {
-  final UserInfo data;
-  GetSalaryAndDateResetSuccess(this.data);
+final class ErrorState extends UsersFinState {}
+
+// state : get salary ans month year
+final class GetSalaryAndMontYearSuccess extends UsersFinState {
+  final UserFin data;
+  GetSalaryAndMontYearSuccess(this.data);
 }
 
-final class GetSalaryAndDateResetLoading extends UsersState {
-  GetSalaryAndDateResetLoading();
+final class GetSalaryAndMontYearLoading extends UsersFinState {
+  GetSalaryAndMontYearLoading();
 }
 
-final class GetSalaryAndDateResetFailure extends UsersState {
-  final String error;
-  GetSalaryAndDateResetFailure(this.error);
+final class GetSalaryAndMontYearFailure extends UsersFinState {
+  final GeneralError error;
+  GetSalaryAndMontYearFailure(this.error);
 }

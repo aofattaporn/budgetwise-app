@@ -1,8 +1,7 @@
-import 'dart:convert';
-
-import 'package:budget_wise/src/data/models/GeneralResponse.dart';
-import 'package:budget_wise/src/data/models/userInfo.dart';
+import 'package:budget_wise/src/data/models/GeneralError.dart';
+import 'package:budget_wise/src/data/models/userFin.dart';
 import 'package:budget_wise/src/presentation/constant/constants.dart';
+import 'package:budget_wise/src/utils/response_util.dart';
 import 'package:http/http.dart' as http;
 
 class UsersRepository {
@@ -10,22 +9,19 @@ class UsersRepository {
   static const String usersPath =
       '${Constants.baseUrl}${Constants.contextPath}${Constants.users}';
 
-  Future<UserInfo> fetchAllAccounts() async {
-    final url = Uri.parse('$usersPath/salary');
+  /// Fetches user accounts for a given month and year.
+  ///
+  /// [monthYear] in 'MM-YYYY' format.
+  /// Returns a [Future] with [UserFin] data.
+  Future<UserFin> fetchAllAccounts(String monthYear) async {
+    final url = Uri.parse('$usersPath/salary?monthYear=$monthYear');
     try {
       final response = await http.get(url);
-      if (response.statusCode == 200) {
-        dynamic responseBody = jsonDecode(response.body);
-        GeneralResponse generalResponse =
-            GeneralResponse.fromJson(responseBody);
-        UserInfo salary = UserInfo.fromJson(generalResponse.data);
-        return salary;
-      } else {
-        throw Exception(
-            'Failed to load accounts. Status code: ${response.statusCode}');
-      }
+      final generalResponse = ResponseUtil.decodeResponse(response);
+      final userFin = UserFin.fromJson(generalResponse.data);
+      return userFin;
     } catch (error) {
-      throw Exception('Error occurred while fetching accounts: $error');
+      throw error as GeneralError;
     }
   }
 }

@@ -86,9 +86,9 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<UsersBloc, UsersState>(
-          listener: (BuildContext context, UsersState state) {
-            if (state is GetSalaryAndDateResetSuccess) {
+        BlocListener<UsersBloc, UsersFinState>(
+          listener: (BuildContext context, UsersFinState state) {
+            if (state is GetSalaryAndMontYearSuccess) {
               setState(() {
                 litAmountMonthly = state.data.salary;
               });
@@ -141,7 +141,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                   limitBudgetPlan: litAmountMonthly,
                   predictionAmount:
                       double.tryParse(limitAmountController.text) ?? 0.0,
-                  dateReset: DateTime.now()),
+                  monthYear: DateTime.now()),
               PlanPocketCreate(
                   iconData: IconConstants.icons[indexIcon],
                   isFullSize: true,

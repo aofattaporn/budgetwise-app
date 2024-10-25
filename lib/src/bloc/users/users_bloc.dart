@@ -1,34 +1,50 @@
 import 'package:budget_wise/src/bloc/users/users_evenet.dart';
 import 'package:budget_wise/src/bloc/users/users_state.dart';
-import 'package:budget_wise/src/data/models/userInfo.dart';
+import 'package:budget_wise/src/data/models/GeneralError.dart';
+import 'package:budget_wise/src/data/models/userFin.dart';
 import 'package:budget_wise/src/data/repositories/users_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UsersBloc extends Bloc<UsersEvent, UsersState> {
+class UsersBloc extends Bloc<UsersEvent, UsersFinState> {
   final UsersRepository usersRepository = UsersRepository();
 
   // Global variables to hold shared data
-  UserInfo? userInfo;
+  UserFin? userInfo;
 
   // Constructor to initialize the UsersBloc
   UsersBloc() : super(InitialState()) {
-    // Event handler for fetching salary and date reset
+    /// Event handler for the `GetSalaryEvent`.
+    ///
+    /// This function listens for the `GetSalaryEvent` and performs the following actions:
+    /// - Emits a `GetSalaryAndMontYearLoading` state to indicate that the salary and month-year data is being loaded.
+    ///
+    /// The function is asynchronous and uses the `emit` function to update the state.
     on<GetSalaryEvent>((event, emit) async {
-      emit(GetSalaryAndDateResetLoading());
+      emit(GetSalaryAndMontYearLoading());
       try {
-        final data = await usersRepository.fetchAllAccounts();
+        final data = await usersRepository.fetchAllAccounts(event.monthYear);
         userInfo = data;
-
-        emit(GetSalaryAndDateResetSuccess(data));
+        emit(GetSalaryAndMontYearSuccess(data));
       } catch (error) {
-        emit(GetSalaryAndDateResetFailure(error.toString()));
+        if (error is GeneralError) {
+          emit(GetSalaryAndMontYearFailure(error));
+        }
       }
     });
 
     // Example of accessing global data in another event
+    /// Event handler for the `GetData` event.
+    ///
+    /// This method listens for the `GetData` event and triggers the corresponding
+    /// actions to handle the event. It uses the `emit` function to update the state
+    /// based on the event.
+    ///
+    /// Parameters:
+    /// - `event`: The `GetData` event that was triggered.
+    /// - `emit`: A function to emit new states.
     on<GetData>((event, emit) {
       if (userInfo != null) {
-        emit(GetSalaryAndDateResetSuccess(userInfo!));
+        emit(GetSalaryAndMontYearSuccess(userInfo!));
       }
     });
   }

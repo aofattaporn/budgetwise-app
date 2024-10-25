@@ -1,19 +1,18 @@
+import 'dart:ffi';
+
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
-import 'package:budget_wise/src/bloc/plans/plans_event.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/bloc/users/users_bloc.dart';
 import 'package:budget_wise/src/bloc/users/users_evenet.dart';
 import 'package:budget_wise/src/bloc/users/users_state.dart';
 import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
-import 'package:budget_wise/src/presentation/screens/plan_details_screen/plan_details_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label_failure.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label_loading.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
-import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket.dart';
-import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket_loading.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key});
@@ -23,16 +22,17 @@ class PlanScreen extends StatefulWidget {
 }
 
 class _PlanScreenState extends State<PlanScreen> {
+  DateTime monthYear = DateTime.now();
   double currentTotalUsage = 0;
   double limitAmount = 0;
 
   @override
   void initState() {
     super.initState();
-
     // Trigger event calls only once when the widget is initialized.
-    context.read<UsersBloc>().add(GetSalaryEvent());
-    context.read<PlansBloc>().add(GetPlansEvent());
+    monthYear = DateTime.now();
+    context.read<UsersBloc>().add(
+        GetSalaryEvent(monthYear: DateFormat('yyyy-MM').format(monthYear)));
   }
 
   void _popUpShowCreatePlan(
@@ -46,15 +46,21 @@ class _PlanScreenState extends State<PlanScreen> {
     );
   }
 
+  void _onDateSelected(DateTime newDate) {
+    String month = DateFormat('yyyy-MM').format(monthYear);
+    context.read<UsersBloc>().add(GetSalaryEvent(monthYear: month));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<UsersBloc, UsersState>(
+        BlocListener<UsersBloc, UsersFinState>(
           listener: (context, state) {
-            if (state is GetSalaryAndDateResetSuccess) {
+            if (state is GetSalaryAndMontYearSuccess) {
               setState(() {
-                this.limitAmount = state.data.salary;
+                limitAmount = state.data.salary;
+                monthYear = state.data.month;
               });
             }
           },
@@ -63,7 +69,7 @@ class _PlanScreenState extends State<PlanScreen> {
           listener: (context, state) {
             if (state is GetPlanSuccess) {
               setState(() {
-                this.currentTotalUsage = state.totalPlanUsage;
+                currentTotalUsage = state.totalPlanUsage;
               });
             }
           },
@@ -74,81 +80,52 @@ class _PlanScreenState extends State<PlanScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child:
-                  BlocBuilder<UsersBloc, UsersState>(builder: (context, state) {
-                if (state is GetSalaryAndDateResetSuccess)
-                  return BudgetLimitLabel(
-                      currentUsage: currentTotalUsage,
-                      limitBudgetPlan: state.data.salary,
-                      dateReset: state.data.resetDatePlanning);
-                else if (state is GetSalaryAndDateResetSuccess)
-                  return BudgetLimitLabelLoading();
-                else
-                  return BudgetLimitLabelLoading();
-              }),
-            ),
-            ShowPlanningLabels(context),
-            SizedBox(height: 16),
-            Container(
-              height: MediaQuery.sizeOf(context).height * 0.58,
-              clipBehavior: Clip.none,
-              child: BlocBuilder<PlansBloc, PlansState>(
-                builder: (context, state) {
-                  if (state is GetPlanSuccess) {
-                    return GridView.count(
-                      padding: EdgeInsets.all(16),
-                      primary: false,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.5,
-                      children: List.generate(state.plans.length, (index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) =>
-                                        PlansDetailsScreenDetails(
-                                            planning: state.plans[index])));
-                          },
-                          child: PlanPocket(
-                              isFullSize: false, planning: state.plans[index]),
-                        );
-                      }),
-                    );
-                  } else if (state is GetPlanLoading) {
-                    return GridView.count(
-                      padding: EdgeInsets.all(16),
-                      primary: false,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.5,
-                      children: List.generate(6, (index) {
-                        return PlanPocketLoading();
-                      }),
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        Center(child: Text('No plans available')),
-                        Spacer()
-                      ],
-                    );
-                  }
-                },
-              ),
-            ),
+            _displayBudgetHeader(),
+            _displayPlanningHeader(context),
+            const SizedBox(height: 16),
           ],
         ),
       ),
     );
   }
 
-  Padding ShowPlanningLabels(BuildContext context) {
+  /// Displays the budget header within a padded container.
+  ///
+  /// This method returns a [Padding] widget that contains the budget header
+  /// for the plan screen. The padding ensures that the header is properly
+  /// spaced within the layout.
+  Padding _displayBudgetHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: BlocBuilder<UsersBloc, UsersFinState>(builder: (context, state) {
+        if (state is GetSalaryAndMontYearSuccess) {
+          return BudgetLimitLabel(
+              onDateSelected: _onDateSelected,
+              currentUsage: currentTotalUsage,
+              limitBudgetPlan: state.data.salary,
+              monthYear: monthYear);
+        } else if (state is GetSalaryAndMontYearLoading) {
+          return BudgetLimitLabelLoading();
+        } else if (state is GetSalaryAndMontYearFailure) {
+          return BudgetLimitLabelLoading();
+        } else {
+          return BudgetLimitLabelfailure();
+        }
+      }),
+    );
+  }
+
+  /// Displays planning labels within a padded container.
+  ///
+  /// This widget method returns a [Padding] widget that contains
+  /// the planning labels to be shown on the screen.
+  ///
+  /// The [context] parameter is used to access the current
+  /// [BuildContext] for theming and other contextual information.
+  ///
+  /// - Parameters:
+  ///   - context: The [BuildContext] in which the widget is built.
+  Padding _displayPlanningHeader(BuildContext context) {
     String planningLabel = "My Planing";
     String creatingTitle = "+ Create Planning";
 
@@ -159,14 +136,12 @@ class _PlanScreenState extends State<PlanScreen> {
         children: [
           Text(
             planningLabel,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           GenericTxtBTN(
             title: creatingTitle,
-            handler: () => {
-              _popUpShowCreatePlan(
-                  context, this.currentTotalUsage, this.limitAmount)
-            },
+            handler: () =>
+                {_popUpShowCreatePlan(context, currentTotalUsage, limitAmount)},
           ),
         ],
       ),
