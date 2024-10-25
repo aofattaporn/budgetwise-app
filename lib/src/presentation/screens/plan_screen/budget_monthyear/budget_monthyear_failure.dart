@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BudgetLimitLabelfailure extends StatelessWidget {
-  BudgetLimitLabelfailure({
+  const BudgetLimitLabelfailure({
     super.key,
   });
 

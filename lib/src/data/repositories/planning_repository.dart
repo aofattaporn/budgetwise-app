@@ -18,8 +18,6 @@ class PlanningRepository {
         'Content-Type': 'application/json',
       });
 
-      print(response.statusCode);
-
       if (response.statusCode == 200) {
         // Assuming the server returns the created account as JSON
         dynamic responseBody = jsonDecode(response.body);

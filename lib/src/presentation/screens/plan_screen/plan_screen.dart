@@ -1,28 +1,28 @@
-import 'dart:ffi';
-
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/bloc/users/users_bloc.dart';
 import 'package:budget_wise/src/bloc/users/users_evenet.dart';
 import 'package:budget_wise/src/bloc/users/users_state.dart';
 import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
-import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label.dart';
-import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label_failure.dart';
-import 'package:budget_wise/src/presentation/screens/plan_screen/show_budget_limit_label/show_budget_limit_label_loading.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_not_found.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_success.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_failure.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_loading.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class PlanScreen extends StatefulWidget {
-  const PlanScreen({super.key});
+  DateTime? monthYear;
+  PlanScreen({super.key, this.monthYear});
 
   @override
   State<PlanScreen> createState() => _PlanScreenState();
 }
 
 class _PlanScreenState extends State<PlanScreen> {
-  DateTime monthYear = DateTime.now();
   double currentTotalUsage = 0;
   double limitAmount = 0;
 
@@ -30,9 +30,8 @@ class _PlanScreenState extends State<PlanScreen> {
   void initState() {
     super.initState();
     // Trigger event calls only once when the widget is initialized.
-    monthYear = DateTime.now();
-    context.read<UsersBloc>().add(
-        GetSalaryEvent(monthYear: DateFormat('yyyy-MM').format(monthYear)));
+    context.read<UsersBloc>().add(GetSalaryEvent(
+        monthYear: DateFormat('yyyy-MM').format(DateTime.now())));
   }
 
   void _popUpShowCreatePlan(
@@ -47,7 +46,10 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   void _onDateSelected(DateTime newDate) {
-    String month = DateFormat('yyyy-MM').format(monthYear);
+    setState(() {
+      widget.monthYear = newDate;
+    });
+    String month = DateFormat('yyyy-MM').format(newDate);
     context.read<UsersBloc>().add(GetSalaryEvent(monthYear: month));
   }
 
@@ -60,7 +62,7 @@ class _PlanScreenState extends State<PlanScreen> {
             if (state is GetSalaryAndMontYearSuccess) {
               setState(() {
                 limitAmount = state.data.salary;
-                monthYear = state.data.month;
+                // widget.monthYear = state.data.month;
               });
             }
           },
@@ -81,7 +83,7 @@ class _PlanScreenState extends State<PlanScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _displayBudgetHeader(),
-            _displayPlanningHeader(context),
+            // _displayPlanningHeader(context),
             const SizedBox(height: 16),
           ],
         ),
@@ -98,16 +100,19 @@ class _PlanScreenState extends State<PlanScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: BlocBuilder<UsersBloc, UsersFinState>(builder: (context, state) {
-        if (state is GetSalaryAndMontYearSuccess) {
+        if (state is GetSalaryAndMontYearLoading) {
+          return BudgetLimitLabelLoading();
+        } else if (state is GetSalaryAndMontYearSuccess) {
           return BudgetLimitLabel(
               onDateSelected: _onDateSelected,
               currentUsage: currentTotalUsage,
               limitBudgetPlan: state.data.salary,
-              monthYear: monthYear);
-        } else if (state is GetSalaryAndMontYearLoading) {
-          return BudgetLimitLabelLoading();
+              monthYear: widget.monthYear!);
         } else if (state is GetSalaryAndMontYearFailure) {
-          return BudgetLimitLabelLoading();
+          return BudgetMonthYearNotFound(
+              errorMessage: state.error.errorMessage,
+              onDateSelected: _onDateSelected,
+              monthYear: widget.monthYear!);
         } else {
           return BudgetLimitLabelfailure();
         }

@@ -15,7 +15,7 @@ class TransactionsRepository {
   Future<List<Transaction>> getTransactions() async {
     final formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-    final url = Uri.parse(transactionsPath + "?date=" + formattedDate);
+    final url = Uri.parse("$transactionsPath?date=$formattedDate");
     try {
       final response = await http.get(url, headers: <String, String>{
         'Content-Type': 'application/json',
