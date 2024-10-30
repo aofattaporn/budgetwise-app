@@ -1,8 +1,8 @@
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
-import 'package:budget_wise/src/bloc/users/users_bloc.dart';
-import 'package:budget_wise/src/bloc/users/users_evenet.dart';
-import 'package:budget_wise/src/bloc/users/users_state.dart';
+import 'package:budget_wise/src/bloc/usersFin/usersfin_evenet.dart';
+import 'package:budget_wise/src/bloc/usersFin/usersfin_state.dart';
+import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
 import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_not_found.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_success.dart';
@@ -15,21 +15,21 @@ import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class PlanScreen extends StatefulWidget {
-  DateTime? monthYear = DateTime.now();
-  PlanScreen({super.key, this.monthYear});
+  const PlanScreen({super.key});
 
   @override
   State<PlanScreen> createState() => _PlanScreenState();
 }
 
 class _PlanScreenState extends State<PlanScreen> {
+  DateTime? monthYear = DateTime.now();
   double currentTotalUsage = 0;
   double limitAmount = 0;
 
   @override
   void initState() {
     super.initState();
-    widget.monthYear = DateTime.now();
+    monthYear = DateTime.now();
     const String format = 'yyyy-MM';
     context.read<UsersFinBloc>().add(
         GetSalaryEvent(monthYear: DateFormat(format).format(DateTime.now())));
@@ -48,7 +48,7 @@ class _PlanScreenState extends State<PlanScreen> {
 
   void _onDateSelected(DateTime newDate) {
     setState(() {
-      widget.monthYear = newDate;
+      monthYear = newDate;
     });
     String month = DateFormat('yyyy-MM').format(newDate);
     context.read<UsersFinBloc>().add(GetSalaryEvent(monthYear: month));
@@ -116,12 +116,12 @@ class _PlanScreenState extends State<PlanScreen> {
               onDateSelected: _onDateSelected,
               currentUsage: currentTotalUsage,
               limitBudgetPlan: state.data.salary,
-              monthYear: widget.monthYear!);
+              monthYear: monthYear!);
         } else if (state is GetSalaryAndMontYearFailure) {
           return BudgetMonthYearNotFound(
               errorMessage: state.error.errorMessage,
               onDateSelected: _onDateSelected,
-              monthYear: widget.monthYear!);
+              monthYear: monthYear!);
         } else {
           return const BudgetLimitLabelfailure();
         }

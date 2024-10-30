@@ -1,5 +1,5 @@
-import 'package:budget_wise/src/bloc/users/users_evenet.dart';
-import 'package:budget_wise/src/bloc/users/users_state.dart';
+import 'package:budget_wise/src/bloc/usersFin/usersfin_state.dart';
+import 'package:budget_wise/src/bloc/usersFin/usersfin_evenet.dart';
 import 'package:budget_wise/src/data/models/GeneralError.dart';
 import 'package:budget_wise/src/data/models/userFin.dart';
 import 'package:budget_wise/src/data/repositories/users_repository.dart';
@@ -41,7 +41,8 @@ class UsersFinBloc extends Bloc<UsersEvent, UsersFinState> {
     on<AddSalaryByMonthEvent>((event, emit) async {
       emit(GetSalaryAndMontYearLoading());
       try {
-        final userReq = UserFin(salary: 0.0, month: DateTime.now(), usages: 0);
+        final userReq =
+            UserFin(salary: event.balance, month: event.monthYear, usages: 0);
         final data = await usersRepository.addNewSalaryByMonth(userReq);
         userInfo = data;
         emit(GetSalaryAndMontYearSuccess(data));

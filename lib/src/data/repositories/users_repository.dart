@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:budget_wise/src/data/models/GeneralError.dart';
 import 'package:budget_wise/src/data/models/userFin.dart';
 import 'package:budget_wise/src/presentation/constant/constants.dart';
@@ -28,7 +30,14 @@ class UsersRepository {
   Future<UserFin> addNewSalaryByMonth(UserFin body) async {
     final url = Uri.parse(usersPath);
     try {
-      final response = await http.post(url, body: body.toJson());
+      UserFin req =
+          UserFin.createSalary(salary: body.salary, month: body.month);
+      String reqJson = jsonEncode(req.toNewJsonSalary());
+      final response = await http.post(url,
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: reqJson);
       final generalResponse = ResponseUtil.decodeResponse(response);
       final userFin = UserFin.fromJson(generalResponse.data);
       return userFin;

@@ -1,7 +1,7 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
-import 'package:budget_wise/src/bloc/users/users_bloc.dart';
+import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
 import 'package:budget_wise/src/presentation/screens/transactions_screen/transactions_screen.dart';
@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     TransactionsScreen(),
-    PlanScreen()
+    const PlanScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -54,12 +54,12 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
             scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),
         debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: [
+        supportedLocales: const [
           Locale('en'), // English
           Locale('th'), // Spanish
         ],
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               boxShadow: <BoxShadow>[
-                BoxShadow(
+                const BoxShadow(
                   color: Color.fromRGBO(0, 0, 0, 0.1),
                   blurRadius: 20,
                 ),

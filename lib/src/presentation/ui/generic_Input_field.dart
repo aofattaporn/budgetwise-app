@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -58,7 +59,7 @@ class GenericInputField extends StatelessWidget {
             ? maxLines
             : minLines;
 
-    return TextField(
+    return CupertinoTextField(
       controller: controller,
       minLines: adjustedMinLines,
       maxLines: maxLines ?? 1,
@@ -76,15 +77,27 @@ class GenericInputField extends StatelessWidget {
               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
             ]
           : null,
-      decoration: InputDecoration(
-        prefixIcon: prefix,
-        hintText: hintText,
-        border: const OutlineInputBorder(),
-        filled: true,
-        fillColor: disable == true ? Colors.grey.shade100 : Colors.white,
-        labelText: labelText,
-        suffixText: suffixText,
-        suffixIcon: suffixIcon,
+      placeholder: hintText,
+      prefix: prefix,
+      suffix: suffixIcon != null
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (suffixText != null) Text(suffixText!),
+                suffixIcon!,
+              ],
+            )
+          : (suffixText != null ? Text(suffixText!) : null),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: disable == true
+              ? CupertinoColors.inactiveGray
+              : CupertinoColors.activeBlue,
+        ),
+        borderRadius: BorderRadius.circular(5.0),
+        color: disable == true
+            ? CupertinoColors.extraLightBackgroundGray
+            : CupertinoColors.white,
       ),
       onChanged: (value) {
         if (isOnlyNumber == true) {

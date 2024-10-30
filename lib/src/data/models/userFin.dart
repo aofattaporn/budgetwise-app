@@ -10,6 +10,11 @@ class UserFin {
     required this.usages,
   });
 
+  UserFin.createSalary({
+    required this.salary,
+    required this.month,
+  }) : usages = 0;
+
   // Convert a Map (JSON) into an Account object.
   factory UserFin.fromJson(Map<String, dynamic> json) {
     return UserFin(
@@ -25,6 +30,13 @@ class UserFin {
       'salary': salary,
       'month': month.toIso8601String(),
       'usages': usages,
+    };
+  }
+
+  Map<String, dynamic> toNewJsonSalary() {
+    return {
+      'salary': salary,
+      'month': month.toUtc().toIso8601String(),
     };
   }
 }
