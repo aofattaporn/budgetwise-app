@@ -1,9 +1,10 @@
+import 'package:budget_wise/src/presentation/constant/textstyle.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/month_year_picker/month_year_picker.dart';
 import 'package:budget_wise/src/presentation/widgets/progress_bar/progress_bar.dart';
+import 'package:budget_wise/src/utils/datetime_util.dart';
 import 'package:budget_wise/src/utils/numbers_uti.dart';
 import 'package:budget_wise/src/utils/strings_util.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class BudgetLimitLabel extends StatelessWidget {
   // add function to choose date
@@ -21,43 +22,6 @@ class BudgetLimitLabel extends StatelessWidget {
     this.predictionAmount,
     super.key,
   });
-
-  void _chooseDate(BuildContext context) async {
-    DateTime? selectedDate;
-    DateTime tempPickedDate = monthYear;
-    selectedDate = await showModalBottomSheet<DateTime>(
-      context: context,
-      builder: (BuildContext builder) {
-        return SizedBox(
-          height: MediaQuery.of(context).copyWith().size.height / 3,
-          child: Column(
-            children: [
-              Expanded(
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.monthYear,
-                  initialDateTime: monthYear,
-                  minimumDate: DateTime(2000),
-                  maximumDate: DateTime(2101),
-                  onDateTimeChanged: (DateTime newDate) {
-                    tempPickedDate = newDate;
-                  },
-                ),
-              ),
-              CupertinoButton(
-                child: const Text('Done'),
-                onPressed: () {
-                  Navigator.of(context).pop(tempPickedDate);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-    if (selectedDate != null) {
-      onDateSelected?.call(selectedDate);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +66,7 @@ class BudgetLimitLabel extends StatelessWidget {
           TextSpan(
             text: '/ ${Strings.normalizeNumber(limitBudgetPlan.toString())} B',
             style: const TextStyle(
+              fontWeight: FontWeight.bold,
               fontSize: 16,
               color: Colors.grey,
             ),
@@ -121,22 +86,20 @@ class BudgetLimitLabel extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('Month for Budget plan: ',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.black,
-            )),
+        TextValue()
+            .withText('Month for Budget plan:  ')
+            .getFont12Black()
+            .build(),
         GestureDetector(
-          onTap: () => _chooseDate(context),
-          child: Text(
-            DateFormat('MMMM yyyy')
-                .format(DateTime(monthYear.year, monthYear.month)),
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
+          onTap: () => MonthYearPickerBuilder()
+              .setInitialDate(monthYear)
+              .setOnDateSelected(onDateSelected!)
+              .build()
+              .chooseDate(context),
+          child: TextValue()
+              .withText(UtilsDateTime.monthYearFormat(monthYear))
+              .getFont14BoldBlack()
+              .build(),
         ),
       ],
     );

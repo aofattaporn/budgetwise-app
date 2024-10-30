@@ -1,10 +1,8 @@
-import 'package:budget_wise/src/bloc/usersFin/usersfin_evenet.dart';
-import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
-import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:budget_wise/src/presentation/constant/textstyle.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/month_year_picker/month_year_picker.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/salary_input_dialog/salary_input_dialog.dart';
+import 'package:budget_wise/src/utils/datetime_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class BudgetMonthYearNotFound extends StatelessWidget {
   final String errorMessage;
@@ -17,84 +15,6 @@ class BudgetMonthYearNotFound extends StatelessWidget {
       required this.monthYear,
       required this.onDateSelected});
 
-  void _chooseDate(BuildContext context) async {
-    DateTime? selectedDate;
-    DateTime tempPickedDate = monthYear;
-    selectedDate = await showModalBottomSheet<DateTime>(
-      context: context,
-      builder: (BuildContext builder) {
-        return SizedBox(
-          height: MediaQuery.of(context).copyWith().size.height / 3,
-          child: Column(
-            children: [
-              Expanded(
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.monthYear,
-                  initialDateTime: monthYear,
-                  minimumDate: DateTime(2000),
-                  maximumDate: DateTime(2101),
-                  onDateTimeChanged: (DateTime newDate) {
-                    tempPickedDate = newDate;
-                  },
-                ),
-              ),
-              CupertinoButton(
-                child: const Text('Done'),
-                onPressed: () {
-                  onDateSelected?.call(tempPickedDate);
-                  Navigator.of(context).pop(tempPickedDate);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-    if (selectedDate != null) {
-      onDateSelected?.call(selectedDate);
-    }
-  }
-
-  void _showSalaryInputDialog(BuildContext context) {
-    final TextEditingController salaryController = TextEditingController();
-
-    showCupertinoDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: const Text('Salary'),
-          content: Column(
-            children: [
-              const Text('Please enter your salary'),
-              GenericInputField(
-                controller: salaryController,
-                isOnlyNumber: true,
-                hintText: 'Enter salary',
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            CupertinoDialogAction(
-              child: const Text('Submit'),
-              onPressed: () {
-                final String salary = salaryController.text;
-                context.read<UsersFinBloc>().add(AddSalaryByMonthEvent(
-                    balance: double.parse(salary), monthYear: monthYear));
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -102,7 +22,7 @@ class BudgetMonthYearNotFound extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: () => _showSalaryInputDialog(context),
+            onTap: () => SalaryInputDialog.show(context, monthYear),
             child: Text(
               errorMessage,
               style: const TextStyle(
@@ -136,15 +56,15 @@ class BudgetMonthYearNotFound extends StatelessWidget {
               color: Colors.black,
             )),
         GestureDetector(
-          onTap: () => _chooseDate(context),
-          child: Text(
-            DateFormat('MMMM yyyy').format(monthYear),
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
+          onTap: () => MonthYearPickerBuilder()
+              .setInitialDate(monthYear)
+              .setOnDateSelected(onDateSelected!)
+              .build()
+              .chooseDate(context),
+          child: TextValue()
+              .withText(UtilsDateTime.monthYearFormat(monthYear))
+              .getFont14BoldBlack()
+              .build(),
         ),
       ],
     );

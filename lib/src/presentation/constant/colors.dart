@@ -9,7 +9,7 @@ class ColorConstants {
   // Color constants
   static const Color primaryColor = Color(0xFF2196F3); // Blue color
   static const Color secondaryColor = Color(0xFFFFC107); // Amber color
-
+  static const Color black = Color.fromARGB(255, 0, 0, 0);
   static const Color bgPrimary = Color.fromARGB(250, 250, 250, 100);
 
   static final List<ColorGradients> colorGradients = [
