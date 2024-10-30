@@ -91,7 +91,6 @@ class _PlanScreenState extends State<PlanScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _displayBudgetHeader(),
-            // ? _displayPlanningHeader(context),
             const SizedBox(height: 16),
           ],
         ),

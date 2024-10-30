@@ -39,6 +39,8 @@ class UsersFinBloc extends Bloc<UsersEvent, UsersFinState> {
     ///
     /// The function is asynchronous and uses the `emit` function to update the state.
     on<AddSalaryByMonthEvent>((event, emit) async {
+      print("[repository] month: ${event.monthYear.toIso8601String()}");
+
       emit(GetSalaryAndMontYearLoading());
       try {
         final userReq =

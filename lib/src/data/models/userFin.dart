@@ -36,7 +36,7 @@ class UserFin {
   Map<String, dynamic> toNewJsonSalary() {
     return {
       'salary': salary,
-      'month': month.toUtc().toIso8601String(),
+      'month': DateTime.utc(month.year, month.month).toIso8601String(),
     };
   }
 }

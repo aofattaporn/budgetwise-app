@@ -40,6 +40,7 @@ class UsersRepository {
           body: reqJson);
       final generalResponse = ResponseUtil.decodeResponse(response);
       final userFin = UserFin.fromJson(generalResponse.data);
+
       return userFin;
     } catch (error) {
       throw error as GeneralError;

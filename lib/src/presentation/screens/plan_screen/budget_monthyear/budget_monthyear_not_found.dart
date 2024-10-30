@@ -41,6 +41,7 @@ class BudgetMonthYearNotFound extends StatelessWidget {
               CupertinoButton(
                 child: const Text('Done'),
                 onPressed: () {
+                  onDateSelected?.call(tempPickedDate);
                   Navigator.of(context).pop(tempPickedDate);
                 },
               ),
