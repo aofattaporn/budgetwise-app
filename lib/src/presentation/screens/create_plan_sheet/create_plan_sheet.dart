@@ -23,7 +23,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CreatePlanSheet extends StatefulWidget {
   final Planning? existingPlan;
   final bool isEdit;
-  CreatePlanSheet({this.existingPlan, required this.isEdit, super.key});
+  final DateTime monthYear;
+  CreatePlanSheet(
+      {this.existingPlan,
+      required this.isEdit,
+      super.key,
+      required this.monthYear});
 
   @override
   State<CreatePlanSheet> createState() => _CreatePlanSheetState();
@@ -194,7 +199,8 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                                 double.tryParse(limitAmountController.text) ??
                                     0.0,
                             indexIcon: indexIcon,
-                            accountId: accountVisit?.accountId ?? -1))));
+                            accountId: accountVisit?.accountId ?? -1,
+                            month: widget.monthYear))));
                   }
                 },
               ),

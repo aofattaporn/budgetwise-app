@@ -7,7 +7,6 @@ import 'package:budget_wise/src/utils/strings_util.dart';
 import 'package:flutter/material.dart';
 
 class BudgetLimitLabel extends StatelessWidget {
-  // add function to choose date
   final double currentUsage;
   final double limitBudgetPlan;
   final double? predictionAmount;

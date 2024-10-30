@@ -8,17 +8,10 @@ class Planning {
   String? accountName;
   DateTime? createDate;
   DateTime? updateDate;
+  DateTime? month;
 
-  Planning(
-    this.planId,
-    this.name,
-    this.usage,
-    this.limit,
-    this.indexIcon,
-    this.createDate,
-    this.updateDate,
-    this.accountName,
-  );
+  Planning(this.planId, this.name, this.usage, this.limit, this.indexIcon,
+      this.createDate, this.updateDate, this.accountName, this.month);
 
   Planning.Details({
     required this.planId,
@@ -31,12 +24,12 @@ class Planning {
     required this.updateDate,
   });
 
-  Planning.create({
-    required this.name,
-    required this.limit,
-    required this.indexIcon,
-    required this.accountId,
-  });
+  Planning.create(
+      {required this.name,
+      required this.limit,
+      required this.indexIcon,
+      required this.accountId,
+      required this.month});
 
   Planning.update({
     required this.planId,
@@ -70,6 +63,7 @@ class Planning {
           ? DateTime.parse(json['updateDate'])
           : DateTime.now(), // Default to current date if null
       json['accountName'] ?? '', // Provide default empty string if null
+      json['month'] != null ? DateTime.parse(json['month']) : DateTime.now(),
     );
   }
 
@@ -78,7 +72,9 @@ class Planning {
     return {
       'name': name,
       'amount': limit,
+      'type': "tranfers",
       'iconIndex': indexIcon,
+      'month': DateTime.utc(month!.year, month!.month).toIso8601String(),
       'accountId': accountId,
     };
   }

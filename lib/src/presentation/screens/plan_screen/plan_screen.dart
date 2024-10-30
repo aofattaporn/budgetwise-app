@@ -41,7 +41,7 @@ class _PlanScreenState extends State<PlanScreen> {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return CreatePlanSheet(isEdit: false);
+        return CreatePlanSheet(isEdit: false, monthYear: monthYear!);
       },
     );
   }
@@ -92,6 +92,7 @@ class _PlanScreenState extends State<PlanScreen> {
           children: [
             _displayBudgetHeader(),
             const SizedBox(height: 16),
+            _displayPlanningHeader(context),
           ],
         ),
       ),

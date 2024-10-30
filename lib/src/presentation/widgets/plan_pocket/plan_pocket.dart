@@ -152,7 +152,10 @@ class _PlanPocketState extends State<PlanPocket> {
         context: context,
         isScrollControlled: true,
         builder: (BuildContext context) {
-          return CreatePlanSheet(existingPlan: widget.planning, isEdit: true);
+          return CreatePlanSheet(
+              existingPlan: widget.planning,
+              isEdit: true,
+              monthYear: widget.planning.month!);
         },
       );
     }

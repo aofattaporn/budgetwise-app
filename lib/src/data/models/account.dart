@@ -27,7 +27,7 @@ class Account {
 
   Map<String, dynamic> createJsonRequest() {
     return {
-      'accountName': accountName,
+      'name': accountName,
       'balance': balance,
       'colorIndex': colorIndex,
     };
@@ -36,8 +36,8 @@ class Account {
   // Convert a Map (JSON) into an Account object.
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
-      accountId: json['accountId'],
-      accountName: json['accountName'],
+      accountId: json['id'],
+      accountName: json['name'],
       balance: (json['balance'] as num).toDouble(),
       createDate: DateTime.parse(json['createDate']),
       updatePlanDate: DateTime.parse(json['updatePlanDate']),

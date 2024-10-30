@@ -32,6 +32,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       emit(CreatePlanLoading());
       try {
         final data = await _planningRepository.createPlanning(event.planning);
+        print(event.planning.toJson());
         emit(CreatePlanSuccess(data));
         emit(GetPlanSuccess(data, currentTotalUsage));
       } catch (error) {
