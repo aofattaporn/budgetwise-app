@@ -129,7 +129,8 @@ class BudgetLimitLabel extends StatelessWidget {
         GestureDetector(
           onTap: () => _chooseDate(context),
           child: Text(
-            DateFormat('MMMM yyyy').format(monthYear),
+            DateFormat('MMMM yyyy')
+                .format(DateTime(monthYear.year, monthYear.month)),
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,

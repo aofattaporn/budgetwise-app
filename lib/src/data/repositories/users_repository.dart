@@ -24,4 +24,16 @@ class UsersRepository {
       throw error as GeneralError;
     }
   }
+
+  Future<UserFin> addNewSalaryByMonth(UserFin body) async {
+    final url = Uri.parse(usersPath);
+    try {
+      final response = await http.post(url, body: body.toJson());
+      final generalResponse = ResponseUtil.decodeResponse(response);
+      final userFin = UserFin.fromJson(generalResponse.data);
+      return userFin;
+    } catch (error) {
+      throw error as GeneralError;
+    }
+  }
 }

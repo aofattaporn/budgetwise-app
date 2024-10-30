@@ -18,4 +18,13 @@ class UserFin {
       usages: (json['usages'] as num).toDouble(),
     );
   }
+
+  // Convert an Account object into a Map (JSON).
+  Map<String, dynamic> toJson() {
+    return {
+      'salary': salary,
+      'month': month.toIso8601String(),
+      'usages': usages,
+    };
+  }
 }

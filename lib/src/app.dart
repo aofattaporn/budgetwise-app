@@ -40,8 +40,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<AccountBloc>(
           create: (BuildContext context) => AccountBloc(),
         ),
-        BlocProvider<UsersBloc>(
-          create: (BuildContext context) => UsersBloc(),
+        BlocProvider<UsersFinBloc>(
+          create: (BuildContext context) => UsersFinBloc(),
         ),
         BlocProvider<PlansBloc>(
           create: (BuildContext context) => PlansBloc(),

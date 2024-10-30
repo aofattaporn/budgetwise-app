@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class BudgetLimitLabelLoading extends StatelessWidget {
-  BudgetLimitLabelLoading({
+  const BudgetLimitLabelLoading({
     super.key,
   });
 
@@ -14,14 +14,13 @@ class BudgetLimitLabelLoading extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 18),
         child: Column(
           children: [
-            Container(
-                child: Text('... / 2000 B',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ))),
-            SizedBox(height: 12),
-            Text("Date for Reset Budget plan 1 June 2024"),
+            const Text('... / 2000 B',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            const SizedBox(height: 12),
+            const Text("Date for Reset Budget plan 1 June 2024"),
             IntrinsicWidth(
                 child: Container(
               decoration: BoxDecoration(

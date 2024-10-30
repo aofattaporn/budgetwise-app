@@ -1,5 +1,8 @@
+import 'package:budget_wise/src/bloc/users/users_bloc.dart';
+import 'package:budget_wise/src/bloc/users/users_evenet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class BudgetMonthYearNotFound extends StatelessWidget {
@@ -79,8 +82,11 @@ class BudgetMonthYearNotFound extends StatelessWidget {
               child: const Text('Submit'),
               onPressed: () {
                 final String salary = salaryController.text;
+                context
+                    .read<UsersFinBloc>()
+                    .add(GetSalaryEvent(monthYear: "2024-10"));
                 // Handle the salary input as needed
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
               },
             ),
           ],

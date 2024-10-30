@@ -59,7 +59,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
   void initState() {
     super.initState();
     context.read<AccountBloc>().add(GetAllLocalAccountsEvent());
-    context.read<UsersBloc>().add(GetData());
+    context.read<UsersFinBloc>().add(GetData());
     context.read<PlansBloc>().add(GetCurrentSpendingEvent());
 
     if (widget.existingPlan != null) {
@@ -86,7 +86,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<UsersBloc, UsersFinState>(
+        BlocListener<UsersFinBloc, UsersFinState>(
           listener: (BuildContext context, UsersFinState state) {
             if (state is GetSalaryAndMontYearSuccess) {
               setState(() {

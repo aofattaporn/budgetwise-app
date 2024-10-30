@@ -5,14 +5,14 @@ import 'package:budget_wise/src/data/models/userFin.dart';
 import 'package:budget_wise/src/data/repositories/users_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UsersBloc extends Bloc<UsersEvent, UsersFinState> {
+class UsersFinBloc extends Bloc<UsersEvent, UsersFinState> {
   final UsersRepository usersRepository = UsersRepository();
 
   // Global variables to hold shared data
   UserFin? userInfo;
 
   // Constructor to initialize the UsersBloc
-  UsersBloc() : super(InitialState()) {
+  UsersFinBloc() : super(InitialState()) {
     /// Event handler for the `GetSalaryEvent`.
     ///
     /// This function listens for the `GetSalaryEvent` and performs the following actions:
@@ -23,6 +23,26 @@ class UsersBloc extends Bloc<UsersEvent, UsersFinState> {
       emit(GetSalaryAndMontYearLoading());
       try {
         final data = await usersRepository.fetchAllAccounts(event.monthYear);
+        userInfo = data;
+        emit(GetSalaryAndMontYearSuccess(data));
+      } catch (error) {
+        if (error is GeneralError) {
+          emit(GetSalaryAndMontYearFailure(error));
+        }
+      }
+    });
+
+    /// Event handler for the `GetSalaryEvent`.
+    ///
+    /// This function listens for the `GetSalaryEvent` and performs the following actions:
+    /// - Emits a `GetSalaryAndMontYearLoading` state to indicate that the salary and month-year data is being loaded.
+    ///
+    /// The function is asynchronous and uses the `emit` function to update the state.
+    on<AddSalaryByMonthEvent>((event, emit) async {
+      emit(GetSalaryAndMontYearLoading());
+      try {
+        final userReq = UserFin(salary: 0.0, month: DateTime.now(), usages: 0);
+        final data = await usersRepository.addNewSalaryByMonth(userReq);
         userInfo = data;
         emit(GetSalaryAndMontYearSuccess(data));
       } catch (error) {

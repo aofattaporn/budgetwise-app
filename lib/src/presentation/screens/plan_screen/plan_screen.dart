@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class PlanScreen extends StatefulWidget {
-  DateTime? monthYear;
+  DateTime? monthYear = DateTime.now();
   PlanScreen({super.key, this.monthYear});
 
   @override
@@ -29,9 +29,10 @@ class _PlanScreenState extends State<PlanScreen> {
   @override
   void initState() {
     super.initState();
-    // Trigger event calls only once when the widget is initialized.
-    context.read<UsersBloc>().add(GetSalaryEvent(
-        monthYear: DateFormat('yyyy-MM').format(DateTime.now())));
+    widget.monthYear = DateTime.now();
+    const String format = 'yyyy-MM';
+    context.read<UsersFinBloc>().add(
+        GetSalaryEvent(monthYear: DateFormat(format).format(DateTime.now())));
   }
 
   void _popUpShowCreatePlan(
@@ -50,32 +51,39 @@ class _PlanScreenState extends State<PlanScreen> {
       widget.monthYear = newDate;
     });
     String month = DateFormat('yyyy-MM').format(newDate);
-    context.read<UsersBloc>().add(GetSalaryEvent(monthYear: month));
+    context.read<UsersFinBloc>().add(GetSalaryEvent(monthYear: month));
+  }
+
+  BlocListener _listenerUserfinState() {
+    return BlocListener<UsersFinBloc, UsersFinState>(
+      listener: (context, state) {
+        if (state is GetSalaryAndMontYearSuccess) {
+          setState(() {
+            limitAmount = state.data.salary;
+          });
+        }
+      },
+    );
+  }
+
+  BlocListener _listenerPlanState() {
+    return BlocListener<PlansBloc, PlansState>(
+      listener: (context, state) {
+        if (state is GetPlanSuccess) {
+          setState(() {
+            currentTotalUsage = state.totalPlanUsage;
+          });
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<UsersBloc, UsersFinState>(
-          listener: (context, state) {
-            if (state is GetSalaryAndMontYearSuccess) {
-              setState(() {
-                limitAmount = state.data.salary;
-                // widget.monthYear = state.data.month;
-              });
-            }
-          },
-        ),
-        BlocListener<PlansBloc, PlansState>(
-          listener: (context, state) {
-            if (state is GetPlanSuccess) {
-              setState(() {
-                currentTotalUsage = state.totalPlanUsage;
-              });
-            }
-          },
-        ),
+        _listenerUserfinState(),
+        _listenerPlanState(),
       ],
       child: SingleChildScrollView(
         clipBehavior: Clip.none,
@@ -83,7 +91,7 @@ class _PlanScreenState extends State<PlanScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _displayBudgetHeader(),
-            // _displayPlanningHeader(context),
+            // ? _displayPlanningHeader(context),
             const SizedBox(height: 16),
           ],
         ),
@@ -99,9 +107,10 @@ class _PlanScreenState extends State<PlanScreen> {
   Padding _displayBudgetHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: BlocBuilder<UsersBloc, UsersFinState>(builder: (context, state) {
+      child:
+          BlocBuilder<UsersFinBloc, UsersFinState>(builder: (context, state) {
         if (state is GetSalaryAndMontYearLoading) {
-          return BudgetLimitLabelLoading();
+          return const BudgetLimitLabelLoading();
         } else if (state is GetSalaryAndMontYearSuccess) {
           return BudgetLimitLabel(
               onDateSelected: _onDateSelected,
@@ -114,7 +123,7 @@ class _PlanScreenState extends State<PlanScreen> {
               onDateSelected: _onDateSelected,
               monthYear: widget.monthYear!);
         } else {
-          return BudgetLimitLabelfailure();
+          return const BudgetLimitLabelfailure();
         }
       }),
     );
