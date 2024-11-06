@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/data/models/transaction.dart';
+import 'package:budget_wise/src/models/entity/transaction_entity.dart';
 
 sealed class TransactionsEvent {}
 
@@ -8,6 +8,6 @@ final class GetTransactionsEvent extends TransactionsEvent {
 }
 
 final class CreateTransactionsEvent extends TransactionsEvent {
-  Transaction transaction;
+  TransactionEntity transaction;
   CreateTransactionsEvent(this.transaction);
 }

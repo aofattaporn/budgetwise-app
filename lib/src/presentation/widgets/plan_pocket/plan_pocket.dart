@@ -8,14 +8,14 @@ import 'package:budget_wise/src/presentation/widgets/progress_bar/progress_bar.d
 import 'package:budget_wise/src/utils/numbers_uti.dart';
 import 'package:budget_wise/src/utils/strings_util.dart';
 import 'package:flutter/material.dart';
-import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../ui/generic_circle_icon.dart';
 
 class PlanPocket extends StatefulWidget {
   final bool? isHandler;
-  final Planning planning;
+  final PlanEntity planning;
   final bool isFullSize;
 
   PlanPocket({

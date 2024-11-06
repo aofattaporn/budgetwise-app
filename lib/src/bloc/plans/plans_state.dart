@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
 
 sealed class PlansState {}
 
@@ -7,13 +7,13 @@ final class InitialState extends PlansState {}
 
 // state : get salary
 final class GetPlanSuccess extends PlansState {
-  final List<Planning> plans;
+  final List<PlanEntity> plans;
   final double totalPlanUsage;
   GetPlanSuccess(this.plans, this.totalPlanUsage);
 }
 
 final class GetCurrentSpendingSuccess extends PlansState {
-  final List<Planning> plans;
+  final List<PlanEntity> plans;
   final double totalPlanUsage;
   GetCurrentSpendingSuccess(this.plans, this.totalPlanUsage);
 }
@@ -29,7 +29,7 @@ final class GetPlanFailure extends PlansState {
 
 // state : get salary
 final class CreatePlanSuccess extends PlansState {
-  final List<Planning> data;
+  final List<PlanEntity> data;
   CreatePlanSuccess(this.data);
 }
 

@@ -1,13 +1,13 @@
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
-import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlansDetailsScreenDetails extends StatefulWidget {
-  final Planning planning;
+  final PlanEntity planning;
   const PlansDetailsScreenDetails({super.key, required this.planning});
 
   @override
@@ -15,7 +15,7 @@ class PlansDetailsScreenDetails extends StatefulWidget {
 }
 
 class _AccountDetailsState extends State<PlansDetailsScreenDetails> {
-  late Planning planning;
+  late PlanEntity planning;
 
   @override
   void initState() {

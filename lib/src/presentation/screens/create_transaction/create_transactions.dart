@@ -2,10 +2,10 @@ import 'package:budget_wise/main.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
 import 'package:budget_wise/src/bloc/transactions/transactions_event.dart';
-import 'package:budget_wise/src/data/models/account.dart';
-import 'package:budget_wise/src/data/models/operation.dart';
-import 'package:budget_wise/src/data/models/planning_model.dart';
-import 'package:budget_wise/src/data/models/transaction.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
+import 'package:budget_wise/src/models/operation.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
+import 'package:budget_wise/src/models/entity/transaction_entity.dart';
 import 'package:budget_wise/src/presentation/screens/all_planning_screen/all_planning_screen.dart';
 import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/ui/generic_column.dart';
@@ -30,8 +30,8 @@ class _CreateTransactionState extends State<CreateTransaction> {
   late TextEditingController _amountController;
   late TextEditingController _remarkController;
   late TextEditingController _dateController;
-  late Account? _accountVisit;
-  late Planning? _planningVisit;
+  late BudgetAccountEntity? _accountVisit;
+  late PlanEntity? _planningVisit;
 
   @override
   void initState() {
@@ -53,13 +53,13 @@ class _CreateTransactionState extends State<CreateTransaction> {
     super.dispose();
   }
 
-  void handleAccount(Account account) {
+  void handleAccount(BudgetAccountEntity account) {
     setState(() {
       _accountVisit = account;
     });
   }
 
-  void handlePlanning(Planning planning) {
+  void handlePlanning(PlanEntity planning) {
     setState(() {
       _planningVisit = planning;
     });
@@ -162,7 +162,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
                   title: "Create Transaction",
                   onPressed: () => {
                         context.read<TransactionsBloc>().add(
-                            CreateTransactionsEvent(Transaction.create(
+                            CreateTransactionsEvent(TransactionEntity.create(
                                 name: _titleController.text,
                                 amount:
                                     double.tryParse(_amountController.text) ??

@@ -1,4 +1,4 @@
-class Transaction {
+class TransactionEntity {
   int? id; // Corresponds to transaction ID
   String name; // Name of the transaction
   double amount; // Transaction amount
@@ -13,7 +13,7 @@ class Transaction {
   int? accountId; // Account ID
 
   // Constructor with named parameters for better clarity
-  Transaction({
+  TransactionEntity({
     this.id,
     required this.name,
     required this.amount,
@@ -27,7 +27,7 @@ class Transaction {
     this.accountId,
   });
 
-  Transaction.create({
+  TransactionEntity.create({
     required this.name,
     required this.amount,
     required this.operation,
@@ -36,8 +36,8 @@ class Transaction {
   });
 
   // Factory constructor to create a Transaction object from a JSON map
-  factory Transaction.fromJson(Map<String, dynamic> json) {
-    return Transaction(
+  factory TransactionEntity.fromJson(Map<String, dynamic> json) {
+    return TransactionEntity(
       id: json['transactionId'] ?? 0,
       name: json['name'],
       amount: (json['amount'] as num).toDouble(),

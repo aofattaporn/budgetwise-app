@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:budget_wise/src/data/models/GeneralResponse.dart';
-import 'package:budget_wise/src/data/models/transaction.dart';
+import 'package:budget_wise/src/models/internal/general_response.dart';
+import 'package:budget_wise/src/models/entity/transaction_entity.dart';
 import 'package:budget_wise/src/presentation/constant/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -12,7 +12,7 @@ class TransactionsRepository {
       '${Constants.baseUrl}${Constants.contextPath}${Constants.transactions}';
 
   // Fetch transactions
-  Future<List<Transaction>> getTransactions() async {
+  Future<List<TransactionEntity>> getTransactions() async {
     final formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     final url = Uri.parse("$transactionsPath?date=$formattedDate");
@@ -26,8 +26,8 @@ class TransactionsRepository {
         dynamic responseBody = jsonDecode(response.body);
         GeneralResponse generalResponse =
             GeneralResponse.fromJson(responseBody);
-        List<Transaction> transactions = (generalResponse.data as List)
-            .map((ts) => Transaction.fromJson(ts))
+        List<TransactionEntity> transactions = (generalResponse.data as List)
+            .map((ts) => TransactionEntity.fromJson(ts))
             .toList();
         return transactions;
       } else {
@@ -40,10 +40,11 @@ class TransactionsRepository {
   }
 
   // Fetch transactions
-  Future<List<Transaction>> createTransactions(Transaction ts) async {
+  Future<List<TransactionEntity>> createTransactions(
+      TransactionEntity ts) async {
     final url = Uri.parse(transactionsPath);
     try {
-      Transaction transaction = Transaction.create(
+      TransactionEntity transaction = TransactionEntity.create(
           name: ts.name,
           amount: ts.amount,
           operation: ts.operation,
@@ -63,8 +64,8 @@ class TransactionsRepository {
         dynamic responseBody = jsonDecode(response.body);
         GeneralResponse generalResponse =
             GeneralResponse.fromJson(responseBody);
-        List<Transaction> transactions = (generalResponse.data as List)
-            .map((ts) => Transaction.fromJson(ts))
+        List<TransactionEntity> transactions = (generalResponse.data as List)
+            .map((ts) => TransactionEntity.fromJson(ts))
             .toList();
         return transactions;
       } else {

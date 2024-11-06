@@ -7,8 +7,8 @@ import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_evenet.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_state.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
-import 'package:budget_wise/src/data/models/account.dart';
-import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:budget_wise/src/presentation/constant/icons.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_success.dart';
 import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
@@ -21,7 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreatePlanSheet extends StatefulWidget {
-  final Planning? existingPlan;
+  final PlanEntity? existingPlan;
   final bool isEdit;
   final DateTime monthYear;
   CreatePlanSheet(
@@ -38,15 +38,15 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
   // local variable for manage data
   final planingController = TextEditingController();
   final TextEditingController limitAmountController = TextEditingController();
-  Account? accountVisit = null;
+  BudgetAccountEntity? accountVisit = null;
   int indexIcon = 0;
 
   // variable retrive from blocs
   double litAmountMonthly = 0;
   double currentTotalUsage = 0;
-  List<Account> accounts = [];
+  List<BudgetAccountEntity> accounts = [];
 
-  void handleAccount(Account account) {
+  void handleAccount(BudgetAccountEntity account) {
     setState(() {
       accountVisit = account;
     });
@@ -151,7 +151,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                   iconData: IconConstants.icons[indexIcon],
                   isFullSize: true,
                   account: accountVisit,
-                  planning: Planning.Details(
+                  planning: PlanEntity.Details(
                       planId: 1,
                       usage: 0,
                       name: !planingController.text.isEmpty
@@ -183,7 +183,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                 onPressed: () {
                   if (widget.isEdit) {
                     context.read<PlansBloc>().add((UpdatePlanEvent(
-                        planning: Planning.update(
+                        planning: PlanEntity.update(
                             planId: widget.existingPlan!.planId,
                             name: planingController.text,
                             limit:
@@ -193,7 +193,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
                             accountId: accountVisit!.accountId))));
                   } else {
                     context.read<PlansBloc>().add((CreatePlanEvent(
-                        planning: Planning.create(
+                        planning: PlanEntity.create(
                             name: planingController.text,
                             limit:
                                 double.tryParse(limitAmountController.text) ??

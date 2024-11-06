@@ -1,11 +1,11 @@
-import 'package:budget_wise/src/data/models/account.dart';
-import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class PlanPocketCreate extends StatelessWidget {
-  final Planning planning;
-  final Account? account;
+  final PlanEntity planning;
+  final BudgetAccountEntity? account;
   final bool isFullSize;
   final IconData iconData;
 

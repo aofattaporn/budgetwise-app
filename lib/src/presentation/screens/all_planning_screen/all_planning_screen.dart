@@ -1,13 +1,13 @@
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
-import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AllPlanningScreen extends StatelessWidget {
-  final Function(Planning) onPlanningSelected;
-  Planning? planningVisit;
+  final Function(PlanEntity) onPlanningSelected;
+  PlanEntity? planningVisit;
 
   AllPlanningScreen({
     required this.onPlanningSelected,
@@ -55,7 +55,7 @@ class AllPlanningScreen extends StatelessWidget {
   }
 
   // Builds each plan item
-  Widget _buildPlanItem(BuildContext context, Planning plan) {
+  Widget _buildPlanItem(BuildContext context, PlanEntity plan) {
     return InkWell(
       onTap: () => _onPlanSelected(plan, context),
       child: Padding(
@@ -79,7 +79,7 @@ class AllPlanningScreen extends StatelessWidget {
   }
 
   // Handles plan selection and updates the planningVisit variable
-  void _onPlanSelected(Planning plan, BuildContext context) {
+  void _onPlanSelected(PlanEntity plan, BuildContext context) {
     planningVisit = plan;
     onPlanningSelected(plan);
     Navigator.pop(context);

@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/data/models/transaction.dart';
+import 'package:budget_wise/src/models/entity/transaction_entity.dart';
 
 sealed class TransactionsState {}
 
@@ -7,7 +7,7 @@ final class InitialState extends TransactionsState {}
 
 // state : get salary
 final class GetTransactionsSuccess extends TransactionsState {
-  final List<Transaction> transactions;
+  final List<TransactionEntity> transactions;
   GetTransactionsSuccess(this.transactions);
 }
 

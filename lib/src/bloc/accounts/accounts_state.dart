@@ -1,5 +1,5 @@
 // states.dart
-import 'package:budget_wise/src/data/models/account.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 
 sealed class AccountState {}
 
@@ -8,12 +8,12 @@ final class InitialState extends AccountState {}
 
 // state : get all accounts
 final class GetAllAccountsSuccess extends AccountState {
-  final List<Account> data;
+  final List<BudgetAccountEntity> data;
   GetAllAccountsSuccess(this.data);
 }
 
 final class GetAllLocalAccountsSuccess extends AccountState {
-  final List<Account> data;
+  final List<BudgetAccountEntity> data;
   GetAllLocalAccountsSuccess(this.data);
 }
 

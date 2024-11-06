@@ -1,5 +1,5 @@
-import 'package:budget_wise/src/data/models/GeneralError.dart';
-import 'package:budget_wise/src/data/models/userFin.dart';
+import 'package:budget_wise/src/models/internal/general_error.dart';
+import 'package:budget_wise/src/models/entity/user_budget_info_entity.dart';
 
 sealed class UsersFinState {}
 
@@ -10,7 +10,7 @@ final class ErrorState extends UsersFinState {}
 
 // state : get salary ans month year
 final class GetSalaryAndMontYearSuccess extends UsersFinState {
-  final UserFin data;
+  final UserBudgetInfoEntity data;
   GetSalaryAndMontYearSuccess(this.data);
 }
 

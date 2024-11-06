@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:budget_wise/src/data/models/GeneralResponse.dart';
-import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/models/internal/general_response.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:budget_wise/src/presentation/constant/constants.dart';
 import 'package:budget_wise/src/utils/response_util.dart';
 import 'package:http/http.dart' as http;
@@ -12,36 +12,28 @@ class PlanningRepository {
       '${Constants.baseUrl}${Constants.contextPath}${Constants.plans}';
 
   // Create a new account
-  Future<List<Planning>> getPlans() async {
-    final url = Uri.parse(planningPath);
+  Future<List<PlanEntity>> getPlans(String monthYear) async {
+    final url = Uri.parse('$planningPath?monthYear=$monthYear');
     try {
-      final response = await http.get(url, headers: <String, String>{
-        'Content-Type': 'application/json',
-      });
-
-      if (response.statusCode == 200) {
-        // Assuming the server returns the created account as JSON
-        dynamic responseBody = jsonDecode(response.body);
-        GeneralResponse generalResponse =
-            GeneralResponse.fromJson(responseBody);
-        List<Planning> plansList = (generalResponse.data as List)
-            .map((plan) => Planning.fromJson(plan))
-            .toList();
-        return plansList;
-      } else {
-        throw Exception(
-            'Failed to create account. Status code: ${response.statusCode}');
-      }
+      final response = await http.get(
+        url,
+        headers: ResponseUtil.CONTENT_TYPE_JSON,
+      );
+      final generalResponse = ResponseUtil.decodeResponse(response);
+      List<PlanEntity> plansList = (generalResponse.data as List)
+          .map((plan) => PlanEntity.fromJson(plan))
+          .toList();
+      return plansList;
     } catch (error) {
       throw Exception('Error occurred while retrive planing: $error');
     }
   }
 
   // Create a new account
-  Future<List<Planning>> createPlanning(Planning plan) async {
+  Future<List<PlanEntity>> createPlanning(PlanEntity plan) async {
     final url = Uri.parse(planningPath);
     try {
-      Planning planning = Planning.create(
+      PlanEntity planning = PlanEntity.create(
           name: plan.name,
           limit: plan.limit,
           indexIcon: plan.indexIcon,
@@ -57,8 +49,8 @@ class PlanningRepository {
       );
 
       final generalResponse = ResponseUtil.decodeResponse(response);
-      List<Planning> plansList = (generalResponse.data as List)
-          .map((plan) => Planning.fromJson(plan))
+      List<PlanEntity> plansList = (generalResponse.data as List)
+          .map((plan) => PlanEntity.fromJson(plan))
           .toList();
       return plansList;
     } catch (error) {
@@ -67,10 +59,10 @@ class PlanningRepository {
   }
 
   // Create a new account
-  Future<List<Planning>> updatePlanning(int planId, Planning plan) async {
+  Future<List<PlanEntity>> updatePlanning(int planId, PlanEntity plan) async {
     final url = Uri.parse(planningPath + "/" + planId.toString());
     try {
-      Planning planning = Planning.create(
+      PlanEntity planning = PlanEntity.create(
           name: plan.name,
           limit: plan.limit,
           indexIcon: plan.indexIcon,
@@ -90,8 +82,8 @@ class PlanningRepository {
         dynamic responseBody = jsonDecode(response.body);
         GeneralResponse generalResponse =
             GeneralResponse.fromJson(responseBody);
-        List<Planning> plansList = (generalResponse.data as List)
-            .map((plan) => Planning.fromJson(plan))
+        List<PlanEntity> plansList = (generalResponse.data as List)
+            .map((plan) => PlanEntity.fromJson(plan))
             .toList();
         return plansList;
       } else {
@@ -104,7 +96,7 @@ class PlanningRepository {
   }
 
   // delete a new planning
-  Future<List<Planning>> deletPlanning(int planId) async {
+  Future<List<PlanEntity>> deletPlanning(int planId) async {
     final url = Uri.parse('${planningPath}/${planId}');
     try {
       final response = await http.delete(url, headers: <String, String>{
@@ -119,8 +111,8 @@ class PlanningRepository {
         if (generalResponse.data == null) {
           return [];
         }
-        List<Planning> plansList = (generalResponse.data as List)
-            .map((plan) => Planning.fromJson(plan))
+        List<PlanEntity> plansList = (generalResponse.data as List)
+            .map((plan) => PlanEntity.fromJson(plan))
             .toList();
 
         return plansList;

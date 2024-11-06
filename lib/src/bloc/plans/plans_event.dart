@@ -1,10 +1,11 @@
-import 'package:budget_wise/src/data/models/planning_model.dart';
+import 'package:budget_wise/src/models/entity/planning_entity.dart';
 
 sealed class PlansEvent {}
 
 // event: create account
 final class GetPlansEvent extends PlansEvent {
-  GetPlansEvent();
+  final String monthYear;
+  GetPlansEvent({required this.monthYear});
 }
 
 final class GetCurrentSpendingEvent extends PlansEvent {
@@ -12,12 +13,12 @@ final class GetCurrentSpendingEvent extends PlansEvent {
 }
 
 final class CreatePlanEvent extends PlansEvent {
-  final Planning planning;
+  final PlanEntity planning;
   CreatePlanEvent({required this.planning});
 }
 
 final class UpdatePlanEvent extends PlansEvent {
-  final Planning planning;
+  final PlanEntity planning;
   UpdatePlanEvent({required this.planning});
 }
 

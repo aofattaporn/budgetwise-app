@@ -1,14 +1,14 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
-import 'package:budget_wise/src/data/models/account.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card_failure.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SelectAllAccounts extends StatelessWidget {
-  final Function(Account) onAccountSelected;
-  Account? accountVisit;
+  final Function(BudgetAccountEntity) onAccountSelected;
+  BudgetAccountEntity? accountVisit;
 
   SelectAllAccounts({
     required this.accountVisit,
@@ -29,7 +29,7 @@ class SelectAllAccounts extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () {
-                    Account selectedAccount = Account(
+                    BudgetAccountEntity selectedAccount = BudgetAccountEntity(
                       accountId: state.data[index].accountId,
                       accountName: state.data[index].accountName,
                       balance: state.data[index].balance,

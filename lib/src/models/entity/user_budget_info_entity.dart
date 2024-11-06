@@ -1,23 +1,23 @@
 // ignore: file_names
-class UserFin {
+class UserBudgetInfoEntity {
   final double salary;
   final DateTime month;
   final double usages;
 
-  UserFin({
+  UserBudgetInfoEntity({
     required this.salary,
     required this.month,
     required this.usages,
   });
 
-  UserFin.createSalary({
+  UserBudgetInfoEntity.createSalary({
     required this.salary,
     required this.month,
   }) : usages = 0;
 
   // Convert a Map (JSON) into an Account object.
-  factory UserFin.fromJson(Map<String, dynamic> json) {
-    return UserFin(
+  factory UserBudgetInfoEntity.fromJson(Map<String, dynamic> json) {
+    return UserBudgetInfoEntity(
       salary: (json['salary'] as num).toDouble(),
       month: DateTime.parse(json['month']),
       usages: (json['usages'] as num).toDouble(),

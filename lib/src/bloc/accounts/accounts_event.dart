@@ -1,11 +1,11 @@
 // events.dart
-import 'package:budget_wise/src/data/models/account.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 
 sealed class AccountsEvent {}
 
 // event: create account
 final class CreateAccountEvent extends AccountsEvent {
-  final Account account;
+  final BudgetAccountEntity account;
   CreateAccountEvent({required this.account});
 }
 
@@ -23,6 +23,6 @@ final class DeleteAccountsByIdEvent extends AccountsEvent {
 
 // event: update accounts by id
 final class UpdateAccountByIdEvent extends AccountsEvent {
-  final Account account;
+  final BudgetAccountEntity account;
   UpdateAccountByIdEvent({required this.account});
 }

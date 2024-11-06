@@ -1,22 +1,22 @@
-import 'package:budget_wise/src/data/models/account.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 
 class Mocks {
-  static final List<Account> listAccount = [
-    Account(
+  static final List<BudgetAccountEntity> listAccount = [
+    BudgetAccountEntity(
         accountId: 1,
         accountName: "SCB",
         balance: 14000.0,
         createDate: DateTime.now(),
         updatePlanDate: DateTime.now(),
         colorIndex: 1),
-    Account(
+    BudgetAccountEntity(
         accountId: 2,
         accountName: "BBL",
         balance: 11588.33,
         createDate: DateTime.now(),
         updatePlanDate: DateTime.now(),
         colorIndex: 2),
-    Account(
+    BudgetAccountEntity(
         accountId: 3,
         accountName: "Cash",
         balance: 230.0,

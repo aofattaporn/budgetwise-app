@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:budget_wise/src/data/models/account.dart';
-import 'package:budget_wise/src/data/models/GeneralResponse.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
+import 'package:budget_wise/src/models/internal/general_response.dart';
 import 'package:budget_wise/src/presentation/constant/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,7 +10,7 @@ class AccountsRepository {
   static const String accountsPath =
       '${Constants.baseUrl}${Constants.contextPath}${Constants.accounts}';
 
-  Future<List<Account>> fetchAllAccounts() async {
+  Future<List<BudgetAccountEntity>> fetchAllAccounts() async {
     final url = Uri.parse('$accountsPath');
     try {
       final response = await http.get(url);
@@ -18,8 +18,8 @@ class AccountsRepository {
         dynamic responseBody = jsonDecode(response.body);
         GeneralResponse generalResponse =
             GeneralResponse.fromJson(responseBody);
-        List<Account> accountList = (generalResponse.data as List)
-            .map((x) => Account.fromJson(x))
+        List<BudgetAccountEntity> accountList = (generalResponse.data as List)
+            .map((x) => BudgetAccountEntity.fromJson(x))
             .toList();
         return accountList;
       } else {
@@ -32,11 +32,11 @@ class AccountsRepository {
   }
 
   // Create a new account
-  Future<void> createAccount(Account account) async {
+  Future<void> createAccount(BudgetAccountEntity account) async {
     final url = Uri.parse(accountsPath);
     try {
       // Convert Account object to JSON
-      Account createAccount = Account.forCreation(
+      BudgetAccountEntity createAccount = BudgetAccountEntity.forCreation(
           accountName: account.accountName,
           balance: account.balance,
           colorIndex: account.colorIndex);
@@ -52,7 +52,6 @@ class AccountsRepository {
       if (response.statusCode == 200) {
         // Assuming the server returns the created account as JSON
         dynamic responseBody = jsonDecode(response.body);
-        print(responseBody);
       } else {
         throw Exception(
             'Failed to create account. Status code: ${response.statusCode}');
@@ -87,10 +86,10 @@ class AccountsRepository {
   }
 
   // client api: update accounts by id
-  Future<void> updateAccountById(Account acccount) async {
+  Future<void> updateAccountById(BudgetAccountEntity acccount) async {
     final url = Uri.parse(accountsPath + '/${acccount.accountId}');
     try {
-      Account createAccount = Account.forCreation(
+      BudgetAccountEntity createAccount = BudgetAccountEntity.forCreation(
           accountName: acccount.accountName,
           balance: acccount.balance,
           colorIndex: acccount.colorIndex);
@@ -106,7 +105,6 @@ class AccountsRepository {
       if (response.statusCode == 200) {
         // Assuming the server returns the created account as JSON
         dynamic responseBody = jsonDecode(response.body);
-        print(responseBody);
       } else {
         throw Exception(
             'Failed to create account. Status code: ${response.statusCode}');

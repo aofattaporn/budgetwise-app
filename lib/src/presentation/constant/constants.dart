@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/data/models/operation.dart';
+import 'package:budget_wise/src/models/operation.dart';
 import 'package:flutter/material.dart';
 
 class Constants {

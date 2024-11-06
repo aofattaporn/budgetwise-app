@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:budget_wise/src/data/models/color_gradients.dart';
+import 'package:budget_wise/src/models/color_gradients.dart';
 
 class ColorConstants {
   // String constant

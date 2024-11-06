@@ -1,6 +1,7 @@
-class Planning {
+class PlanEntity {
   int? planId;
   String name;
+  String? type;
   double? usage;
   double limit;
   int indexIcon;
@@ -10,10 +11,19 @@ class Planning {
   DateTime? updateDate;
   DateTime? month;
 
-  Planning(this.planId, this.name, this.usage, this.limit, this.indexIcon,
-      this.createDate, this.updateDate, this.accountName, this.month);
+  PlanEntity(
+      this.planId,
+      this.name,
+      this.usage,
+      this.type,
+      this.limit,
+      this.indexIcon,
+      this.createDate,
+      this.updateDate,
+      this.accountName,
+      this.month);
 
-  Planning.Details({
+  PlanEntity.Details({
     required this.planId,
     required this.name,
     required this.usage,
@@ -24,14 +34,14 @@ class Planning {
     required this.updateDate,
   });
 
-  Planning.create(
+  PlanEntity.create(
       {required this.name,
       required this.limit,
       required this.indexIcon,
       required this.accountId,
       required this.month});
 
-  Planning.update({
+  PlanEntity.update({
     required this.planId,
     required this.name,
     required this.limit,
@@ -41,8 +51,8 @@ class Planning {
 
   // Convert a Map (JSON) into a Planning object
 // Convert a Map (JSON) into a Planning object
-  factory Planning.fromJson(Map<String, dynamic> json) {
-    return Planning(
+  factory PlanEntity.fromJson(Map<String, dynamic> json) {
+    return PlanEntity(
       json['planId'] != null
           ? (json['planId'] as num).toInt()
           : 0, // Default to 0 if null
@@ -50,6 +60,7 @@ class Planning {
       json['usage'] != null
           ? (json['usage'] as num).toDouble()
           : 0.0, // Default to 0.0 if null
+      json['type'] ?? '', // Provide default empty string if null
       json['amount'] != null
           ? (json['amount'] as num).toDouble()
           : 0.0, // Default to 0.0 if null

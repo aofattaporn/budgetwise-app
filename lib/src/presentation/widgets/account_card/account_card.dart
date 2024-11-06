@@ -1,7 +1,7 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
-import 'package:budget_wise/src/data/models/account.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
 import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
 import 'package:budget_wise/src/presentation/ui/generic_alert_dialog.dart';
@@ -15,7 +15,7 @@ class AccountCard extends StatefulWidget {
   final bool? isHanlder;
   final bool? isSelected;
   final bool? fullsize;
-  final Account account;
+  final BudgetAccountEntity account;
 
   const AccountCard({
     super.key,

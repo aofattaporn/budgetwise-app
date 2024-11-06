@@ -1,10 +1,10 @@
-import 'package:budget_wise/src/data/models/transaction.dart';
+import 'package:budget_wise/src/models/entity/transaction_entity.dart';
 import 'package:budget_wise/src/presentation/constant/icons.dart';
 import 'package:budget_wise/src/utils/datetime_util.dart';
 import 'package:flutter/material.dart';
 
 class TransactionItem extends StatelessWidget {
-  final Transaction transaction;
+  final TransactionEntity transaction;
 
   TransactionItem(this.transaction);
 

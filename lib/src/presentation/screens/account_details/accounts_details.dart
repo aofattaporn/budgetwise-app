@@ -1,13 +1,13 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
-import 'package:budget_wise/src/data/models/account.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountDetails extends StatefulWidget {
-  final Account account;
+  final BudgetAccountEntity account;
   const AccountDetails({super.key, required this.account});
 
   @override
@@ -15,7 +15,7 @@ class AccountDetails extends StatefulWidget {
 }
 
 class _AccountDetailsState extends State<AccountDetails> {
-  late Account selectedAccount;
+  late BudgetAccountEntity selectedAccount;
 
   @override
   void initState() {

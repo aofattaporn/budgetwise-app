@@ -1,8 +1,8 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
-import 'package:budget_wise/src/data/models/account.dart';
-import 'package:budget_wise/src/data/models/color_gradients.dart';
+import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
+import 'package:budget_wise/src/models/color_gradients.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
 import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/ui/generic_column.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateAccount extends StatefulWidget {
-  final Account? account;
+  final BudgetAccountEntity? account;
   final TextEditingController titleController;
   final TextEditingController amountController;
 
@@ -125,7 +125,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   AccountCard(
                     fullsize: true,
                     isSelected: selectedColorGradient != null,
-                    account: Account(
+                    account: BudgetAccountEntity(
                       accountId: isEditMode
                           ? widget.account!.accountId
                           : DateTime.now().millisecondsSinceEpoch,
@@ -161,7 +161,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     onPressed: () {
                       if (isEditMode) {
                         context.read<AccountBloc>().add(UpdateAccountByIdEvent(
-                                account: Account(
+                                account: BudgetAccountEntity(
                               accountId: widget.account!.accountId,
                               accountName: widget.titleController.text,
                               balance: double.tryParse(
@@ -173,7 +173,7 @@ class _CreateAccountState extends State<CreateAccount> {
                             )));
                       } else {
                         context.read<AccountBloc>().add(CreateAccountEvent(
-                            account: Account.forCreation(
+                            account: BudgetAccountEntity.forCreation(
                                 accountName: widget.titleController.text,
                                 balance: double.tryParse(
                                         widget.amountController.text) ??

@@ -1,15 +1,16 @@
 import 'package:budget_wise/src/bloc/usersFin/usersfin_state.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_evenet.dart';
-import 'package:budget_wise/src/data/models/GeneralError.dart';
-import 'package:budget_wise/src/data/models/userFin.dart';
-import 'package:budget_wise/src/data/repositories/users_repository.dart';
+import 'package:budget_wise/src/models/internal/general_error.dart';
+import 'package:budget_wise/src/models/entity/user_budget_info_entity.dart';
+import 'package:budget_wise/src/repositories/users_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UsersFinBloc extends Bloc<UsersEvent, UsersFinState> {
   final UsersRepository usersRepository = UsersRepository();
+  final double limitAmount = 0;
 
   // Global variables to hold shared data
-  UserFin? userInfo;
+  UserBudgetInfoEntity? userInfo;
 
   // Constructor to initialize the UsersBloc
   UsersFinBloc() : super(InitialState()) {
@@ -39,12 +40,10 @@ class UsersFinBloc extends Bloc<UsersEvent, UsersFinState> {
     ///
     /// The function is asynchronous and uses the `emit` function to update the state.
     on<AddSalaryByMonthEvent>((event, emit) async {
-      print("[repository] month: ${event.monthYear.toIso8601String()}");
-
       emit(GetSalaryAndMontYearLoading());
       try {
-        final userReq =
-            UserFin(salary: event.balance, month: event.monthYear, usages: 0);
+        final userReq = UserBudgetInfoEntity(
+            salary: event.balance, month: event.monthYear, usages: 0);
         final data = await usersRepository.addNewSalaryByMonth(userReq);
         userInfo = data;
         emit(GetSalaryAndMontYearSuccess(data));

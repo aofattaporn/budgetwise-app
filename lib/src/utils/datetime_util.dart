@@ -10,4 +10,9 @@ class UtilsDateTime {
     final DateFormat formatter = DateFormat('MMMM yyyy');
     return formatter.format(DateTime(date.year, date.month));
   }
+
+  static String yearMonthFormat(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM');
+    return formatter.format(date);
+  }
 }
