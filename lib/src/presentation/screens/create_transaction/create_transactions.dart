@@ -1,5 +1,3 @@
-import 'package:budget_wise/main.dart';
-import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
 import 'package:budget_wise/src/bloc/transactions/transactions_event.dart';
 import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
@@ -11,7 +9,6 @@ import 'package:budget_wise/src/presentation/ui/generic_column.dart';
 import 'package:budget_wise/src/presentation/ui/generic_btn.dart';
 import 'package:budget_wise/src/presentation/ui/generic_row_generic.dart';
 import 'package:budget_wise/src/presentation/widgets/select_all_accounts/select_all_accounts.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

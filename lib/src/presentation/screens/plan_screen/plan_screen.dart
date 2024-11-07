@@ -13,6 +13,7 @@ import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyea
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_failure.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_loading.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/display_plans/display_plans_faillure.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/display_plans/display_plans_loading.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/display_plans/display_plans_success.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/month_year_picker/month_year_picker.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
@@ -160,6 +161,8 @@ class _PlanScreenState extends State<PlanScreen> {
             itemsTranfers: state.plansTranfer,
             itemsSaving: state.plansSaving,
           );
+        } else if (state is GetPlanLoading) {
+          return const DisplayPlansLoading();
         } else {
           return const DisplayPlansFaillure();
         }

@@ -71,7 +71,6 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
         emit(DeletePlanSuccess());
         emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
       } catch (error) {
-        print(error);
         emit(CreatePlanFailure(error.toString()));
       }
     });

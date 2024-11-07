@@ -39,7 +39,7 @@ class PlanItem extends StatelessWidget {
           progress: Numbers.calPercentage(200, 1000) / 100,
           isFullSize: true,
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 24),
       ],
     );
   }
