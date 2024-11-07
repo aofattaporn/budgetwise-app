@@ -8,4 +8,10 @@ abstract class PlansOverviewEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadPlans extends PlansOverviewEvent {}
+class SetMonthPickerEvent extends PlansOverviewEvent {
+  final DateTime monthYear;
+
+  const SetMonthPickerEvent({
+    required this.monthYear,
+  });
+}

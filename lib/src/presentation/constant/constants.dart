@@ -11,10 +11,10 @@ class Constants {
 
   static const Color bgPrimary = Color.fromARGB(250, 250, 250, 100);
 
-  static final List<Operation> operations = [
-    Operation("transfer", const Icon(Icons.arrow_upward_rounded)),
-    Operation("income", const Icon(Icons.arrow_downward_rounded)),
-    Operation("change", const Icon(Icons.autorenew_rounded))
+  static final List<OperationModel> operations = [
+    OperationModel("transfer", const Icon(Icons.arrow_upward_rounded)),
+    OperationModel("income", const Icon(Icons.arrow_downward_rounded)),
+    OperationModel("change", const Icon(Icons.autorenew_rounded))
   ];
 
   static const String baseUrl = "http://127.0.0.1:8080";

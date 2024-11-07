@@ -6,7 +6,6 @@ import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/models/operation.dart';
 import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:budget_wise/src/models/entity/transaction_entity.dart';
-import 'package:budget_wise/src/presentation/screens/all_planning_screen/all_planning_screen.dart';
 import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
 import 'package:budget_wise/src/presentation/ui/generic_column.dart';
 import 'package:budget_wise/src/presentation/ui/generic_btn.dart';
@@ -17,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateTransaction extends StatefulWidget {
-  final Operation operation;
+  final OperationModel operation;
 
   const CreateTransaction({super.key, required this.operation});
 
@@ -130,16 +129,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
                       minLines: 3,
                       controller: _remarkController),
                   InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => AllPlanningScreen(
-                                  planningVisit: _planningVisit,
-                                  onPlanningSelected: handlePlanning,
-                                )), // Replace with your next page
-                      );
-                    },
+                    onTap: () {},
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(

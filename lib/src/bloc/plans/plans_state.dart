@@ -7,9 +7,10 @@ final class InitialState extends PlansState {}
 
 // state : get salary
 final class GetPlanSuccess extends PlansState {
-  final List<PlanEntity> plans;
+  final List<PlanEntity> plansTranfer;
+  final List<PlanEntity> plansSaving;
   final double totalPlanUsage;
-  GetPlanSuccess(this.plans, this.totalPlanUsage);
+  GetPlanSuccess(this.plansTranfer, this.plansSaving, this.totalPlanUsage);
 }
 
 final class GetCurrentSpendingSuccess extends PlansState {

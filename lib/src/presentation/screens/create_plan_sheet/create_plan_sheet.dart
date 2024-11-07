@@ -24,7 +24,7 @@ class CreatePlanSheet extends StatefulWidget {
   final PlanEntity? existingPlan;
   final bool isEdit;
   final DateTime monthYear;
-  CreatePlanSheet(
+  const CreatePlanSheet(
       {this.existingPlan,
       required this.isEdit,
       super.key,

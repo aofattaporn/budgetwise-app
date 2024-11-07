@@ -20,10 +20,11 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
             await _planningRepository.getPlans(event.monthYear);
         currentTotalUsage =
             plans.fold(0, (sum, item) => sum + (item.usage ?? 0));
-        planning = plans;
-        emit(GetPlanSuccess(plans, currentTotalUsage));
+        final tranfers =
+            plans.where((item) => item.type == "tranfers").toList();
+        final saving = plans.where((item) => item.type == "saving").toList();
+        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
       } catch (error) {
-        print(error);
         emit(GetPlanFailure(error.toString()));
       }
     });
@@ -33,8 +34,10 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       emit(CreatePlanLoading());
       try {
         final data = await _planningRepository.createPlanning(event.planning);
+        final tranfers = data.where((item) => item.type == "tranfers").toList();
+        final saving = data.where((item) => item.type == "saving").toList();
         emit(CreatePlanSuccess(data));
-        emit(GetPlanSuccess(data, currentTotalUsage));
+        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
       } catch (error) {
         emit(CreatePlanFailure(error.toString()));
       }
@@ -46,10 +49,11 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       try {
         final data = await _planningRepository.updatePlanning(
             event.planning.planId ?? -1, event.planning);
+        final tranfers = data.where((item) => item.type == "tranfers").toList();
+        final saving = data.where((item) => item.type == "saving").toList();
         emit(UpdatePlanSuccess());
-        emit(GetPlanSuccess(data, currentTotalUsage));
+        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
       } catch (error) {
-        print(error);
         emit(CreatePlanFailure(error.toString()));
       }
     });
@@ -61,9 +65,11 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
         final data = await _planningRepository.deletPlanning(event.planId);
         currentTotalUsage =
             data.fold(0, (sum, item) => sum + (item.usage ?? 0));
+        final tranfers = data.where((item) => item.type == "tranfers").toList();
+        final saving = data.where((item) => item.type == "saving").toList();
         planning = data;
         emit(DeletePlanSuccess());
-        emit(GetPlanSuccess(data, currentTotalUsage));
+        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
       } catch (error) {
         print(error);
         emit(CreatePlanFailure(error.toString()));
@@ -73,7 +79,11 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     // Event handler for fetching all accounts
     on<GetCurrentSpendingEvent>((event, emit) async {
       if (planning != null) {
-        emit(GetPlanSuccess(planning!, currentTotalUsage));
+        final tranfers =
+            planning!.where((item) => item.type == "tranfers").toList();
+        final saving =
+            planning!.where((item) => item.type == "saving").toList();
+        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
       }
     });
   }

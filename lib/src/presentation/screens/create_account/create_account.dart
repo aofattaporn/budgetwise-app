@@ -28,7 +28,7 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-  ColorGradients? selectedColorGradient;
+  ColorGradientsModel? selectedColorGradient;
   int? selectedColorGradient2;
 
   @override

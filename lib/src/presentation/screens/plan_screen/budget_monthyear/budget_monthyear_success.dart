@@ -7,6 +7,7 @@ import 'package:budget_wise/src/utils/strings_util.dart';
 import 'package:flutter/material.dart';
 
 class BudgetLimitLabel extends StatelessWidget {
+  final Widget? widget;
   final double currentUsage;
   final double limitBudgetPlan;
   final double? predictionAmount;
@@ -17,6 +18,7 @@ class BudgetLimitLabel extends StatelessWidget {
     required this.currentUsage,
     required this.limitBudgetPlan,
     required this.monthYear,
+    this.widget,
     this.onDateSelected,
     this.predictionAmount,
     super.key,
@@ -30,7 +32,7 @@ class BudgetLimitLabel extends StatelessWidget {
         children: [
           _displayUsageSalary(),
           const SizedBox(height: 12),
-          _displayMonthUsageAndSelectMonth(context),
+          widget ?? Container(),
           ProgressBar(
             // convert percentage -> normalize [0, 1]
             progress:
@@ -72,35 +74,6 @@ class BudgetLimitLabel extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  /// A private method that creates a `Row` widget to display the current month's usage
-  /// and allows the user to select a different month.
-  ///
-  /// The method takes a `BuildContext` as a parameter to access the context of the widget tree.
-  ///
-  /// - Parameter context: The `BuildContext` of the widget tree.
-  Row _displayMonthUsageAndSelectMonth(context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextValue()
-            .withText('Month for Budget plan:  ')
-            .getFont12Black()
-            .build(),
-        GestureDetector(
-          onTap: () => MonthYearPickerBuilder()
-              .setInitialDate(monthYear)
-              .setOnDateSelected(onDateSelected!)
-              .build()
-              .chooseDate(context),
-          child: TextValue()
-              .withText(UtilsDateTime.monthYearFormat(monthYear))
-              .getFont14BoldBlack()
-              .build(),
-        ),
-      ],
     );
   }
 }

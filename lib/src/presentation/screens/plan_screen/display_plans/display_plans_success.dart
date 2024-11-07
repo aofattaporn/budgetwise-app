@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class DisplayPlansSuccess extends StatelessWidget {
-  List<PlanEntity> items = [];
+  final List<PlanEntity> itemsTranfers;
+  final List<PlanEntity> itemsSaving;
 
-  DisplayPlansSuccess({super.key, required this.items});
+  const DisplayPlansSuccess(
+      {super.key, required this.itemsTranfers, required this.itemsSaving});
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +47,9 @@ class DisplayPlansSuccess extends StatelessWidget {
               const SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
-                  itemCount: items.length,
+                  itemCount: itemsSaving.length,
                   itemBuilder: (context, index) {
-                    return PlanItem(item: items[index]);
+                    return PlanItem(item: itemsSaving[index]);
                   },
                 ),
               ),
@@ -87,9 +89,9 @@ class DisplayPlansSuccess extends StatelessWidget {
               const SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
-                  itemCount: items.length,
+                  itemCount: itemsTranfers.length,
                   itemBuilder: (context, index) {
-                    return PlanItem(item: items[index]);
+                    return PlanItem(item: itemsTranfers[index]);
                   },
                 ),
               ),

@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-class ColorGradients {
+class ColorGradientsModel {
   final Color startColor;
   final Color endColor;
 
-  ColorGradients(this.startColor, this.endColor);
+  ColorGradientsModel(this.startColor, this.endColor);
 }

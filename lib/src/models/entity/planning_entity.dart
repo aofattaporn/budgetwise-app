@@ -52,6 +52,7 @@ class PlanEntity {
   // Convert a Map (JSON) into a Planning object
 // Convert a Map (JSON) into a Planning object
   factory PlanEntity.fromJson(Map<String, dynamic> json) {
+    print(json);
     return PlanEntity(
       json['planId'] != null
           ? (json['planId'] as num).toInt()

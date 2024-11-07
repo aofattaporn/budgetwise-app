@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
+import 'package:budget_wise/src/bloc/plansOverview/month_picker_bloc.dart';
 import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
@@ -13,6 +14,7 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyAppState createState() => _MyAppState();
 }
 
@@ -22,7 +24,7 @@ class _MyAppState extends State<MyApp> {
 
   // List of widgets to display based on the selected tab
   final List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
+    const HomeScreen(),
     TransactionsScreen(),
     const PlanScreen()
   ];
@@ -49,6 +51,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<TransactionsBloc>(
           create: (BuildContext context) => TransactionsBloc(),
         ),
+        BlocProvider<MonthPickerBloc>(
+          create: (BuildContext context) => MonthPickerBloc(),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -70,9 +75,9 @@ class _MyAppState extends State<MyApp> {
           // backgroundColor: Colors.white,
           body: _widgetOptions.elementAt(_selectedIndex),
           bottomNavigationBar: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               boxShadow: <BoxShadow>[
-                const BoxShadow(
+                BoxShadow(
                   color: Color.fromRGBO(0, 0, 0, 0.1),
                   blurRadius: 20,
                 ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Operation {
+class OperationModel {
   String name;
   Widget icon;
 
-  Operation(
+  OperationModel(
     this.name,
     this.icon,
   );
