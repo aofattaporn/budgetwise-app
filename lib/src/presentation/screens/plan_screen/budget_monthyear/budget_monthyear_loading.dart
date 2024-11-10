@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class BudgetLimitLabelLoading extends StatelessWidget {
@@ -6,30 +6,35 @@ class BudgetLimitLabelLoading extends StatelessWidget {
     super.key,
   });
 
+  static const double verticalPadding = 18.0;
+  static const double textSpacing = 12.0;
+  static const double containerHeight = 12.0;
+  static const double borderRadiusValue = 10.0;
+  static const Color containerColor = Color.fromRGBO(240, 240, 240, 1);
+  static const String budgetText = '... / 2000 B';
+  static const String mockText = 'Text For Mock Example';
+
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
       enabled: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 18),
+        padding: const EdgeInsets.symmetric(vertical: verticalPadding),
         child: Column(
           children: [
-            const Text('... / 2000 B',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
-            const SizedBox(height: 12),
-            const Text("Date for Reset Budget plan 1 June 2024"),
+            Text(budgetText, style: Theme.of(context).textTheme.displayMedium),
+            const SizedBox(height: textSpacing),
+            const Text(mockText),
             IntrinsicWidth(
-                child: Container(
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(240, 240, 240, 1),
-                borderRadius: BorderRadius.circular(10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: containerColor,
+                  borderRadius: BorderRadius.circular(borderRadiusValue),
+                ),
+                height: containerHeight,
+                width: MediaQuery.of(context).size.width,
               ),
-              height: 12,
-              width: MediaQuery.sizeOf(context).width,
-            ))
+            ),
           ],
         ),
       ),

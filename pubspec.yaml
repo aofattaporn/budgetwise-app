@@ -22,6 +22,7 @@ dependencies:
   logger: ^2.4.0
   equatable: ^2.0.0
   cupertino_icons: ^1.0.8
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:

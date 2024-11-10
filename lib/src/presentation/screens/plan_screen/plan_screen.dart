@@ -21,7 +21,6 @@ import 'package:budget_wise/src/utils/datetime_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// ignore: must_be_immutable
 class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key});
 

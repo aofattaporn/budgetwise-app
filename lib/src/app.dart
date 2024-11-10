@@ -3,9 +3,10 @@ import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/plan_month_picker/plan_month_picker_bloc.dart';
 import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
-import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
-import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
-import 'package:budget_wise/src/presentation/screens/transactions_screen/transactions_screen.dart';
+import 'package:budget_wise/src/home.dart';
+import 'package:budget_wise/src/presentation/theme/color_scheme.dart';
+import 'package:budget_wise/src/presentation/theme/icon_theme.dart';
+import 'package:budget_wise/src/presentation/theme/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -19,46 +20,63 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Index to keep track of the current selected tab
-  int _selectedIndex = 0;
-
-  // List of widgets to display based on the selected tab
-  final List<Widget> _widgetOptions = <Widget>[
-    const HomeScreen(),
-    const TransactionsScreen(),
-    const PlanScreen()
+  final List<BlocProvider> _blocProviders = [
+    BlocProvider<AccountBloc>(
+      create: (BuildContext context) => AccountBloc(),
+    ),
+    BlocProvider<UsersFinBloc>(
+      create: (BuildContext context) => UsersFinBloc(),
+    ),
+    BlocProvider<PlansBloc>(
+      create: (BuildContext context) => PlansBloc(),
+    ),
+    BlocProvider<TransactionsBloc>(
+      create: (BuildContext context) => TransactionsBloc(),
+    ),
+    BlocProvider<MonthPickerBloc>(
+      create: (BuildContext context) => MonthPickerBloc(),
+    ),
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider<AccountBloc>(
-          create: (BuildContext context) => AccountBloc(),
-        ),
-        BlocProvider<UsersFinBloc>(
-          create: (BuildContext context) => UsersFinBloc(),
-        ),
-        BlocProvider<PlansBloc>(
-          create: (BuildContext context) => PlansBloc(),
-        ),
-        BlocProvider<TransactionsBloc>(
-          create: (BuildContext context) => TransactionsBloc(),
-        ),
-        BlocProvider<MonthPickerBloc>(
-          create: (BuildContext context) => MonthPickerBloc(),
-        ),
-      ],
+      providers: _blocProviders,
       child: MaterialApp(
-        theme: ThemeData(
-            scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1)),
         debugShowCheckedModeBanner: false,
+
+        /// Specifies the theme data for the application.
+        ///
+        /// This property is used to define the visual properties of the app, such as colors,
+        /// fonts, and other styling elements. It allows for consistent theming across the
+        /// entire application.
+        title: 'Budget Wise',
+        themeMode: ThemeMode.light,
+        theme: ThemeData(
+            textTheme: AppTextTheme.lightTextTheme,
+            colorScheme: AppColorScheme.lightScheme,
+            iconTheme: AppIconTheme.lightTheme,
+            scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1)),
+        darkTheme: ThemeData(
+            textTheme: AppTextTheme.darkTextTheme,
+            colorScheme: AppColorScheme.darkScheme,
+            iconTheme: AppIconTheme.darkTheme,
+            scaffoldBackgroundColor: const Color.fromRGBO(0, 0, 0, 1)),
+
+        /// The `localizationsDelegates` list contains delegates for various localization
+        /// classes, which are responsible for providing localized resources for the app.
+        ///
+        /// - `GlobalMaterialLocalizations.delegate`: Provides localized strings and other
+        ///   values for the Material Components library.
+        /// - `GlobalWidgetsLocalizations.delegate`: Provides localized strings and other
+        ///   values for the basic widget library.
+        /// - `GlobalCupertinoLocalizations.delegate`: Provides localized strings and other
+        ///   values for the Cupertino library.
+        ///
+        /// The `supportedLocales` list specifies the locales that the app supports.
+        ///
+        /// - `Locale('en')`: English locale.
+        /// - `Locale('th')`: Thai locale.
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -68,44 +86,7 @@ class _MyAppState extends State<MyApp> {
           Locale('en'), // English
           Locale('th'), // Spanish
         ],
-        home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
-          ),
-          // backgroundColor: Colors.white,
-          body: _widgetOptions.elementAt(_selectedIndex),
-          bottomNavigationBar: Container(
-            decoration: const BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.1),
-                  blurRadius: 20,
-                ),
-              ],
-            ),
-            child: BottomNavigationBar(
-              elevation: 10,
-              backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_work_outlined),
-                  label: 'home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.line_axis),
-                  label: 'transactions',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.cloud),
-                  label: 'plan',
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.purple,
-              onTap: _onItemTapped,
-            ),
-          ),
-        ),
+        home: const AppHome(),
       ),
     );
   }
