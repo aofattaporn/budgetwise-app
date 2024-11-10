@@ -59,6 +59,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
   ) async {
     emit(CreatePlanLoading());
     try {
+      print(event.planning.type);
       final plans = await _planningRepository.createPlanning(event.planning);
       final tranfers = _filterListType(plans, TRANFER_TYPE);
       final saving = _filterListType(plans, SAVING_TYPE);

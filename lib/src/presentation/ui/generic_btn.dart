@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
+import 'package:budget_wise/src/presentation/screens/account_details/create_account/create_account.dart';
 import 'package:flutter/material.dart';
 
 class GenericCreateBTN extends StatelessWidget {

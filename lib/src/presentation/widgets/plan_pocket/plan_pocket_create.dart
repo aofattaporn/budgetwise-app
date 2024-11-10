@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/models/entity/planning_entity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -36,7 +37,7 @@ class PlanPocketCreate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 145,
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -88,10 +89,11 @@ class PlanPocketCreate extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
+              const Spacer(),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

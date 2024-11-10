@@ -1,13 +1,13 @@
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_event.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
-import 'package:budget_wise/src/bloc/plansOverview/month_picker_bloc.dart';
-import 'package:budget_wise/src/bloc/plansOverview/month_picker_event.dart';
+import 'package:budget_wise/src/bloc/plan_month_picker/plan_month_picker_bloc.dart';
+import 'package:budget_wise/src/bloc/plan_month_picker/plan_month_picker_event.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_evenet.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_state.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
 import 'package:budget_wise/src/presentation/constant/textstyle.dart';
-import 'package:budget_wise/src/presentation/screens/create_plan_sheet/create_plan_sheet.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/%5Bsheet%5D_create_plan_sheet/create_plan_sheet.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_not_found.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_success.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_failure.dart';
@@ -57,7 +57,8 @@ class _PlanScreenState extends State<PlanScreen> {
         return CreatePlanSheet(
             isEdit: false, monthYear: _monthPickerBloc.monthYear);
       },
-    );
+    ).whenComplete(
+        () => context.read<PlansBloc>().add(GetCurrentSpendingEvent()));
   }
 
   @override

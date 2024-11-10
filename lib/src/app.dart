@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
-import 'package:budget_wise/src/bloc/plansOverview/month_picker_bloc.dart';
+import 'package:budget_wise/src/bloc/plan_month_picker/plan_month_picker_bloc.dart';
 import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';

@@ -2,7 +2,7 @@ import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/presentation/screens/account_details/accounts_details.dart';
-import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
+import 'package:budget_wise/src/presentation/screens/account_details/create_account/create_account.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card.dart';
 import 'package:budget_wise/src/presentation/widgets/account_card/account_card_failure.dart';

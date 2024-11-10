@@ -15,6 +15,7 @@ class GenericColumn extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         for (int index = 0; index < genericWidgets.length; index++) ...[
           // Expanded(child: genericWidgets[index]),

@@ -35,6 +35,7 @@ class PlanningRepository {
     try {
       PlanEntity planning = PlanEntity.create(
           name: plan.name,
+          type: plan.type,
           limit: plan.limit,
           indexIcon: plan.indexIcon,
           accountId: plan.accountId,
@@ -63,6 +64,7 @@ class PlanningRepository {
     final url = Uri.parse(planningPath + "/" + planId.toString());
     try {
       PlanEntity planning = PlanEntity.create(
+          type: plan.type,
           name: plan.name,
           limit: plan.limit,
           indexIcon: plan.indexIcon,

@@ -3,7 +3,7 @@ import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/bloc/accounts/accounts_state.dart';
 import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
-import 'package:budget_wise/src/presentation/screens/create_account/create_account.dart';
+import 'package:budget_wise/src/presentation/screens/account_details/create_account/create_account.dart';
 import 'package:budget_wise/src/presentation/ui/generic_alert_dialog.dart';
 import 'package:budget_wise/src/presentation/ui/generic_circle_icon.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/screens/plan_screen/salary_input_dialog/salary_input_dialog.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/%5Btoast%5D_salary_input_dialog/salary_input_dialog.dart';
 import 'package:flutter/material.dart';
 
 class BudgetMonthYearNotFound extends StatelessWidget {

@@ -35,7 +35,8 @@ class PlanEntity {
   });
 
   PlanEntity.create(
-      {required this.name,
+      {required this.type,
+      required this.name,
       required this.limit,
       required this.indexIcon,
       required this.accountId,
@@ -83,7 +84,7 @@ class PlanEntity {
     return {
       'name': name,
       'amount': limit,
-      'type': "tranfers",
+      'type': type,
       'iconIndex': indexIcon,
       'month': DateTime.utc(month!.year, month!.month).toIso8601String(),
       'accountId': accountId,
