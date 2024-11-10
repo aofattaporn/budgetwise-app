@@ -1,8 +1,8 @@
-class PlanEntity {
+class PlanModel {
   int? planId;
   String name;
-  String? type;
-  double? usage;
+  String type;
+  double usage;
   double limit;
   int indexIcon;
   int? accountId;
@@ -11,7 +11,7 @@ class PlanEntity {
   DateTime? updateDate;
   DateTime? month;
 
-  PlanEntity(
+  PlanModel(
       this.planId,
       this.name,
       this.usage,
@@ -23,36 +23,8 @@ class PlanEntity {
       this.accountName,
       this.month);
 
-  PlanEntity.Details({
-    required this.planId,
-    required this.name,
-    required this.usage,
-    required this.limit,
-    required this.indexIcon,
-    required this.accountName,
-    required this.createDate,
-    required this.updateDate,
-  });
-
-  PlanEntity.create(
-      {required this.name,
-      required this.limit,
-      required this.indexIcon,
-      required this.accountId,
-      required this.month});
-
-  PlanEntity.update({
-    required this.planId,
-    required this.name,
-    required this.limit,
-    required this.indexIcon,
-    required this.accountId,
-  });
-
-  // Convert a Map (JSON) into a Planning object
-// Convert a Map (JSON) into a Planning object
-  factory PlanEntity.fromJson(Map<String, dynamic> json) {
-    return PlanEntity(
+  factory PlanModel.fromJson(Map<String, dynamic> json) {
+    return PlanModel(
       json['planId'] != null
           ? (json['planId'] as num).toInt()
           : 0, // Default to 0 if null
@@ -76,17 +48,5 @@ class PlanEntity {
       json['accountName'] ?? '', // Provide default empty string if null
       json['month'] != null ? DateTime.parse(json['month']) : DateTime.now(),
     );
-  }
-
-  // Convert the Planning object to a Map (JSON)
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'amount': limit,
-      'type': "tranfers",
-      'iconIndex': indexIcon,
-      'month': DateTime.utc(month!.year, month!.month).toIso8601String(),
-      'accountId': accountId,
-    };
   }
 }

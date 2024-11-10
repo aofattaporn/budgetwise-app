@@ -57,11 +57,7 @@ class _PlanScreenState extends State<PlanScreen> {
         return CreatePlanSheet(
             isEdit: false, monthYear: _monthPickerBloc.monthYear);
       },
-    ).whenComplete(() {
-      String monthYear =
-          UtilsDateTime.yearMonthFormat(_monthPickerBloc.monthYear);
-      context.read<PlansBloc>().add(GetPlansEvent(monthYear: monthYear));
-    });
+    );
   }
 
   @override
@@ -156,14 +152,15 @@ class _PlanScreenState extends State<PlanScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: BlocBuilder<PlansBloc, PlansState>(builder: (context, state) {
-        if (state is GetPlanSuccess) {
+        if (state is SetPlanDataComplete) {
           return DisplayPlansSuccess(
             itemsTranfers: state.plansTranfer,
             itemsSaving: state.plansSaving,
           );
-        } else if (state is GetPlanLoading) {
+        } else if (state is PlanLoadingProcess) {
           return const DisplayPlansLoading();
         } else {
+          print(state);
           return const DisplayPlansFaillure();
         }
       }),

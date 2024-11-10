@@ -75,7 +75,6 @@ class AccountsRepository {
       if (response.statusCode == 200) {
         // Assuming the server returns the created account as JSON
         dynamic responseBody = jsonDecode(response.body);
-        print(responseBody);
       } else {
         throw Exception(
             'Failed to create account. Status code: ${response.statusCode}');

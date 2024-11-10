@@ -8,82 +8,111 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
   final PlanningRepository _planningRepository = PlanningRepository();
 
   double currentTotalUsage = 0;
-  List<PlanEntity>? planning;
+  String TRANFER_TYPE = "tranfers";
+  String SAVING_TYPE = "saving";
+
+  List<PlanEntity> planningTranfer = [];
+  List<PlanEntity> planningSaving = [];
 
   // Constructor to initialize the AccountBloc with a repository
   PlansBloc() : super(InitialState()) {
-    // Event handler for fetching all accounts
-    on<GetPlansEvent>((event, emit) async {
-      emit(GetPlanLoading());
-      try {
-        final List<PlanEntity> plans =
-            await _planningRepository.getPlans(event.monthYear);
-        currentTotalUsage =
-            plans.fold(0, (sum, item) => sum + (item.usage ?? 0));
-        final tranfers =
-            plans.where((item) => item.type == "tranfers").toList();
-        final saving = plans.where((item) => item.type == "saving").toList();
-        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
-      } catch (error) {
-        emit(GetPlanFailure(error.toString()));
-      }
-    });
+    // Event handler for fetching all plans
+    on<GetPlansEvent>(_getPlanByMonthEvent);
 
-    // Event handler for fetching all accounts
-    on<CreatePlanEvent>((event, emit) async {
-      emit(CreatePlanLoading());
-      try {
-        final data = await _planningRepository.createPlanning(event.planning);
-        final tranfers = data.where((item) => item.type == "tranfers").toList();
-        final saving = data.where((item) => item.type == "saving").toList();
-        emit(CreatePlanSuccess(data));
-        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
-      } catch (error) {
-        emit(CreatePlanFailure(error.toString()));
-      }
-    });
+    // Event handler for creating a new plan
+    on<CreatePlanEvent>(_createPlanEvent);
 
-    // Event handler for fetching all accounts
-    on<UpdatePlanEvent>((event, emit) async {
-      emit(CreatePlanLoading());
-      try {
-        final data = await _planningRepository.updatePlanning(
-            event.planning.planId ?? -1, event.planning);
-        final tranfers = data.where((item) => item.type == "tranfers").toList();
-        final saving = data.where((item) => item.type == "saving").toList();
-        emit(UpdatePlanSuccess());
-        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
-      } catch (error) {
-        emit(CreatePlanFailure(error.toString()));
-      }
-    });
+    // Event handler for updating a plan
+    on<UpdatePlanEvent>(_updatePlanEvent);
 
-    // Event handler for fetching all accounts
-    on<DeletePlanEvent>((event, emit) async {
-      emit(DeletePlanLoading());
-      try {
-        final data = await _planningRepository.deletPlanning(event.planId);
-        currentTotalUsage =
-            data.fold(0, (sum, item) => sum + (item.usage ?? 0));
-        final tranfers = data.where((item) => item.type == "tranfers").toList();
-        final saving = data.where((item) => item.type == "saving").toList();
-        planning = data;
-        emit(DeletePlanSuccess());
-        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
-      } catch (error) {
-        emit(CreatePlanFailure(error.toString()));
-      }
-    });
+    // Event handler for deleting a plan
+    on<DeletePlanEvent>(_deletePlanEvent);
 
-    // Event handler for fetching all accounts
-    on<GetCurrentSpendingEvent>((event, emit) async {
-      if (planning != null) {
-        final tranfers =
-            planning!.where((item) => item.type == "tranfers").toList();
-        final saving =
-            planning!.where((item) => item.type == "saving").toList();
-        emit(GetPlanSuccess(tranfers, saving, currentTotalUsage));
-      }
-    });
+    // Event handler for getting current spending
+    on<GetCurrentSpendingEvent>(_getCurrentSpendingEvent);
+  }
+
+  List<PlanEntity> _filterListType(List<PlanEntity> data, String type) {
+    return planningTranfer = data.where((item) => item.type == type).toList();
+  }
+
+  void _getPlanByMonthEvent(
+    GetPlansEvent event,
+    Emitter<PlansState> emit,
+  ) async {
+    try {
+      emit(PlanLoadingProcess());
+      final List<PlanEntity> plans =
+          await _planningRepository.getPlans(event.monthYear);
+      currentTotalUsage = plans.fold(0, (sum, item) => sum + (item.usage ?? 0));
+      final tranfers = _filterListType(plans, TRANFER_TYPE);
+      final saving = _filterListType(plans, SAVING_TYPE);
+      emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
+    } catch (error) {
+      emit(GetPlanFailure(error.toString()));
+    }
+  }
+
+  void _createPlanEvent(
+    CreatePlanEvent event,
+    Emitter<PlansState> emit,
+  ) async {
+    emit(CreatePlanLoading());
+    try {
+      final plans = await _planningRepository.createPlanning(event.planning);
+      final tranfers = _filterListType(plans, TRANFER_TYPE);
+      final saving = _filterListType(plans, SAVING_TYPE);
+      emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
+    } catch (error) {
+      emit(CreatePlanFailure(error.toString()));
+    }
+  }
+
+  void _updatePlanEvent(
+    UpdatePlanEvent event,
+    Emitter<PlansState> emit,
+  ) async {
+    emit(CreatePlanLoading());
+    try {
+      final data = await _planningRepository.updatePlanning(
+          event.planning.planId ?? -1, event.planning);
+      final tranfers = data.where((item) => item.type == "tranfers").toList();
+      final saving = data.where((item) => item.type == "saving").toList();
+      emit(UpdatePlanSuccess());
+      emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
+    } catch (error) {
+      emit(CreatePlanFailure(error.toString()));
+    }
+  }
+
+  void _deletePlanEvent(
+    DeletePlanEvent event,
+    Emitter<PlansState> emit,
+  ) async {
+    emit(DeletePlanLoading());
+    try {
+      final data = await _planningRepository.deletPlanning(event.planId);
+      currentTotalUsage = data.fold(0, (sum, item) => sum + (item.usage ?? 0));
+      planningTranfer = data.where((item) => item.type == "tranfers").toList();
+      planningSaving = data.where((item) => item.type == "saving").toList();
+      emit(DeletePlanSuccess());
+      emit(SetPlanDataComplete(
+          planningTranfer, planningSaving, currentTotalUsage));
+    } catch (error) {
+      emit(DeletePlanFailure(error.toString()));
+    }
+  }
+
+  void _getCurrentSpendingEvent(
+    GetCurrentSpendingEvent event,
+    Emitter<PlansState> emit,
+  ) async {
+    if (planningTranfer != null) {
+      final tranfers =
+          planningTranfer!.where((item) => item.type == "tranfers").toList();
+      final saving =
+          planningTranfer!.where((item) => item.type == "saving").toList();
+      emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
+    }
   }
 }

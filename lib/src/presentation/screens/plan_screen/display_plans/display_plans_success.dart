@@ -53,18 +53,18 @@ class PlanContainer extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: items.isEmpty
-            ? const Color.fromARGB(
-                255, 235, 237, 241) // Light gray background for an empty state
-            : Colors.white, // White background when items are present
+            ? const Color.fromARGB(255, 235, 237, 241)
+            : Colors.white,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: const <BoxShadow>[
-          BoxShadow(
-            color: Color.fromRGBO(
-                0, 0, 0, 0.08), // Softer shadow for a subtle effect
-            blurRadius: 15, // Reduced blur radius for lighter shadow
-            offset: Offset(0, 4), // Slight elevation effect
-          ),
-        ],
+        boxShadow: items.isEmpty
+            ? []
+            : [
+                const BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.08),
+                  blurRadius: 15,
+                  offset: Offset(0, 4),
+                ),
+              ],
       ),
       child: Column(
         children: [
@@ -116,7 +116,7 @@ class PlanContainer extends StatelessWidget {
             Text(
               'No Plan Found',
               style: TextStyle(
-                color: Color.fromARGB(255, 230, 230, 230),
+                color: Color.fromARGB(255, 204, 204, 204),
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
@@ -126,7 +126,7 @@ class PlanContainer extends StatelessWidget {
               'Please add a new plan to get started!',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: const Color.fromARGB(255, 204, 204, 204),
+                color: Color.fromARGB(255, 204, 204, 204),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),

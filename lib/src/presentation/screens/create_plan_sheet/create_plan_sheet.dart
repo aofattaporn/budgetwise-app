@@ -114,7 +114,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
         ),
         BlocListener<PlansBloc, PlansState>(
             listener: (BuildContext context, state) {
-          if (state is GetPlanSuccess) {
+          if (state is SetPlanDataComplete) {
             setState(() {
               currentTotalUsage = state.totalPlanUsage;
             });
@@ -128,12 +128,12 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
         })
       ],
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16), topRight: Radius.circular(16))),
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         child: Padding(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),

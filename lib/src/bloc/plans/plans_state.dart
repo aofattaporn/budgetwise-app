@@ -5,14 +5,20 @@ sealed class PlansState {}
 // Initial state when nothing has happened yet
 final class InitialState extends PlansState {}
 
-// state : get salary
-final class GetPlanSuccess extends PlansState {
+// state : plan loading process
+final class PlanLoadingProcess extends PlansState {
+  PlanLoadingProcess();
+}
+
+// state : set plan data
+final class SetPlanDataComplete extends PlansState {
   final List<PlanEntity> plansTranfer;
   final List<PlanEntity> plansSaving;
   final double totalPlanUsage;
-  GetPlanSuccess(this.plansTranfer, this.plansSaving, this.totalPlanUsage);
+  SetPlanDataComplete(this.plansTranfer, this.plansSaving, this.totalPlanUsage);
 }
 
+// state : get salary
 final class GetCurrentSpendingSuccess extends PlansState {
   final List<PlanEntity> plans;
   final double totalPlanUsage;

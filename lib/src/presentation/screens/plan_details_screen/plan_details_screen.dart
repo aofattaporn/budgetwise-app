@@ -29,7 +29,7 @@ class _AccountDetailsState extends State<PlansDetailsScreenDetails> {
       listeners: [
         BlocListener<PlansBloc, PlansState>(
             listener: (BuildContext context, state) {
-          if (state is GetPlanSuccess) {
+          if (state is SetPlanDataComplete) {
             final updatedAccount = state.plansTranfer.firstWhere(
               (plan) => plan.planId == widget.planning.planId,
               orElse: () => widget.planning,
