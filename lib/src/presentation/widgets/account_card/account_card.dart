@@ -31,7 +31,7 @@ class AccountCard extends StatefulWidget {
 
 class _AccountCardState extends State<AccountCard> {
   // late Account selectedAccount;
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   String formatNumber(String rawNumber) {
     String cleanedValue = rawNumber.replaceAll(RegExp(r'[^\d.]'), '');
@@ -142,8 +142,7 @@ class _AccountCardState extends State<AccountCard> {
                 children: [
                   RichText(
                     text: TextSpan(
-                        text:
-                            '${formatNumber(widget.account.balance.toString())}',
+                        text: formatNumber(widget.account.balance.toString()),
                         style: TextStyle(
                           fontSize: 16,
                           color: widget.isSelected == true ||
@@ -167,8 +166,8 @@ class _AccountCardState extends State<AccountCard> {
   }
 
   Row _rowHandlerCard(BuildContext context) {
-    final String confirmDelete = "Confirm Deletion";
-    final String confirmDeleteDesc = "Proceed with destructive action?";
+    const String confirmDelete = "Confirm Deletion";
+    const String confirmDeleteDesc = "Proceed with destructive action?";
 
     return Row(
       children: [

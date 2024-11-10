@@ -23,7 +23,7 @@ class PlanEntity {
       this.accountName,
       this.month);
 
-  PlanEntity.Details({
+  PlanEntity.details({
     required this.planId,
     required this.name,
     required this.usage,

@@ -19,16 +19,16 @@ class GenericTxtBTN extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: handler,
-        child: Text(
-          title,
-          style: TextStyle(
-              fontSize: 16,
-              color: const Color.fromARGB(255, 168, 21, 194),
-              fontWeight: FontWeight.bold),
-          selectionColor: Colors.purple,
-        ),
         style: ButtonStyle(
           foregroundColor: WidgetStateProperty.all(Colors.white),
+        ),
+        child: Text(
+          title,
+          style: const TextStyle(
+              fontSize: 16,
+              color: Color.fromARGB(255, 168, 21, 194),
+              fontWeight: FontWeight.bold),
+          selectionColor: Colors.purple,
         ),
       ),
     );

@@ -58,8 +58,8 @@ class AccountBloc extends Bloc<AccountsEvent, AccountState> {
 
     on<GetAllLocalAccountsEvent>((event, emit) async {
       if (accounts != null) {
-        emit(GetAllLocalAccountsSuccess(this.accounts!));
-        emit(GetAllAccountsSuccess(this.accounts!));
+        emit(GetAllLocalAccountsSuccess(accounts!));
+        emit(GetAllAccountsSuccess(accounts!));
       }
     });
   }

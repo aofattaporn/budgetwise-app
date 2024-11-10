@@ -47,7 +47,7 @@ class _AccountDetailsState extends State<PlansDetailsScreenDetails> {
         navigationBar: CupertinoNavigationBar(
           middle: const Text('Account Details'),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new),
+            icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -55,13 +55,13 @@ class _AccountDetailsState extends State<PlansDetailsScreenDetails> {
           child: Material(
             type: MaterialType.transparency,
             child: Padding(
-              padding: EdgeInsets.all(28.0),
+              padding: const EdgeInsets.all(28.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Planning Pocket
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: PlanPocket(
                       isFullSize: true,
                       planning: planning,

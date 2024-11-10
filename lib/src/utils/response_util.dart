@@ -6,7 +6,7 @@ import 'package:budget_wise/src/models/internal/general_response.dart';
 import 'package:http/http.dart' as http;
 
 class ResponseUtil {
-  static const Map<String, String> CONTENT_TYPE_JSON = {
+  static const Map<String, String> contentTypeJson = {
     'Content-Type': 'application/json',
   };
 

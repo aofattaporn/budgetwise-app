@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PlanPocketLoading extends StatelessWidget {
-  PlanPocketLoading({
+  const PlanPocketLoading({
     super.key,
   });
 
@@ -13,7 +13,7 @@ class PlanPocketLoading extends StatelessWidget {
       enabled: true,
       child: Container(
         height: 150,
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -39,12 +39,12 @@ class PlanPocketLoading extends StatelessWidget {
                     color: const Color.fromRGBO(240, 240, 240, 1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Icon(Icons.abc, color: Colors.grey, size: 20),
+                  child: const Icon(Icons.abc, color: Colors.grey, size: 20),
                 ),
                 const SizedBox(width: 10),
 
                 // Wrap the Column in Flexible to prevent overflow
-                Flexible(
+                const Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -71,25 +71,23 @@ class PlanPocketLoading extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  child: Text.rich(
-                    TextSpan(
-                      text: '${Strings.normalizeNumber(500.toString())}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: '/ Amount B',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
+                Text.rich(
+                  TextSpan(
+                    text: Strings.normalizeNumber(500.toString()),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black,
                     ),
+                    children: const <TextSpan>[
+                      TextSpan(
+                        text: '/ Amount B',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

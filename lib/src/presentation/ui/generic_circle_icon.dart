@@ -22,8 +22,8 @@ class GenericCircleIcons extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: isDarkTheme == true
-              ? Color.fromRGBO(255, 224, 223, 0.1)
-              : Color.fromRGBO(210, 200, 200, 0.3),
+              ? const Color.fromRGBO(255, 224, 223, 0.1)
+              : const Color.fromRGBO(210, 200, 200, 0.3),
 
           // color: Color.fromRGBO(255, 224, 223, 0.1),
         ),

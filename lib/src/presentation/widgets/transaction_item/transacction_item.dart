@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class TransactionItem extends StatelessWidget {
   final TransactionEntity transaction;
 
-  TransactionItem(this.transaction);
+  const TransactionItem(this.transaction, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +56,16 @@ class TransactionItem extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: transaction.planName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: Colors.black,
                           ),
                         ),
                         TextSpan(
-                          text: " " +
-                              transaction.accountName!, // The appended text
-                          style: TextStyle(
+                          text:
+                              " ${transaction.accountName!}", // The appended text
+                          style: const TextStyle(
                             fontWeight: FontWeight
                                 .normal, // You can change the style here
                             fontSize: 14,
@@ -77,14 +77,14 @@ class TransactionItem extends StatelessWidget {
                   ),
                   Text(
                     transaction.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
                     ),
                   ),
                   Text(
                     UtilsDateTime.formatDate(transaction.createDate!),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
                     ),
@@ -96,8 +96,8 @@ class TransactionItem extends StatelessWidget {
 
           // Amount
           Text(
-            "+" + transaction.amount.toString() + " B",
-            style: TextStyle(
+            "+${transaction.amount} B",
+            style: const TextStyle(
               color: Colors.green,
               fontWeight: FontWeight.bold,
               fontSize: 14,

@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_evenet.dart';
-import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
+import 'package:budget_wise/src/presentation/ui/generic_input_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

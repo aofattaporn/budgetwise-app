@@ -161,7 +161,6 @@ class _PlanScreenState extends State<PlanScreen> {
         } else if (state is PlanLoadingProcess) {
           return const DisplayPlansLoading();
         } else {
-          print(state);
           return const DisplayPlansFaillure();
         }
       }),

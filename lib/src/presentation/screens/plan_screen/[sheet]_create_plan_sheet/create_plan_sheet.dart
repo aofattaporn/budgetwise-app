@@ -8,14 +8,13 @@ import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:budget_wise/src/presentation/constant/icons.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/budget_monthyear/budget_monthyear_success.dart';
-import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
+import 'package:budget_wise/src/presentation/ui/generic_input_field.dart';
 import 'package:budget_wise/src/presentation/ui/generic_btn.dart';
 import 'package:budget_wise/src/presentation/ui/generic_column.dart';
 import 'package:budget_wise/src/presentation/ui/generic_row_generic.dart';
 import 'package:budget_wise/src/presentation/ui/generic_sheet.dart';
 import 'package:budget_wise/src/presentation/widgets/plan_pocket/plan_pocket_create.dart';
 import 'package:budget_wise/src/presentation/widgets/select_all_icons/select_all_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +39,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
   final TextEditingController limitAmountController = TextEditingController();
   final TextEditingController planingController = TextEditingController();
 
-  BudgetAccountEntity? accountVisit = null;
+  BudgetAccountEntity? accountVisit;
   int indexIcon = 0;
   double litAmountMonthly = 0;
   double currentTotalUsage = 0;
@@ -135,7 +134,7 @@ class _CreatePlanSheetState extends State<CreatePlanSheet> {
               iconData: IconConstants.icons[indexIcon],
               isFullSize: true,
               account: accountVisit,
-              planning: PlanEntity.Details(
+              planning: PlanEntity.details(
                   planId: 1,
                   usage: 0,
                   name: planingController.text.isNotEmpty

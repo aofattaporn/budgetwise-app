@@ -17,7 +17,7 @@ class PlanningRepository {
     try {
       final response = await http.get(
         url,
-        headers: ResponseUtil.CONTENT_TYPE_JSON,
+        headers: ResponseUtil.contentTypeJson,
       );
       final generalResponse = ResponseUtil.decodeResponse(response);
       List<PlanEntity> plansList = (generalResponse.data as List)
@@ -61,7 +61,7 @@ class PlanningRepository {
 
   // Create a new account
   Future<List<PlanEntity>> updatePlanning(int planId, PlanEntity plan) async {
-    final url = Uri.parse(planningPath + "/" + planId.toString());
+    final url = Uri.parse("$planningPath/$planId");
     try {
       PlanEntity planning = PlanEntity.create(
           type: plan.type,
@@ -99,7 +99,7 @@ class PlanningRepository {
 
   // delete a new planning
   Future<List<PlanEntity>> deletPlanning(int planId) async {
-    final url = Uri.parse('${planningPath}/${planId}');
+    final url = Uri.parse('$planningPath/$planId');
     try {
       final response = await http.delete(url, headers: <String, String>{
         'Content-Type': 'application/json',

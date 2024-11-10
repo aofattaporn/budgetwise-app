@@ -52,7 +52,7 @@ class ProgressBar extends StatelessWidget {
                   ),
                   predicProgress != null
                       ? Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Colors.greenAccent,
                             borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(10),

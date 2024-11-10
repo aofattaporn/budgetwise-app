@@ -6,6 +6,7 @@ import 'package:budget_wise/src/presentation/widgets/account_card/account_card_f
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class SelectAllAccounts extends StatelessWidget {
   final Function(BudgetAccountEntity) onAccountSelected;
   BudgetAccountEntity? accountVisit;
@@ -51,7 +52,7 @@ class SelectAllAccounts extends StatelessWidget {
           ]),
         );
       } else {
-        return AccountCardFailure();
+        return const AccountCardFailure();
       }
     });
   }

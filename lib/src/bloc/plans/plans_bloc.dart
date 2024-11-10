@@ -1,6 +1,7 @@
 import 'package:budget_wise/src/bloc/plans/plans_event.dart';
 import 'package:budget_wise/src/bloc/plans/plans_state.dart';
 import 'package:budget_wise/src/models/entity/planning_entity.dart';
+import 'package:budget_wise/src/presentation/constant/constants.dart';
 import 'package:budget_wise/src/repositories/planning_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,8 +9,6 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
   final PlanningRepository _planningRepository = PlanningRepository();
 
   double currentTotalUsage = 0;
-  String TRANFER_TYPE = "tranfers";
-  String SAVING_TYPE = "saving";
 
   List<PlanEntity> planningTranfer = [];
   List<PlanEntity> planningSaving = [];
@@ -45,8 +44,8 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       final List<PlanEntity> plans =
           await _planningRepository.getPlans(event.monthYear);
       currentTotalUsage = plans.fold(0, (sum, item) => sum + (item.usage ?? 0));
-      final tranfers = _filterListType(plans, TRANFER_TYPE);
-      final saving = _filterListType(plans, SAVING_TYPE);
+      final tranfers = _filterListType(plans, Constants.tranfersType);
+      final saving = _filterListType(plans, Constants.savingType);
       emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
     } catch (error) {
       emit(GetPlanFailure(error.toString()));
@@ -59,10 +58,9 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
   ) async {
     emit(CreatePlanLoading());
     try {
-      print(event.planning.type);
       final plans = await _planningRepository.createPlanning(event.planning);
-      final tranfers = _filterListType(plans, TRANFER_TYPE);
-      final saving = _filterListType(plans, SAVING_TYPE);
+      final tranfers = _filterListType(plans, Constants.tranfersType);
+      final saving = _filterListType(plans, Constants.savingType);
       emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
     } catch (error) {
       emit(CreatePlanFailure(error.toString()));
@@ -75,10 +73,10 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
   ) async {
     emit(CreatePlanLoading());
     try {
-      final data = await _planningRepository.updatePlanning(
+      final plans = await _planningRepository.updatePlanning(
           event.planning.planId ?? -1, event.planning);
-      final tranfers = data.where((item) => item.type == "tranfers").toList();
-      final saving = data.where((item) => item.type == "saving").toList();
+      final tranfers = _filterListType(plans, Constants.tranfersType);
+      final saving = _filterListType(plans, Constants.savingType);
       emit(UpdatePlanSuccess());
       emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
     } catch (error) {
@@ -108,12 +106,10 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     GetCurrentSpendingEvent event,
     Emitter<PlansState> emit,
   ) async {
-    if (planningTranfer != null) {
-      final tranfers =
-          planningTranfer!.where((item) => item.type == "tranfers").toList();
-      final saving =
-          planningTranfer!.where((item) => item.type == "saving").toList();
-      emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
-    }
+    final tranfers =
+        planningTranfer.where((item) => item.type == "tranfers").toList();
+    final saving =
+        planningTranfer.where((item) => item.type == "saving").toList();
+    emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
   }
 }

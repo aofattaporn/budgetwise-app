@@ -18,7 +18,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
             await _transactionsRepository.getTransactions();
         emit(GetTransactionsSuccess(ts));
       } catch (error) {
-        print(error);
         emit(GetTransactionsFailed(error.toString()));
       }
     });
@@ -30,7 +29,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
             await _transactionsRepository.createTransactions(event.transaction);
         emit(GetTransactionsSuccess(ts));
       } catch (error) {
-        print(error);
         emit(GetTransactionsFailed(error.toString()));
       }
     });

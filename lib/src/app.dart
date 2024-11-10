@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
   // List of widgets to display based on the selected tab
   final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
-    TransactionsScreen(),
+    const TransactionsScreen(),
     const PlanScreen()
   ];
 
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         theme: ThemeData(
-            scaffoldBackgroundColor: Color.fromRGBO(250, 250, 250, 1)),
+            scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1)),
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
         ],
         home: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+            backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
           ),
           // backgroundColor: Colors.white,
           body: _widgetOptions.elementAt(_selectedIndex),
@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
             ),
             child: BottomNavigationBar(
               elevation: 10,
-              backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+              backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_work_outlined),

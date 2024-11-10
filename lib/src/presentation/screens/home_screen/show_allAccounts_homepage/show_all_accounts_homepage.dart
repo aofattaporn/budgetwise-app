@@ -45,7 +45,7 @@ class ShowAllAccountsHomepage extends StatelessWidget {
           context.read<AccountBloc>().add(GetAllAccountsEvent());
         }
       },
-      child: Container(
+      child: SizedBox(
         height: MediaQuery.sizeOf(context).height * 0.26,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,12 +60,12 @@ class ShowAllAccountsHomepage extends StatelessWidget {
                   children: [
                     Text(
                       greetings,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 22,
                       ),
                     ),
-                    Text(currentDate, style: TextStyle(fontSize: 14)),
+                    Text(currentDate, style: const TextStyle(fontSize: 14)),
                   ],
                 ),
                 GenericTxtBTN(
@@ -74,14 +74,14 @@ class ShowAllAccountsHomepage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 30),
-            ShowAllAccounts(),
+            showAllAccounts(),
           ],
         ),
       ),
     );
   }
 
-  SingleChildScrollView ShowAllAccounts() {
+  SingleChildScrollView showAllAccounts() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
@@ -116,8 +116,8 @@ class ShowAllAccountsHomepage extends StatelessWidget {
           return Row(
             children: [
               for (int index = 0; index < 3; index++)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: AccountCardSkeleton(),
                 ),
             ],
@@ -126,7 +126,7 @@ class ShowAllAccountsHomepage extends StatelessWidget {
 
         // * CASEE : GET: All Accounts failure
         else {
-          return AccountCardFailure();
+          return const AccountCardFailure();
         }
       }),
     );

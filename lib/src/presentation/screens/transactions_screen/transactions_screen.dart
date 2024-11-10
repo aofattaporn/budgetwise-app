@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TransactionsScreen extends StatefulWidget {
+  const TransactionsScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _TransactionsScreenState createState() => _TransactionsScreenState();
 }
 
@@ -17,12 +20,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != _selectedDate)
+    if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
         // Fetch transactions for the selected date
         _transactions = _fetchTransactionsByDate(_selectedDate);
       });
+    }
   }
 
   List<String> _fetchTransactionsByDate(DateTime date) {
@@ -34,7 +38,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transactions'),
+        title: const Text('Transactions'),
       ),
       body: Column(
         children: [
@@ -58,7 +62,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             ListTile(
               title:
                   Text("Select Date: ${_selectedDate.toLocal()}".split(' ')[0]),
-              trailing: Icon(Icons.calendar_today),
+              trailing: const Icon(Icons.calendar_today),
               onTap: () => _selectDate(context),
             ),
           Expanded(

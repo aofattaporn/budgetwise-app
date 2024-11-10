@@ -18,7 +18,7 @@ class PlanPocket extends StatefulWidget {
   final PlanEntity planning;
   final bool isFullSize;
 
-  PlanPocket({
+  const PlanPocket({
     required this.isFullSize,
     required this.planning,
     this.isHandler,
@@ -40,7 +40,7 @@ class _PlanPocketState extends State<PlanPocket> {
       },
       child: Container(
         height: 150,
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -90,14 +90,14 @@ class _PlanPocketState extends State<PlanPocket> {
                       ),
                       Text(
                         widget.planning.accountName ?? "",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
 
-                if (widget.isHandler == true) Spacer(),
+                if (widget.isHandler == true) const Spacer(),
                 if (widget.isHandler == true) _rowHandlerCard(context),
               ],
             ),
@@ -105,27 +105,25 @@ class _PlanPocketState extends State<PlanPocket> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  child: Text.rich(
-                    TextSpan(
-                      text:
-                          '${Strings.normalizeNumber(widget.planning.usage.toString())}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              '/ ${Strings.normalizeNumber(widget.planning.limit.toString())} B',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
+                Text.rich(
+                  TextSpan(
+                    text: Strings.normalizeNumber(
+                        widget.planning.usage.toString()),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black,
                     ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            '/ ${Strings.normalizeNumber(widget.planning.limit.toString())} B',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 ProgressBar(
@@ -144,8 +142,8 @@ class _PlanPocketState extends State<PlanPocket> {
   }
 
   Row _rowHandlerCard(BuildContext context) {
-    final String confirmDelete = "Confirm Deletion";
-    final String confirmDeleteDesc = "Proceed with destructive action?";
+    const String confirmDelete = "Confirm Deletion";
+    const String confirmDeleteDesc = "Proceed with destructive action?";
 
     void showEditPlanning() {
       showModalBottomSheet<void>(

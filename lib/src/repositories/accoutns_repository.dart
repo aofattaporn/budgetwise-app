@@ -11,7 +11,7 @@ class AccountsRepository {
       '${Constants.baseUrl}${Constants.contextPath}${Constants.accounts}';
 
   Future<List<BudgetAccountEntity>> fetchAllAccounts() async {
-    final url = Uri.parse('$accountsPath');
+    final url = Uri.parse(accountsPath);
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -41,21 +41,13 @@ class AccountsRepository {
           balance: account.balance,
           colorIndex: account.colorIndex);
       String accountJson = jsonEncode(createAccount.createJsonRequest());
-      final response = await http.post(
+      await http.post(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
         body: accountJson,
       );
-
-      if (response.statusCode == 200) {
-        // Assuming the server returns the created account as JSON
-        dynamic responseBody = jsonDecode(response.body);
-      } else {
-        throw Exception(
-            'Failed to create account. Status code: ${response.statusCode}');
-      }
     } catch (error) {
       throw Exception('Error occurred while creating account: $error');
     }
@@ -63,22 +55,14 @@ class AccountsRepository {
 
   // client api: delete accounts
   Future<void> deleteAccountById(int accountId) async {
-    final url = Uri.parse(accountsPath + '/${accountId}');
+    final url = Uri.parse('$accountsPath/$accountId');
     try {
-      final response = await http.delete(
+      await http.delete(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
       );
-
-      if (response.statusCode == 200) {
-        // Assuming the server returns the created account as JSON
-        dynamic responseBody = jsonDecode(response.body);
-      } else {
-        throw Exception(
-            'Failed to create account. Status code: ${response.statusCode}');
-      }
     } catch (error) {
       throw Exception('Error occurred while deleting account: $error');
     }
@@ -86,28 +70,20 @@ class AccountsRepository {
 
   // client api: update accounts by id
   Future<void> updateAccountById(BudgetAccountEntity acccount) async {
-    final url = Uri.parse(accountsPath + '/${acccount.accountId}');
+    final url = Uri.parse('$accountsPath/${acccount.accountId}');
     try {
       BudgetAccountEntity createAccount = BudgetAccountEntity.forCreation(
           accountName: acccount.accountName,
           balance: acccount.balance,
           colorIndex: acccount.colorIndex);
       String accountJson = jsonEncode(createAccount.createJsonRequest());
-      final response = await http.patch(
+      await http.patch(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
         body: accountJson,
       );
-
-      if (response.statusCode == 200) {
-        // Assuming the server returns the created account as JSON
-        dynamic responseBody = jsonDecode(response.body);
-      } else {
-        throw Exception(
-            'Failed to create account. Status code: ${response.statusCode}');
-      }
     } catch (error) {
       throw Exception('Error occurred while updating account: $error');
     }

@@ -4,7 +4,7 @@ import 'package:budget_wise/src/bloc/accounts/accounts_event.dart';
 import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/models/color_gradients.dart';
 import 'package:budget_wise/src/presentation/constant/colors.dart';
-import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
+import 'package:budget_wise/src/presentation/ui/generic_input_field.dart';
 import 'package:budget_wise/src/presentation/ui/generic_column.dart';
 import 'package:budget_wise/src/presentation/ui/generic_btn.dart';
 import 'package:budget_wise/src/presentation/ui/generic_row_generic.dart';
@@ -107,12 +107,12 @@ class _CreateAccountState extends State<CreateAccount> {
         }
       },
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16), topRight: Radius.circular(16))),
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         child: Padding(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -182,7 +182,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       }
                     },
                   ),
-                  SizedBox(height: 20)
+                  const SizedBox(height: 20)
                 ],
               ),
             ],

@@ -1,6 +1,5 @@
 import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/models/entity/planning_entity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -10,7 +9,7 @@ class PlanPocketCreate extends StatelessWidget {
   final bool isFullSize;
   final IconData iconData;
 
-  PlanPocketCreate({
+  const PlanPocketCreate({
     required this.iconData,
     required this.isFullSize,
     required this.planning,
@@ -65,7 +64,7 @@ class PlanPocketCreate extends StatelessWidget {
                 child: Icon(iconData,
                     color: Colors.grey, size: isFullSize ? 32 : 20),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

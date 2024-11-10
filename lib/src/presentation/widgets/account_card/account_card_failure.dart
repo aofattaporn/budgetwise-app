@@ -20,11 +20,11 @@ class AccountCardFailure extends StatelessWidget {
         child: Center(
             child: Column(
           children: [
-            Text("No accounts available."),
+            const Text("No accounts available."),
             TextButton(
               onPressed: () =>
                   {context.read<AccountBloc>().add(GetAllAccountsEvent())},
-              child: Text("Click to try again."),
+              child: const Text("Click to try again."),
             ),
           ],
         )));

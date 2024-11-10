@@ -25,12 +25,12 @@ class _AccountCardState extends State<AccountCardSkeleton> {
             : 240,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
               begin: Alignment.topLeft,
-              end: const Alignment(0.8, 1),
+              end: Alignment(0.8, 1),
               colors: [
-                const Color.fromARGB(255, 238, 230, 230),
-                const Color.fromRGBO(225, 234, 238, 1)
+                Color.fromARGB(255, 238, 230, 230),
+                Color.fromRGBO(225, 234, 238, 1)
               ]),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
@@ -55,28 +55,28 @@ class _AccountCardState extends State<AccountCardSkeleton> {
                         color: const Color.fromRGBO(192, 192, 192, 1)))
               ],
             ),
-            Text(
+            const Text(
               "Last Operated",
               style: TextStyle(
-                  fontSize: 10, color: const Color.fromRGBO(192, 192, 192, 1)),
+                  fontSize: 10, color: Color.fromRGBO(192, 192, 192, 1)),
             ),
-            Text(
+            const Text(
               "Wed Sep 4 / 2024",
               style: TextStyle(
-                  fontSize: 10, color: const Color.fromRGBO(192, 192, 192, 1)),
+                  fontSize: 10, color: Color.fromRGBO(192, 192, 192, 1)),
             ),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                       text: 'Faks Balance B',
                       style: TextStyle(
                         fontSize: 16,
-                        color: const Color.fromRGBO(192, 192, 192, 1),
+                        color: Color.fromRGBO(192, 192, 192, 1),
                       ),
-                      children: const <TextSpan>[
+                      children: <TextSpan>[
                         TextSpan(
                             text: 'B',
                             style: TextStyle(fontWeight: FontWeight.bold)),

@@ -19,10 +19,8 @@ class ShowTodayTransactionHomepage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Today Transactions"),
-        SizedBox(height: 16),
-
-        // TODO : handler height of list item
+        const Text("Today Transactions"),
+        const SizedBox(height: 16),
         BlocBuilder<TransactionsBloc, TransactionsState>(
           builder: (BuildContext context, TransactionsState state) {
             if (state is GetTransactionsSuccess) {
@@ -34,7 +32,7 @@ class ShowTodayTransactionHomepage extends StatelessWidget {
                         TransactionItem(state.transactions[index])),
               );
             } else {
-              return Center(child: Text("data"));
+              return const Center(child: Text("data"));
             }
           },
         ),

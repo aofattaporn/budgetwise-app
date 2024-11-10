@@ -4,7 +4,7 @@ import 'package:budget_wise/src/models/entity/budget_account_entity.dart';
 import 'package:budget_wise/src/models/operation.dart';
 import 'package:budget_wise/src/models/entity/planning_entity.dart';
 import 'package:budget_wise/src/models/entity/transaction_entity.dart';
-import 'package:budget_wise/src/presentation/ui/generic_Input_field.dart';
+import 'package:budget_wise/src/presentation/ui/generic_input_field.dart';
 import 'package:budget_wise/src/presentation/ui/generic_column.dart';
 import 'package:budget_wise/src/presentation/ui/generic_btn.dart';
 import 'package:budget_wise/src/presentation/ui/generic_row_generic.dart';

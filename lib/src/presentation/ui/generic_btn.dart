@@ -13,10 +13,10 @@ class GenericCreateBTN extends StatelessWidget {
     required this.title,
   });
 
-  static void TextCustom(BuildContext context) {
+  static void textCustom(BuildContext context) {
     Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
             Color(0xFF9379E0), // Purple shade
             Color(0xFFAE78D6), // Lighter purple
@@ -37,12 +37,12 @@ class GenericCreateBTN extends StatelessWidget {
             },
           );
         },
-        child: Text(
-          "create account",
-          style: TextStyle(fontSize: 12),
-        ),
         style: ButtonStyle(
           foregroundColor: WidgetStateProperty.all(Colors.white),
+        ),
+        child: const Text(
+          "create account",
+          style: TextStyle(fontSize: 12),
         ),
       ),
     );
@@ -80,7 +80,7 @@ class GenericCreateBTN extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),

@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/screens/home_screen/show_allAccounts_homepage/show_allAccounts_homepage.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/show_allAccounts_homepage/show_all_accounts_homepage.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/show_operations_homepage/show_operations_homepage.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/show_today_transaction_homepage/show_today_transaction_homepage.dart';
 import 'package:flutter/material.dart';

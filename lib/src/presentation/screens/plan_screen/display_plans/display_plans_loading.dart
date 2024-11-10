@@ -1,6 +1,3 @@
-import 'package:budget_wise/src/models/entity/planning_entity.dart';
-import 'package:budget_wise/src/presentation/screens/plan_screen/display_plans/display_plans_faillure.dart';
-import 'package:budget_wise/src/presentation/widgets/plan_item/plan_item.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -9,8 +6,8 @@ class DisplayPlansLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         PlanContainer(
           title: 'Saving Plan',
           titleColor: Colors.green,
@@ -77,7 +74,7 @@ class PlanContainer extends StatelessWidget {
               child: ListView.builder(
                 itemCount: 3, // Adjust number of skeleton items as needed
                 itemBuilder: (context, index) {
-                  return SkeletonItem();
+                  return const SkeletonItem();
                 },
               ),
             ),

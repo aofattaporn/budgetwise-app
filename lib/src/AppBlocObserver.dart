@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/web.dart';
 
@@ -21,8 +23,10 @@ class AppBlocObserver extends BlocObserver {
 
     ///We can check, if the BlocBase is a Bloc or a Cubit
     if (bloc is Cubit) {
+      // ignore: avoid_print
       print("This is a Cubit");
     } else {
+      // ignore: avoid_print
       print("This is a Bloc");
     }
   }
@@ -48,6 +52,7 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     super.onError(bloc, error, stackTrace);
+    // ignore: avoid_print
     print(
         "Error happened in $bloc with error $error and the stacktrace is $stackTrace");
   }
@@ -56,6 +61,7 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onClose(BlocBase bloc) {
     super.onClose(bloc);
+    // ignore: avoid_print
     print("BLOC is closed");
   }
 }

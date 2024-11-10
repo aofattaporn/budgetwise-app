@@ -11,6 +11,9 @@ class Constants {
     OperationModel("change", const Icon(Icons.autorenew_rounded))
   ];
 
+  static const String tranfersType = "tranfers";
+  static const String savingType = "saving";
+
   /// **
   /// API Constants
   /// **
