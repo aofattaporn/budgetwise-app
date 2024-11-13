@@ -4,6 +4,10 @@ import 'package:budget_wise/src/bloc/plan_month_picker/plan_month_picker_bloc.da
 import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
 import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
 import 'package:budget_wise/src/home.dart';
+import 'package:budget_wise/src/presentation/constant/router.dart';
+import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
+import 'package:budget_wise/src/presentation/screens/transactions_screen/transactions_screen.dart';
 import 'package:budget_wise/src/presentation/theme/color_scheme.dart';
 import 'package:budget_wise/src/presentation/theme/icon_theme.dart';
 import 'package:budget_wise/src/presentation/theme/text_theme.dart';
@@ -86,7 +90,12 @@ class _MyAppState extends State<MyApp> {
           Locale('en'), // English
           Locale('th'), // Spanish
         ],
-        home: const AppHome(),
+        home: AppHome(),
+        routes: {
+          AppRouter.home: (context) => const HomeScreen(),
+          AppRouter.transaction: (context) => const TransactionsScreen(),
+          AppRouter.plan: (context) => const PlanScreen(), // Add this line
+        },
       ),
     );
   }

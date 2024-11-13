@@ -10,6 +10,11 @@ final class PlanLoadingProcess extends PlansState {
   PlanLoadingProcess();
 }
 
+// state : plan not found
+final class PlanNotFound extends PlansState {
+  PlanNotFound();
+}
+
 // state : set plan data
 final class SetPlanDataComplete extends PlansState {
   final List<PlanEntity> plansTranfer;

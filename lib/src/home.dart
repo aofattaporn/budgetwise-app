@@ -1,10 +1,31 @@
 import 'package:budget_wise/src/presentation/constant/router.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
+import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
+import 'package:budget_wise/src/presentation/screens/transactions_screen/transactions_screen.dart';
 import 'package:budget_wise/src/presentation/theme/shadow_theme.dart';
 import 'package:flutter/material.dart';
 
-class AppHome extends StatelessWidget {
-  const AppHome({super.key});
+class AppHome extends StatefulWidget {
+  AppHome({super.key});
+
+  @override
+  State<AppHome> createState() => _AppHomeState();
+}
+
+class _AppHomeState extends State<AppHome> {
+  final List<Widget> _screens = <Widget>[
+    const HomeScreen(),
+    const TransactionsScreen(),
+    const PlanScreen(),
+  ];
+
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    _selectedIndex = 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +33,7 @@ class AppHome extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
-      body: const HomeScreen(),
+      body: _screens.elementAt(_selectedIndex),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           boxShadow: [
@@ -39,13 +60,19 @@ class AppHome extends StatelessWidget {
             // Navigate based on the selected index
             switch (index) {
               case 0:
-                Navigator.pushNamed(context, AppRouter.home);
+                setState(() {
+                  _selectedIndex = 0;
+                });
                 break;
               case 1:
-                Navigator.pushNamed(context, AppRouter.transaction);
+                setState(() {
+                  _selectedIndex = 1;
+                });
                 break;
               case 2:
-                Navigator.pushNamed(context, AppRouter.plan);
+                setState(() {
+                  _selectedIndex = 2;
+                });
                 break;
             }
           },

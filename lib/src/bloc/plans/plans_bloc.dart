@@ -46,6 +46,11 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       currentTotalUsage = plans.fold(0, (sum, item) => sum + (item.usage ?? 0));
       final tranfers = _filterListType(plans, Constants.tranfersType);
       final saving = _filterListType(plans, Constants.savingType);
+
+      if (plans.isEmpty) {
+        emit(PlanNotFound());
+      }
+
       emit(SetPlanDataComplete(tranfers, saving, currentTotalUsage));
     } catch (error) {
       emit(GetPlanFailure(error.toString()));

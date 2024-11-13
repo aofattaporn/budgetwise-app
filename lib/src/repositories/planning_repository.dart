@@ -19,12 +19,20 @@ class PlanningRepository {
         url,
         headers: ResponseUtil.contentTypeJson,
       );
+
       final generalResponse = ResponseUtil.decodeResponse(response);
+
+      // handler case data epty
+      if (generalResponse.code == 1699) {
+        return [];
+      }
+
       List<PlanEntity> plansList = (generalResponse.data as List)
           .map((plan) => PlanEntity.fromJson(plan))
           .toList();
       return plansList;
     } catch (error) {
+      print("=>${error}");
       throw Exception('Error occurred while retrive planing: $error');
     }
   }
