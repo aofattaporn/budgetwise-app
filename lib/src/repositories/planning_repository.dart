@@ -32,7 +32,6 @@ class PlanningRepository {
           .toList();
       return plansList;
     } catch (error) {
-      print("=>${error}");
       throw Exception('Error occurred while retrive planing: $error');
     }
   }

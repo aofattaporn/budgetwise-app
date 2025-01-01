@@ -20,18 +20,7 @@ class UsersFinBloc extends Bloc<UsersEvent, UsersFinState> {
     /// - Emits a `GetSalaryAndMontYearLoading` state to indicate that the salary and month-year data is being loaded.
     ///
     /// The function is asynchronous and uses the `emit` function to update the state.
-    on<GetSalaryEvent>((event, emit) async {
-      emit(GetSalaryAndMontYearLoading());
-      try {
-        final data = await usersRepository.fetchAllAccounts(event.monthYear);
-        userInfo = data;
-        emit(GetSalaryAndMontYearSuccess(data));
-      } catch (error) {
-        if (error is GeneralError) {
-          emit(GetSalaryAndMontYearFailure(error));
-        }
-      }
-    });
+    on<GetSalaryEvent>(_getSalaryEvent);
 
     /// Event handler for the `GetSalaryEvent`.
     ///
@@ -69,5 +58,25 @@ class UsersFinBloc extends Bloc<UsersEvent, UsersFinState> {
         emit(GetSalaryAndMontYearSuccess(userInfo!));
       }
     });
+  }
+
+  void _getSalaryEvent(
+    GetSalaryEvent event,
+    Emitter<UsersFinState> emit,
+  ) async {
+    emit(GetSalaryAndMontYearLoading());
+    try {
+      final data = await usersRepository.fetchAllAccounts(event.monthYear);
+      userInfo = data;
+      emit(GetSalaryAndMontYearSuccess(data));
+    } catch (error) {
+      if (error is GeneralError) {
+        if (error.code == 1699) {
+          emit(GetSalaryAndMontYearFailure(error));
+        } else {
+          emit(GetSalaryAndMontYearFailure(error));
+        }
+      }
+    }
   }
 }

@@ -6,25 +6,25 @@ import 'package:budget_wise/src/presentation/theme/shadow_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppHome extends StatefulWidget {
-  AppHome({super.key});
+  const AppHome({super.key});
 
   @override
   State<AppHome> createState() => _AppHomeState();
 }
 
 class _AppHomeState extends State<AppHome> {
-  final List<Widget> _screens = <Widget>[
-    const HomeScreen(),
-    const TransactionsScreen(),
-    const PlanScreen(),
+  final List<Widget> _screens = const [
+    HomeScreen(),
+    TransactionsScreen(),
+    PlanScreen(),
   ];
 
-  late int _selectedIndex;
+  int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    _selectedIndex = 0;
-    super.initState();
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -33,7 +33,7 @@ class _AppHomeState extends State<AppHome> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
-      body: _screens.elementAt(_selectedIndex),
+      body: _screens[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           boxShadow: [
@@ -43,7 +43,7 @@ class _AppHomeState extends State<AppHome> {
         child: BottomNavigationBar(
           elevation: 10,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          items: const <BottomNavigationBarItem>[
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_work_outlined),
               label: AppRouter.home,
@@ -53,29 +53,13 @@ class _AppHomeState extends State<AppHome> {
               label: AppRouter.transaction,
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.cloud), label: AppRouter.plan)
+              icon: Icon(Icons.cloud),
+              label: AppRouter.plan,
+            ),
           ],
           selectedItemColor: Colors.purple,
-          onTap: (index) {
-            // Navigate based on the selected index
-            switch (index) {
-              case 0:
-                setState(() {
-                  _selectedIndex = 0;
-                });
-                break;
-              case 1:
-                setState(() {
-                  _selectedIndex = 1;
-                });
-                break;
-              case 2:
-                setState(() {
-                  _selectedIndex = 2;
-                });
-                break;
-            }
-          },
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
         ),
       ),
     );

@@ -20,6 +20,14 @@ class UsersRepository {
     try {
       final response = await http.get(url);
       final generalResponse = ResponseUtil.decodeResponse(response);
+
+      if (generalResponse.code == 1699) {
+        throw GeneralError(
+            code: generalResponse.code,
+            errorMessage: generalResponse.description,
+            timestamp: DateTime.now().toString());
+      }
+
       final userFin = UserBudgetInfoEntity.fromJson(generalResponse.data);
       return userFin;
     } catch (error) {

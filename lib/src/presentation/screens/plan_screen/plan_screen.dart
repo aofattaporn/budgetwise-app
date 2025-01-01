@@ -16,8 +16,10 @@ import 'package:budget_wise/src/presentation/screens/plan_screen/display_plans/d
 import 'package:budget_wise/src/presentation/screens/plan_screen/display_plans/display_plans_loading.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/display_plans/display_plans_success.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/month_year_picker/month_year_picker.dart';
+import 'package:budget_wise/src/presentation/theme/color_scheme.dart';
 import 'package:budget_wise/src/presentation/theme/padding_scheme.dart';
 import 'package:budget_wise/src/presentation/ui/generic_txt_btn.dart';
+import 'package:budget_wise/src/presentation/widgets/progress_bar/progress_bar.dart';
 import 'package:budget_wise/src/utils/datetime_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,123 +30,41 @@ class PlanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MonthPickerBloc monthPickerBloc = MonthPickerBloc();
-    String monthYear = UtilsDateTime.yearMonthFormat(DateTime.now());
-    context.read<UsersFinBloc>().add(GetSalaryEvent(monthYear: monthYear));
-    context.read<PlansBloc>().add(GetPlansEvent(monthYear: monthYear));
+    final UsersFinBloc usersFinBloc = UsersFinBloc();
+
+    String initialMonthYear = UtilsDateTime.yearMonthFormat(DateTime.now());
+
+    // Initialize default state
+    context.read<PlansBloc>().add(GetPlansEvent(monthYear: initialMonthYear));
     monthPickerBloc.add(SetMonthPickerEvent(monthYear: DateTime.now()));
-
-    void onMonthYearPicked(DateTime newDate) {
-      String month = UtilsDateTime.yearMonthFormat(newDate);
-      context.read<UsersFinBloc>().add(GetSalaryEvent(monthYear: month));
-      context.read<PlansBloc>().add(GetPlansEvent(monthYear: month));
-      monthPickerBloc.add(SetMonthPickerEvent(monthYear: newDate));
-    }
-
-    void showCreatePlanModal(
-        BuildContext context, double currentTotalUsage, limitAmount) {
-      showModalBottomSheet<void>(
-        context: context,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return CreatePlanSheet(
-              isEdit: false, monthYear: monthPickerBloc.monthYear);
-        },
-      ).whenComplete(
-          () => context.read<PlansBloc>().add(GetCurrentSpendingEvent()));
-    }
-
-    Row buildMonthUsageSelectionRow(context) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Month for Budget plan:  ',
-              style: Theme.of(context).textTheme.bodySmall),
-          GestureDetector(
-            onTap: () => MonthYearPickerBuilder()
-                .setInitialDate(monthPickerBloc.monthYear)
-                .setOnDateSelected(onMonthYearPicked)
-                .build()
-                .chooseDate(context),
-            child: Text(
-                UtilsDateTime.monthYearFormat(monthPickerBloc.monthYear),
-                style: Theme.of(context).textTheme.headlineSmall),
-          ),
-        ],
-      );
-    }
-
-    Padding buildBudgetHeader() {
-      return Padding(
-        padding: AppPaddingScheme.horizontalMedium,
-        child:
-            BlocBuilder<UsersFinBloc, UsersFinState>(builder: (context, state) {
-          if (state is GetSalaryAndMontYearLoading) {
-            return const BudgetLimitLabelLoading();
-          } else if (state is GetSalaryAndMontYearSuccess) {
-            return BudgetLimitLabel(
-                widget: buildMonthUsageSelectionRow(context),
-                onDateSelected: onMonthYearPicked,
-                currentUsage: state.data.usages,
-                limitBudgetPlan: state.data.salary,
-                monthYear: monthPickerBloc.monthYear);
-          } else if (state is GetSalaryAndMontYearFailure) {
-            return BudgetMonthYearNotFound(
-                widget: buildMonthUsageSelectionRow(context),
-                onDateSelected: onMonthYearPicked,
-                errorMessage: state.error.errorMessage,
-                monthYear: monthPickerBloc.monthYear);
-          } else {
-            return const BudgetLimitLabelfailure();
-          }
-        }),
-      );
-    }
-
-    Padding buildPlanningHeader(BuildContext context) {
-      String planningLabel = "My Planing";
-      String creatingTitle = "+ Create Planning";
-
-      return Padding(
-        padding: AppPaddingScheme.horizontalMedium,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextValue().withText(planningLabel).getFont16BoldBlack().build(),
-            GenericTxtBTN(
-              title: creatingTitle,
-              handler: () => {showCreatePlanModal(context, 0, 0)},
-            ),
-          ],
-        ),
-      );
-    }
-
-    Padding buildPlanningSection() {
-      return Padding(
-        padding: AppPaddingScheme.horizontalMedium,
-        child: BlocBuilder<PlansBloc, PlansState>(builder: (context, state) {
-          if (state is SetPlanDataComplete) {
-            return DisplayPlansSuccess(
-              itemsTranfers: state.plansTranfer,
-              itemsSaving: state.plansSaving,
-            );
-          } else if (state is PlanLoadingProcess) {
-            return const DisplayPlansLoading();
-          } else {
-            return const DisplayPlansFaillure();
-          }
-        }),
-      );
-    }
 
     return SingleChildScrollView(
       clipBehavior: Clip.none,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          buildBudgetHeader(),
-          buildPlanningHeader(context),
-          buildPlanningSection()
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            width: MediaQuery.of(context).size.width,
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "June 2024",
+                  style: TextStyle(
+                      fontSize: 16, color: AppColorScheme.onBackground),
+                ),
+                Text(
+                  "3000 B",
+                  style: TextStyle(
+                      fontSize: 32,
+                      color: AppColorScheme.onBackground,
+                      fontWeight: FontWeight.bold),
+                ),
+                ProgressBar(isFullSize: false, progress: 0)
+              ],
+            ),
+          )
         ],
       ),
     );
