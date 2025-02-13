@@ -1,6 +1,3 @@
-import 'package:budget_wise/src/presentation/screens/home_screen/show_allAccounts_homepage/show_all_accounts_homepage.dart';
-import 'package:budget_wise/src/presentation/screens/home_screen/show_operations_homepage/show_operations_homepage.dart';
-import 'package:budget_wise/src/presentation/screens/home_screen/show_today_transaction_homepage/show_today_transaction_homepage.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,11 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ShowAllAccountsHomepage(),
+              // ShowAllAccountsHomepage(),
               SizedBox(height: 10),
-              ShowOperationsHomepage(),
+              // ShowOperationsHomepage(),
               SizedBox(height: 30),
-              ShowTodayTransactionHomepage(),
+              // ShowTodayTransactionHomepage(),
             ],
           ),
         ));

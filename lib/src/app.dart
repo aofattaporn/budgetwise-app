@@ -1,8 +1,3 @@
-import 'package:budget_wise/src/bloc/accounts/accounts_bloc.dart';
-import 'package:budget_wise/src/bloc/plans/plans_bloc.dart';
-import 'package:budget_wise/src/bloc/plan_month_picker/plan_month_picker_bloc.dart';
-import 'package:budget_wise/src/bloc/transactions/transactions_bloc.dart';
-import 'package:budget_wise/src/bloc/usersFin/usersfin_bloc.dart';
 import 'package:budget_wise/src/home.dart';
 import 'package:budget_wise/src/presentation/constant/router.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
@@ -24,23 +19,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final List<BlocProvider> _blocProviders = [
-    BlocProvider<AccountBloc>(
-      create: (BuildContext context) => AccountBloc(),
-    ),
-    BlocProvider<UsersFinBloc>(
-      create: (BuildContext context) => UsersFinBloc(),
-    ),
-    BlocProvider<PlansBloc>(
-      create: (BuildContext context) => PlansBloc(),
-    ),
-    BlocProvider<TransactionsBloc>(
-      create: (BuildContext context) => TransactionsBloc(),
-    ),
-    BlocProvider<MonthPickerBloc>(
-      create: (BuildContext context) => MonthPickerBloc(),
-    ),
-  ];
+  final kTitleBudgetWise = "Budget Wise";
+  final List<BlocProvider> _blocProviders = [];
 
   @override
   Widget build(BuildContext context) {
@@ -50,33 +30,21 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
 
         /// Specifies the theme data for the application.
-        ///
-        /// This property is used to define the visual properties of the app, such as colors,
-        /// fonts, and other styling elements. It allows for consistent theming across the
-        /// entire application.
-        title: 'Budget Wise',
+        title: kTitleBudgetWise,
         themeMode: ThemeMode.light,
-        theme: ThemeData(
-            textTheme: AppTextTheme.lightTextTheme,
-            colorScheme: AppColorScheme.lightScheme,
-            iconTheme: AppIconTheme.lightTheme,
-            scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1)),
-        darkTheme: ThemeData(
-            textTheme: AppTextTheme.darkTextTheme,
-            colorScheme: AppColorScheme.darkScheme,
-            iconTheme: AppIconTheme.darkTheme,
-            scaffoldBackgroundColor: const Color.fromRGBO(0, 0, 0, 1)),
 
-        /// The `localizationsDelegates` list contains delegates for various localization
-        /// classes, which are responsible for providing localized resources for the app.
-        ///
-        /// - `GlobalMaterialLocalizations.delegate`: Provides localized strings and other
-        ///   values for the Material Components library.
-        /// - `GlobalWidgetsLocalizations.delegate`: Provides localized strings and other
-        ///   values for the basic widget library.
-        /// - `GlobalCupertinoLocalizations.delegate`: Provides localized strings and other
-        ///   values for the Cupertino library.
-        ///
+        // TODO : Managing theme
+        // theme: ThemeData(
+        //     textTheme: AppTextTheme.lightTextTheme,
+        //     colorScheme: AppColorScheme.lightScheme,
+        //     iconTheme: AppIconTheme.lightTheme,
+        //     scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1)),
+        // darkTheme: ThemeData(
+        //     textTheme: AppTextTheme.darkTextTheme,
+        //     colorScheme: AppColorScheme.darkScheme,
+        //     iconTheme: AppIconTheme.darkTheme,
+        //     scaffoldBackgroundColor: const Color.fromRGBO(0, 0, 0, 1)),
+
         /// The `supportedLocales` list specifies the locales that the app supports.
         ///
         /// - `Locale('en')`: English locale.
@@ -90,11 +58,13 @@ class _MyAppState extends State<MyApp> {
           Locale('en'), // English
           Locale('th'), // Spanish
         ],
-        home: AppHome(),
+        home: const AppHome(),
+
+        // TODO : AppRouter Blocc managing state
         routes: {
           AppRouter.home: (context) => const HomeScreen(),
           AppRouter.transaction: (context) => const TransactionsScreen(),
-          AppRouter.plan: (context) => const PlanScreen(), // Add this line
+          AppRouter.plan: (context) => const PlanScreen(),
         },
       ),
     );
