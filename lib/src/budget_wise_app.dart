@@ -1,26 +1,28 @@
+import 'package:budget_wise/src/bloc/navigate_screen_bloc/navigate_screen_bloc.dart';
 import 'package:budget_wise/src/home.dart';
 import 'package:budget_wise/src/presentation/constant/router.dart';
 import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
 import 'package:budget_wise/src/presentation/screens/transactions_screen/transactions_screen.dart';
-import 'package:budget_wise/src/presentation/theme/color_scheme.dart';
-import 'package:budget_wise/src/presentation/theme/icon_theme.dart';
-import 'package:budget_wise/src/presentation/theme/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class BudgetWiseApp extends StatefulWidget {
+  const BudgetWiseApp({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _MyAppState createState() => _MyAppState();
+  _BudgetWiseAppState createState() => _BudgetWiseAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _BudgetWiseAppState extends State<BudgetWiseApp> {
   final kTitleBudgetWise = "Budget Wise";
-  final List<BlocProvider> _blocProviders = [];
+  final List<BlocProvider> _blocProviders = [
+    BlocProvider<NavigateScreenBloc>(
+      create: (BuildContext context) => NavigateScreenBloc(),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
