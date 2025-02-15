@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/constant/size.dart';
+import 'package:budget_wise/src/constant/style/size.dart';
 import 'package:flutter/material.dart';
 
 class PlanScreen extends StatelessWidget {

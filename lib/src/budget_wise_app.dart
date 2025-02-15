@@ -1,9 +1,6 @@
+import 'package:budget_wise/src/bloc/main_screen_bloc/main_screen_bloc.dart';
 import 'package:budget_wise/src/bloc/navigate_screen_bloc/navigate_screen_bloc.dart';
-import 'package:budget_wise/src/home.dart';
-import 'package:budget_wise/src/presentation/constant/router.dart';
-import 'package:budget_wise/src/presentation/screens/home_screen/home_screen.dart';
-import 'package:budget_wise/src/presentation/screens/plan_screen/plan_screen.dart';
-import 'package:budget_wise/src/presentation/screens/transactions_screen/transactions_screen.dart';
+import 'package:budget_wise/src/screens/main_screen/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -19,6 +16,9 @@ class BudgetWiseApp extends StatefulWidget {
 class _BudgetWiseAppState extends State<BudgetWiseApp> {
   final kTitleBudgetWise = "Budget Wise";
   final List<BlocProvider> _blocProviders = [
+    BlocProvider<MainScreenBloc>(
+      create: (BuildContext context) => MainScreenBloc(),
+    ),
     BlocProvider<NavigateScreenBloc>(
       create: (BuildContext context) => NavigateScreenBloc(),
     ),
@@ -30,8 +30,6 @@ class _BudgetWiseAppState extends State<BudgetWiseApp> {
       providers: _blocProviders,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-
-        /// Specifies the theme data for the application.
         title: kTitleBudgetWise,
         themeMode: ThemeMode.light,
 
@@ -47,10 +45,6 @@ class _BudgetWiseAppState extends State<BudgetWiseApp> {
         //     iconTheme: AppIconTheme.darkTheme,
         //     scaffoldBackgroundColor: const Color.fromRGBO(0, 0, 0, 1)),
 
-        /// The `supportedLocales` list specifies the locales that the app supports.
-        ///
-        /// - `Locale('en')`: English locale.
-        /// - `Locale('th')`: Thai locale.
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -58,16 +52,9 @@ class _BudgetWiseAppState extends State<BudgetWiseApp> {
         ],
         supportedLocales: const [
           Locale('en'), // English
-          Locale('th'), // Spanish
+          Locale('th'), // Thai
         ],
-        home: const AppHome(),
-
-        // TODO : AppRouter Blocc managing state
-        routes: {
-          AppRouter.home: (context) => const HomeScreen(),
-          AppRouter.transaction: (context) => const TransactionsScreen(),
-          AppRouter.plan: (context) => const PlanScreen(),
-        },
+        home: const MainScreen(),
       ),
     );
   }
