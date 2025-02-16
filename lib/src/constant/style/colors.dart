@@ -3,17 +3,18 @@ import 'dart:ui';
 import 'package:budget_wise/src/models/color_gradients.dart';
 
 class ColorConstants {
-  /// **
-  /// color Constants
-  /// **
-  static const Color primaryColor = Color(0xFF2196F3);
-  static const Color secondaryColor = Color(0xFFFFC107);
-  static const Color black = Color.fromARGB(255, 0, 0, 0);
-  static const Color bgPrimary = Color.fromARGB(250, 250, 250, 100);
+  static const Color primary = Color(0xFF9F86C0);
+  static const Color priamryDark = Color(0xFF5E548E);
+  static const Color primaryLigth = Color(0xFFBE95C4);
+  static const Color primarySubtle = Color(0xFFD6BBDD);
 
-  /// **
-  /// color gradients Constants
-  /// **
+  static const Color white = Color.fromARGB(255, 255, 255, 255);
+  static const Color dark = Color(0xFF191627);
+  static const Color grey = Color.fromARGB(255, 59, 59, 59);
+  static const Color greyLigth = Color.fromARGB(255, 124, 124, 124);
+  static const Color greyDark = Color.fromARGB(255, 33, 33, 33);
+
+  // color gradients Constants
   static final List<ColorGradientsModel> colorGradients = [
     ColorGradientsModel(
       const Color.fromRGBO(33, 31, 47, 1),
