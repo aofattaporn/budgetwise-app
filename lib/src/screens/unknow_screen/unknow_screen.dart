@@ -1,3 +1,5 @@
+import 'package:budget_wise/src/constant/style/size.dart';
+import 'package:budget_wise/src/constant/style/textstyle.dart';
 import 'package:flutter/material.dart';
 
 class UnknownScreen extends StatelessWidget {
@@ -12,7 +14,7 @@ class UnknownScreen extends StatelessWidget {
     return const Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: SizeConstants.kPaddH24,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -20,13 +22,13 @@ class UnknownScreen extends StatelessWidget {
               SizedBox(height: 16),
               Text(
                 kTitle,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                style: TextStyles.size22w600,
               ),
               SizedBox(height: 8),
               Text(
                 _kBody,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.black54),
+                style: TextStyles.size12w600,
               ),
               SizedBox(height: 20),
             ],

@@ -32,19 +32,8 @@ class _BudgetWiseAppState extends State<BudgetWiseApp> {
         debugShowCheckedModeBanner: false,
         title: kTitleBudgetWise,
         themeMode: ThemeMode.light,
-
-        // TODO : Managing theme
-        // theme: ThemeData(
-        //     textTheme: AppTextTheme.lightTextTheme,
-        //     colorScheme: AppColorScheme.lightScheme,
-        //     iconTheme: AppIconTheme.lightTheme,
-        //     scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1)),
-        // darkTheme: ThemeData(
-        //     textTheme: AppTextTheme.darkTextTheme,
-        //     colorScheme: AppColorScheme.darkScheme,
-        //     iconTheme: AppIconTheme.darkTheme,
-        //     scaffoldBackgroundColor: const Color.fromRGBO(0, 0, 0, 1)),
-
+        theme: ThemeData(
+            scaffoldBackgroundColor: const Color.fromARGB(255, 245, 244, 244)),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

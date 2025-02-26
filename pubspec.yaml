@@ -24,6 +24,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.1.0
   supabase_flutter: ^2.8.3
+  flutter_svg: ^2.0.9
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:
@@ -40,3 +42,5 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/images/app/bg.png
+    - assets/images/app/cool-background.svg

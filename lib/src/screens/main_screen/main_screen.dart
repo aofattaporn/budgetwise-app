@@ -61,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        backgroundColor: const Color.fromARGB(255, 245, 244, 244),
       ),
       body: BlocBuilder<MainScreenBloc, MainScreenState>(
         builder: (context, state) {
@@ -79,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             child: BottomNavigationBar(
               elevation: 10,
-              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+              backgroundColor: Colors.white,
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_work_outlined),

@@ -3,11 +3,17 @@ import 'package:flutter/widgets.dart';
 class SizeConstants {
   static const kEmptyWidget = SizedBox.shrink();
 
+  static const kFlex1 = 1;
+  static const kFlex2 = 2;
+  static const kFlex3 = 3;
+  static const kFlex4 = 4;
+
   static const kSize4 = 4.0;
-  static const kSize8 = 8;
-  static const kSize10 = 10;
-  static const kSize16 = 16;
-  static const kSize20 = 20;
+  static const kSize8 = 8.00;
+  static const kSize10 = 10.00;
+  static const kSize16 = 16.00;
+  static const kSize20 = 20.00;
+  static const kSize24 = 24.00;
 
   static const kPadd2 = EdgeInsets.all(2);
   static const kPadd5 = EdgeInsets.all(5);
@@ -15,6 +21,7 @@ class SizeConstants {
   static const kPadd10 = EdgeInsets.all(10);
   static const kPadd15 = EdgeInsets.all(15);
   static const kPadd20 = EdgeInsets.all(20);
+  static const kPadd24 = EdgeInsets.all(24);
   static const kPadd25 = EdgeInsets.all(25);
   static const kPadd30 = EdgeInsets.all(30);
   static const kPadd40 = EdgeInsets.all(40);
@@ -35,7 +42,7 @@ class SizeConstants {
   static const kPaddH6 = EdgeInsets.symmetric(horizontal: 6);
   static const kPaddH10 = EdgeInsets.symmetric(horizontal: 10);
   static const kPaddH20 = EdgeInsets.symmetric(horizontal: 20);
-  static const kPaddH25 = EdgeInsets.symmetric(horizontal: 25);
+  static const kPaddH24 = EdgeInsets.symmetric(horizontal: 24);
   static const kPaddH30 = EdgeInsets.symmetric(horizontal: 30);
   static const kPaddH40 = EdgeInsets.symmetric(horizontal: 40);
   static const kPaddH50 = EdgeInsets.symmetric(horizontal: 50);
