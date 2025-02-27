@@ -16,9 +16,11 @@ class SizeConstants {
   static const kSize24 = 24.00;
 
   static const kPadd2 = EdgeInsets.all(2);
+  static const kPadd4 = EdgeInsets.all(4);
   static const kPadd5 = EdgeInsets.all(5);
   static const kPadd6 = EdgeInsets.all(6);
   static const kPadd10 = EdgeInsets.all(10);
+  static const kPadd12 = EdgeInsets.all(12);
   static const kPadd15 = EdgeInsets.all(15);
   static const kPadd20 = EdgeInsets.all(20);
   static const kPadd24 = EdgeInsets.all(24);
@@ -31,6 +33,7 @@ class SizeConstants {
   static const kPaddV5 = EdgeInsets.symmetric(vertical: 5);
   static const kPaddV6 = EdgeInsets.symmetric(vertical: 6);
   static const kPaddV10 = EdgeInsets.symmetric(vertical: 10);
+  static const kPaddV12 = EdgeInsets.symmetric(vertical: 12);
   static const kPaddV15 = EdgeInsets.symmetric(vertical: 15);
   static const kPaddV16 = EdgeInsets.symmetric(vertical: 16);
   static const kPaddV20 = EdgeInsets.symmetric(vertical: 20);
@@ -52,6 +55,7 @@ class SizeConstants {
 
   static final kRadius0 = BorderRadius.circular(0);
   static final kRadius10 = BorderRadius.circular(10);
+  static final kRadius12 = BorderRadius.circular(12);
   static final kRadius15 = BorderRadius.circular(15);
   static final kRadius30 = BorderRadius.circular(30);
 

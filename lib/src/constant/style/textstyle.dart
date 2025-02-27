@@ -2,6 +2,11 @@ import 'package:budget_wise/src/constant/style/colors.dart';
 import 'package:flutter/material.dart';
 
 class TextStyles {
+  // ***
+  // Grey Text style
+  // ***
+  static const TextStyle size12w200 = TextStyle(
+      color: ColorConstants.grey, fontWeight: FontWeight.w200, fontSize: 12);
   static const TextStyle size12w300 = TextStyle(
       color: ColorConstants.grey, fontWeight: FontWeight.w300, fontSize: 12);
   static const TextStyle size12w400 = TextStyle(
@@ -54,6 +59,9 @@ class TextStyles {
       fontWeight: FontWeight.w600,
       fontSize: 20);
 
+  // ***
+  // Dark Text style
+  // ***
   static const TextStyle size22w300 = TextStyle(
       color: ColorConstants.dark, fontWeight: FontWeight.w300, fontSize: 22);
   static const TextStyle size22w400 = TextStyle(
@@ -83,4 +91,28 @@ class TextStyles {
       color: ColorConstants.dark, fontWeight: FontWeight.w500, fontSize: 56);
   static const TextStyle size56w600 = TextStyle(
       color: ColorConstants.dark, fontWeight: FontWeight.w600, fontSize: 56);
+
+  // ***
+  // Primary Text style
+  // ***
+  static const TextStyle size12w200Primary = TextStyle(
+      color: ColorConstants.priamryDark,
+      fontWeight: FontWeight.w200,
+      fontSize: 12);
+  static const TextStyle size12w300Primary = TextStyle(
+      color: ColorConstants.priamryDark,
+      fontWeight: FontWeight.w300,
+      fontSize: 12);
+  static const TextStyle size12w400Primary = TextStyle(
+      color: ColorConstants.priamryDark,
+      fontWeight: FontWeight.w400,
+      fontSize: 12);
+  static const TextStyle size12w500Primary = TextStyle(
+      color: ColorConstants.priamryDark,
+      fontWeight: FontWeight.w500,
+      fontSize: 12);
+  static const TextStyle size12w800Primary = TextStyle(
+      color: ColorConstants.priamryDark,
+      fontWeight: FontWeight.w800,
+      fontSize: 12);
 }

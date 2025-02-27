@@ -1,5 +1,7 @@
+import 'package:budget_wise/src/constant/date_constant.dart';
 import 'package:budget_wise/src/constant/style/colors.dart';
 import 'package:budget_wise/src/constant/style/size.dart';
+import 'package:budget_wise/src/constant/style/textstyle.dart';
 import 'package:budget_wise/src/widgets/AmountCompare/amount_compare.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -11,18 +13,19 @@ class CircularStatsWidget extends StatelessWidget {
   final double usage;
   final double amount;
   final double percentage;
+  final bool enableChangeMonth;
 
-  const CircularStatsWidget({
-    super.key,
-    required this.startDate,
-    required this.endDate,
-    required this.usage,
-    required this.amount,
-    required this.percentage,
-  });
+  const CircularStatsWidget(
+      {super.key,
+      required this.startDate,
+      required this.endDate,
+      required this.usage,
+      required this.amount,
+      required this.percentage,
+      required this.enableChangeMonth});
 
   String getFormattedDateRange() {
-    final dateFormat = DateFormat("dd MMM");
+    final dateFormat = DateFormat(DateConstant.dateMonthFormat);
     return "${dateFormat.format(startDate)} - ${dateFormat.format(endDate)}";
   }
 
@@ -32,9 +35,7 @@ class CircularStatsWidget extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
+            color: Colors.white, borderRadius: SizeConstants.kRadius12),
         padding: SizeConstants.kPadd15,
         child: CircularPercentIndicator(
           radius: 80.0,
@@ -48,11 +49,13 @@ class CircularStatsWidget extends StatelessWidget {
             children: [
               Text(
                 getFormattedDateRange(),
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                style: !enableChangeMonth
+                    ? TextStyles.size12w200
+                    : TextStyles.size12w800Primary,
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: SizeConstants.kSize4),
               AmountCompare(usage: usage, amount: amount),
-              const SizedBox(height: 10),
+              const SizedBox(height: SizeConstants.kSize10),
               Text(
                 "${percentage.toStringAsFixed(2)}%",
                 style: const TextStyle(fontSize: 12, color: Colors.grey),

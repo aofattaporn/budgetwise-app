@@ -2,7 +2,7 @@ import 'package:budget_wise/src/models/operation.dart';
 import 'package:flutter/material.dart';
 
 class BusinessConstant {
-  static const String BathUnit = "B";
+  static const String bathUnit = "B";
 
   static const String tranfersType = "tranfers";
   static const String savingType = "saving";

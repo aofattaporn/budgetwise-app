@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/constant/style/colors.dart';
+import 'package:budget_wise/src/constant/style/size.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -8,6 +9,7 @@ class ExpenseItem extends StatelessWidget {
   final double amount;
 
   const ExpenseItem({
+    super.key,
     required this.title,
     required this.percentage,
     required this.amount,
@@ -16,11 +18,12 @@ class ExpenseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+      padding: SizeConstants.kPaddV12,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
+          // ignore: deprecated_member_use
           BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 5),
         ],
       ),

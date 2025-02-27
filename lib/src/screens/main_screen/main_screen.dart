@@ -2,6 +2,7 @@ import 'package:budget_wise/src/bloc/main_screen_bloc/main_screen_bloc.dart';
 import 'package:budget_wise/src/bloc/main_screen_bloc/main_screen_event.dart';
 import 'package:budget_wise/src/bloc/main_screen_bloc/main_screen_state.dart';
 import 'package:budget_wise/src/constant/route_constant.dart';
+import 'package:budget_wise/src/constant/style/textstyle.dart';
 import 'package:budget_wise/src/screens/home_screen/home_screen.dart';
 import 'package:budget_wise/src/screens/plan_screen/plan_screen.dart';
 import 'package:budget_wise/src/screens/transactions_screen/transactions_screen.dart';
@@ -61,6 +62,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text("Budgetwise screen", style: TextStyles.size16w600),
         backgroundColor: const Color.fromARGB(255, 245, 244, 244),
       ),
       body: BlocBuilder<MainScreenBloc, MainScreenState>(

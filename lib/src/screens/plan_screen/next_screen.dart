@@ -1,0 +1,158 @@
+import 'package:budget_wise/src/constant/style/colors.dart';
+import 'package:budget_wise/src/constant/style/size.dart';
+import 'package:budget_wise/src/constant/style/textstyle.dart';
+import 'package:budget_wise/src/widgets/CircularStatsWidget/circular_state.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class NextScreen extends StatefulWidget {
+  const NextScreen({super.key});
+
+  @override
+  State<NextScreen> createState() => _NextScreenState();
+}
+
+class _NextScreenState extends State<NextScreen> {
+  DateTime _startDate = DateTime(2024, 2, 1);
+  DateTime _endDate = DateTime(2024, 2, 28);
+  final TextEditingController _amountController = TextEditingController();
+
+  void _showCupertinoDatePicker(BuildContext context, bool isStart) {
+    DateTime tempDate = isStart ? _startDate : _endDate;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        return Container(
+          height: 300,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              // ปุ่ม Done
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(), // ทำให้ปุ่ม Done ไปอยู่ขวา
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        if (isStart) {
+                          _startDate = tempDate;
+                        } else {
+                          _endDate = tempDate;
+                        }
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Done", style: TextStyle(fontSize: 16)),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: CupertinoDatePicker(
+                  initialDateTime: isStart ? _startDate : _endDate,
+                  mode: CupertinoDatePickerMode.date,
+                  onDateTimeChanged: (DateTime newDate) {
+                    tempDate = newDate;
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Planning List", style: TextStyles.size16w600),
+        backgroundColor: const Color.fromARGB(255, 245, 244, 244),
+      ),
+      body: Padding(
+        padding: SizeConstants.kPadd24,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircularStatsWidget(
+              startDate: _startDate,
+              endDate: _endDate,
+              usage: 500,
+              amount: 30000,
+              percentage: (500 / 30000) * 100,
+              enableChangeMonth: true,
+            ),
+            const SizedBox(height: SizeConstants.kSize24),
+
+            // ปุ่มเลือกวันที่แบบ iOS
+            GestureDetector(
+              onTap: () => _showCupertinoDatePicker(context, true),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: ColorConstants.white,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        "Start Date: ${DateFormat("dd MMM yyyy").format(_startDate)}",
+                        style: const TextStyle(fontSize: 16)),
+                    const Icon(CupertinoIcons.calendar),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            GestureDetector(
+              onTap: () => _showCupertinoDatePicker(context, false),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: ColorConstants.white,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        "End Date: ${DateFormat("dd MMM yyyy").format(_endDate)}",
+                        style: const TextStyle(fontSize: 16)),
+                    const Icon(CupertinoIcons.calendar),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // ✅ เพิ่มช่องกรอกตัวเลขแบบ iOS
+            CupertinoTextField(
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              placeholder: "Enter amount",
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              decoration: BoxDecoration(
+                color: ColorConstants.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              prefix: const Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Icon(CupertinoIcons.money_dollar, color: Colors.black54),
+              ),
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

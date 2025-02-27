@@ -23,7 +23,7 @@ class AmountCompare extends StatelessWidget {
           ),
           TextSpan(
             text:
-                "/ ${Numbers.formatAmount(amount)} ${BusinessConstant.BathUnit}",
+                "/ ${Numbers.formatAmount(amount)} ${BusinessConstant.bathUnit}",
             style: TextStyle(
               fontSize: 10, // Bigger size
               color: Colors.black, // Adjust color if needed
