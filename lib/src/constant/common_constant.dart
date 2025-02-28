@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 class CommonConstant {
   static const String envFfileType = ".env";
+  static const int percentage = 100;
+
   static const String supabaseUrlKey = "SUPABASE_URL";
   static const String supabaseAnonKey = "SUPABASE_ANONKEY";
 

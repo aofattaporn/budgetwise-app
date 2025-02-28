@@ -10,3 +10,7 @@ final class TabScreenEvent extends PlanEvent {
 final class GetPlanByMonthEvent extends PlanEvent {
   GetPlanByMonthEvent();
 }
+
+final class GetAlreadtPlanCurrentMonth extends PlanEvent {
+  GetAlreadtPlanCurrentMonth();
+}

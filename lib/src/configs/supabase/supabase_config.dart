@@ -16,3 +16,5 @@ Future<void> supabaseConfigs(Map<String, String> env) async {
     ),
   );
 }
+
+SupabaseClient dbClient = Supabase.instance.client;

@@ -1,9 +1,13 @@
+import 'package:budget_wise/src/bloc/plan_bloc/plan_bloc.dart';
+import 'package:budget_wise/src/bloc/plan_bloc/plan_state.dart';
+import 'package:budget_wise/src/constant/common_constant.dart';
 import 'package:budget_wise/src/constant/style/colors.dart';
 import 'package:budget_wise/src/constant/style/size.dart';
 import 'package:budget_wise/src/constant/style/textstyle.dart';
 import 'package:budget_wise/src/widgets/CircularStatsWidget/circular_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class NextScreen extends StatefulWidget {
@@ -77,14 +81,7 @@ class _NextScreenState extends State<NextScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircularStatsWidget(
-              startDate: _startDate,
-              endDate: _endDate,
-              usage: 500,
-              amount: 30000,
-              percentage: (500 / 30000) * 100,
-              enableChangeMonth: true,
-            ),
+            _blocCircleStatsWidget(),
             const SizedBox(height: SizeConstants.kSize24),
 
             // ปุ่มเลือกวันที่แบบ iOS
@@ -134,7 +131,6 @@ class _NextScreenState extends State<NextScreen> {
 
             const SizedBox(height: 20),
 
-            // ✅ เพิ่มช่องกรอกตัวเลขแบบ iOS
             CupertinoTextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
@@ -153,6 +149,35 @@ class _NextScreenState extends State<NextScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  BlocBuilder<PlanBloc, PlanState> _blocCircleStatsWidget() {
+    return BlocBuilder<PlanBloc, PlanState>(
+      builder: (context, state) {
+        if (state is GetPlanCurrentMonthSuccess) {
+          return CircularStatsWidget(
+            isLoanding: false,
+            enableChangeMonth: true,
+            startDate: state.planCurrentMonth.startDate,
+            endDate: state.planCurrentMonth.endDate,
+            usage: 500,
+            amount: state.planCurrentMonth.totalBudget,
+            percentage: (500 / state.planCurrentMonth.totalBudget) *
+                CommonConstant.percentage,
+          );
+        } else {
+          return CircularStatsWidget(
+            isLoanding: true,
+            startDate: DateTime.now(),
+            endDate: DateTime.now(),
+            usage: 0,
+            amount: 0,
+            percentage: 0,
+            enableChangeMonth: false,
+          );
+        }
+      },
     );
   }
 }

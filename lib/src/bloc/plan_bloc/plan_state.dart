@@ -1,3 +1,5 @@
+import 'package:budget_wise/src/models/entity/plan.dart';
+
 sealed class PlanState {
   PlanState();
 }
@@ -7,10 +9,20 @@ final class InitialState extends PlanState {
   InitialState();
 }
 
+final class GetPlanCurrentMonthLoading extends PlanState {
+  GetPlanCurrentMonthLoading();
+}
+
+final class GetPlanCurrentMonthSuccess extends PlanState {
+  final Plan planCurrentMonth;
+  GetPlanCurrentMonthSuccess(this.planCurrentMonth);
+}
+
 final class GetPlanSuccess extends PlanState {
   GetPlanSuccess();
 }
 
-final class ErrorState extends PlanState {
-  ErrorState();
+final class PlanError extends PlanState {
+  final String ex;
+  PlanError(this.ex);
 }
