@@ -2,7 +2,6 @@ import 'package:budget_wise/src/configs/log/logger_config.dart';
 import 'package:budget_wise/src/configs/supabase/supabase_config.dart';
 import 'package:budget_wise/src/models/entity/plan.dart';
 import 'package:intl/intl.dart';
-import 'dart:developer' as applog;
 
 class PlanRepository {
   final logger = getLogger('PlanBloc');
