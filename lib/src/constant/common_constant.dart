@@ -2,6 +2,10 @@ import 'package:budget_wise/src/models/operation.dart';
 import 'package:flutter/material.dart';
 
 class CommonConstant {
+  static const String envFfileType = ".env";
+  static const String supabaseUrlKey = "SUPABASE_URL";
+  static const String supabaseAnonKey = "SUPABASE_ANONKEY";
+
   static const String tranfersType = "tranfers";
   static const String savingType = "saving";
   static const String successMessage = "You will be contacted by us very soon.";

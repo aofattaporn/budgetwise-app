@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/bloc/main_screen_bloc/main_screen_bloc.dart';
 import 'package:budget_wise/src/bloc/navigate_screen_bloc/navigate_screen_bloc.dart';
+import 'package:budget_wise/src/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/screens/main_screen/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,9 @@ class _BudgetWiseAppState extends State<BudgetWiseApp> {
     ),
     BlocProvider<NavigateScreenBloc>(
       create: (BuildContext context) => NavigateScreenBloc(),
+    ),
+    BlocProvider<PlanBloc>(
+      create: (BuildContext context) => PlanBloc(),
     ),
   ];
 
