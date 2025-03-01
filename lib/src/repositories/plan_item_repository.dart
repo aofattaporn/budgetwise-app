@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 class PlanItemRepository {
   final logger = getLogger('PlanItemBloc');
-  final planItemDB = dbClient.from('plan_items'); // Changed to 'plan_items'
+  final planItemDB = dbClient.from('plan_items');
 
   // Get all plan items
   Future<List<PlanItem>> getPlanItems() async {
@@ -21,14 +21,7 @@ class PlanItemRepository {
   // Get plan items for the current month
   Future<List<PlanItem>> getPlanItemsCurrentMonth() async {
     try {
-      final now = DateTime.now();
-      final formattedNow = DateFormat('yyyy-MM-dd').format(now);
-
-      final response = await planItemDB
-          .select()
-          .lte('created_at', formattedNow) // Updated to use 'created_at'
-          .gte('created_at', formattedNow);
-
+      final response = await planItemDB.select().eq('plan_id', 1);
       return response.map((map) => PlanItem.fromMap(map)).toList();
     } catch (ex) {
       logger.e('[Error] Failed to fetch plan items for the current month: $ex');

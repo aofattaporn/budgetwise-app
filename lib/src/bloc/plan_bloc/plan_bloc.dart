@@ -1,43 +1,30 @@
 import 'package:budget_wise/src/bloc/plan_bloc/plan_event.dart';
 import 'package:budget_wise/src/bloc/plan_bloc/plan_state.dart';
 import 'package:budget_wise/src/configs/log/logger_config.dart';
-import 'package:budget_wise/src/models/entity/plan.dart';
+import 'package:budget_wise/src/repositories/plan_item_repository.dart';
 import 'package:budget_wise/src/repositories/plan_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanBloc extends Bloc<PlanEvent, PlanState> {
   final logger = getLogger('PlanBloc');
   final planRepository = PlanRepository();
-  Plan? _cachedPlan;
+  final planItemRepository = PlanItemRepository();
 
   PlanBloc() : super(InitialState()) {
     on<GetPlanByMonthEvent>(_getPlanByMonth);
-    on<GetAlreadtPlanCurrentMonth>(_getAlreadtPlanCurrentMonth);
   }
 
   void _getPlanByMonth(
     GetPlanByMonthEvent event,
     Emitter<PlanState> emit,
   ) async {
-    final response = await planRepository.getPlanCurrentMonth();
-    _cachedPlan = response;
+    final planInfo = await planRepository.getPlanCurrentMonth();
     logger.i(
-        "Fetch plan current month {${response.startDate}} - {${response.endDate}}, amount: {${response.totalBudget}}");
-    emit(GetPlanCurrentMonthSuccess(response));
-  }
+        "Fetch plan current month {${planInfo.startDate}} - {${planInfo.endDate}}, amount: {${planInfo.totalBudget}}");
 
-  void _getAlreadtPlanCurrentMonth(
-    GetAlreadtPlanCurrentMonth event,
-    Emitter<PlanState> emit,
-  ) async {
-    if (_cachedPlan != null) {
-      final response = _cachedPlan!;
-      logger.i(
-          "Using cached plan current month {${response.startDate}} - {${response.endDate}}, amount: {${response.totalBudget}}");
-      emit(GetPlanCurrentMonthSuccess(response));
-    } else {
-      logger.e('[Error] : Plan data not available in cache.');
-      emit(PlanError("Plan data not available."));
-    }
+    final planItems = await planItemRepository.getPlanItemsCurrentMonth();
+    logger.i("Fetch plan item current item length: {${planItems.length}}");
+
+    emit(GetPlanCurrentMonthSuccess(planInfo, planItems));
   }
 }

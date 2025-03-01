@@ -159,12 +159,12 @@ class _NextScreenState extends State<NextScreen> {
           return CircularStatsWidget(
             isLoanding: false,
             enableChangeMonth: true,
-            startDate: state.planCurrentMonth.startDate,
-            endDate: state.planCurrentMonth.endDate,
+            startDate: state.planInfo.startDate,
+            endDate: state.planInfo.endDate,
             usage: 500,
-            amount: state.planCurrentMonth.totalBudget,
-            percentage: (500 / state.planCurrentMonth.totalBudget) *
-                CommonConstant.percentage,
+            amount: state.planInfo.totalBudget,
+            percentage:
+                (500 / state.planInfo.totalBudget) * CommonConstant.percentage,
           );
         } else {
           return CircularStatsWidget(

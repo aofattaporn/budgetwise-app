@@ -9,6 +9,7 @@ import 'package:budget_wise/src/screens/plan_screen/summary_planning/summary_pla
 import 'package:budget_wise/src/widgets/CircularStatsWidget/circular_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key});
@@ -34,15 +35,9 @@ class _PlanScreenState extends State<PlanScreen> {
         children: [
           _blocCircleStatsWidget(),
           const SizedBox(height: SizeConstants.kSize24),
-          const Expanded(
-            flex: SizeConstants.kFlex2,
-            child: SummaryPlanning(),
-          ),
+          _blocPlanItemWidget(),
           const SizedBox(height: SizeConstants.kSize24),
-          const Expanded(
-            flex: SizeConstants.kFlex4,
-            child: ListPlanningItem(),
-          ),
+          _blocPlanItemList()
         ],
       ),
     );
@@ -52,6 +47,10 @@ class _PlanScreenState extends State<PlanScreen> {
     return BlocBuilder<PlanBloc, PlanState>(
       builder: (context, state) {
         if (state is GetPlanCurrentMonthSuccess) {
+          final totalUsage = state.planItems
+              .toList()
+              .fold(0.0, (sum, item) => sum + item.usage);
+
           return Expanded(
             flex: SizeConstants.kFlex3,
             child: GestureDetector(
@@ -64,11 +63,11 @@ class _PlanScreenState extends State<PlanScreen> {
               },
               child: CircularStatsWidget(
                 isLoanding: false,
-                startDate: state.planCurrentMonth.startDate,
-                endDate: state.planCurrentMonth.endDate,
-                usage: 500,
-                amount: state.planCurrentMonth.totalBudget,
-                percentage: (500 / state.planCurrentMonth.totalBudget) *
+                startDate: state.planInfo.startDate,
+                endDate: state.planInfo.endDate,
+                usage: totalUsage,
+                amount: state.planInfo.totalBudget,
+                percentage: (totalUsage / state.planInfo.totalBudget) *
                     CommonConstant.percentage,
                 enableChangeMonth: false,
               ),
@@ -83,6 +82,53 @@ class _PlanScreenState extends State<PlanScreen> {
             amount: 0,
             percentage: 0,
             enableChangeMonth: false,
+          );
+        }
+      },
+    );
+  }
+
+  BlocBuilder<PlanBloc, PlanState> _blocPlanItemWidget() {
+    return BlocBuilder<PlanBloc, PlanState>(
+      builder: (context, state) {
+        if (state is GetPlanCurrentMonthSuccess) {
+          return Expanded(
+            flex: SizeConstants.kFlex2,
+            child: SummaryPlanning(
+              planItem: state.planItems,
+              totalBudget: state.planInfo.totalBudget,
+            ),
+          );
+        } else {
+          return const Expanded(
+            flex: SizeConstants.kFlex2,
+            child: Skeletonizer(
+                child: SummaryPlanning(
+              planItem: [],
+              totalBudget: 0,
+            )),
+          );
+        }
+      },
+    );
+  }
+
+  BlocBuilder<PlanBloc, PlanState> _blocPlanItemList() {
+    return BlocBuilder<PlanBloc, PlanState>(
+      builder: (context, state) {
+        if (state is GetPlanCurrentMonthSuccess) {
+          return Expanded(
+            flex: SizeConstants.kFlex4,
+            child: ListPlanningItem(
+              planItem: state.planItems,
+            ),
+          );
+        } else {
+          return const Expanded(
+            flex: SizeConstants.kFlex4,
+            child: ListPlanningItem(
+              planItem: [],
+            ),
           );
         }
       },

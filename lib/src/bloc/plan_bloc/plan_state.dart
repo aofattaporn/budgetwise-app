@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/models/entity/plan.dart';
+import 'package:budget_wise/src/models/entity/plan_item.dart';
 
 sealed class PlanState {
   PlanState();
@@ -14,8 +15,9 @@ final class GetPlanCurrentMonthLoading extends PlanState {
 }
 
 final class GetPlanCurrentMonthSuccess extends PlanState {
-  final Plan planCurrentMonth;
-  GetPlanCurrentMonthSuccess(this.planCurrentMonth);
+  final Plan planInfo;
+  final List<PlanItem> planItems;
+  GetPlanCurrentMonthSuccess(this.planInfo, this.planItems);
 }
 
 final class GetPlanSuccess extends PlanState {

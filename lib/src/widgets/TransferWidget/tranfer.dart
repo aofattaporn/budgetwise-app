@@ -1,11 +1,13 @@
 import 'package:budget_wise/src/constant/style/colors.dart';
 import 'package:budget_wise/src/constant/style/size.dart';
+import 'package:budget_wise/src/widgets/AmountCompare/amount_compare.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ExpenseItem extends StatelessWidget {
   final String title;
   final double percentage;
+  final double usage;
   final double amount;
 
   const ExpenseItem({
@@ -13,6 +15,7 @@ class ExpenseItem extends StatelessWidget {
     required this.title,
     required this.percentage,
     required this.amount,
+    required this.usage,
   });
 
   @override
@@ -22,10 +25,6 @@ class ExpenseItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          // ignore: deprecated_member_use
-          BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 5),
-        ],
       ),
       child: Row(
         children: [
@@ -60,10 +59,7 @@ class ExpenseItem extends StatelessWidget {
           ),
 
           // Amount (€)
-          Text(
-            "${amount.toStringAsFixed(0)} B",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          AmountCompare(usage: usage, amount: amount),
         ],
       ),
     );

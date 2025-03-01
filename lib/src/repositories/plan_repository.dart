@@ -4,7 +4,7 @@ import 'package:budget_wise/src/models/entity/plan.dart';
 import 'package:intl/intl.dart';
 
 class PlanRepository {
-  final logger = getLogger('PlanBloc');
+  final logger = getLogger('PlanRepository');
   final planDB = dbClient.from('plans');
 
   Future<List<Plan>> getPlans() async {
@@ -26,9 +26,14 @@ class PlanRepository {
           .lte('start_date', formattedNow)
           .gte('end_date', formattedNow);
 
-      return Plan.fromMap(response.first);
+      if (response.isNotEmpty) {
+        return Plan.fromMap(response.first);
+      } else {
+        // Handle the case when no plans are found for the current month
+        throw Exception('No plan found for the current month');
+      }
     } catch (ex) {
-      logger.e('[Error] : Faied to fetch plan by current-month');
+      logger.e('[Error] : Failed to fetch plan by current-month');
       throw Exception(ex);
     }
   }
@@ -39,7 +44,7 @@ class PlanRepository {
       final response = await planDB.select().eq('id', planId).single();
       return Plan.fromMap(response);
     } catch (e) {
-      return null;
+      return null; // Return null if plan is not found
     }
   }
 
