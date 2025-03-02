@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/constant/style/colors.dart';
 import 'package:budget_wise/src/constant/style/size.dart';
+import 'package:budget_wise/src/constant/style/textstyle.dart';
 import 'package:budget_wise/src/widgets/AmountCompare/amount_compare.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -48,11 +49,11 @@ class ExpenseItem extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyles.size16w600,
                 ),
                 Text(
-                  "${percentage.toStringAsFixed(0)}%", // Show percentage value
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  "${percentage.toStringAsFixed(0)}%",
+                  style: TextStyles.size12w400,
                 ),
               ],
             ),

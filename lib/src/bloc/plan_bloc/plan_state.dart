@@ -20,6 +20,10 @@ final class GetPlanCurrentMonthSuccess extends PlanState {
   GetPlanCurrentMonthSuccess(this.planInfo, this.planItems);
 }
 
+final class GetPlanCurrentMonthEmpty extends PlanState {
+  GetPlanCurrentMonthEmpty();
+}
+
 final class GetPlanSuccess extends PlanState {
   GetPlanSuccess();
 }

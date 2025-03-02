@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class NextScreen extends StatefulWidget {
-  const NextScreen({super.key});
+class PlanningDetail extends StatefulWidget {
+  const PlanningDetail({super.key});
 
   @override
-  State<NextScreen> createState() => _NextScreenState();
+  State<PlanningDetail> createState() => _PlanningDetailState();
 }
 
-class _NextScreenState extends State<NextScreen> {
+class _PlanningDetailState extends State<PlanningDetail> {
   DateTime _startDate = DateTime(2024, 2, 1);
   DateTime _endDate = DateTime(2024, 2, 28);
   final TextEditingController _amountController = TextEditingController();

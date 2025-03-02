@@ -16,21 +16,22 @@ class PlanRepository {
     }
   }
 
-  Future<Plan> getPlanCurrentMonth() async {
+  Future<Plan?> getPlanCurrentMonth() async {
     try {
       final now = DateTime.now();
       final formattedNow = DateFormat('yyyy-MM-dd').format(now);
 
       final response = await planDB
           .select()
+          // .gte('start_date', formattedNow)
+          // .lte('end_date', formattedNow);
           .lte('start_date', formattedNow)
           .gte('end_date', formattedNow);
 
       if (response.isNotEmpty) {
         return Plan.fromMap(response.first);
       } else {
-        // Handle the case when no plans are found for the current month
-        throw Exception('No plan found for the current month');
+        return null;
       }
     } catch (ex) {
       logger.e('[Error] : Failed to fetch plan by current-month');

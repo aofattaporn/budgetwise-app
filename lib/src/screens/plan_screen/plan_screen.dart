@@ -4,9 +4,10 @@ import 'package:budget_wise/src/bloc/plan_bloc/plan_state.dart';
 import 'package:budget_wise/src/constant/common_constant.dart';
 import 'package:budget_wise/src/constant/style/size.dart';
 import 'package:budget_wise/src/screens/plan_screen/list_planning_item/list_panning_item.dart';
-import 'package:budget_wise/src/screens/plan_screen/next_screen.dart';
+import 'package:budget_wise/src/screens/plan_screen/planning_detail_screen.dart';
 import 'package:budget_wise/src/screens/plan_screen/summary_planning/summary_planning.dart';
 import 'package:budget_wise/src/widgets/CircularStatsWidget/circular_state.dart';
+import 'package:budget_wise/src/widgets/CircularStatsWidget/circular_state_empty.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -57,7 +58,7 @@ class _PlanScreenState extends State<PlanScreen> {
               onTap: () {
                 Navigator.of(context).push(
                   CupertinoPageRoute(
-                    builder: (context) => const NextScreen(),
+                    builder: (context) => const PlanningDetail(),
                   ),
                 );
               },
@@ -73,6 +74,16 @@ class _PlanScreenState extends State<PlanScreen> {
               ),
             ),
           );
+        } else if (state is GetPlanCurrentMonthEmpty) {
+          return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (context) => const PlanningDetail(),
+                  ),
+                );
+              },
+              child: const CircularStatsWidgetEmpty(enableChangeMonth: false));
         } else {
           return CircularStatsWidget(
             isLoanding: true,
@@ -98,6 +109,11 @@ class _PlanScreenState extends State<PlanScreen> {
               planItem: state.planItems,
               totalBudget: state.planInfo.totalBudget,
             ),
+          );
+        } else if (state is GetPlanCurrentMonthEmpty) {
+          return const Expanded(
+            flex: SizeConstants.kFlex2,
+            child: Spacer(),
           );
         } else {
           return const Expanded(
