@@ -1,14 +1,14 @@
 import 'package:budget_wise/src/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/bloc/plan_bloc/plan_state.dart';
 import 'package:budget_wise/src/constant/common_constant.dart';
-import 'package:budget_wise/src/constant/style/colors.dart';
 import 'package:budget_wise/src/constant/style/size.dart';
 import 'package:budget_wise/src/constant/style/textstyle.dart';
 import 'package:budget_wise/src/widgets/CircularStatsWidget/circular_state.dart';
+import 'package:budget_wise/src/widgets/DatePicker/date_picker.dart';
+import 'package:budget_wise/src/widgets/TextField/text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class PlanningDetail extends StatefulWidget {
   const PlanningDetail({super.key});
@@ -22,58 +22,11 @@ class _PlanningDetailState extends State<PlanningDetail> {
   DateTime _endDate = DateTime(2024, 2, 28);
   final TextEditingController _amountController = TextEditingController();
 
-  void _showCupertinoDatePicker(BuildContext context, bool isStart) {
-    DateTime tempDate = isStart ? _startDate : _endDate;
-
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext builder) {
-        return Container(
-          height: 300,
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              // ปุ่ม Done
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(), // ทำให้ปุ่ม Done ไปอยู่ขวา
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        if (isStart) {
-                          _startDate = tempDate;
-                        } else {
-                          _endDate = tempDate;
-                        }
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Done", style: TextStyle(fontSize: 16)),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: CupertinoDatePicker(
-                  initialDateTime: isStart ? _startDate : _endDate,
-                  mode: CupertinoDatePickerMode.date,
-                  onDateTimeChanged: (DateTime newDate) {
-                    tempDate = newDate;
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Planning List", style: TextStyles.size16w600),
+        title: const Text("Planning Datail", style: TextStyles.size16w600),
         backgroundColor: const Color.fromARGB(255, 245, 244, 244),
       ),
       body: Padding(
@@ -83,68 +36,31 @@ class _PlanningDetailState extends State<PlanningDetail> {
           children: [
             _blocCircleStatsWidget(),
             const SizedBox(height: SizeConstants.kSize24),
-
-            // ปุ่มเลือกวันที่แบบ iOS
-            GestureDetector(
-              onTap: () => _showCupertinoDatePicker(context, true),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ColorConstants.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        "Start Date: ${DateFormat("dd MMM yyyy").format(_startDate)}",
-                        style: const TextStyle(fontSize: 16)),
-                    const Icon(CupertinoIcons.calendar),
-                  ],
-                ),
-              ),
+            DatePicker(
+              initialDate: _startDate,
+              label: "Start Date",
+              onDateSelected: (newDate) {
+                setState(() {
+                  _startDate = newDate;
+                });
+              },
             ),
-
             const SizedBox(height: 10),
-
-            GestureDetector(
-              onTap: () => _showCupertinoDatePicker(context, false),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ColorConstants.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        "End Date: ${DateFormat("dd MMM yyyy").format(_endDate)}",
-                        style: const TextStyle(fontSize: 16)),
-                    const Icon(CupertinoIcons.calendar),
-                  ],
-                ),
-              ),
+            DatePicker(
+              initialDate: _endDate,
+              label: "End  Date",
+              onDateSelected: (newDate) {
+                setState(() {
+                  _endDate = newDate;
+                });
+              },
             ),
-
             const SizedBox(height: 20),
-
-            CupertinoTextField(
+            CustomTextField(
               controller: _amountController,
-              keyboardType: TextInputType.number,
               placeholder: "Enter amount",
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              decoration: BoxDecoration(
-                color: ColorConstants.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              prefix: const Padding(
-                padding: EdgeInsets.only(left: 8),
-                child: Icon(CupertinoIcons.money_dollar, color: Colors.black54),
-              ),
-              style: const TextStyle(fontSize: 16),
+              keyboardType: TextInputType.number,
+              icon: CupertinoIcons.money_dollar,
             ),
           ],
         ),
