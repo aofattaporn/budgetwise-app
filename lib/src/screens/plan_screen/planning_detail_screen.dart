@@ -1,6 +1,11 @@
 import 'package:budget_wise/src/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/bloc/plan_bloc/plan_state.dart';
+import 'package:budget_wise/src/bloc/plan_detail_bloc/plan_detail_bloc.dart';
+import 'package:budget_wise/src/bloc/plan_detail_bloc/plan_detail_event.dart';
+import 'package:budget_wise/src/bloc/plan_detail_bloc/plan_detail_state.dart';
+import 'package:budget_wise/src/constant/business_constant.dart';
 import 'package:budget_wise/src/constant/common_constant.dart';
+import 'package:budget_wise/src/constant/style/colors.dart';
 import 'package:budget_wise/src/constant/style/size.dart';
 import 'package:budget_wise/src/constant/style/textstyle.dart';
 import 'package:budget_wise/src/widgets/CircularStatsWidget/circular_state.dart';
@@ -11,22 +16,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanningDetail extends StatefulWidget {
-  const PlanningDetail({super.key});
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final double? amount;
+
+  const PlanningDetail({
+    super.key,
+    this.startDate,
+    this.endDate,
+    this.amount,
+  });
 
   @override
   State<PlanningDetail> createState() => _PlanningDetailState();
 }
 
 class _PlanningDetailState extends State<PlanningDetail> {
-  DateTime _startDate = DateTime(2024, 2, 1);
-  DateTime _endDate = DateTime(2024, 2, 28);
-  final TextEditingController _amountController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    context.read<PlanDetailBloc>().add(InitializePlanningDetailEvent(
+        startDate: widget.startDate,
+        endDate: widget.endDate,
+        amount: TextEditingController(text: widget.amount?.toString() ?? '')));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Planning Datail", style: TextStyles.size16w600),
+        title: const Text("Planning Detail", style: TextStyles.size16w600),
         backgroundColor: const Color.fromARGB(255, 245, 244, 244),
       ),
       body: Padding(
@@ -35,33 +54,14 @@ class _PlanningDetailState extends State<PlanningDetail> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _blocCircleStatsWidget(),
-            const SizedBox(height: SizeConstants.kSize24),
-            DatePicker(
-              initialDate: _startDate,
-              label: "Start Date",
-              onDateSelected: (newDate) {
-                setState(() {
-                  _startDate = newDate;
-                });
-              },
-            ),
+            const SizedBox(height: 32),
+            _blocStartDatePicker(context),
             const SizedBox(height: 10),
-            DatePicker(
-              initialDate: _endDate,
-              label: "End  Date",
-              onDateSelected: (newDate) {
-                setState(() {
-                  _endDate = newDate;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-              controller: _amountController,
-              placeholder: "Enter amount",
-              keyboardType: TextInputType.number,
-              icon: CupertinoIcons.money_dollar,
-            ),
+            _blocEndDatePicker(context),
+            const SizedBox(height: 10),
+            _blocAmount(context),
+            const SizedBox(height: 32),
+            _saveButton()
           ],
         ),
       ),
@@ -95,5 +95,103 @@ class _PlanningDetailState extends State<PlanningDetail> {
         }
       },
     );
+  }
+
+  BlocBuilder<PlanDetailBloc, PlanDetailState> _blocStartDatePicker(
+      BuildContext context) {
+    return BlocBuilder<PlanDetailBloc, PlanDetailState>(
+      builder: (context, state) {
+        return DatePicker(
+          initialDate: state.startDate,
+          label: CommonConstant.startDateLabel,
+          onDateSelected: (newDate) {
+            context.read<PlanDetailBloc>().add(UpdateStartDateEvent(newDate));
+          },
+        );
+      },
+    );
+  }
+
+  BlocBuilder<PlanDetailBloc, PlanDetailState> _blocEndDatePicker(
+      BuildContext context) {
+    return BlocBuilder<PlanDetailBloc, PlanDetailState>(
+      builder: (context, state) {
+        return DatePicker(
+          initialDate: state.endDate,
+          label: CommonConstant.endDateLabel,
+          onDateSelected: (newDate) {
+            context.read<PlanDetailBloc>().add(UpdateStartDateEvent(newDate));
+          },
+        );
+      },
+    );
+  }
+
+  BlocBuilder<PlanDetailBloc, PlanDetailState> _blocAmount(
+      BuildContext context) {
+    return BlocBuilder<PlanDetailBloc, PlanDetailState>(
+      builder: (context, state) {
+        return CustomTextField(
+          controller: state.amount,
+          placeholder: CommonConstant.enterCommonLabel,
+          keyboardType: TextInputType.number,
+          icon: CupertinoIcons.money_dollar,
+        );
+      },
+    );
+  }
+
+  Widget _saveButton() {
+    return SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () {
+            _savePlanning();
+          },
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.zero, // Remove default padding
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [
+                  ColorConstants.primary,
+                  ColorConstants.primaryLigth,
+                  ColorConstants.primarySubtle,
+                ], // Purple gradient
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              alignment: Alignment.center,
+              width: double.infinity, // Full width
+              child: const Text(
+                "Save",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ));
+  }
+
+  void _savePlanning() {
+    const double amount = 0.0;
+    if (amount <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter a valid amount")),
+      );
+      return;
+    }
+    Navigator.pop(context);
   }
 }

@@ -58,7 +58,11 @@ class _PlanScreenState extends State<PlanScreen> {
               onTap: () {
                 Navigator.of(context).push(
                   CupertinoPageRoute(
-                    builder: (context) => const PlanningDetail(),
+                    builder: (context) => PlanningDetail(
+                      startDate: state.planInfo.startDate,
+                      endDate: state.planInfo.endDate,
+                      amount: state.planInfo.totalBudget,
+                    ),
                   ),
                 );
               },
