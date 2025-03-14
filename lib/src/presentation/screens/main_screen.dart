@@ -1,5 +1,6 @@
 // presentation/screens/main_screen.dart
 import 'package:budget_wise/src/common/theme/app_colors.dart';
+import 'package:budget_wise/src/core/utils/strings_util.dart';
 import 'package:budget_wise/src/domain/usecase/home/tab_screen_usecase.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_event.dart';
@@ -17,35 +18,34 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tabScreenUseCase = TabScreenUseCase();
-
     List<BottomNavigationBarItem> navBarItems() {
-      return const [
+      return [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_work_outlined),
-          label: RouteConstant.home,
+          icon: const Icon(Icons.home_work_outlined),
+          label: Strings.replacePath(RouteConstant.home),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.line_axis),
-          label: RouteConstant.transaction,
+          icon: const Icon(Icons.line_axis),
+          label: Strings.replacePath(RouteConstant.transaction),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.cloud),
-          label: RouteConstant.plan,
+          icon: const Icon(Icons.cloud),
+          label: Strings.replacePath(RouteConstant.plan),
         ),
       ];
     }
 
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: BlocBuilder<MainScreenBloc, MainScreenState>(
         builder: (context, state) {
-          return _onTabScreen(state.tabScreen);
+          return Scaffold(body: _onTabScreen(state.tabScreen));
         },
       ),
       bottomNavigationBar: BlocBuilder<MainScreenBloc, MainScreenState>(
         builder: (context, state) {
-          tabScreenUseCase.getTabIndex(state.tabScreen);
           return BottomNavigationBar(
-            elevation: 20,
+            elevation: 40,
             backgroundColor: AppColors.white,
             currentIndex: tabScreenUseCase.getTabIndex(state.tabScreen),
             selectedItemColor: Theme.of(context).primaryColor,

@@ -16,4 +16,9 @@ class Strings {
 
     return formattedIntegerPart;
   }
+
+  // General method reject '/'
+  static String replacePath(String path) {
+    return path.replaceAll('/', '');
+  }
 }

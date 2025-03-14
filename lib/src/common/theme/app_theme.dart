@@ -20,6 +20,9 @@ class AppTheme {
     inputDecorationTheme: _inputDecorationTheme,
     cardTheme: _cardTheme,
     primaryColor: AppColors.primary,
+    primaryColorLight: AppColors.primary,
+    primaryColorDark: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.grayDark.shade100,
   );
 
   /// Dark Theme
@@ -32,6 +35,9 @@ class AppTheme {
     inputDecorationTheme: _inputDecorationTheme,
     cardTheme: _cardTheme,
     primaryColor: AppColors.primary,
+    primaryColorLight: AppColors.primaryLigth,
+    primaryColorDark: AppColors.priamryDark,
+    scaffoldBackgroundColor: AppColors.grayDark.shade100,
   );
 
   /// Text Theme (Common for both light and dark modes)
