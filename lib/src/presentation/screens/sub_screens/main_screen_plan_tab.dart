@@ -9,10 +9,14 @@ class MainScreenPlanTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text("PlanScreen"),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(35.0),
+      child: Column(
+        children: [
+          Center(child: Text("Display Planning")),
+          Text("PlanScreen"),
+        ],
+      ),
     );
   }
 }

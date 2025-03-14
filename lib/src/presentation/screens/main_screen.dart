@@ -37,6 +37,9 @@ class MainScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
       body: BlocBuilder<MainScreenBloc, MainScreenState>(
         builder: (context, state) {
           return Scaffold(body: _onTabScreen(state.tabScreen));
