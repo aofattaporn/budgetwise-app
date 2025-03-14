@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class Strings {
+class StringUtil {
   // General method to normalize number from any string input
   static String normalizeNumber(String rawNumber) {
     String cleanedValue = rawNumber.replaceAll(RegExp(r'[^\d.]'), '');

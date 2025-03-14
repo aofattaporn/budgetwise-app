@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// {@template app_text_styles}
@@ -8,6 +9,7 @@ class AppTextStyles {
 
   /// Display large (e.g., headlines)
   static const displayLarge = TextStyle(
+    color: AppColors.dark,
     fontSize: 32,
     fontWeight: FontWeight.bold,
     height: 1.25,
@@ -15,6 +17,7 @@ class AppTextStyles {
 
   /// Display medium
   static const displayMedium = TextStyle(
+    color: AppColors.dark,
     fontSize: 28,
     fontWeight: FontWeight.bold,
     height: 1.3,
@@ -22,6 +25,7 @@ class AppTextStyles {
 
   /// Display small
   static const displaySmall = TextStyle(
+    color: AppColors.dark,
     fontSize: 24,
     fontWeight: FontWeight.bold,
     height: 1.3,
@@ -29,6 +33,7 @@ class AppTextStyles {
 
   /// Headline large
   static const headlineLarge = TextStyle(
+    color: AppColors.dark,
     fontSize: 22,
     fontWeight: FontWeight.w600,
     height: 1.4,
@@ -36,6 +41,7 @@ class AppTextStyles {
 
   /// Headline medium
   static const headlineMedium = TextStyle(
+    color: AppColors.dark,
     fontSize: 20,
     fontWeight: FontWeight.w600,
     height: 1.4,
@@ -43,6 +49,7 @@ class AppTextStyles {
 
   /// Headline small
   static const headlineSmall = TextStyle(
+    color: AppColors.dark,
     fontSize: 18,
     fontWeight: FontWeight.w600,
     height: 1.4,
@@ -50,13 +57,15 @@ class AppTextStyles {
 
   /// Body large
   static const bodyLarge = TextStyle(
+    color: AppColors.dark,
     fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w100,
     height: 1.5,
   );
 
   /// Body medium (default text)
   static const bodyMedium = TextStyle(
+    color: AppColors.dark,
     fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.5,
@@ -64,6 +73,7 @@ class AppTextStyles {
 
   /// Body small
   static const bodySmall = TextStyle(
+    color: AppColors.dark,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     height: 1.5,
@@ -71,6 +81,7 @@ class AppTextStyles {
 
   /// Label large (e.g., buttons)
   static const labelLarge = TextStyle(
+    color: AppColors.dark,
     fontSize: 14,
     fontWeight: FontWeight.w600,
     height: 1.4,
@@ -78,6 +89,7 @@ class AppTextStyles {
 
   /// Label medium
   static const labelMedium = TextStyle(
+    color: AppColors.dark,
     fontSize: 12,
     fontWeight: FontWeight.w500,
     height: 1.4,
@@ -85,8 +97,16 @@ class AppTextStyles {
 
   /// Label small
   static const labelSmall = TextStyle(
+    color: AppColors.dark,
     fontSize: 10,
     fontWeight: FontWeight.w500,
+    height: 1.4,
+  );
+
+  // add-onc
+  static const labelGraySmall = TextStyle(
+    color: AppColors.grayLight,
+    fontSize: 12,
     height: 1.4,
   );
 }

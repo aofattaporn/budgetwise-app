@@ -22,15 +22,15 @@ class MainScreen extends StatelessWidget {
       return [
         BottomNavigationBarItem(
           icon: const Icon(Icons.home_work_outlined),
-          label: Strings.replacePath(RouteConstant.home),
+          label: StringUtil.replacePath(RouteConstant.home),
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.line_axis),
-          label: Strings.replacePath(RouteConstant.transaction),
+          label: StringUtil.replacePath(RouteConstant.transaction),
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.cloud),
-          label: Strings.replacePath(RouteConstant.plan),
+          label: StringUtil.replacePath(RouteConstant.plan),
         ),
       ];
     }

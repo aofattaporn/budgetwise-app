@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class Numbers {
+class NumberUtil {
   static double calPercentage(double current, double limit) {
     if (limit == 0) return 0;
 
