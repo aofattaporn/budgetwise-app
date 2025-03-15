@@ -4,6 +4,8 @@ class BusinessConstant {
 
   static const String tranfersType = "tranfers";
   static const String savingType = "saving";
+  static const String notPlanType = "not-plan";
+
   static const String successMessage = "You will be contacted by us very soon.";
 
   // API Constants

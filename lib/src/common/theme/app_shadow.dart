@@ -8,11 +8,7 @@ class AppShadow {
 
   /// Extra small shadow.
   static const xs = [
-    BoxShadow(
-      blurRadius: 2,
-      offset: Offset(0, 1),
-      color: Color.fromRGBO(16, 24, 40, 0.05),
-    ),
+    BoxShadow(color: Color.fromARGB(255, 245, 244, 244), blurRadius: 5),
   ];
 
   /// Small shadow.

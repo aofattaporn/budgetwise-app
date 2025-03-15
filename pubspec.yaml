@@ -32,10 +32,12 @@ dependencies:
   dartz: ^0.10.0
 
 dev_dependencies:
+  path: any
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^4.0.0
+  build_runner: ^2.4.6
+  json_serializable: ^6.9.4
 
 flutter:
   uses-material-design: true
