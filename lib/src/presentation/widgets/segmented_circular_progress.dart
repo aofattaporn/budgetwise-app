@@ -25,7 +25,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
   List<double> getUsages(
       List<TransactionsSegment> transactionsSegment, double limitSalary) {
     return transactionsSegment
-        .map((segment) => (((segment.usage) * 100) / limitSalary))
+        .map((segment) => (((segment.usage) * 100.0) / limitSalary))
         .toList();
   }
 
@@ -60,7 +60,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                "${((totalProgress * 100).toInt() / limitSalary).round()}%",
+                "${((totalProgress * 100) / limitSalary).round()}%",
                 style: AppTextStyles.labelGraySmall,
               ),
               const Text(

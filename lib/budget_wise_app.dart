@@ -7,6 +7,7 @@ import 'package:budget_wise/src/core/di/di.dart';
 import 'package:budget_wise/src/core/start_up.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,6 +34,7 @@ class _BudgetWiseAppState extends State<BudgetWiseApp> {
       providers: [
         BlocProvider(create: (_) => sl<MainScreenBloc>()),
         BlocProvider(create: (_) => sl<PlanBloc>()),
+        BlocProvider(create: (_) => sl<PlanItemBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
