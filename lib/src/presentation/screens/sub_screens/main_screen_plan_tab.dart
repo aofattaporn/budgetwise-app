@@ -15,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../core/di/di.dart';
-
 /// The main screen tab for displaying a plan-related view.
 ///
 /// This widget displays various components, including:
@@ -43,15 +41,15 @@ class _MainScreenPlanTabState extends State<MainScreenPlanTab> {
     return [
       TransactionsSegment(
           segmentName: BusinessConstant.tranfersType,
-          usage: 0,
+          usage: 20000.0,
           color: AppColors.priamryDark),
       TransactionsSegment(
           segmentName: BusinessConstant.savingType,
-          usage: 0,
+          usage: 4000.0,
           color: AppColors.primary),
       TransactionsSegment(
           segmentName: BusinessConstant.notPlanType,
-          usage: 0,
+          usage: 4000.0,
           color: AppColors.primarySubtle),
     ];
   }
@@ -73,98 +71,82 @@ class _MainScreenPlanTabState extends State<MainScreenPlanTab> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        spacing: 16,
-        children: [
-          /// Container displaying a segmented circular progress bar.
-          ///
-          /// This container contains a circular progress bar that visualizes the
-          /// distribution of the transaction segments against the budget limit.
-          BlocBuilder<PlanBloc, PlanState>(
-            builder: (BuildContext context, PlanState state) {
-              if (state is PlanLoaded) {
-                return Container(
-                  padding: const EdgeInsets.all(16),
+      padding: AppPadding.allxl,
+      child: BlocBuilder<PlanBloc, PlanState>(
+        builder: (BuildContext context, PlanState state) {
+          final bool isLoading = state is! PlanLoaded;
+          final double limitSalary = isLoading ? 0 : state.plan.totalBudget;
+          return Skeletonizer(
+            enabled: isLoading,
+            child: Column(
+              spacing: 16,
+              children: [
+                /// Container displaying a segmented circular progress bar.
+                ///
+                /// This container contains a circular progress bar that visualizes the
+                /// distribution of the transaction segments against the budget limit.
+                Container(
+                  padding: AppPadding.allxl,
                   decoration: BoxDecoration(
                     color: AppColors.transparent,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Center(
                     child: MultiSegmentCircularProgress(
-                      size: 200,
-                      strokeWidth: 10,
-                      transactionsSegment: getMockTransactionSegment(),
-                      limitSalary: state.plan.totalBudget,
-                    ),
-                  ),
-                );
-              } else {
-                return Skeletonizer(
-                  enabled: true,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.transparent,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Center(
-                      child: MultiSegmentCircularProgress(
                         size: 200,
                         strokeWidth: 10,
                         transactionsSegment: getMockTransactionSegment(),
-                        limitSalary: getMockAmountLimit(),
-                      ),
-                    ),
+                        limitSalary: limitSalary),
                   ),
-                );
-              }
-            },
-          ),
+                ),
 
-          /// Container displaying the summary of the transaction segments.
-          ///
-          /// This container lists the transaction segments with their usage and
-          /// the budget limit.
-          /// Each segment displays the name, usage, and how much of the budget
-          /// is used.
-          Container(
-            width: double.infinity,
-            padding: AppPadding.allmd,
-            decoration: const BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.all(AppRadius.md),
-              boxShadow: AppShadow.xs,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 10,
-              children:
-                  List.generate(getMockTransactionSegment().length, (index) {
-                return SummaryPlanSegment(
-                  segmentTilel: getMockTransactionSegment()[index].segmentName,
-                  usage: getMockTransactionSegment()[index].usage,
-                  limitAmount: getMockAmountLimit(),
-                  segmentColor: getMockTransactionSegment()[index].color,
-                );
-              }),
-            ),
-          ),
+                /// Container displaying the summary of the transaction segments.
+                ///
+                /// This container lists the transaction segments with their usage and
+                /// the budget limit.
+                /// Each segment displays the name, usage, and how much of the budget
+                /// is used.
+                // Container(
+                //   width: double.infinity,
+                //   padding: AppPadding.allmd,
+                //   decoration: const BoxDecoration(
+                //     color: AppColors.white,
+                //     borderRadius: BorderRadius.all(AppRadius.md),
+                //     boxShadow: AppShadow.xs,
+                //   ),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     spacing: 10,
+                //     children: List.generate(getMockTransactionSegment().length,
+                //         (index) {
+                //       return SummaryPlanSegment(
+                //         segmentTilel:
+                //             getMockTransactionSegment()[index].segmentName,
+                //         usage: getMockTransactionSegment()[index].usage,
+                //         limitAmount: 40000,
+                //         segmentColor: getMockTransactionSegment()[index].color,
+                //       );
+                //     }),
+                //   ),
+                // ),
 
-          /// Expanded container displaying a placeholder for a list of items.
-          ///
-          /// This container currently holds a placeholder text "List". In a real
-          /// implementation, it can be replaced with a list of items related to the plan.
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: AppColors.white,
-              ),
-              child: Text("List"), // Placeholder for a list of items
+                /// Expanded container displaying a placeholder for a list of items.
+                ///
+                /// This container currently holds a placeholder text "List". In a real
+                /// implementation, it can be replaced with a list of items related to the plan.
+                // Expanded(
+                //   child: Container(
+                //     width: double.infinity,
+                //     decoration: const BoxDecoration(
+                //       color: AppColors.white,
+                //     ),
+                //     child: Text("List"),
+                //   ),
+                // ),
+              ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

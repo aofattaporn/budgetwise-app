@@ -25,7 +25,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
   List<double> getUsages(
       List<TransactionsSegment> transactionsSegment, double limitSalary) {
     return transactionsSegment
-        .map((segment) => (segment.usage) / limitSalary)
+        .map((segment) => (((segment.usage) * 100) / limitSalary))
         .toList();
   }
 
