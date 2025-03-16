@@ -1,7 +1,10 @@
+import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 
 abstract class PlanDataSource {
+  Future<PlanEntity?> fetchPlanByStartAndEndDate(
+      DateTime startTime, DateTime endDate);
   Future<PlanEntity?> fetchPlanByYearMonth(int year, int month);
   Future<List<PlanEntity>> fetchAllPlans();
   Future<void> createPlan(PlanEntity plan);
@@ -12,6 +15,25 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   final SupabaseClient supabase;
 
   PlanRemoteDataSourceImpl(this.supabase);
+
+  @override
+  Future<PlanEntity?> fetchPlanByStartAndEndDate(
+      DateTime startDateTime, DateTime endDateTime) async {
+    final response = await supabase
+        .from('plans')
+        .select()
+        .lte('start_date', DateFormat('yyyy-MM-dd').format(startDateTime))
+        .gte('end_date', DateFormat('yyyy-MM-dd').format(endDateTime))
+        .maybeSingle();
+
+    return PlanEntity(
+      id: response?['id'],
+      startDate: DateTime.parse(response?['start_date']),
+      endDate: DateTime.parse(response?['end_date']),
+      totalBudget: response?['total_budget'].toDouble(),
+      createAt: DateTime.parse(response?['create_at']),
+    );
+  }
 
   @override
   Future<PlanEntity?> fetchPlanByYearMonth(int year, int month) async {

@@ -6,9 +6,16 @@ import 'package:budget_wise/src/common/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/constant/business_constant.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
 import 'package:budget_wise/src/domain/models/transaction_segment.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_state.dart';
 import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
 import 'package:budget_wise/src/presentation/widgets/segmented_circular_progress.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../../core/di/di.dart';
 
 /// The main screen tab for displaying a plan-related view.
 ///
@@ -16,9 +23,14 @@ import 'package:flutter/material.dart';
 /// - A segmented circular progress bar showing the usage of different segments.
 /// - A summary container showing the details of transaction segments like "Transfers", "Savings", etc.
 /// - A placeholder for a list of items related to the plan.
-class MainScreenPlanTab extends StatelessWidget {
+class MainScreenPlanTab extends StatefulWidget {
   const MainScreenPlanTab({super.key});
 
+  @override
+  State<MainScreenPlanTab> createState() => _MainScreenPlanTabState();
+}
+
+class _MainScreenPlanTabState extends State<MainScreenPlanTab> {
   /// Mock data for transaction segments.
   ///
   /// Returns a list of transaction segments, each containing:
@@ -31,15 +43,15 @@ class MainScreenPlanTab extends StatelessWidget {
     return [
       TransactionsSegment(
           segmentName: BusinessConstant.tranfersType,
-          usage: 15000,
+          usage: 0,
           color: AppColors.priamryDark),
       TransactionsSegment(
           segmentName: BusinessConstant.savingType,
-          usage: 1250,
+          usage: 0,
           color: AppColors.primary),
       TransactionsSegment(
           segmentName: BusinessConstant.notPlanType,
-          usage: 200,
+          usage: 0,
           color: AppColors.primarySubtle),
     ];
   }
@@ -53,6 +65,12 @@ class MainScreenPlanTab extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    context.read<PlanBloc>().add(FetchCurrentMonthPlan());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -63,20 +81,45 @@ class MainScreenPlanTab extends StatelessWidget {
           ///
           /// This container contains a circular progress bar that visualizes the
           /// distribution of the transaction segments against the budget limit.
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.transparent,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Center(
-              child: MultiSegmentCircularProgress(
-                size: 200,
-                strokeWidth: 10,
-                transactionsSegment: getMockTransactionSegment(),
-                limitSalary: getMockAmountLimit(),
-              ),
-            ),
+          BlocBuilder<PlanBloc, PlanState>(
+            builder: (BuildContext context, PlanState state) {
+              if (state is PlanLoaded) {
+                return Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Center(
+                    child: MultiSegmentCircularProgress(
+                      size: 200,
+                      strokeWidth: 10,
+                      transactionsSegment: getMockTransactionSegment(),
+                      limitSalary: state.plan.totalBudget,
+                    ),
+                  ),
+                );
+              } else {
+                return Skeletonizer(
+                  enabled: true,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.transparent,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Center(
+                      child: MultiSegmentCircularProgress(
+                        size: 200,
+                        strokeWidth: 10,
+                        transactionsSegment: getMockTransactionSegment(),
+                        limitSalary: getMockAmountLimit(),
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
           ),
 
           /// Container displaying the summary of the transaction segments.

@@ -6,8 +6,8 @@ final sl = GetIt.instance;
 
 void setupMainScreenDI() {
   // Register Use Cases
-  sl.registerLazySingleton(() => TabScreenUseCase());
+  sl.registerLazySingleton<TabScreenUseCase>(() => TabScreenUseCase());
 
   // Register Bloc and inject the use case
-  sl.registerFactory(() => MainScreenBloc(sl()));
+  sl.registerFactory(() => MainScreenBloc(sl<TabScreenUseCase>()));
 }

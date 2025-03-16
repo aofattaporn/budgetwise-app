@@ -25,4 +25,10 @@ class PlanRepositoryImp implements PlanRepository {
   Future<void> updatePlan(PlanEntity plan) {
     return planDataSource.updatePlan(plan);
   }
+
+  @override
+  Future<PlanEntity?> getPlanByIntervalTime(
+      DateTime startTime, DateTime endTime) {
+    return planDataSource.fetchPlanByStartAndEndDate(startTime, endTime);
+  }
 }

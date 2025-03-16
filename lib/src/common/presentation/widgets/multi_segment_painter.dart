@@ -16,7 +16,6 @@ class MultiSegmentPainter extends CustomPainter {
         (strokeWidth / 2); // Calculate the radius of the circle
     // ignore: unused_local_variable
 
-    print(values);
     double totalProgress = values.fold(0, (sum, value) => sum + value);
 
     // St p 1: Draw the background circle
