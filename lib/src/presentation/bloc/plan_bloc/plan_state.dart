@@ -15,12 +15,16 @@ class PlanNotFound extends PlanState {}
 class PlanLoaded extends PlanState {
   final PlanEntity plan;
   PlanLoaded(this.plan);
-
-  @override
-  List<Object?> get props => [plan];
 }
 
 class PlanError extends PlanState {
   final String message;
   PlanError(this.message);
+}
+
+class AllPlanLoading extends PlanState {}
+
+class AllPlanLoaded extends PlanState {
+  final List<PlanEntity> plans;
+  AllPlanLoaded({required this.plans});
 }

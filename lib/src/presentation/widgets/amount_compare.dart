@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 class AmountCompare extends StatelessWidget {
   final double usage;
   final double limitAmount;
+  final bool isLarge;
   const AmountCompare(
-      {super.key, required this.usage, required this.limitAmount});
+      {super.key,
+      required this.usage,
+      required this.limitAmount,
+      this.isLarge = false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +18,15 @@ class AmountCompare extends StatelessWidget {
         children: [
           TextSpan(
             text: NumberUtil.formatAmount(usage),
-            style: Theme.of(context).textTheme.labelLarge,
+            style: isLarge
+                ? Theme.of(context).textTheme.bodyMedium
+                : Theme.of(context).textTheme.labelLarge,
           ),
           TextSpan(
             text: ' /${NumberUtil.formatAmount(limitAmount)} B',
-            style: Theme.of(context).textTheme.labelSmall,
+            style: isLarge
+                ? Theme.of(context).textTheme.labelMedium
+                : Theme.of(context).textTheme.labelSmall,
           ),
         ],
       ),

@@ -15,4 +15,8 @@ class PlanUsecase {
     return await planRepository.getPlanByIntervalTime(
         DateTime.now(), DateTime.now());
   }
+
+  Future<List<PlanEntity>> getAllPlans() async {
+    return await planRepository.getAllPlans();
+  }
 }

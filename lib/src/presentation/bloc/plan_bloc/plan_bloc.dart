@@ -8,6 +8,7 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
 
   PlanBloc({required this.planUsecase}) : super(PlanInitial()) {
     on<FetchCurrentMonthPlan>(_onFetchCurrentMonthPlan);
+    on<FetchAllPlans>(_onFetchAllPlans);
   }
 
   Future<void> _onFetchCurrentMonthPlan(
@@ -20,6 +21,17 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
       } else {
         emit(PlanNotFound());
       }
+    } catch (e) {
+      emit(PlanError(e.toString()));
+    }
+  }
+
+  Future<void> _onFetchAllPlans(
+      FetchAllPlans event, Emitter<PlanState> emit) async {
+    emit(AllPlanLoading());
+    try {
+      final plans = await planUsecase.getAllPlans();
+      emit(AllPlanLoaded(plans: plans));
     } catch (e) {
       emit(PlanError(e.toString()));
     }

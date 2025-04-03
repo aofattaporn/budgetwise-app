@@ -34,6 +34,9 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
             endDate: DateTime.parse(response['end_date']),
             totalBudget: response['total_budget'].toDouble(),
             createAt: DateTime.parse(response['create_at']),
+            summaryTranfer: response['summary_tranfer'].toDouble(),
+            summarySaving: response['summary_saving'].toDouble(),
+            summaryOther: response['summary_other'].toDouble(),
           );
   }
 
@@ -52,6 +55,9 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
       endDate: DateTime.parse(response['end_date']),
       totalBudget: response['total_budget'].toDouble(),
       createAt: DateTime.parse(response['create_at']),
+      summaryTranfer: response['summary_tranfer'].toDouble(),
+      summarySaving: response['summary_saving'].toDouble(),
+      summaryOther: response['summary_other'].toDouble(),
     );
   }
 
@@ -65,6 +71,9 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
         endDate: DateTime.parse(plan['end_date']),
         totalBudget: plan['total_budget'].toDouble(),
         createAt: DateTime.parse(plan['create_at']),
+        summaryTranfer: plan['summary_tranfer'].toDouble(),
+        summarySaving: plan['summary_saving'].toDouble(),
+        summaryOther: plan['summary_other'].toDouble(),
       );
     }).toList();
   }

@@ -6,3 +6,5 @@ abstract class PlanEvent extends Equatable {
 }
 
 class FetchCurrentMonthPlan extends PlanEvent {}
+
+class FetchAllPlans extends PlanEvent {}
