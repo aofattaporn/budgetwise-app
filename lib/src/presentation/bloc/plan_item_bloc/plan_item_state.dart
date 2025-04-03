@@ -16,6 +16,5 @@ class PlanItemEmpty extends PlanItemState {}
 
 class PlanItemError extends PlanItemState {
   final String message;
-
   PlanItemError(this.message);
 }

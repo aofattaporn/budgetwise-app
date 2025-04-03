@@ -18,7 +18,7 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
       if (plan != null) {
         emit(PlanLoaded(plan));
       } else {
-        emit(PlanError("No plan found for the current month."));
+        emit(PlanNotFound());
       }
     } catch (e) {
       emit(PlanError(e.toString()));

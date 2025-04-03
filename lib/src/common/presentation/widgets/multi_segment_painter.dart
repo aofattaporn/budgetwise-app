@@ -31,7 +31,6 @@ class MultiSegmentPainter extends CustomPainter {
 
     double totalValue = values.fold(0, (sum, value) => sum + value);
     if (totalValue > 100) {
-      print("Warning: Total values exceed 100%");
       return;
     }
 

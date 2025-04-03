@@ -10,6 +10,8 @@ class PlanInitial extends PlanState {}
 
 class PlanLoading extends PlanState {}
 
+class PlanNotFound extends PlanState {}
+
 class PlanLoaded extends PlanState {
   final PlanEntity plan;
   PlanLoaded(this.plan);
@@ -21,7 +23,4 @@ class PlanLoaded extends PlanState {
 class PlanError extends PlanState {
   final String message;
   PlanError(this.message);
-
-  @override
-  List<Object?> get props => [message];
 }

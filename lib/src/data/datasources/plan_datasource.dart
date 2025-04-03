@@ -26,13 +26,15 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
         .gte('end_date', DateFormat('yyyy-MM-dd').format(endDateTime))
         .maybeSingle();
 
-    return PlanEntity(
-      id: response?['id'],
-      startDate: DateTime.parse(response?['start_date']),
-      endDate: DateTime.parse(response?['end_date']),
-      totalBudget: response?['total_budget'].toDouble(),
-      createAt: DateTime.parse(response?['create_at']),
-    );
+    return response == null
+        ? null
+        : PlanEntity(
+            id: response['id'],
+            startDate: DateTime.parse(response['start_date']),
+            endDate: DateTime.parse(response['end_date']),
+            totalBudget: response['total_budget'].toDouble(),
+            createAt: DateTime.parse(response['create_at']),
+          );
   }
 
   @override
