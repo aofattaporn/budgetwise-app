@@ -4,10 +4,12 @@ import 'package:budget_wise/src/common/theme/app_padding.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/constant/business_constant.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
+import 'package:budget_wise/src/core/utils/plan_util.dart';
 import 'package:budget_wise/src/domain/models/transaction_segment.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_state.dart';
+import 'package:budget_wise/src/presentation/screens/sheets/all_plans_sheet.dart';
 import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
 import 'package:budget_wise/src/presentation/widgets/segmented_circular_progress.dart';
 import 'package:flutter/material.dart';
@@ -20,39 +22,14 @@ import 'package:skeletonizer/skeletonizer.dart';
 /// - A segmented circular progress bar showing the usage of different segments.
 /// - A summary container showing the details of transaction segments like "Transfers", "Savings", etc.
 /// - A placeholder for a list of items related to the plan.
-class MainScreenPlanTab extends StatefulWidget {
-  const MainScreenPlanTab({super.key});
+class PlanTab extends StatefulWidget {
+  const PlanTab({super.key});
 
   @override
-  State<MainScreenPlanTab> createState() => _MainScreenPlanTabState();
+  State<PlanTab> createState() => _PlanTabState();
 }
 
-class _MainScreenPlanTabState extends State<MainScreenPlanTab> {
-  /// Mock data for transaction segments.
-  ///
-  /// Returns a list of transaction segments, each containing:
-  /// - `segmentName`: Name of the segment.
-  /// - `usage`: The amount used in that segment.
-  /// - `color`: The color representing the segment.
-  ///
-  /// This is just a mock method for demonstration purposes.
-  List<TransactionsSegment> getMockTransactionSegment() {
-    return [
-      TransactionsSegment(
-          segmentName: BusinessConstant.tranfersType,
-          usage: 20000.0,
-          color: AppColors.priamryDark),
-      TransactionsSegment(
-          segmentName: BusinessConstant.savingType,
-          usage: 4000.0,
-          color: AppColors.primary),
-      TransactionsSegment(
-          segmentName: BusinessConstant.notPlanType,
-          usage: 4000.0,
-          color: AppColors.primarySubtle),
-    ];
-  }
-
+class _PlanTabState extends State<PlanTab> {
   /// Mock method for the amount limit.
   ///
   /// Returns a mock amount limit of 30,000.00, representing the budget limit.
@@ -100,14 +77,17 @@ class _MainScreenPlanTabState extends State<MainScreenPlanTab> {
                     color: AppColors.transparent,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Center(
-                    child: MultiSegmentCircularProgress(
-                      size: 200,
-                      strokeWidth: 10,
-                      transactionsSegment: getMockTransactionSegment(),
-                      limitSalary: limitSalary,
-                      isSuccess: false,
-                      isNotfound: true,
+                  child: GestureDetector(
+                    onTap: () => _showPlanModal(context),
+                    child: Center(
+                      child: MultiSegmentCircularProgress(
+                        transactionsSegment:
+                            PlanUtil.generatePlannTransactionSegment(
+                                isSuccess ? planState.plan : null),
+                        limitSalary: limitSalary,
+                        isSuccess: isSuccess,
+                        isNotfound: isNotfound,
+                      ),
                     ),
                   ),
                 ),
@@ -116,6 +96,23 @@ class _MainScreenPlanTabState extends State<MainScreenPlanTab> {
           );
         },
       ),
+    );
+  }
+
+  void _showPlanModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return SizedBox(
+          height:
+              MediaQuery.of(context).size.height * 0.6, // 60% of screen height
+          child: const AllPlansSheet(),
+        );
+      },
     );
   }
 }

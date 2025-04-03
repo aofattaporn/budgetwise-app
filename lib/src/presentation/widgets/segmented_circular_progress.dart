@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/common/presentation/widgets/multi_segment_painter.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
+import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/models/transaction_segment.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
@@ -67,7 +68,9 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("12 May - 14 Jun", style: AppTextStyles.labelGraySmall),
+        Text(
+            '${UtilsDateTime.monthYearFormat(isSuccess ? DateTime.now() : DateTime.now())} - ${UtilsDateTime.monthYearFormat(isSuccess ? DateTime.now() : DateTime.now())}',
+            style: AppTextStyles.labelGraySmall),
         AmountCompare(usage: _totalProgress, limitAmount: limitSalary),
         const SizedBox(height: 8),
         Text("${((_totalProgress * 100) / limitSalary).round()}%",

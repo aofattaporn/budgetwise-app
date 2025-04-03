@@ -7,4 +7,10 @@ abstract class PlanEvent extends Equatable {
 
 class FetchCurrentMonthPlan extends PlanEvent {}
 
-class FetchAllPlans extends PlanEvent {}
+class FetchtPlanByMonth extends PlanEvent {}
+
+class FetchtPlanByMId extends PlanEvent {
+  final int id;
+
+  FetchtPlanByMId({required this.id});
+}

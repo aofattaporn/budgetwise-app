@@ -22,6 +22,11 @@ class PlanRepositoryImp implements PlanRepository {
   }
 
   @override
+  Future<PlanEntity?> getPlanByMonthId(int id) {
+    return planDataSource.fetchPlanById(id);
+  }
+
+  @override
   Future<void> updatePlan(PlanEntity plan) {
     return planDataSource.updatePlan(plan);
   }

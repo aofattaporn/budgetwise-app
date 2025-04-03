@@ -7,7 +7,7 @@ import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_e
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_state.dart';
 import 'package:budget_wise/src/core/constant/route_constant.dart';
 import 'package:budget_wise/src/presentation/screens/sub_screens/main_screen_account_tab.dart';
-import 'package:budget_wise/src/presentation/screens/sub_screens/main_screen_plan_tab.dart';
+import 'package:budget_wise/src/presentation/screens/sub_screens/plan_tab.dart';
 import 'package:budget_wise/src/presentation/screens/sub_screens/main_screen_transaction_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +72,7 @@ class MainScreen extends StatelessWidget {
       case RouteConstant.transaction:
         return const MainScreenTransactionTab();
       case RouteConstant.plan:
-        return const MainScreenPlanTab();
+        return const PlanTab();
       default:
         return const Text("Error");
     }

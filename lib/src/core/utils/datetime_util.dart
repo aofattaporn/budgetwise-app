@@ -7,7 +7,7 @@ class UtilsDateTime {
   }
 
   static String monthYearFormat(DateTime date) {
-    final DateFormat formatter = DateFormat('MMMM yyyy');
+    final DateFormat formatter = DateFormat('dd MMM yyyy');
     return formatter.format(DateTime(date.year, date.month));
   }
 

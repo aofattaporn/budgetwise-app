@@ -16,6 +16,10 @@ class PlanUsecase {
         DateTime.now(), DateTime.now());
   }
 
+  Future<PlanEntity?> getPlanByMonthId(int id) async {
+    return await planRepository.getPlanByMonthId(id);
+  }
+
   Future<List<PlanEntity>> getAllPlans() async {
     return await planRepository.getAllPlans();
   }

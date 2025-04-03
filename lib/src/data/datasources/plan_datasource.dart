@@ -5,6 +5,7 @@ import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 abstract class PlanDataSource {
   Future<PlanEntity?> fetchPlanByStartAndEndDate(
       DateTime startTime, DateTime endDate);
+  Future<PlanEntity?> fetchPlanById(int id);
   Future<PlanEntity?> fetchPlanByYearMonth(int year, int month);
   Future<List<PlanEntity>> fetchAllPlans();
   Future<void> createPlan(PlanEntity plan);
@@ -25,6 +26,25 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
         .lte('start_date', DateFormat('yyyy-MM-dd').format(startDateTime))
         .gte('end_date', DateFormat('yyyy-MM-dd').format(endDateTime))
         .maybeSingle();
+
+    return response == null
+        ? null
+        : PlanEntity(
+            id: response['id'],
+            startDate: DateTime.parse(response['start_date']),
+            endDate: DateTime.parse(response['end_date']),
+            totalBudget: response['total_budget'].toDouble(),
+            createAt: DateTime.parse(response['create_at']),
+            summaryTranfer: response['summary_tranfer'].toDouble(),
+            summarySaving: response['summary_saving'].toDouble(),
+            summaryOther: response['summary_other'].toDouble(),
+          );
+  }
+
+  @override
+  Future<PlanEntity?> fetchPlanById(int id) async {
+    final response =
+        await supabase.from('plans').select().eq('id', id).maybeSingle();
 
     return response == null
         ? null
