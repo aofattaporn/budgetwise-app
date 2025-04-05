@@ -14,3 +14,5 @@ class CommonConstant {
   static const String endDateLabel = "End Date";
   static const String enterCommonLabel = "Enter amount";
 }
+
+enum CommonState { idle, loading, success, error }

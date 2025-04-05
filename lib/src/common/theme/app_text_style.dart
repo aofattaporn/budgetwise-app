@@ -109,4 +109,12 @@ class AppTextStyles {
     fontSize: 12,
     height: 1.4,
   );
+
+  // add-onc
+  static const labelPrimarySmall = TextStyle(
+    color: AppColors.priamryDark,
+    fontWeight: FontWeight.bold,
+    fontSize: 12,
+    height: 1.4,
+  );
 }

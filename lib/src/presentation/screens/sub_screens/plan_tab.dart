@@ -2,14 +2,11 @@ import 'package:budget_wise/src/common/presentation/widgets/common_notification.
 import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
-import 'package:budget_wise/src/core/constant/business_constant.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
-import 'package:budget_wise/src/core/utils/plan_util.dart';
-import 'package:budget_wise/src/domain/models/transaction_segment.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_state.dart';
-import 'package:budget_wise/src/presentation/screens/sheets/all_plans_sheet.dart';
+import 'package:budget_wise/src/common/presentation/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
 import 'package:budget_wise/src/presentation/widgets/segmented_circular_progress.dart';
 import 'package:flutter/material.dart';
@@ -30,14 +27,6 @@ class PlanTab extends StatefulWidget {
 }
 
 class _PlanTabState extends State<PlanTab> {
-  /// Mock method for the amount limit.
-  ///
-  /// Returns a mock amount limit of 30,000.00, representing the budget limit.
-  /// This method is a placeholder for the actual logic.
-  double getMockAmountLimit() {
-    return 30000.00;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -57,9 +46,6 @@ class _PlanTabState extends State<PlanTab> {
           final bool isSuccess = planState is PlanLoaded;
           final bool isNotfound = planState is PlanNotFound;
 
-          final double limitSalary =
-              !isSuccess ? 1 : planState.plan.totalBudget;
-
           if (planState is PlanError) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               CommonNotification.showSnackBar(context, planState.message);
@@ -78,15 +64,14 @@ class _PlanTabState extends State<PlanTab> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: GestureDetector(
-                    onTap: () => _showPlanModal(context),
+                    onTap: () => isSuccess
+                        ? CustomCommonSheet()
+                            .allPlansSheet(context, planState.plan.id)
+                        : null,
                     child: Center(
                       child: MultiSegmentCircularProgress(
-                        transactionsSegment:
-                            PlanUtil.generatePlannTransactionSegment(
-                                isSuccess ? planState.plan : null),
-                        limitSalary: limitSalary,
-                        isSuccess: isSuccess,
                         isNotfound: isNotfound,
+                        plan: isSuccess ? planState.plan : null,
                       ),
                     ),
                   ),
@@ -96,23 +81,6 @@ class _PlanTabState extends State<PlanTab> {
           );
         },
       ),
-    );
-  }
-
-  void _showPlanModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return SizedBox(
-          height:
-              MediaQuery.of(context).size.height * 0.6, // 60% of screen height
-          child: const AllPlansSheet(),
-        );
-      },
     );
   }
 }

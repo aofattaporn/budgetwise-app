@@ -1,43 +1,49 @@
 import 'package:budget_wise/src/common/presentation/widgets/multi_segment_painter.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
+import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
-import 'package:budget_wise/src/domain/models/transaction_segment.dart';
+import 'package:budget_wise/src/core/utils/numbers_uti.dart';
+import 'package:budget_wise/src/core/utils/plan_util.dart';
+import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
-import 'package:budget_wise/src/presentation/screens/sheets/all_plans_sheet.dart';
 import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MultiSegmentCircularProgress extends StatelessWidget {
-  final bool isSuccess;
-  final bool isNotfound;
-  final bool isShowMessage;
   final double size;
   final double strokeWidth;
-  final List<TransactionsSegment> transactionsSegment;
-  final double limitSalary;
+  final bool isShowMessage;
+  final bool isNotfound;
+
+  final PlanEntity? plan;
 
   const MultiSegmentCircularProgress({
     super.key,
     this.size = 200,
     this.strokeWidth = 10,
     this.isShowMessage = true,
-    required this.transactionsSegment,
-    required this.limitSalary,
-    required this.isSuccess,
-    required this.isNotfound,
+    this.isNotfound = false,
+    this.plan,
   });
 
   List<Color> get _segmentColors =>
-      transactionsSegment.map((segment) => segment.color).toList();
+      PlanUtil.generatePlannTransactionSegment(plan)
+          .map((segment) => segment.color)
+          .toList();
 
-  List<double> get _segmentUsages => transactionsSegment
-      .map((segment) => (segment.usage * 100.0) / limitSalary)
-      .toList();
+  List<double> get _segmentUsages =>
+      PlanUtil.generatePlannTransactionSegment(plan)
+          .map((segment) => (segment.usage * 100.0) / (plan?.totalBudget ?? 1))
+          .toList();
 
-  double get _totalProgress =>
-      transactionsSegment.fold(0, (sum, value) => sum + value.usage);
+  double get _totalProgress => PlanUtil.generatePlannTransactionSegment(plan)
+      .fold(0, (sum, value) => sum + value.usage);
+
+  void fetchCurrentMonthPlan(BuildContext context) {
+    context.read<PlanBloc>().add(FetchCurrentMonthPlan());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,82 +57,60 @@ class MultiSegmentCircularProgress extends StatelessWidget {
               size: Size(size, size),
               painter:
                   MultiSegmentPainter(_segmentUsages, _segmentColors, 10, 0)),
-          if (isShowMessage) _buildContent(context),
+          isShowMessage ? _buidContent(plan) : _percentage(plan)
         ],
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context) => isNotfound
-      ? _buildNotFoundContent(context)
-      : _buildContentExsting(context);
+  Column _buidContent(PlanEntity? plan) {
+    if (plan != null) {
+      return _msgSummaryPlan(plan);
+    } else if (isNotfound) {
+      return _msgPlanNotFound();
+    } else {
+      return _msgPlanError();
+    }
+  }
 
-  Widget _buildContentExsting(BuildContext context) =>
-      isSuccess ? _buildSuccessContent() : _buildErrorContent(context);
+  Text _percentage(PlanEntity? plan) {
+    return Text(NumberUtil.calPercentage(_totalProgress, plan?.totalBudget ?? 0)
+        .toString());
+  }
 
-  Widget _buildSuccessContent() {
+  Column _msgSummaryPlan(PlanEntity plan) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-            '${UtilsDateTime.monthYearFormat(isSuccess ? DateTime.now() : DateTime.now())} - ${UtilsDateTime.monthYearFormat(isSuccess ? DateTime.now() : DateTime.now())}',
+            '${UtilsDateTime.monthYearFormat(plan.startDate)} - ${UtilsDateTime.monthYearFormat(plan.endDate)}',
             style: AppTextStyles.labelGraySmall),
-        AmountCompare(usage: _totalProgress, limitAmount: limitSalary),
+        AmountCompare(usage: _totalProgress, limitAmount: plan.totalBudget),
         const SizedBox(height: 8),
-        Text("${((_totalProgress * 100) / limitSalary).round()}%",
+        Text("${((_totalProgress * 100) / plan.totalBudget).round()}%",
             style: AppTextStyles.labelGraySmall),
         const Text("Progress", style: AppTextStyles.labelGraySmall),
       ],
     );
   }
 
-  Widget _buildErrorContent(BuildContext context) {
-    return Column(
+  Column _msgPlanError() {
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Something went wrong", style: AppTextStyles.labelGraySmall),
-        TextButton(
-          onPressed: () {
-            context.read<PlanBloc>().add(FetchCurrentMonthPlan());
-          },
-          child: const Text("Retry"),
-        ),
-        const Text("Error", style: AppTextStyles.labelGraySmall),
+        Text("Something went wrong ?", style: AppTextStyles.labelGraySmall),
+        Text("500 Error", style: AppTextStyles.labelGraySmall),
       ],
     );
   }
 
-  Widget _buildNotFoundContent(BuildContext context) {
-    return Column(
+  Column _msgPlanNotFound() {
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Not Found Plan", style: AppTextStyles.labelGraySmall),
-        const Text("on this current month",
-            style: AppTextStyles.labelGraySmall),
-        TextButton(
-          onPressed: () {
-            _showPlanModal(context);
-          },
-          child: const Text("View All Plan"),
-        ),
+        Text("This Plan Empty", style: AppTextStyles.labelGraySmall),
+        Text("404 Not found", style: AppTextStyles.labelGraySmall),
       ],
-    );
-  }
-
-  void _showPlanModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return SizedBox(
-          height:
-              MediaQuery.of(context).size.height * 0.6, // 60% of screen height
-          child: const AllPlansSheet(),
-        );
-      },
     );
   }
 }
