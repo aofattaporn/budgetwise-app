@@ -18,4 +18,12 @@ class AppPadding {
   static const vxl = EdgeInsets.symmetric(vertical: 16);
   static const vxxl = EdgeInsets.symmetric(vertical: 24);
   static const vmax = EdgeInsets.symmetric(vertical: 32);
+
+  static const hxxs = EdgeInsets.symmetric(horizontal: 2);
+  static const hxs = EdgeInsets.symmetric(horizontal: 4);
+  static const hsm = EdgeInsets.symmetric(horizontal: 6);
+  static const hmd = EdgeInsets.symmetric(horizontal: 8);
+  static const hxl = EdgeInsets.symmetric(horizontal: 16);
+  static const hxxl = EdgeInsets.symmetric(horizontal: 24);
+  static const hmax = EdgeInsets.symmetric(horizontal: 32);
 }

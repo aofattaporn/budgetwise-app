@@ -39,6 +39,15 @@ class _SheetAllPlanState extends State<SheetAllPlan> {
           style: AppTextStyles.headlineSmall,
         ),
         const SizedBox(height: 12),
+        Padding(
+          padding: AppPadding.hmd,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(onPressed: () {}, child: const Text("Add New"))
+            ],
+          ),
+        ),
         Expanded(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -86,7 +95,7 @@ class _SheetAllPlanState extends State<SheetAllPlan> {
         return GestureDetector(
           onTap: () => _selectedViewPlan(plans[index].id),
           child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 6),
+            margin: const EdgeInsets.only(bottom: 16),
             padding: AppPadding.allxl,
             decoration: BoxDecoration(
               color: Colors.white,
