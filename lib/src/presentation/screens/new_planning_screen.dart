@@ -15,10 +15,9 @@ class NewPlanningScreen extends StatefulWidget {
 }
 
 class _NewPlanningScreenState extends State<NewPlanningScreen> {
+  TextEditingController amountController = TextEditingController();
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
-
-  TextEditingController amountController = TextEditingController();
 
   final String kNewPlanning = 'New Planning';
 
@@ -50,7 +49,7 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
           padding: AppPadding.allxxl,
           child: Column(
             children: [
-              _buildPlanningComponent(),
+              //_buildPlanningComponent(),
               const SizedBox(height: 16),
               CustomCommonDatepicker(
                 label: 'Select Date',
