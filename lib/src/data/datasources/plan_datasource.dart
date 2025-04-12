@@ -20,25 +20,31 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   @override
   Future<PlanEntity?> fetchPlanByStartAndEndDate(
       DateTime startDateTime, DateTime endDateTime) async {
-    final response = await supabase
-        .from('plans')
-        .select()
-        .lte('start_date', DateFormat('yyyy-MM-dd').format(startDateTime))
-        .gte('end_date', DateFormat('yyyy-MM-dd').format(endDateTime))
-        .maybeSingle();
+    try {
+      final response = await supabase
+          .from('plans')
+          .select()
+          .lte('start_date', DateFormat('yyyy-MM-dd').format(startDateTime))
+          .gte('end_date', DateFormat('yyyy-MM-dd').format(endDateTime))
+          .limit(1)
+          .maybeSingle();
 
-    return response == null
-        ? null
-        : PlanEntity(
-            id: response['id'],
-            startDate: DateTime.parse(response['start_date']),
-            endDate: DateTime.parse(response['end_date']),
-            totalBudget: response['total_budget'].toDouble(),
-            createAt: DateTime.parse(response['create_at']),
-            summaryTranfer: response['summary_tranfer'].toDouble(),
-            summarySaving: response['summary_saving'].toDouble(),
-            summaryOther: response['summary_other'].toDouble(),
-          );
+      return response == null
+          ? null
+          : PlanEntity(
+              id: response['id'],
+              startDate: DateTime.parse(response['start_date']),
+              endDate: DateTime.parse(response['end_date']),
+              totalBudget: response['total_budget'].toDouble(),
+              createAt: DateTime.parse(response['create_at']),
+              summaryTranfer: response['summary_tranfer'].toDouble(),
+              summarySaving: response['summary_saving'].toDouble(),
+              summaryOther: response['summary_other'].toDouble(),
+            );
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   @override
@@ -115,6 +121,6 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
       'end_date': plan.endDate.toIso8601String(),
       'total_budget': plan.totalBudget,
       'create_at': plan.createAt.toIso8601String(),
-    }).eq('id', plan.id);
+    }).eq('id', plan.id ?? "0");
   }
 }

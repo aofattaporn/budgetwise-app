@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/domain/repositories/plan_repository.dart';
 
 /// The main screen tab for displaying a plan-related view.
@@ -22,5 +23,16 @@ class PlanUsecase {
 
   Future<List<PlanEntity>> getAllPlans() async {
     return await planRepository.getAllPlans();
+  }
+
+  Future<void> createPlan(PlanDto planDto) async {
+    await planRepository.createPlan(PlanEntity(
+        startDate: planDto.startDate,
+        endDate: planDto.endDate,
+        totalBudget: planDto.totalBudget,
+        createAt: DateTime.now(),
+        summaryTranfer: 0,
+        summarySaving: 0,
+        summaryOther: 0));
   }
 }

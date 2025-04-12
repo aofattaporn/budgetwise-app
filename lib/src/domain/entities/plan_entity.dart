@@ -4,7 +4,7 @@ part 'plan_entity.g.dart';
 
 @JsonSerializable()
 class PlanEntity {
-  final int id;
+  final int? id;
 
   @JsonKey(name: 'start_date')
   final DateTime startDate;
@@ -28,7 +28,7 @@ class PlanEntity {
   final double summaryOther;
 
   PlanEntity({
-    required this.id,
+    this.id,
     required this.startDate,
     required this.endDate,
     required this.totalBudget,

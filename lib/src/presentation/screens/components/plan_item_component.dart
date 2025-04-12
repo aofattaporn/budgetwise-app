@@ -29,7 +29,7 @@ class PlanItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _selectedViewPlan(planEntity.id, context),
+      onTap: () => _selectedViewPlan(planEntity.id ?? 0, context),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         padding: AppPadding.allxl,

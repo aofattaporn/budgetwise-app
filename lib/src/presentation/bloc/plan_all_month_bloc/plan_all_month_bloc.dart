@@ -8,12 +8,25 @@ class PlanAllMonthBloc extends Bloc<PlanAllMonthEvent, PlanAllMonthState> {
 
   PlanAllMonthBloc({required this.planUsecase}) : super(PlanAllMonthInitial()) {
     on<FetchAllPlans>(_onFetchAllPlans);
+    on<AddNewPlan>(_onAddNewPlan);
   }
 
   Future<void> _onFetchAllPlans(
       FetchAllPlans event, Emitter<PlanAllMonthState> emit) async {
     emit(AllPlanLoading());
     try {
+      final plans = await planUsecase.getAllPlans();
+      emit(AllPlanLoaded(plans: plans));
+    } catch (e) {
+      emit(PlanAllMonthError(e.toString()));
+    }
+  }
+
+  Future<void> _onAddNewPlan(
+      AddNewPlan event, Emitter<PlanAllMonthState> emit) async {
+    emit(AllPlanLoading());
+    try {
+      await planUsecase.createPlan(event.planDto);
       final plans = await planUsecase.getAllPlans();
       emit(AllPlanLoaded(plans: plans));
     } catch (e) {

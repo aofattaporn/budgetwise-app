@@ -66,7 +66,7 @@ class _PlanTabState extends State<PlanTab> {
                   child: GestureDetector(
                     onTap: () => isSuccess
                         ? CustomCommonSheet()
-                            .allPlansSheet(context, planState.plan.id)
+                            .allPlansSheet(context, planState.plan.id ?? 0)
                         : null,
                     child: Center(
                       child: MultiSegmentCircularProgress(
