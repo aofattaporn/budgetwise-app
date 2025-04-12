@@ -1,11 +1,11 @@
+import 'package:budget_wise/src/common/presentation/widgets/common_elevated_btn.dart';
+import 'package:budget_wise/src/core/constant/date_constant.dart';
+import 'package:flutter/material.dart';
 import 'package:budget_wise/src/common/presentation/custom_common_datepicker.dart';
 import 'package:budget_wise/src/common/presentation/custom_common_text_field.dart';
 import 'package:budget_wise/src/common/theme/app_colors.dart';
-import 'package:flutter/material.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
-import 'package:budget_wise/src/common/theme/app_shadow.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
-import 'package:budget_wise/src/presentation/widgets/segmented_circular_progress.dart';
 
 class NewPlanningScreen extends StatefulWidget {
   const NewPlanningScreen({super.key});
@@ -15,11 +15,30 @@ class NewPlanningScreen extends StatefulWidget {
 }
 
 class _NewPlanningScreenState extends State<NewPlanningScreen> {
-  TextEditingController amountController = TextEditingController();
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
+  final TextEditingController amountController = TextEditingController();
+
+  late DateTime startDate;
+  late DateTime endDate;
+  late bool isSaveDisabled = true;
 
   final String kNewPlanning = 'New Planning';
+
+  @override
+  void initState() {
+    super.initState();
+    final now = DateTime.now();
+    startDate = DateTime(now.year, now.month, DateConstant.firstDayOfMonth);
+    endDate = DateTime(now.year, now.month + DateConstant.firstDayOfMonth,
+        DateConstant.lastDayOfMonth);
+
+    amountController.addListener(_onAmountChanged);
+  }
+
+  void _onAmountChanged() {
+    setState(() {
+      isSaveDisabled = amountController.text.trim().isEmpty;
+    });
+  }
 
   void _onStartDateChanged(DateTime newDate) {
     setState(() {
@@ -31,6 +50,12 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
     setState(() {
       endDate = newDate;
     });
+  }
+
+  void _saveNewPlanning() {
+    print("Start Date: $startDate");
+    print("End Date: $endDate");
+    print("Amount: ${amountController.text}");
   }
 
   @override
@@ -49,10 +74,9 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
           padding: AppPadding.allxxl,
           child: Column(
             children: [
-              //_buildPlanningComponent(),
               const SizedBox(height: 16),
               CustomCommonDatepicker(
-                label: 'Select Date',
+                label: 'Start Date',
                 initialDate: startDate,
                 onDateChanged: _onStartDateChanged,
               ),
@@ -62,10 +86,14 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
                 onDateChanged: _onEndDateChanged,
               ),
               const SizedBox(height: 8),
-              _buildAmountInputRow(),
+              _buildAmountInput(),
               const SizedBox(height: 16),
               const Spacer(),
-              _buildSaveButton(),
+              CommonElevatedBtn(
+                label: "Save",
+                onPressed: _saveNewPlanning,
+                isDisable: amountController.value.text == "",
+              )
             ],
           ),
         ),
@@ -73,58 +101,19 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
     );
   }
 
-  Widget _buildAmountInputRow() {
+  Widget _buildAmountInput() {
     return Row(
       children: [
         const Expanded(
           child: Text('Amount', style: AppTextStyles.bodyMedium),
         ),
         Expanded(
-            child: CustomCommonTextField(
-          textEditingController: amountController,
-          placeHolder: 'amount',
-        )),
-      ],
-    );
-  }
-
-  Widget _buildSaveButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(AppColors.primary),
-        ),
-        onPressed: () {
-          print("Amount: ${amountController.text}");
-        },
-        child: const Text('Save'),
-      ),
-    );
-  }
-
-  Widget _buildPlanningComponent() {
-    return Container(
-      padding: AppPadding.allxl,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: AppShadow.lg,
-      ),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Spacer(),
-          Expanded(
-            child: MultiSegmentCircularProgress(
-              size: 80,
-              strokeWidth: 6,
-              isShowMessage: false,
-              plan: null,
-            ),
+          child: CustomCommonTextField(
+            textEditingController: amountController,
+            placeHolder: 'amount',
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

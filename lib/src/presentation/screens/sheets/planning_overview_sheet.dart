@@ -31,15 +31,10 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
 
   @override
   Widget build(BuildContext context) {
-    const String kAllPlaning = "All Plans";
-
     return Column(
       spacing: 12,
       children: [
-        const Text(
-          kAllPlaning,
-          style: AppTextStyles.headlineSmall,
-        ),
+        const SizedBox(height: 16),
         _buildActionPlan(context),
         Expanded(
           child: SingleChildScrollView(
@@ -52,6 +47,19 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
     );
   }
 
+  Padding _buildActionPlan(BuildContext context) {
+    return Padding(
+      padding: AppPadding.hmd,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+              onPressed: navigateToNewPlanning, child: const Text("Add New"))
+        ],
+      ),
+    );
+  }
+
   Widget _buildListItems() {
     return BlocBuilder<PlanAllMonthBloc, PlanAllMonthState>(
         builder: (context, state) {
@@ -61,19 +69,6 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
         _ => _buildPlanLoading("Somthing when wrong."),
       };
     });
-  }
-
-  Padding _buildActionPlan(BuildContext context) {
-    return Padding(
-      padding: AppPadding.hmd,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          TextButton(
-              onPressed: navigateToNewPlanning, child: const Text("Add New"))
-        ],
-      ),
-    );
   }
 
   SizedBox _buildPlanLoading(String message) {
