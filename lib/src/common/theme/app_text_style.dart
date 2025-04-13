@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 class AppTextStyles {
   AppTextStyles._();
 
-  // ====================== display =================================
+  // ============================================================================
+  // =                                  DISPLAY                                =
+  // ============================================================================
 
   // ====> AppColors.dark
 
@@ -32,7 +34,7 @@ class AppTextStyles {
     height: 1.3,
   );
 
-  // ====> AppColors.dark
+  // ====> AppColors.priamryDark
 
   static const displayPriamryDarkLarge = TextStyle(
     color: AppColors.priamryDark,
@@ -55,9 +57,10 @@ class AppTextStyles {
     height: 1.3,
   );
 
-  // ====================== head =================================
+  // ============================================================================
+  // =                                 HEADLINE                                =
+  // ============================================================================
 
-  /// Headline large
   static const headlineLarge = TextStyle(
     color: AppColors.dark,
     fontSize: 22,
@@ -65,7 +68,6 @@ class AppTextStyles {
     height: 1.4,
   );
 
-  /// Headline medium
   static const headlineMedium = TextStyle(
     color: AppColors.dark,
     fontSize: 20,
@@ -73,7 +75,6 @@ class AppTextStyles {
     height: 1.4,
   );
 
-  /// Headline small
   static const headlineSmall = TextStyle(
     color: AppColors.dark,
     fontSize: 18,
@@ -81,9 +82,10 @@ class AppTextStyles {
     height: 1.4,
   );
 
-  // ====================== body =================================
+  // ============================================================================
+  // =                                   BODY                                  =
+  // ============================================================================
 
-  /// Body large
   static const bodyLarge = TextStyle(
     color: AppColors.dark,
     fontSize: 16,
@@ -91,7 +93,6 @@ class AppTextStyles {
     height: 1.5,
   );
 
-  /// Body medium (default text)
   static const bodyMedium = TextStyle(
     color: AppColors.dark,
     fontSize: 14,
@@ -99,7 +100,6 @@ class AppTextStyles {
     height: 1.5,
   );
 
-  /// Body small
   static const bodySmall = TextStyle(
     color: AppColors.dark,
     fontSize: 12,
@@ -107,7 +107,10 @@ class AppTextStyles {
     height: 1.5,
   );
 
-  /// Label large (e.g., buttons)
+  // ============================================================================
+  // =                                   LABEL                                 =
+  // ============================================================================
+
   static const labelLarge = TextStyle(
     color: AppColors.dark,
     fontSize: 14,
@@ -115,7 +118,6 @@ class AppTextStyles {
     height: 1.4,
   );
 
-  /// Label medium
   static const labelMedium = TextStyle(
     color: AppColors.dark,
     fontSize: 12,
@@ -123,7 +125,6 @@ class AppTextStyles {
     height: 1.4,
   );
 
-  /// Label small
   static const labelSmall = TextStyle(
     color: AppColors.dark,
     fontSize: 10,
@@ -131,14 +132,14 @@ class AppTextStyles {
     height: 1.4,
   );
 
-  // add-onc
+  // ====> Add-ons
+
   static const labelGraySmall = TextStyle(
     color: AppColors.grayLight,
     fontSize: 12,
     height: 1.4,
   );
 
-  // add-onc
   static const labelPrimarySmall = TextStyle(
     color: AppColors.priamryDark,
     fontWeight: FontWeight.bold,
