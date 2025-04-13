@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/presentation/screens/sheets/planning_overview_sheet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomCommonDialog {
@@ -34,6 +35,45 @@ class CustomCommonDialog {
             widthFactor: widthFactor,
             child: child,
           ),
+        );
+      },
+    );
+  }
+
+  void confirmDeleteDialog(
+    BuildContext context,
+    int i, {
+    required String title,
+    required String message,
+    required VoidCallback onConfirm,
+    VoidCallback? onCancel,
+  }) {
+    showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Text(title),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(message),
+          ),
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+                if (onCancel != null) onCancel();
+              },
+              child: const Text('Cancel'),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+                onConfirm();
+              },
+              isDestructiveAction: true,
+              child: const Text('Delete'),
+            ),
+          ],
         );
       },
     );

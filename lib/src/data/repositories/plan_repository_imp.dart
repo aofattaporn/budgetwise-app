@@ -36,4 +36,9 @@ class PlanRepositoryImp implements PlanRepository {
       DateTime startTime, DateTime endTime) {
     return planDataSource.fetchPlanByStartAndEndDate(startTime, endTime);
   }
+
+  @override
+  Future<void> deletePlan(int planId) {
+    return planDataSource.deletePlanById(planId);
+  }
 }

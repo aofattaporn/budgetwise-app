@@ -10,6 +10,7 @@ abstract class PlanDataSource {
   Future<List<PlanEntity>> fetchAllPlans();
   Future<void> createPlan(PlanEntity plan);
   Future<void> updatePlan(PlanEntity plan);
+  Future<void> deletePlanById(int id);
 }
 
 class PlanRemoteDataSourceImpl implements PlanDataSource {
@@ -122,5 +123,10 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
       'total_budget': plan.totalBudget,
       'create_at': plan.createAt.toIso8601String(),
     }).eq('id', plan.id ?? "0");
+  }
+
+  @override
+  Future<void> deletePlanById(int id) async {
+    await supabase.from('plans').delete().eq('id', id);
   }
 }

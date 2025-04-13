@@ -35,4 +35,8 @@ class PlanUsecase {
         summarySaving: 0,
         summaryOther: 0));
   }
+
+  Future<void> deletePlan(int id) async {
+    await planRepository.deletePlan(id);
+  }
 }

@@ -58,8 +58,10 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
 
   void saveNewPlanning(BuildContext context) {
     context.read<PlanAllMonthBloc>().add(AddNewPlan(
-        planDto:
-            PlanDto(startDate: startDate, endDate: endDate, totalBudget: 0)));
+        planDto: PlanDto(
+            startDate: startDate,
+            endDate: endDate,
+            totalBudget: double.parse(amountController.text.trim()))));
     Navigator.pop(context);
   }
 

@@ -9,6 +9,7 @@ class PlanAllMonthBloc extends Bloc<PlanAllMonthEvent, PlanAllMonthState> {
   PlanAllMonthBloc({required this.planUsecase}) : super(PlanAllMonthInitial()) {
     on<FetchAllPlans>(_onFetchAllPlans);
     on<AddNewPlan>(_onAddNewPlan);
+    on<DeletePlanById>(_onDeletePlanById);
   }
 
   Future<void> _onFetchAllPlans(
@@ -30,6 +31,19 @@ class PlanAllMonthBloc extends Bloc<PlanAllMonthEvent, PlanAllMonthState> {
       final plans = await planUsecase.getAllPlans();
       emit(AllPlanLoaded(plans: plans));
     } catch (e) {
+      emit(PlanAllMonthError(e.toString()));
+    }
+  }
+
+  Future<void> _onDeletePlanById(
+      DeletePlanById event, Emitter<PlanAllMonthState> emit) async {
+    emit(AllPlanLoading());
+    try {
+      await planUsecase.deletePlan(event.planId);
+      final plans = await planUsecase.getAllPlans();
+      emit(AllPlanLoaded(plans: plans));
+    } catch (e) {
+      print(e);
       emit(PlanAllMonthError(e.toString()));
     }
   }

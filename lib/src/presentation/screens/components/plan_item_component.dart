@@ -1,9 +1,12 @@
+import 'package:budget_wise/src/common/presentation/custom_common_dailog.dart';
 import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
 import 'package:budget_wise/src/common/theme/app_shadow.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
 import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
@@ -48,14 +51,14 @@ class PlanItemComponent extends StatelessWidget {
                 isShowMessage: false,
                 plan: planEntity),
             const SizedBox(width: 20),
-            _buildContentPlanDetail(planEntity),
+            _buildContentPlanDetail(context, planEntity),
           ],
         ),
       ),
     );
   }
 
-  Expanded _buildContentPlanDetail(PlanEntity plan) {
+  Expanded _buildContentPlanDetail(BuildContext context, PlanEntity plan) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,7 +110,16 @@ class PlanItemComponent extends StatelessWidget {
                     visualDensity: VisualDensity.compact,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    CustomCommonDialog().confirmDeleteDialog(context, 0,
+                        title: 'Delete',
+                        message: 'You are going to delete this plan',
+                        onConfirm: () {
+                      context
+                          .read<PlanAllMonthBloc>()
+                          .add(DeletePlanById(planId: plan.id ?? 0));
+                    });
+                  },
                   child: const Text("Delete"),
                 ),
               ),

@@ -8,6 +8,12 @@ abstract class PlanAllMonthEvent extends Equatable {
 
 class FetchAllPlans extends PlanAllMonthEvent {}
 
+class DeletePlanById extends PlanAllMonthEvent {
+  final int planId;
+
+  DeletePlanById({required this.planId});
+}
+
 class AddNewPlan extends PlanAllMonthEvent {
   final PlanDto planDto;
 

@@ -8,4 +8,5 @@ abstract class PlanRepository {
   Future<List<PlanEntity>> getAllPlans();
   Future<void> createPlan(PlanEntity plan);
   Future<void> updatePlan(PlanEntity plan);
+  Future<void> deletePlan(int planId);
 }
