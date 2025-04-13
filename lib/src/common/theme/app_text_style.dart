@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 class AppTextStyles {
   AppTextStyles._();
 
-  /// Display large (e.g., headlines)
+  // ====================== display =================================
+
+  // ====> AppColors.dark
+
   static const displayLarge = TextStyle(
     color: AppColors.dark,
     fontSize: 32,
@@ -15,7 +18,6 @@ class AppTextStyles {
     height: 1.25,
   );
 
-  /// Display medium
   static const displayMedium = TextStyle(
     color: AppColors.dark,
     fontSize: 28,
@@ -23,13 +25,37 @@ class AppTextStyles {
     height: 1.3,
   );
 
-  /// Display small
   static const displaySmall = TextStyle(
     color: AppColors.dark,
     fontSize: 24,
     fontWeight: FontWeight.bold,
     height: 1.3,
   );
+
+  // ====> AppColors.dark
+
+  static const displayPriamryDarkLarge = TextStyle(
+    color: AppColors.priamryDark,
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+    height: 1.25,
+  );
+
+  static const displayPriamryDarkMedium = TextStyle(
+    color: AppColors.priamryDark,
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+    height: 1.3,
+  );
+
+  static const displayPriamryDarkSmall = TextStyle(
+    color: AppColors.priamryDark,
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    height: 1.3,
+  );
+
+  // ====================== head =================================
 
   /// Headline large
   static const headlineLarge = TextStyle(
@@ -54,6 +80,8 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     height: 1.4,
   );
+
+  // ====================== body =================================
 
   /// Body large
   static const bodyLarge = TextStyle(

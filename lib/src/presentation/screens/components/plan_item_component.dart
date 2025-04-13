@@ -1,8 +1,10 @@
 import 'package:budget_wise/src/common/presentation/custom_common_dailog.dart';
+import 'package:budget_wise/src/common/presentation/widgets/btn/common_outline_btn.dart';
 import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
 import 'package:budget_wise/src/common/theme/app_shadow.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
+import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_bloc.dart';
@@ -21,12 +23,20 @@ class PlanItemComponent extends StatelessWidget {
   const PlanItemComponent({
     super.key,
     required this.planEntity,
-    this.selectedId, // Defaults to null by default
+    this.selectedId,
   });
 
   void _selectedViewPlan(int id, BuildContext context) {
     context.read<PlanBloc>().add(FetchtPlanByMId(id: id));
     Navigator.pop(context);
+  }
+
+  void _deletePlanById(BuildContext context, int planId) {
+    CustomCommonDialog().confirmDeleteDialog(context,
+        title: CommonConstant.deleteLabel,
+        message: CommonConstant.deleteDescLabel, onConfirm: () {
+      context.read<PlanAllMonthBloc>().add(DeletePlanById(planId: planId));
+    });
   }
 
   @override
@@ -80,49 +90,16 @@ class PlanItemComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 2, horizontal: 4), // minimal padding
-                    textStyle: const TextStyle(
-                        fontSize: 10, color: AppColors.primary), // tiny font
-                    foregroundColor: AppColors.primary, // text & icon color
-                    side: const BorderSide(
-                        color: AppColors.primary), // red border
-                    visualDensity:
-                        VisualDensity.compact, // reduce button spacing
-                    tapTargetSize:
-                        MaterialTapTargetSize.shrinkWrap, // shrink touch area
-                  ),
-                  onPressed: () {},
-                  child: const Text("Edit"),
-                ),
-              ),
+                  child: CommonOutlineBtn(
+                label: CommonConstant.editLabel,
+                onPressed: () {},
+              )),
               Expanded(
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                    textStyle: const TextStyle(fontSize: 10),
-                    foregroundColor: AppColors.error, // text & icon color
-                    side:
-                        const BorderSide(color: AppColors.error), // red border
-                    visualDensity: VisualDensity.compact,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  onPressed: () {
-                    CustomCommonDialog().confirmDeleteDialog(context, 0,
-                        title: 'Delete',
-                        message: 'You are going to delete this plan',
-                        onConfirm: () {
-                      context
-                          .read<PlanAllMonthBloc>()
-                          .add(DeletePlanById(planId: plan.id ?? 0));
-                    });
-                  },
-                  child: const Text("Delete"),
-                ),
-              ),
+                  child: CommonOutlineBtn(
+                label: CommonConstant.deleteLabel,
+                onPressed: () => _deletePlanById(context, plan.id ?? 0),
+                backgroundColor: AppColors.error,
+              )),
             ],
           )
         ],

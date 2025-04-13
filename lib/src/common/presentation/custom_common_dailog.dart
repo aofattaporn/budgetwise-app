@@ -41,8 +41,7 @@ class CustomCommonDialog {
   }
 
   void confirmDeleteDialog(
-    BuildContext context,
-    int i, {
+    BuildContext context, {
     required String title,
     required String message,
     required VoidCallback onConfirm,

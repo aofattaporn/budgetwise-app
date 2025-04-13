@@ -1,5 +1,7 @@
+import 'package:budget_wise/src/common/presentation/widgets/btn/common_icon_btn.dart';
 import 'package:budget_wise/src/common/routes/app_routes.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
+import 'package:budget_wise/src/common/theme/app_spacing.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_bloc.dart';
@@ -14,11 +16,13 @@ class PlanningOverviewSheet extends StatefulWidget {
   const PlanningOverviewSheet({required this.planIdSelected, super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _PlanningOverviewSheetState createState() => _PlanningOverviewSheetState();
+  State<PlanningOverviewSheet> createState() => _PlanningOverviewSheetState();
 }
 
 class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
+  final String kTitlePlanSheet = "Plan Overview";
+  final String kAddNewLabel = "Add New";
+
   @override
   void initState() {
     super.initState();
@@ -32,15 +36,18 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 12,
+      spacing: AppSpacing.xxl,
       children: [
-        const SizedBox(height: 16),
+        const SizedBox(height: 4),
         _buildActionPlan(context),
         Expanded(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: AppPadding.allxl,
-            child: _buildListItems(),
+            child: Padding(
+              padding: AppPadding.hmd,
+              child: _buildListItems(),
+            ),
           ),
         ),
       ],
@@ -49,12 +56,16 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
 
   Padding _buildActionPlan(BuildContext context) {
     return Padding(
-      padding: AppPadding.hmd,
+      padding: AppPadding.hxxl,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          ElevatedButton(
-              onPressed: navigateToNewPlanning, child: const Text("Add New"))
+          Text(kTitlePlanSheet, style: AppTextStyles.displayPriamryDarkSmall),
+          CommonIconBtn(
+              label: kAddNewLabel,
+              icon: const Icon(Icons.add, color: Colors.white),
+              onPressed: navigateToNewPlanning)
         ],
       ),
     );
