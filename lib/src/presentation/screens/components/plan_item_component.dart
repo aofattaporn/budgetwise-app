@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/common/presentation/custom_common_dailog.dart';
 import 'package:budget_wise/src/common/presentation/widgets/btn/common_outline_btn.dart';
+import 'package:budget_wise/src/common/routes/app_routes.dart';
 import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
 import 'package:budget_wise/src/common/theme/app_shadow.dart';
@@ -19,12 +20,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PlanItemComponent extends StatelessWidget {
   final PlanEntity planEntity;
   final int? selectedId;
+  final bool? idEditing;
 
-  const PlanItemComponent({
-    super.key,
-    required this.planEntity,
-    this.selectedId,
-  });
+  static const int? defaultSelectedId = null;
+  static const bool defaultIsEditing = false;
+
+  const PlanItemComponent(
+      {super.key,
+      required this.planEntity,
+      this.selectedId = defaultSelectedId,
+      this.idEditing = defaultIsEditing});
 
   void _selectedViewPlan(int id, BuildContext context) {
     context.read<PlanBloc>().add(FetchtPlanByMId(id: id));
@@ -37,6 +42,10 @@ class PlanItemComponent extends StatelessWidget {
         message: CommonConstant.deleteDescLabel, onConfirm: () {
       context.read<PlanAllMonthBloc>().add(DeletePlanById(planId: planId));
     });
+  }
+
+  void _editPlanById(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.newPlanningScreen);
   }
 
   @override
@@ -76,7 +85,7 @@ class PlanItemComponent extends StatelessWidget {
         children: [
           Text(
               '${UtilsDateTime.monthYearFormat(plan.startDate)} - ${UtilsDateTime.monthYearFormat(plan.endDate)}',
-              style: plan.id == planEntity.id
+              style: plan.id == selectedId
                   ? AppTextStyles.labelPrimarySmall
                   : AppTextStyles.labelGraySmall),
           AmountCompare(
@@ -84,7 +93,7 @@ class PlanItemComponent extends StatelessWidget {
               usage:
                   plan.summaryOther + plan.summaryTranfer + plan.summaryOther,
               limitAmount: plan.totalBudget),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           Row(
             spacing: 16,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,7 +101,7 @@ class PlanItemComponent extends StatelessWidget {
               Expanded(
                   child: CommonOutlineBtn(
                 label: CommonConstant.editLabel,
-                onPressed: () {},
+                onPressed: () => _editPlanById(context),
               )),
               Expanded(
                   child: CommonOutlineBtn(

@@ -3,7 +3,12 @@ import 'package:budget_wise/src/presentation/screens/components/plan_item_compon
 import 'package:flutter/cupertino.dart';
 
 class Component {
-  static Widget planItemComponent(PlanEntity planEntity, {int? selectedId}) {
-    return PlanItemComponent(planEntity: planEntity, selectedId: selectedId);
+  static Widget planItemComponent(PlanEntity planEntity,
+      {int? selectedId, bool? isEditing}) {
+    return PlanItemComponent(
+      planEntity: planEntity,
+      selectedId: selectedId,
+      idEditing: isEditing,
+    );
   }
 }
