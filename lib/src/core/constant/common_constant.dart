@@ -14,6 +14,7 @@ class CommonConstant {
   static const String endDateLabel = "End Date";
   static const String enterCommonLabel = "Enter amount";
   static const String editLabel = "Edit";
+  static const String cancelLabel = "Cancel";
   static const String deleteLabel = "Delete";
 
   static const String deleteDescLabel = "You are going to delete this plan";

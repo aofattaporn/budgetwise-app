@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/presentation/screens/sheets/planning_overview_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,18 +60,18 @@ class CustomCommonDialog {
           actions: <CupertinoDialogAction>[
             CupertinoDialogAction(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop();
                 if (onCancel != null) onCancel();
               },
-              child: const Text('Cancel'),
+              child: const Text(CommonConstant.cancelLabel),
             ),
             CupertinoDialogAction(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop();
                 onConfirm();
               },
               isDestructiveAction: true,
-              child: const Text('Delete'),
+              child: const Text(CommonConstant.deleteLabel),
             ),
           ],
         );

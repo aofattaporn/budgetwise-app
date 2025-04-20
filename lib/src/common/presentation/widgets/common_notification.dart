@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CommonNotification {
@@ -7,7 +8,7 @@ class CommonNotification {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: Colors.red,
+        backgroundColor: AppColors.primary,
         duration: Duration(seconds: durationInSeconds),
       ),
     );

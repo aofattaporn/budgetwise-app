@@ -28,6 +28,7 @@ class PlanAllMonthBloc extends Bloc<PlanAllMonthEvent, PlanAllMonthState> {
     emit(AllPlanLoading());
     try {
       await planUsecase.createPlan(event.planDto);
+      emit(CreatePlanSuccess());
       final plans = await planUsecase.getAllPlans();
       emit(AllPlanLoaded(plans: plans));
     } catch (e) {
@@ -40,10 +41,10 @@ class PlanAllMonthBloc extends Bloc<PlanAllMonthEvent, PlanAllMonthState> {
     emit(AllPlanLoading());
     try {
       await planUsecase.deletePlan(event.planId);
+      emit(DeletePlanSuccess());
       final plans = await planUsecase.getAllPlans();
       emit(AllPlanLoaded(plans: plans));
     } catch (e) {
-      print(e);
       emit(PlanAllMonthError(e.toString()));
     }
   }

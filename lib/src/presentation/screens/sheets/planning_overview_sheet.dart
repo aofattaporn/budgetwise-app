@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/common/presentation/widgets/btn/common_icon_btn.dart';
+import 'package:budget_wise/src/common/presentation/widgets/common_notification.dart';
 import 'package:budget_wise/src/common/routes/app_routes.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
 import 'package:budget_wise/src/common/theme/app_spacing.dart';
@@ -35,22 +36,33 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: AppSpacing.xxl,
-      children: [
-        const SizedBox(height: 4),
-        _buildActionPlan(context),
-        Expanded(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: AppPadding.allxl,
-            child: Padding(
-              padding: AppPadding.hmd,
-              child: _buildListItems(),
+    return BlocListener<PlanAllMonthBloc, PlanAllMonthState>(
+      listener: (BuildContext context, state) {
+        if (state is CreatePlanSuccess) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            CommonNotification.showSnackBar(
+                Navigator.of(context, rootNavigator: true).context,
+                "create plan success");
+          });
+        }
+      },
+      child: Column(
+        spacing: AppSpacing.xxl,
+        children: [
+          const SizedBox(height: 4),
+          _buildActionPlan(context),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: AppPadding.allxl,
+              child: Padding(
+                padding: AppPadding.hmd,
+                child: _buildListItems(),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -75,7 +87,10 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
     return BlocBuilder<PlanAllMonthBloc, PlanAllMonthState>(
         builder: (context, state) {
       return switch (state) {
-        AllPlanLoading() => _buildPlanLoading("Loading..."),
+        AllPlanLoading() ||
+        CreatePlanSuccess() ||
+        DeletePlanSuccess() =>
+          _buildPlanLoading("Loading..."),
         AllPlanLoaded() => _buildPlanListItem(state.plans),
         _ => _buildPlanLoading("Somthing when wrong."),
       };

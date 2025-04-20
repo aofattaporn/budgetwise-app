@@ -15,6 +15,10 @@ class PlanLoaded extends PlanAllMonthState {
 
 class AllPlanLoading extends PlanAllMonthState {}
 
+class CreatePlanSuccess extends PlanAllMonthState {}
+
+class DeletePlanSuccess extends PlanAllMonthState {}
+
 class AllPlanLoaded extends PlanAllMonthState {
   final List<PlanEntity> plans;
   AllPlanLoaded({required this.plans});

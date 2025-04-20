@@ -30,6 +30,7 @@ class CustomCommonSheet {
     showModalBottomSheet(
       backgroundColor: AppColors.white,
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(radius)),
