@@ -12,7 +12,10 @@ import 'package:budget_wise/src/common/theme/app_text_style.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewPlanningScreen extends StatefulWidget {
-  const NewPlanningScreen({super.key});
+  final PlanDto? planDto;
+  final int? id;
+
+  const NewPlanningScreen({super.key, this.planDto = null, this.id = null});
 
   @override
   State<NewPlanningScreen> createState() => _NewPlanningScreenState();
@@ -21,8 +24,10 @@ class NewPlanningScreen extends StatefulWidget {
 class _NewPlanningScreenState extends State<NewPlanningScreen> {
   final TextEditingController amountController = TextEditingController();
 
+  late bool isEditing;
   late DateTime startDate;
   late DateTime endDate;
+  late double amount;
   late bool isSaveDisabled = true;
 
   final String kNewPlanning = 'New Planning';
@@ -30,10 +35,20 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
   @override
   void initState() {
     super.initState();
+
     final now = DateTime.now();
-    startDate = DateTime(now.year, now.month, DateConstant.firstDayOfMonth);
-    endDate = DateTime(now.year, now.month + DateConstant.firstDayOfMonth,
-        DateConstant.lastDayOfMonth);
+    isEditing = widget.planDto != null;
+
+    final startDateThisMonth =
+        DateTime(now.year, now.month, DateConstant.firstDayOfMonth);
+    final endDateThisMonth = DateTime(now.year,
+        now.month + DateConstant.firstDayOfMonth, DateConstant.lastDayOfMonth);
+
+    startDate = isEditing ? widget.planDto!.startDate : startDateThisMonth;
+    endDate = isEditing ? widget.planDto!.endDate : endDateThisMonth;
+
+    amount = isEditing ? widget.planDto!.totalBudget : 0.0;
+    amountController.text = amount == 0.0 ? '' : amount.toStringAsFixed(0);
 
     amountController.addListener(_onAmountChanged);
   }
@@ -62,6 +77,18 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
             startDate: startDate,
             endDate: endDate,
             totalBudget: double.parse(amountController.text.trim()))));
+    Navigator.pop(context);
+  }
+
+  void editNewPlanning(
+    BuildContext context,
+  ) {
+    context.read<PlanAllMonthBloc>().add(EditPlan(
+        planDto: PlanDto(
+            startDate: startDate,
+            endDate: endDate,
+            totalBudget: double.parse(amountController.text.trim())),
+        id: widget.id!));
     Navigator.pop(context);
   }
 
@@ -96,11 +123,17 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
               _buildAmountInput(),
               const SizedBox(height: 16),
               const Spacer(),
-              CommonElevatedBtn(
-                label: "Save",
-                onPressed: () => saveNewPlanning(context),
-                isDisable: amountController.value.text == "",
-              )
+              isEditing
+                  ? CommonElevatedBtn(
+                      label: "Edit",
+                      onPressed: () => editNewPlanning(context),
+                      isDisable: amountController.value.text == "",
+                    )
+                  : CommonElevatedBtn(
+                      label: "Save",
+                      onPressed: () => saveNewPlanning(context),
+                      isDisable: amountController.value.text == "",
+                    )
             ],
           ),
         ),

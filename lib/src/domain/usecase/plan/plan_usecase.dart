@@ -36,6 +36,16 @@ class PlanUsecase {
         summaryOther: 0));
   }
 
+  Future<void> eidtPlan(PlanDto planDto, int id) async {
+    await planRepository.updatePlan(
+        PlanDto(
+          startDate: planDto.startDate,
+          endDate: planDto.endDate,
+          totalBudget: planDto.totalBudget,
+        ),
+        id);
+  }
+
   Future<void> deletePlan(int id) async {
     await planRepository.deletePlan(id);
   }

@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/data/datasources/plan_datasource.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/domain/repositories/plan_repository.dart';
 
 class PlanRepositoryImp implements PlanRepository {
@@ -27,8 +28,8 @@ class PlanRepositoryImp implements PlanRepository {
   }
 
   @override
-  Future<void> updatePlan(PlanEntity plan) {
-    return planDataSource.updatePlan(plan);
+  Future<void> updatePlan(PlanDto plan, int id) {
+    return planDataSource.updatePlan(plan, id);
   }
 
   @override

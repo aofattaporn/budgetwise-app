@@ -19,3 +19,10 @@ class AddNewPlan extends PlanAllMonthEvent {
 
   AddNewPlan({required this.planDto});
 }
+
+class EditPlan extends PlanAllMonthEvent {
+  final PlanDto planDto;
+  final int id;
+
+  EditPlan({required this.planDto, required this.id});
+}

@@ -17,6 +17,8 @@ class AllPlanLoading extends PlanAllMonthState {}
 
 class CreatePlanSuccess extends PlanAllMonthState {}
 
+class EditPlanSuccess extends PlanAllMonthState {}
+
 class DeletePlanSuccess extends PlanAllMonthState {}
 
 class AllPlanLoaded extends PlanAllMonthState {

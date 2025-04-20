@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
@@ -9,7 +10,7 @@ abstract class PlanDataSource {
   Future<PlanEntity?> fetchPlanByYearMonth(int year, int month);
   Future<List<PlanEntity>> fetchAllPlans();
   Future<void> createPlan(PlanEntity plan);
-  Future<void> updatePlan(PlanEntity plan);
+  Future<void> updatePlan(PlanDto plan, int id);
   Future<void> deletePlanById(int id);
 }
 
@@ -116,13 +117,13 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   }
 
   @override
-  Future<void> updatePlan(PlanEntity plan) async {
+  Future<void> updatePlan(PlanDto planDto, int id) async {
     await supabase.from('plans').update({
-      'start_date': plan.startDate.toIso8601String(),
-      'end_date': plan.endDate.toIso8601String(),
-      'total_budget': plan.totalBudget,
-      'create_at': plan.createAt.toIso8601String(),
-    }).eq('id', plan.id ?? "0");
+      'start_date': planDto.startDate.toIso8601String(),
+      'end_date': planDto.endDate.toIso8601String(),
+      'total_budget': planDto.totalBudget,
+      'update_at': DateTime.now().toIso8601String()
+    }).eq('id', id);
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:budget_wise/src/common/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
@@ -45,7 +46,18 @@ class PlanItemComponent extends StatelessWidget {
   }
 
   void _editPlanById(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.newPlanningScreen);
+    Navigator.pushNamed(
+      context,
+      AppRoutes.newPlanningScreen,
+      arguments: {
+        'planDto': PlanDto(
+          startDate: planEntity.startDate,
+          endDate: planEntity.endDate,
+          totalBudget: planEntity.totalBudget,
+        ),
+        'id': planEntity.id,
+      },
+    );
   }
 
   @override
