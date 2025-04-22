@@ -1,30 +1,11 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'plan_entity.g.dart';
-
-@JsonSerializable()
 class PlanEntity {
   final int? id;
-
-  @JsonKey(name: 'start_date')
   final DateTime startDate;
-
-  @JsonKey(name: 'end_date')
   final DateTime endDate;
-
-  @JsonKey(name: 'total_budget')
   final double totalBudget;
-
-  @JsonKey(name: 'create_at')
   final DateTime createAt;
-
-  @JsonKey(name: 'summary_tranfer')
   final double summaryTranfer;
-
-  @JsonKey(name: 'summary_saving')
   final double summarySaving;
-
-  @JsonKey(name: 'summary_other')
   final double summaryOther;
 
   PlanEntity({
@@ -38,8 +19,29 @@ class PlanEntity {
     required this.summaryOther,
   });
 
-  factory PlanEntity.fromJson(Map<String, dynamic> json) =>
-      _$PlanEntityFromJson(json);
+  factory PlanEntity.fromJson(Map<String, dynamic> json) {
+    return PlanEntity(
+      id: json['id'] as int?,
+      startDate: DateTime.parse(json['start_date'] as String),
+      endDate: DateTime.parse(json['end_date'] as String),
+      totalBudget: (json['total_budget'] as num).toDouble(),
+      createAt: DateTime.parse(json['create_at'] as String),
+      summaryTranfer: (json['summary_tranfer'] as num).toDouble(),
+      summarySaving: (json['summary_saving'] as num).toDouble(),
+      summaryOther: (json['summary_other'] as num).toDouble(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PlanEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'start_date': startDate.toIso8601String(),
+      'end_date': endDate.toIso8601String(),
+      'total_budget': totalBudget,
+      'create_at': createAt.toIso8601String(),
+      'summary_tranfer': summaryTranfer,
+      'summary_saving': summarySaving,
+      'summary_other': summaryOther,
+    };
+  }
 }

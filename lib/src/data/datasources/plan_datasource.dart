@@ -44,7 +44,6 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
               summaryOther: response['summary_other'].toDouble(),
             );
     } catch (e) {
-      print('Error in fetchPlanByStartAndEndDate: $e');
       return null;
     }
   }

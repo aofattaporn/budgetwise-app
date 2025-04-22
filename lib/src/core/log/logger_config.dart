@@ -29,8 +29,3 @@ class LoggerConfig extends LogPrinter {
     return [logMessage];
   }
 }
-
-// Global function to create a logger instance
-Logger getLogger(String className) {
-  return Logger(printer: LoggerConfig(className));
-}

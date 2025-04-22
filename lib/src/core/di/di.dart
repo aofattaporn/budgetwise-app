@@ -8,6 +8,7 @@ final sl = GetIt.instance;
 
 void setupLocator() {
   commonDI();
+
   // Load DI from each feature
   setupMainScreenDI();
   setupPlanDI();

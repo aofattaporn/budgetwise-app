@@ -15,20 +15,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupLocator();
   await startUpConfigs();
   runApp(const BudgetWiseApp());
 }
 
-class BudgetWiseApp extends StatefulWidget {
+class BudgetWiseApp extends StatelessWidget {
   const BudgetWiseApp({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _BudgetWiseAppState createState() => _BudgetWiseAppState();
-}
-
-class _BudgetWiseAppState extends State<BudgetWiseApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

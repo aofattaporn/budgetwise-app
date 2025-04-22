@@ -1,6 +1,6 @@
+import 'package:budget_wise/src/data/repositories/plan_repository_imp.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
-import 'package:budget_wise/src/domain/repositories/plan_repository.dart';
 
 /// The main screen tab for displaying a plan-related view.
 ///

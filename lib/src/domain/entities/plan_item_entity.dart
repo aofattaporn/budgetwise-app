@@ -1,22 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'plan_item_entity.g.dart';
-
-@JsonSerializable()
 class PlanItemEntity {
-  @JsonKey(name: 'plan_id')
   final int planId;
-
-  @JsonKey(name: 'title')
   final DateTime title;
-
-  @JsonKey(name: 'usage')
   final double usage;
-
-  @JsonKey(name: 'plan_amount')
   final double planAmount;
-
-  @JsonKey(name: 'category')
   final String category;
 
   PlanItemEntity({
@@ -27,8 +13,23 @@ class PlanItemEntity {
     required this.category,
   });
 
-  factory PlanItemEntity.fromJson(Map<String, dynamic> json) =>
-      _$PlanItemEntityFromJson(json);
+  factory PlanItemEntity.fromJson(Map<String, dynamic> json) {
+    return PlanItemEntity(
+      planId: json['plan_id'] as int,
+      title: DateTime.parse(json['title'] as String),
+      usage: (json['usage'] as num).toDouble(),
+      planAmount: (json['plan_amount'] as num).toDouble(),
+      category: json['category'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PlanItemEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'plan_id': planId,
+      'title': title.toIso8601String(),
+      'usage': usage,
+      'plan_amount': planAmount,
+      'category': category,
+    };
+  }
 }
