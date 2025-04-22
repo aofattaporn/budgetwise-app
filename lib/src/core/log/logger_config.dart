@@ -11,13 +11,22 @@ class LoggerConfig extends LogPrinter {
     final emoji = CommonConstant.levelEmojis[event.level];
     final message = event.message;
     final error = event.error;
+    final stackTrace = event.stackTrace;
 
-    final logMessage = '$emoji [$className] - $message';
+    final timestamp = DateTime.now().toIso8601String();
+
+    final buffer = StringBuffer()
+      ..writeln('📁 [$className] $emoji [$timestamp]')
+      ..writeln('→ Message: $message');
 
     if (error != null) {
-      return ['$logMessage\n❗ ERROR: $error'];
+      buffer.writeln('→ Error: $error');
     }
 
-    return [logMessage];
+    if (stackTrace != null) {
+      buffer.writeln('→ StackTrace: $stackTrace');
+    }
+
+    return [buffer.toString().trim()];
   }
 }
