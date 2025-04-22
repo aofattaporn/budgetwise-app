@@ -11,7 +11,7 @@ abstract class PlanDataSource {
   Future<PlanEntity?> fetchPlanById(int id);
   Future<PlanEntity?> fetchPlanByYearMonth(int year, int month);
   Future<List<PlanEntity>> fetchAllPlans();
-  Future<void> createPlan(PlanEntity plan);
+  Future<void> createPlan(PlanDto plan);
   Future<void> updatePlan(PlanDto plan, int id);
   Future<void> deletePlanById(int id);
 }
@@ -98,14 +98,9 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   }
 
   @override
-  Future<void> createPlan(PlanEntity plan) async {
+  Future<void> createPlan(PlanDto plan) async {
     try {
-      await supabase.from('plans').insert({
-        'start_date': plan.startDate.toIso8601String(),
-        'end_date': plan.endDate.toIso8601String(),
-        'total_budget': plan.totalBudget,
-        'create_at': plan.createAt.toIso8601String(),
-      });
+      await supabase.from('plans').insert(PlanEntity.toJsonInsert(plan));
     } catch (e, stackTrace) {
       _logger.e("Error in createPlan", error: e, stackTrace: stackTrace);
       rethrow;
@@ -115,12 +110,10 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   @override
   Future<void> updatePlan(PlanDto plan, int id) async {
     try {
-      await supabase.from('plans').update({
-        'start_date': plan.startDate.toIso8601String(),
-        'end_date': plan.endDate.toIso8601String(),
-        'total_budget': plan.totalBudget,
-        'update_at': DateTime.now().toIso8601String()
-      }).eq('id', id);
+      await supabase
+          .from('plans')
+          .update(PlanEntity.toJsonUpdate(plan))
+          .eq('id', id);
     } catch (e, stackTrace) {
       _logger.e("Error in updatePlan", error: e, stackTrace: stackTrace);
       rethrow;

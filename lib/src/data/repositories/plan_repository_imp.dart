@@ -8,7 +8,7 @@ abstract class PlanRepository {
   Future<PlanEntity?> getPlanByYearMonth(int year, int month);
   Future<PlanEntity?> getPlanByMonthId(int id);
   Future<List<PlanEntity>> getAllPlans();
-  Future<void> createPlan(PlanEntity plan);
+  Future<void> createPlan(PlanDto plan);
   Future<void> updatePlan(PlanDto plan, int id);
   Future<void> deletePlan(int planId);
 }
@@ -18,7 +18,7 @@ class PlanRepositoryImp implements PlanRepository {
   PlanRepositoryImp({required this.planDataSource});
 
   @override
-  Future<void> createPlan(PlanEntity plan) {
+  Future<void> createPlan(PlanDto plan) {
     return planDataSource.createPlan(plan);
   }
 

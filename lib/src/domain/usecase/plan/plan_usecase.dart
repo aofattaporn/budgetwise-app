@@ -26,14 +26,10 @@ class PlanUsecase {
   }
 
   Future<void> createPlan(PlanDto planDto) async {
-    await planRepository.createPlan(PlanEntity(
+    await planRepository.createPlan(PlanDto(
         startDate: planDto.startDate,
         endDate: planDto.endDate,
-        totalBudget: planDto.totalBudget,
-        createAt: DateTime.now(),
-        summaryTranfer: 0,
-        summarySaving: 0,
-        summaryOther: 0));
+        totalBudget: planDto.totalBudget));
   }
 
   Future<void> eidtPlan(PlanDto planDto, int id) async {

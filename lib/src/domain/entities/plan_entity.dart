@@ -1,3 +1,5 @@
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
+
 class PlanEntity {
   final int? id;
   final DateTime startDate;
@@ -42,6 +44,24 @@ class PlanEntity {
       'summary_tranfer': summaryTranfer,
       'summary_saving': summarySaving,
       'summary_other': summaryOther,
+    };
+  }
+
+  static Map<String, dynamic> toJsonInsert(PlanDto plan) {
+    return {
+      'start_date': plan.startDate.toIso8601String(),
+      'end_date': plan.endDate.toIso8601String(),
+      'total_budget': plan.totalBudget,
+      'create_at': plan.endDate.toIso8601String(),
+    };
+  }
+
+  static Map<String, dynamic> toJsonUpdate(PlanDto plan) {
+    return {
+      'start_date': plan.startDate.toIso8601String(),
+      'end_date': plan.endDate.toIso8601String(),
+      'total_budget': plan.totalBudget,
+      'update_at': DateTime.now().toIso8601String()
     };
   }
 }
