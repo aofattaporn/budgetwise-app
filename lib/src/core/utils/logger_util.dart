@@ -1,20 +1,23 @@
 import 'package:budget_wise/src/core/log/logger_config.dart';
-import 'package:logger/logger.dart';
+import 'package:budget_wise/src/core/log/logger_datasource_config.dart';
+import 'package:logger/logger.dart' as pretty_logger;
 
 class LoggerUtil {
-  Logger datasourceLogger(String className) {
-    return Logger(printer: LoggerConfig(className));
+  LoggerUtil._();
+
+  static pretty_logger.Logger datasourceLogger(String className) {
+    return pretty_logger.Logger(printer: LoggerDatasourceConfig(className));
   }
 
-  Logger usecaseLogger(String className) {
-    return Logger(printer: LoggerConfig(className));
+  static pretty_logger.Logger usecaseLogger(String className) {
+    return pretty_logger.Logger(printer: LoggerConfig(className));
   }
 
-  Logger presentationLogger(String className) {
-    return Logger(printer: LoggerConfig(className));
+  static pretty_logger.Logger presentationLogger(String className) {
+    return pretty_logger.Logger(printer: LoggerConfig(className));
   }
 
-  Logger normalLogger(String className) {
-    return Logger(printer: LoggerConfig(className));
+  static pretty_logger.Logger normalLogger(String className) {
+    return pretty_logger.Logger(printer: LoggerConfig(className));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:logger/logger.dart';
 
 class LoggerConfig extends LogPrinter {
@@ -5,18 +6,9 @@ class LoggerConfig extends LogPrinter {
 
   LoggerConfig(this.className);
 
-  static final Map<Level, String> levelEmojis = {
-    Level.verbose: '🔍',
-    Level.debug: '🐛',
-    Level.info: 'ℹ️',
-    Level.warning: '⚠️',
-    Level.error: '❌',
-    Level.wtf: '💀',
-  };
-
   @override
   List<String> log(LogEvent event) {
-    final emoji = levelEmojis[event.level] ?? '🔹';
+    final emoji = CommonConstant.levelEmojis[event.level];
     final message = event.message;
     final error = event.error;
 

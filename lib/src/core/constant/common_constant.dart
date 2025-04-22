@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 class CommonConstant {
   static const String envFfileType = ".env";
   static const int percentage = 100;
@@ -18,6 +20,16 @@ class CommonConstant {
   static const String deleteLabel = "Delete";
 
   static const String deleteDescLabel = "You are going to delete this plan";
+
+  // *** Common logger ***
+  static final Map<Level, String> levelEmojis = {
+    Level.debug: '🐛',
+    Level.info: 'ℹ️',
+    Level.warning: '⚠️',
+    Level.error: '❌',
+    // ignore: deprecated_member_use
+    Level.wtf: '💀',
+  };
 }
 
 enum CommonState { idle, loading, success, error }

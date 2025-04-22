@@ -1,7 +1,9 @@
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import '../../core/utils/logger_util.dart';
 
 abstract class PlanDataSource {
   Future<PlanEntity?> fetchPlanByStartAndEndDate(
@@ -16,35 +18,41 @@ abstract class PlanDataSource {
 
 class PlanRemoteDataSourceImpl implements PlanDataSource {
   final SupabaseClient supabase;
+  final Logger _logger =
+      LoggerUtil.datasourceLogger("PlanRemoteDataSourceImpl");
 
   PlanRemoteDataSourceImpl(this.supabase);
 
+  PlanEntity _mapToEntity(Map<String, dynamic> json) {
+    return PlanEntity(
+      id: json['id'],
+      startDate: DateTime.parse(json['start_date']),
+      endDate: DateTime.parse(json['end_date']),
+      totalBudget: (json['total_budget'] as num).toDouble(),
+      createAt: DateTime.parse(json['create_at']),
+      summaryTranfer: (json['summary_tranfer'] ?? 0).toDouble(),
+      summarySaving: (json['summary_saving'] ?? 0).toDouble(),
+      summaryOther: (json['summary_other'] ?? 0).toDouble(),
+    );
+  }
+
   @override
   Future<PlanEntity?> fetchPlanByStartAndEndDate(
-      DateTime startDateTime, DateTime endDateTime) async {
+      DateTime start, DateTime end) async {
     try {
       final response = await supabase
           .from('plans')
           .select()
-          .lte('start_date', DateFormat('yyyy-MM-dd').format(startDateTime))
-          .gte('end_date', DateFormat('yyyy-MM-dd').format(endDateTime))
+          .lte('start_date', DateFormat('yyyy-MM-dd').format(start))
+          .gte('end_date', DateFormat('yyyy-MM-dd').format(end))
           .limit(1)
           .maybeSingle();
 
-      return response == null
-          ? null
-          : PlanEntity(
-              id: response['id'],
-              startDate: DateTime.parse(response['start_date']),
-              endDate: DateTime.parse(response['end_date']),
-              totalBudget: response['total_budget'].toDouble(),
-              createAt: DateTime.parse(response['create_at']),
-              summaryTranfer: response['summary_tranfer'].toDouble(),
-              summarySaving: response['summary_saving'].toDouble(),
-              summaryOther: response['summary_other'].toDouble(),
-            );
-    } catch (e) {
-      return null;
+      return response == null ? null : _mapToEntity(response);
+    } catch (e, stackTrace) {
+      _logger.e("Error in fetchPlanByStartAndEndDate",
+          error: e, stackTrace: stackTrace);
+      rethrow;
     }
   }
 
@@ -53,22 +61,10 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
     try {
       final response =
           await supabase.from('plans').select().eq('id', id).maybeSingle();
-
-      return response == null
-          ? null
-          : PlanEntity(
-              id: response['id'],
-              startDate: DateTime.parse(response['start_date']),
-              endDate: DateTime.parse(response['end_date']),
-              totalBudget: response['total_budget'].toDouble(),
-              createAt: DateTime.parse(response['create_at']),
-              summaryTranfer: response['summary_tranfer'].toDouble(),
-              summarySaving: response['summary_saving'].toDouble(),
-              summaryOther: response['summary_other'].toDouble(),
-            );
-    } catch (e) {
-      print('Error in fetchPlanById: $e');
-      return null;
+      return response == null ? null : _mapToEntity(response);
+    } catch (e, stackTrace) {
+      _logger.e("Error in fetchPlanById", error: e, stackTrace: stackTrace);
+      rethrow;
     }
   }
 
@@ -82,19 +78,11 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           .eq('EXTRACT(MONTH FROM start_date)', month)
           .single();
 
-      return PlanEntity(
-        id: response['id'],
-        startDate: DateTime.parse(response['start_date']),
-        endDate: DateTime.parse(response['end_date']),
-        totalBudget: response['total_budget'].toDouble(),
-        createAt: DateTime.parse(response['create_at']),
-        summaryTranfer: response['summary_tranfer'].toDouble(),
-        summarySaving: response['summary_saving'].toDouble(),
-        summaryOther: response['summary_other'].toDouble(),
-      );
-    } catch (e) {
-      print('Error in fetchPlanByYearMonth: $e');
-      return null;
+      return _mapToEntity(response);
+    } catch (e, stackTrace) {
+      _logger.e("Error in fetchPlanByYearMonth",
+          error: e, stackTrace: stackTrace);
+      rethrow;
     }
   }
 
@@ -102,21 +90,10 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   Future<List<PlanEntity>> fetchAllPlans() async {
     try {
       final response = await supabase.from('plans').select();
-      return response.map<PlanEntity>((plan) {
-        return PlanEntity(
-          id: plan['id'],
-          startDate: DateTime.parse(plan['start_date']),
-          endDate: DateTime.parse(plan['end_date']),
-          totalBudget: plan['total_budget'].toDouble(),
-          createAt: DateTime.parse(plan['create_at']),
-          summaryTranfer: plan['summary_tranfer'].toDouble(),
-          summarySaving: plan['summary_saving'].toDouble(),
-          summaryOther: plan['summary_other'].toDouble(),
-        );
-      }).toList();
-    } catch (e) {
-      print('Error in fetchAllPlans: $e');
-      return [];
+      return response.map<PlanEntity>((json) => _mapToEntity(json)).toList();
+    } catch (e, stackTrace) {
+      _logger.e("Error in fetchAllPlans", error: e, stackTrace: stackTrace);
+      rethrow;
     }
   }
 
@@ -129,23 +106,23 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
         'total_budget': plan.totalBudget,
         'create_at': plan.createAt.toIso8601String(),
       });
-    } catch (e) {
-      print('Error in createPlan: $e');
+    } catch (e, stackTrace) {
+      _logger.e("Error in createPlan", error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
 
   @override
-  Future<void> updatePlan(PlanDto planDto, int id) async {
+  Future<void> updatePlan(PlanDto plan, int id) async {
     try {
       await supabase.from('plans').update({
-        'start_date': planDto.startDate.toIso8601String(),
-        'end_date': planDto.endDate.toIso8601String(),
-        'total_budget': planDto.totalBudget,
+        'start_date': plan.startDate.toIso8601String(),
+        'end_date': plan.endDate.toIso8601String(),
+        'total_budget': plan.totalBudget,
         'update_at': DateTime.now().toIso8601String()
       }).eq('id', id);
-    } catch (e) {
-      print('Error in updatePlan: $e');
+    } catch (e, stackTrace) {
+      _logger.e("Error in updatePlan", error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
@@ -154,8 +131,8 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   Future<void> deletePlanById(int id) async {
     try {
       await supabase.from('plans').delete().eq('id', id);
-    } catch (e) {
-      print('Error in deletePlanById: $e');
+    } catch (e, stackTrace) {
+      _logger.e("Error in deletePlanById", error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
