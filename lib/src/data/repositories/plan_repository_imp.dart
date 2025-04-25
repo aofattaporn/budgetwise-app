@@ -18,38 +18,43 @@ class PlanRepositoryImp implements PlanRepository {
   PlanRepositoryImp({required this.planDataSource});
 
   @override
-  Future<void> createPlan(PlanDto plan) {
-    return planDataSource.createPlan(plan);
+  Future<void> createPlan(PlanDto plan) async {
+    await planDataSource.createPlan(plan);
   }
 
   @override
-  Future<List<PlanEntity>> getAllPlans() {
-    return planDataSource.fetchAllPlans();
+  Future<List<PlanEntity>> getAllPlans() async {
+    final response = await planDataSource.fetchAllPlans();
+    return response.data;
   }
 
   @override
-  Future<PlanEntity?> getPlanByYearMonth(int year, int month) {
-    return planDataSource.fetchPlanByYearMonth(year, month);
+  Future<PlanEntity?> getPlanByYearMonth(int year, int month) async {
+    final response = await planDataSource.fetchPlanByYearMonth(year, month);
+    return response.data;
   }
 
   @override
-  Future<PlanEntity?> getPlanByMonthId(int id) {
-    return planDataSource.fetchPlanById(id);
+  Future<PlanEntity?> getPlanByMonthId(int id) async {
+    final response = await planDataSource.fetchPlanById(id);
+    return response.data;
   }
 
   @override
-  Future<void> updatePlan(PlanDto plan, int id) {
-    return planDataSource.updatePlan(plan, id);
+  Future<void> updatePlan(PlanDto plan, int id) async {
+    await planDataSource.updatePlan(plan, id);
   }
 
   @override
   Future<PlanEntity?> getPlanByIntervalTime(
-      DateTime startTime, DateTime endTime) {
-    return planDataSource.fetchPlanByStartAndEndDate(startTime, endTime);
+      DateTime startTime, DateTime endTime) async {
+    final response =
+        await planDataSource.fetchPlanByStartAndEndDate(startTime, endTime);
+    return response.data;
   }
 
   @override
-  Future<void> deletePlan(int planId) {
-    return planDataSource.deletePlanById(planId);
+  Future<void> deletePlan(int planId) async {
+    await planDataSource.deletePlanById(planId);
   }
 }

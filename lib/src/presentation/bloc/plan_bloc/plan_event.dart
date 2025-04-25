@@ -11,6 +11,5 @@ class FetchtPlanByMonth extends PlanEvent {}
 
 class FetchtPlanByMId extends PlanEvent {
   final int id;
-
   FetchtPlanByMId({required this.id});
 }

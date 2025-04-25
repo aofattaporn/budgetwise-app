@@ -1,3 +1,6 @@
+import 'package:budget_wise/src/common/model/common_response.dart';
+import 'package:budget_wise/src/core/constant/response_constant.dart';
+import 'package:budget_wise/src/core/utils/response_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -6,14 +9,14 @@ import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import '../../core/utils/logger_util.dart';
 
 abstract class PlanDataSource {
-  Future<PlanEntity?> fetchPlanByStartAndEndDate(
+  Future<CommonResponse<PlanEntity?>> fetchPlanByStartAndEndDate(
       DateTime startTime, DateTime endDate);
-  Future<PlanEntity?> fetchPlanById(int id);
-  Future<PlanEntity?> fetchPlanByYearMonth(int year, int month);
-  Future<List<PlanEntity>> fetchAllPlans();
-  Future<void> createPlan(PlanDto plan);
-  Future<void> updatePlan(PlanDto plan, int id);
-  Future<void> deletePlanById(int id);
+  Future<CommonResponse<PlanEntity?>> fetchPlanById(int id);
+  Future<CommonResponse<PlanEntity?>> fetchPlanByYearMonth(int year, int month);
+  Future<CommonResponse<List<PlanEntity>>> fetchAllPlans();
+  Future<CommonResponse<Null>> createPlan(PlanDto plan);
+  Future<CommonResponse<Null>> updatePlan(PlanDto plan, int id);
+  Future<CommonResponse<Null>> deletePlanById(int id);
 }
 
 class PlanRemoteDataSourceImpl implements PlanDataSource {
@@ -37,7 +40,7 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   }
 
   @override
-  Future<PlanEntity?> fetchPlanByStartAndEndDate(
+  Future<CommonResponse<PlanEntity?>> fetchPlanByStartAndEndDate(
       DateTime start, DateTime end) async {
     try {
       final response = await supabase
@@ -48,28 +51,39 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           .limit(1)
           .maybeSingle();
 
-      return response == null ? null : _mapToEntity(response);
+      if (response == null) {
+        return ResponseUtil.commonResponse(ResponseConstant.code1899, null);
+      }
+
+      return ResponseUtil.commonResponse(
+          ResponseConstant.code1000, PlanEntity.fromJson(response));
     } catch (e, stackTrace) {
       _logger.e("Error in fetchPlanByStartAndEndDate",
           error: e, stackTrace: stackTrace);
-      rethrow;
+      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
     }
   }
 
   @override
-  Future<PlanEntity?> fetchPlanById(int id) async {
+  Future<CommonResponse<PlanEntity?>> fetchPlanById(int id) async {
     try {
       final response =
           await supabase.from('plans').select().eq('id', id).maybeSingle();
-      return response == null ? null : _mapToEntity(response);
+
+      if (response == null) {
+        return ResponseUtil.commonResponse(ResponseConstant.code1899, null);
+      }
+      return ResponseUtil.commonResponse(
+          ResponseConstant.code1000, PlanEntity.fromJson(response));
     } catch (e, stackTrace) {
       _logger.e("Error in fetchPlanById", error: e, stackTrace: stackTrace);
-      rethrow;
+      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
     }
   }
 
   @override
-  Future<PlanEntity?> fetchPlanByYearMonth(int year, int month) async {
+  Future<CommonResponse<PlanEntity?>> fetchPlanByYearMonth(
+      int year, int month) async {
     try {
       final response = await supabase
           .from('plans')
@@ -78,55 +92,65 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           .eq('EXTRACT(MONTH FROM start_date)', month)
           .single();
 
-      return _mapToEntity(response);
+      return ResponseUtil.commonResponse(
+          ResponseConstant.code1000, PlanEntity.fromJson(response));
     } catch (e, stackTrace) {
       _logger.e("Error in fetchPlanByYearMonth",
           error: e, stackTrace: stackTrace);
-      rethrow;
+      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
     }
   }
 
   @override
-  Future<List<PlanEntity>> fetchAllPlans() async {
+  Future<CommonResponse<List<PlanEntity>>> fetchAllPlans() async {
     try {
       final response = await supabase.from('plans').select();
-      return response.map<PlanEntity>((json) => _mapToEntity(json)).toList();
+
+      final planList =
+          response.map<PlanEntity>((json) => _mapToEntity(json)).toList();
+      return ResponseUtil.commonResponse(ResponseConstant.code1000, planList);
     } catch (e, stackTrace) {
       _logger.e("Error in fetchAllPlans", error: e, stackTrace: stackTrace);
-      rethrow;
+      return ResponseUtil.commonResponse(ResponseConstant.code1999, []);
     }
   }
 
   @override
-  Future<void> createPlan(PlanDto plan) async {
+  Future<CommonResponse<Null>> createPlan(PlanDto plan) async {
     try {
       await supabase.from('plans').insert(PlanEntity.toJsonInsert(plan));
+
+      return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, stackTrace) {
       _logger.e("Error in createPlan", error: e, stackTrace: stackTrace);
-      rethrow;
+      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
     }
   }
 
   @override
-  Future<void> updatePlan(PlanDto plan, int id) async {
+  Future<CommonResponse<Null>> updatePlan(PlanDto plan, int id) async {
     try {
       await supabase
           .from('plans')
           .update(PlanEntity.toJsonUpdate(plan))
           .eq('id', id);
+
+      return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, stackTrace) {
       _logger.e("Error in updatePlan", error: e, stackTrace: stackTrace);
-      rethrow;
+      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
     }
   }
 
   @override
-  Future<void> deletePlanById(int id) async {
+  Future<CommonResponse<Null>> deletePlanById(int id) async {
     try {
       await supabase.from('plans').delete().eq('id', id);
+
+      return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, stackTrace) {
       _logger.e("Error in deletePlanById", error: e, stackTrace: stackTrace);
-      rethrow;
+      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
     }
   }
 }

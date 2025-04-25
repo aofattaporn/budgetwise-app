@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/core/utils/logger_util.dart';
 import 'package:budget_wise/src/data/repositories/plan_repository_imp.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
@@ -19,7 +20,8 @@ class PlanUsecase {
     var currentTime = DateTime.now();
     final result =
         await planRepository.getPlanByIntervalTime(currentTime, currentTime);
-    _logger.i("getPlanByCurrentMonth() - result: $result");
+    _logger.i(
+        "getPlanByCurrentMonth() -time: ${UtilsDateTime.yearMonthFormat(currentTime)} - success");
     return result;
   }
 
