@@ -7,7 +7,7 @@ import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_state.dart';
-import 'package:budget_wise/src/presentation/screens/components/component.dart';
+import 'package:budget_wise/src/common/presentation/custom_common_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -98,7 +98,7 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: plans.length,
       itemBuilder: (context, index) {
-        return Component.planItemComponent(plans[index],
+        return CustomCommonComponent.planItemComponent(plans[index],
             selectedId: widget.planIdSelected);
       },
     );

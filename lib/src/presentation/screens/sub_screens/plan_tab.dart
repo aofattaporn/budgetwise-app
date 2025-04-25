@@ -2,6 +2,7 @@ import 'package:budget_wise/src/common/presentation/widgets/common_notification.
 import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
+import 'package:budget_wise/src/core/constant/business_constant.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
@@ -76,6 +77,28 @@ class _PlanTabState extends State<PlanTab> {
                     ),
                   ),
                 ),
+                isSuccess
+                    ? Column(
+                        spacing: 12,
+                        children: [
+                          SummaryPlanSegment(
+                              limitAmount: planState.plan.totalBudget,
+                              segmentTilel: BusinessConstant.savingType,
+                              usage: planState.plan.summarySaving,
+                              segmentColor: AppColors.priamryDark),
+                          SummaryPlanSegment(
+                              limitAmount: planState.plan.totalBudget,
+                              segmentTilel: BusinessConstant.tranfersType,
+                              usage: planState.plan.summaryTranfer,
+                              segmentColor: AppColors.primary),
+                          SummaryPlanSegment(
+                              limitAmount: planState.plan.totalBudget,
+                              segmentTilel: BusinessConstant.notPlanType,
+                              usage: planState.plan.summaryOther,
+                              segmentColor: AppColors.primarySubtle)
+                        ],
+                      )
+                    : const Spacer(),
               ],
             ),
           );
