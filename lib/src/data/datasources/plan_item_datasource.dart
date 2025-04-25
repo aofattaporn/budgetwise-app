@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class PlanItemDataSource {
-  Future<CommonResponse<List<PlanItemEntity>?>> fetchPlanById(int planId);
+  Future<CommonResponse<List<PlanItemEntity>>> fetchPlanById(int planId);
 }
 
 class PlanItemDataSourceImpl implements PlanItemDataSource {
@@ -18,16 +18,10 @@ class PlanItemDataSourceImpl implements PlanItemDataSource {
       LoggerUtil.datasourceLogger("PlanRemoteDataSourceImpl");
 
   @override
-  Future<CommonResponse<List<PlanItemEntity>?>> fetchPlanById(
-      int planId) async {
+  Future<CommonResponse<List<PlanItemEntity>>> fetchPlanById(int planId) async {
     try {
       final response =
           await supabase.from('plan_id').select().eq('plan_id', planId);
-
-      if (response.isEmpty) {
-        return ResponseUtil.commonResponse(ResponseConstant.code1899, null);
-      }
-
       final planItemList = response
           .map<PlanItemEntity>((json) => PlanItemEntity.fromJson(json))
           .toList();

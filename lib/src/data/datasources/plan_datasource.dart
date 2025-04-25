@@ -19,6 +19,11 @@ abstract class PlanDataSource {
   Future<CommonResponse<Null>> deletePlanById(int id);
 }
 
+/// PlanRemoteDataSourceImpl
+///
+/// This class various purpose, including:
+/// - Datasource layer communicate w/ supabase layer
+/// provide bussiness main logic for server component
 class PlanRemoteDataSourceImpl implements PlanDataSource {
   final SupabaseClient supabase;
   final Logger _logger =

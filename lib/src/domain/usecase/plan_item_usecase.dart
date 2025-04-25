@@ -9,9 +9,10 @@ class PlanItemUsecase {
   PlanItemUsecase({required this.planItemRepository});
   final Logger _logger = LoggerUtil.usecaseLogger("PlanUsecase");
 
-  Future<List<PlanItemEntity>?> getPlanByCurrentMonth(int planId) async {
+  Future<List<PlanItemEntity>> getPlanByCurrentMonth(int planId) async {
     final result = await planItemRepository.fetchPlanById(planId);
-    _logger.i("getPlanByCurrentMonth() - result: $result");
+    _logger
+        .i("get plan current month success count: ${result.length.toString()}");
     return result;
   }
 }

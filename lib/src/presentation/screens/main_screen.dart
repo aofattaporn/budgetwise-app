@@ -1,7 +1,7 @@
 // presentation/screens/main_screen.dart
 import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:budget_wise/src/core/utils/strings_util.dart';
-import 'package:budget_wise/src/domain/usecase/home/tab_screen_usecase.dart';
+import 'package:budget_wise/src/domain/usecase/tab_screen_usecase.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_event.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_state.dart';

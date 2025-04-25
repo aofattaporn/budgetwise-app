@@ -5,12 +5,6 @@ import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:logger/logger.dart';
 
-/// The main screen tab for displaying a plan-related view.
-///
-/// This widget displays various components, including:
-/// - A segmented circular progress bar showing the usage of different segments.
-/// - A summary container showing the details of transaction segments like "Transfers", "Savings", etc.
-/// - A placeholder for a list of items related to the plan.
 class PlanUsecase {
   final PlanRepository planRepository;
   PlanUsecase({required this.planRepository});

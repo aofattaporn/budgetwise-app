@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/usecase/plan/plan_item_usecase.dart';
+import 'package:budget_wise/src/domain/usecase/plan_item_usecase.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';

@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/usecase/home/tab_screen_usecase.dart';
+import 'package:budget_wise/src/domain/usecase/tab_screen_usecase.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_event.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
