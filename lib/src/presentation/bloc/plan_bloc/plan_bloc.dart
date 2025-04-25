@@ -30,11 +30,9 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
     emit(PlanLoading());
     try {
       final plan = await planUsecase.getPlanByMonthId(event.id);
-      if (plan != null) {
-        emit(PlanLoaded(plan));
-      } else {
-        emit(PlanNotFound());
-      }
+      emit(PlanLoaded(plan!));
+    } on BussinessError catch (e) {
+      emit(PlanNotFound());
     } catch (e) {
       emit(PlanError(e.toString()));
     }
