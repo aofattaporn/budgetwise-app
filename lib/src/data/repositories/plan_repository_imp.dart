@@ -1,9 +1,7 @@
-import 'package:budget_wise/src/core/constant/response_constant.dart';
 import 'package:budget_wise/src/core/utils/response_util.dart';
 import 'package:budget_wise/src/data/datasources/plan_datasource.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
-import 'package:http/http.dart';
 
 abstract class PlanRepository {
   Future<PlanEntity?> getPlanByIntervalTime(
