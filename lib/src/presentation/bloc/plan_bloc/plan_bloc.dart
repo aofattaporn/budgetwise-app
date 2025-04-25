@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/errors/bussiness_error.dart';
 import 'package:budget_wise/src/domain/usecase/plan_usecase.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_state.dart';
@@ -16,11 +17,9 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
     emit(PlanLoading());
     try {
       final plan = await planUsecase.getPlanByCurrentMonth();
-      if (plan != null) {
-        emit(PlanLoaded(plan));
-      } else {
-        emit(PlanNotFound());
-      }
+      emit(PlanLoaded(plan!));
+    } on BussinessError catch (e) {
+      emit(PlanNotFound());
     } catch (e) {
       emit(PlanError(e.toString()));
     }

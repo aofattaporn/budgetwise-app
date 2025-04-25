@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/common/model/common_response.dart';
 import 'package:budget_wise/src/core/constant/response_constant.dart';
+import 'package:budget_wise/src/core/utils/error_util.dart';
 import 'package:budget_wise/src/core/utils/response_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:intl/intl.dart';
@@ -44,15 +45,18 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           .maybeSingle();
 
       if (response == null) {
-        return ResponseUtil.commonResponse(ResponseConstant.code1899, null);
+        final err = ErrorUtil.mapBusinessError(
+            message: "No plan found in the current time range.");
+        _logger.e("Business Error | fetchPlanByStartAndEndDate", error: err);
+        throw err;
       }
 
       return ResponseUtil.commonResponse(
           ResponseConstant.code1000, PlanEntity.fromJson(response));
     } catch (e, stackTrace) {
-      _logger.e("Error in fetchPlanByStartAndEndDate",
+      _logger.e("Technical Error | fetchPlanByStartAndEndDate",
           error: e, stackTrace: stackTrace);
-      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
+      throw ErrorUtil.mapTechnicalError();
     }
   }
 
@@ -63,13 +67,18 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           await supabase.from('plans').select().eq('id', id).maybeSingle();
 
       if (response == null) {
-        return ResponseUtil.commonResponse(ResponseConstant.code1899, null);
+        final err =
+            ErrorUtil.mapBusinessError(message: "Plan with id $id not found.");
+        _logger.e("Business Error | fetchPlanById", error: err);
+        throw err;
       }
+
       return ResponseUtil.commonResponse(
           ResponseConstant.code1000, PlanEntity.fromJson(response));
     } catch (e, stackTrace) {
-      _logger.e("Error in fetchPlanById", error: e, stackTrace: stackTrace);
-      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
+      _logger.e("Technical Error | fetchPlanById",
+          error: e, stackTrace: stackTrace);
+      throw ErrorUtil.mapTechnicalError();
     }
   }
 
@@ -82,14 +91,21 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           .select()
           .eq('EXTRACT(YEAR FROM start_date)', year)
           .eq('EXTRACT(MONTH FROM start_date)', month)
-          .single();
+          .maybeSingle();
+
+      if (response == null) {
+        final err = ErrorUtil.mapBusinessError(
+            message: "No plan found for $year-$month.");
+        _logger.e("Business Error | fetchPlanByYearMonth", error: err);
+        throw err;
+      }
 
       return ResponseUtil.commonResponse(
           ResponseConstant.code1000, PlanEntity.fromJson(response));
     } catch (e, stackTrace) {
-      _logger.e("Error in fetchPlanByYearMonth",
+      _logger.e("Technical Error | fetchPlanByYearMonth",
           error: e, stackTrace: stackTrace);
-      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
+      throw ErrorUtil.mapTechnicalError();
     }
   }
 
@@ -97,14 +113,15 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   Future<CommonResponse<List<PlanEntity>>> fetchAllPlans() async {
     try {
       final response = await supabase.from('plans').select();
-
       final planList = response
           .map<PlanEntity>((json) => PlanEntity.fromJson(json))
           .toList();
+
       return ResponseUtil.commonResponse(ResponseConstant.code1000, planList);
     } catch (e, stackTrace) {
-      _logger.e("Error in fetchAllPlans", error: e, stackTrace: stackTrace);
-      return ResponseUtil.commonResponse(ResponseConstant.code1999, []);
+      _logger.e("Technical Error | fetchAllPlans",
+          error: e, stackTrace: stackTrace);
+      throw ErrorUtil.mapTechnicalError();
     }
   }
 
@@ -112,11 +129,11 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   Future<CommonResponse<Null>> createPlan(PlanDto plan) async {
     try {
       await supabase.from('plans').insert(PlanEntity.toJsonInsert(plan));
-
       return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, stackTrace) {
-      _logger.e("Error in createPlan", error: e, stackTrace: stackTrace);
-      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
+      _logger.e("Technical Error | createPlan",
+          error: e, stackTrace: stackTrace);
+      throw ErrorUtil.mapTechnicalError();
     }
   }
 
@@ -127,11 +144,11 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           .from('plans')
           .update(PlanEntity.toJsonUpdate(plan))
           .eq('id', id);
-
       return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, stackTrace) {
-      _logger.e("Error in updatePlan", error: e, stackTrace: stackTrace);
-      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
+      _logger.e("Technical Error | updatePlan",
+          error: e, stackTrace: stackTrace);
+      throw ErrorUtil.mapTechnicalError();
     }
   }
 
@@ -139,11 +156,11 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   Future<CommonResponse<Null>> deletePlanById(int id) async {
     try {
       await supabase.from('plans').delete().eq('id', id);
-
       return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, stackTrace) {
-      _logger.e("Error in deletePlanById", error: e, stackTrace: stackTrace);
-      return ResponseUtil.commonResponse(ResponseConstant.code1999, null);
+      _logger.e("Technical Error | deletePlanById",
+          error: e, stackTrace: stackTrace);
+      throw ErrorUtil.mapTechnicalError();
     }
   }
 }

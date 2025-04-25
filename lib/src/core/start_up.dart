@@ -6,5 +6,5 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<void> startUpConfigs() async {
   await dotenv.load(fileName: CommonConstant.envFfileType);
   await supabaseConfigs(dotenv.env);
-  setupLocator();
+  await setupLocator();
 }
