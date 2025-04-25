@@ -1,3 +1,5 @@
+import 'package:budget_wise/src/core/constant/response_constant.dart';
+import 'package:budget_wise/src/core/utils/response_util.dart';
 import 'package:budget_wise/src/data/datasources/plan_item_datasource.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 
@@ -11,7 +13,8 @@ class PlanRepositoryItemImp implements PlanItemRepository {
   PlanRepositoryItemImp({required this.planItemDataSource});
 
   @override
-  Future<List<PlanItemEntity>?> fetchPlanById(int planId) {
-    return planItemDataSource.fetchPlanById(planId);
+  Future<List<PlanItemEntity>?> fetchPlanById(int planId) async {
+    final response = await planItemDataSource.fetchPlanById(planId);
+    return ResponseUtil.handleResponse(response);
   }
 }

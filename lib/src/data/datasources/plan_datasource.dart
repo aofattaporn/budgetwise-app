@@ -26,19 +26,6 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
 
   PlanRemoteDataSourceImpl(this.supabase);
 
-  PlanEntity _mapToEntity(Map<String, dynamic> json) {
-    return PlanEntity(
-      id: json['id'],
-      startDate: DateTime.parse(json['start_date']),
-      endDate: DateTime.parse(json['end_date']),
-      totalBudget: (json['total_budget'] as num).toDouble(),
-      createAt: DateTime.parse(json['create_at']),
-      summaryTranfer: (json['summary_tranfer'] ?? 0).toDouble(),
-      summarySaving: (json['summary_saving'] ?? 0).toDouble(),
-      summaryOther: (json['summary_other'] ?? 0).toDouble(),
-    );
-  }
-
   @override
   Future<CommonResponse<PlanEntity?>> fetchPlanByStartAndEndDate(
       DateTime start, DateTime end) async {
@@ -106,8 +93,9 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
     try {
       final response = await supabase.from('plans').select();
 
-      final planList =
-          response.map<PlanEntity>((json) => _mapToEntity(json)).toList();
+      final planList = response
+          .map<PlanEntity>((json) => PlanEntity.fromJson(json))
+          .toList();
       return ResponseUtil.commonResponse(ResponseConstant.code1000, planList);
     } catch (e, stackTrace) {
       _logger.e("Error in fetchAllPlans", error: e, stackTrace: stackTrace);

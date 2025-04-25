@@ -16,8 +16,7 @@ class LoggerDatasourceConfig extends LogPrinter {
     final timestamp = DateTime.now().toIso8601String();
 
     final buffer = StringBuffer()
-      ..writeln('📦 [$className] $emoji [$timestamp]')
-      ..writeln('→ Message: $message');
+      ..writeln('📦 [$className] $emoji [$timestamp] → Message: $message');
 
     if (error != null) {
       buffer.writeln('→ Error: $error');
