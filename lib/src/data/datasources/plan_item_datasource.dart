@@ -24,12 +24,6 @@ class PlanItemDataSourceImpl implements PlanItemDataSource {
       final response =
           await supabase.from('plan_items').select().eq('plan_id', planId);
 
-      if (response.isEmpty) {
-        _logger.e("Business Error | No plan items found for planId: $planId");
-        throw ErrorUtil.mapBusinessError(
-            message: "No plan items found for this plan");
-      }
-
       final planItemList = response
           .map<PlanItemEntity>((json) => PlanItemEntity.fromJson(json))
           .toList();

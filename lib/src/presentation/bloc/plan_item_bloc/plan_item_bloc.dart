@@ -1,5 +1,4 @@
 import 'package:budget_wise/src/domain/usecase/plan_item_usecase.dart';
-import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,17 +13,16 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
   Future<void> _onFetchPlanItem(
       FetchPlanItemEvent event, Emitter<PlanItemState> emit) async {
     emit(PlanItemLoading());
+
     try {
-      final List<PlanItemEntity> planItems =
+      final planItems =
           await planItemUsecase.getPlanByCurrentMonth(event.planId);
 
-      if (planItems.isEmpty) {
-        emit(PlanItemEmpty());
-      } else {
-        emit(PlanItemLoaded(planItems));
-      }
-    } catch (e) {
-      emit(PlanItemError('Failed to fetch plan items: ${e.toString()}'));
+      emit(
+        planItems.isEmpty ? PlanItemEmpty() : PlanItemLoaded(planItems),
+      );
+    } catch (error) {
+      emit(PlanItemError('Failed to fetch plan items: $error'));
     }
   }
 }

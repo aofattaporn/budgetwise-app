@@ -1,7 +1,3 @@
-import 'dart:ffi';
-
-import 'package:budget_wise/src/common/presentation/widgets/btn/common_elevated_btn.dart';
-import 'package:budget_wise/src/common/presentation/widgets/btn/common_icon_btn.dart';
 import 'package:budget_wise/src/common/presentation/widgets/common_notification.dart';
 import 'package:budget_wise/src/common/theme/app_colors.dart';
 import 'package:budget_wise/src/common/theme/app_padding.dart';
@@ -9,12 +5,14 @@ import 'package:budget_wise/src/common/theme/app_shadow.dart';
 import 'package:budget_wise/src/common/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/constant/business_constant.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
+import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_state.dart';
 import 'package:budget_wise/src/common/presentation/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
 import 'package:budget_wise/src/presentation/widgets/segmented_circular_progress.dart';
 import 'package:flutter/material.dart';
@@ -49,12 +47,12 @@ class _PlanTabState extends State<PlanTab> {
 
   void saveNewPlanning(BuildContext context) {}
 
-  final List<PlanItem> mockPlanItems = [
-    PlanItem(name: 'Saving for Car', totalAmount: 10000, usedAmount: 2500),
-    PlanItem(name: 'Trip to Japan', totalAmount: 50000, usedAmount: 15000),
-    PlanItem(name: 'Emergency Fund', totalAmount: 20000, usedAmount: 5000),
-    PlanItem(name: 'Gadget Upgrade', totalAmount: 8000, usedAmount: 2000),
-  ];
+  // final List<PlanItem> mockPlanItems = [
+  //   PlanItem(name: 'Saving for Car', totalAmount: 10000, usedAmount: 2500),
+  //   PlanItem(name: 'Trip to Japan', totalAmount: 50000, usedAmount: 15000),
+  //   PlanItem(name: 'Emergency Fund', totalAmount: 20000, usedAmount: 5000),
+  //   PlanItem(name: 'Gadget Upgrade', totalAmount: 8000, usedAmount: 2000),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +129,7 @@ class _PlanTabState extends State<PlanTab> {
                               children: [_buildActionPlan(context)],
                             ),
                             const SizedBox(height: 16), // add spacing between
-                            _buildAllPlanItem(
-                                mockPlanItems, planState.plan.id!),
+                            _buildAllPlanItem(planState.plan.id!),
                           ],
                         ),
                       )
@@ -141,29 +138,6 @@ class _PlanTabState extends State<PlanTab> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildAllPlanItem(List<PlanItem> planItems, int plannId) {
-    context.read<PlanItemBloc>().add(FetchPlanItemEvent(plannId));
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.only(top: 0),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: AppShadow.sm,
-        ),
-        child: ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: planItems.length,
-          itemBuilder: (context, index) {
-            final item = planItems[index];
-            final progress = item.usedAmount / item.totalAmount; // calculate %
-            return PlannItem(item: item, progress: progress);
-          },
-        ),
       ),
     );
   }
@@ -180,10 +154,10 @@ class _PlanTabState extends State<PlanTab> {
             icon: const Icon(Icons.add, color: Colors.white),
             label: const Text(
               "New Item",
-              style: TextStyle(color: Colors.white), // <- set text color
+              style: TextStyle(color: Colors.white),
             ),
             style: TextButton.styleFrom(
-              backgroundColor: AppColors.primary, // <- if you want background
+              backgroundColor: AppColors.primary,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -191,6 +165,84 @@ class _PlanTabState extends State<PlanTab> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAllPlanItem(int planId) {
+    // 🚨 อย่า .add() ใน build นะ เดี๋ยวอธิบายต่อท้าย
+    context.read<PlanItemBloc>().add(FetchPlanItemEvent(planId));
+
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.only(top: 0),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: AppShadow.sm,
+        ),
+        child: BlocBuilder<PlanItemBloc, PlanItemState>(
+          builder: (context, state) {
+            if (state is PlanItemLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (state is PlanItemEmpty) {
+              return const Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.inbox,
+                        size: 56,
+                        color: AppColors.primarySubtle,
+                      ),
+                      SizedBox(height: 24),
+                      Text(
+                        "No Items Yet",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.priamryDark,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Create your first item.",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.primarySubtle,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            if (state is PlanItemLoaded) {
+              return ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: state.planItems.length,
+                itemBuilder: (context, index) {
+                  final item = state.planItems[index];
+                  final progress = item.usage / item.planAmount;
+                  return PlannItem(item: item, progress: progress);
+                },
+              );
+            }
+
+            return const Center(
+              child: Text("Something went wrong..."), // fallback case
+            );
+          },
+        ),
       ),
     );
   }
@@ -203,7 +255,7 @@ class PlannItem extends StatelessWidget {
     required this.progress,
   });
 
-  final PlanItem item;
+  final PlanItemEntity item;
   final double progress;
 
   @override
@@ -226,7 +278,7 @@ class PlannItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.name,
+                    item.title,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -234,7 +286,7 @@ class PlannItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${item.totalAmount} ฿',
+                    '${item.usage} ฿',
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
@@ -259,7 +311,8 @@ class PlannItem extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress.clamp(0.0, 1.0),
               backgroundColor: AppColors.primarySubtle.withOpacity(0.3),
-              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(AppColors.primary),
               minHeight: 8,
             ),
           ),
@@ -302,17 +355,4 @@ class SummaryPlanSegment extends StatelessWidget {
       ],
     );
   }
-}
-
-// 1. PlanItem Model
-class PlanItem {
-  final String name;
-  final double totalAmount;
-  final double usedAmount;
-
-  PlanItem({
-    required this.name,
-    required this.totalAmount,
-    required this.usedAmount,
-  });
 }
