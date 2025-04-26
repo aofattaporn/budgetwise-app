@@ -15,10 +15,10 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
       FetchPlanItemEvent event, Emitter<PlanItemState> emit) async {
     emit(PlanItemLoading());
     try {
-      final List<PlanItemEntity>? planItems =
+      final List<PlanItemEntity> planItems =
           await planItemUsecase.getPlanByCurrentMonth(event.planId);
 
-      if (planItems == null || planItems.isEmpty) {
+      if (planItems.isEmpty) {
         emit(PlanItemEmpty());
       } else {
         emit(PlanItemLoaded(planItems));

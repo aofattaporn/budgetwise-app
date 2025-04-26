@@ -18,7 +18,7 @@ class PlanUtil {
         color: AppColors.primary,
       ),
       TransactionsSegment(
-        segmentName: BusinessConstant.notPlanType,
+        segmentName: BusinessConstant.unplannedType,
         usage: plan?.summaryOther ?? 0,
         color: AppColors.primarySubtle,
       ),

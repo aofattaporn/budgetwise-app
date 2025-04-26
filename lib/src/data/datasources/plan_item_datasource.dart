@@ -1,7 +1,6 @@
 import 'package:budget_wise/src/common/model/common_response.dart';
 import 'package:budget_wise/src/core/constant/response_constant.dart';
 import 'package:budget_wise/src/core/errors/bussiness_error.dart';
-import 'package:budget_wise/src/core/errors/technical_error.dart';
 import 'package:budget_wise/src/core/utils/error_util.dart';
 import 'package:budget_wise/src/core/utils/logger_util.dart';
 import 'package:budget_wise/src/core/utils/response_util.dart';
@@ -37,6 +36,8 @@ class PlanItemDataSourceImpl implements PlanItemDataSource {
 
       return ResponseUtil.commonResponse(
           ResponseConstant.code1000, planItemList);
+    } on BussinessError {
+      rethrow;
     } catch (e, stackTrace) {
       _logger.e('Technical Error | fetchPlanById: $planId',
           error: e, stackTrace: stackTrace);
