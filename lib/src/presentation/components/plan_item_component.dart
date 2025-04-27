@@ -1,5 +1,5 @@
 import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
-import 'package:budget_wise/src/presentation/common/widgets/btn/common_outline_btn.dart';
+import 'package:budget_wise/src/presentation/widgets/btn/common_outline_btn.dart';
 import 'package:budget_wise/src/common/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
@@ -13,8 +13,8 @@ import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_m
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
-import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
-import 'package:budget_wise/src/presentation/widgets/segmented_circular_progress.dart';
+import 'package:budget_wise/src/presentation/components/amount_compare.dart';
+import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

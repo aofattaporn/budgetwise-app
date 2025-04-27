@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/common/widgets/multi_segment_painter.dart';
+import 'package:budget_wise/src/presentation/widgets/multi_segment_painter.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
@@ -6,7 +6,7 @@ import 'package:budget_wise/src/core/utils/plan_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
-import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
+import 'package:budget_wise/src/presentation/components/amount_compare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

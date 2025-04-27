@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/common/widgets/common_notification.dart';
+import 'package:budget_wise/src/presentation/widgets/common_notification.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/theme/app_shadow.dart';
@@ -10,9 +10,9 @@ import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
-import 'package:budget_wise/src/presentation/widgets/plan_item.dart';
-import 'package:budget_wise/src/presentation/widgets/segmented_circular_progress.dart';
-import 'package:budget_wise/src/presentation/widgets/summary_plan_segemennt.dart';
+import 'package:budget_wise/src/presentation/components/plan_item.dart';
+import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
+import 'package:budget_wise/src/presentation/components/summary_plan_segemennt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';

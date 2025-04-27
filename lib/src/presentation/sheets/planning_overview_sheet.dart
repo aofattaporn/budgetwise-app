@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/common/widgets/btn/common_icon_btn.dart';
+import 'package:budget_wise/src/presentation/widgets/btn/common_icon_btn.dart';
 import 'package:budget_wise/src/common/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/theme/app_spacing.dart';
