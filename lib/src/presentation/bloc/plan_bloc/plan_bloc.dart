@@ -18,7 +18,7 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
     try {
       final plan = await planUsecase.getPlanByCurrentMonth();
       emit(PlanLoaded(plan!));
-    } on BussinessError catch (e) {
+    } on BussinessError {
       emit(PlanNotFound());
     } catch (e) {
       emit(PlanError(e.toString()));
@@ -31,7 +31,7 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
     try {
       final plan = await planUsecase.getPlanByMonthId(event.id);
       emit(PlanLoaded(plan!));
-    } on BussinessError catch (e) {
+    } on BussinessError {
       emit(PlanNotFound());
     } catch (e) {
       emit(PlanError(e.toString()));

@@ -4,8 +4,8 @@ class UnknownScreen extends StatelessWidget {
   const UnknownScreen({super.key});
 
   static const String kTitle = 'Screen Not Found';
-  static const String _kBody =
-      'The screen you are looking for might have been moved.';
+  // static const String _kBody =
+  //     'The screen you are looking for might have been moved.';
 
   @override
   Widget build(BuildContext context) {
