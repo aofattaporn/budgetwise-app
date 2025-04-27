@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/common/theme/app_colors.dart';
+import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:flutter/material.dart';
 

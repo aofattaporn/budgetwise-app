@@ -1,10 +1,10 @@
-import 'package:budget_wise/src/common/presentation/custom_common_dailog.dart';
-import 'package:budget_wise/src/common/presentation/widgets/btn/common_outline_btn.dart';
+import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
+import 'package:budget_wise/src/presentation/common/widgets/btn/common_outline_btn.dart';
 import 'package:budget_wise/src/common/routes/app_routes.dart';
-import 'package:budget_wise/src/common/theme/app_colors.dart';
-import 'package:budget_wise/src/common/theme/app_padding.dart';
-import 'package:budget_wise/src/common/theme/app_shadow.dart';
-import 'package:budget_wise/src/common/theme/app_text_style.dart';
+import 'package:budget_wise/src/presentation/theme/app_colors.dart';
+import 'package:budget_wise/src/presentation/theme/app_padding.dart';
+import 'package:budget_wise/src/presentation/theme/app_shadow.dart';
+import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';

@@ -1,5 +1,5 @@
-import 'package:budget_wise/src/common/presentation/widgets/multi_segment_painter.dart';
-import 'package:budget_wise/src/common/theme/app_text_style.dart';
+import 'package:budget_wise/src/presentation/common/widgets/multi_segment_painter.dart';
+import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
 import 'package:budget_wise/src/core/utils/plan_util.dart';

@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/common/routes/app_routes.dart';
 import 'package:budget_wise/src/common/routes/app_screens.dart';
-import 'package:budget_wise/src/common/theme/app_theme.dart';
+import 'package:budget_wise/src/presentation/theme/app_theme.dart';
 import 'package:budget_wise/src/core/constant/business_constant.dart';
 import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/core/di/di.dart';

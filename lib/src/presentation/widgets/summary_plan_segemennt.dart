@@ -1,5 +1,5 @@
-import 'package:budget_wise/src/common/theme/app_colors.dart';
-import 'package:budget_wise/src/common/theme/app_text_style.dart';
+import 'package:budget_wise/src/presentation/theme/app_colors.dart';
+import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
 import 'package:budget_wise/src/presentation/widgets/amount_compare.dart';
 import 'package:flutter/widgets.dart';
