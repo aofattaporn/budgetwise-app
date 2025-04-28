@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
+import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/widgets/segment_control/segment_control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -89,9 +90,7 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
       mainAxisSize: MainAxisSize.min,
       spacing: 16,
       children: [
-        SegmentControl(
-          segmentOptions: segmentOptions,
-        ),
+        CustomCommonWidget.savingPaidSegment(initialSelectedIndex: 0),
         CustomCommonComponent.labelledIconRow(
             label: "ICon",
             textEditingController: amountController,

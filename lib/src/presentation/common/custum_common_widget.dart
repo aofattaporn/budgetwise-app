@@ -2,6 +2,7 @@ import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/widgets/icon/box_icon.dart';
 import 'package:budget_wise/src/presentation/widgets/progression/progress_bar.dart';
+import 'package:budget_wise/src/presentation/widgets/segment_control/segment_control.dart';
 import 'package:budget_wise/src/presentation/widgets/textField/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -51,6 +52,21 @@ class CustomCommonWidget {
     return CustomTextField(
       textEditingController: textEditingController,
       placeHolder: placeholder,
+    );
+  }
+
+  /// Static factory method to create a default Saving/Paid Segment
+  static Widget savingPaidSegment({
+    int initialSelectedIndex = 0,
+  }) {
+    return SegmentControl(
+      segmentOptions: const {
+        0: Text('Saving'),
+        1: Text('Paid'),
+      },
+      initialSelectedIndex: initialSelectedIndex,
+      selectedColor: AppColors.primary,
+      unselectedColor: AppColors.grayLigth,
     );
   }
 }
