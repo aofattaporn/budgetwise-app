@@ -10,7 +10,7 @@ class PlanUtil {
       TransactionsSegment(
         segmentName: BusinessConstant.tranfersType,
         usage: plan?.summaryTranfer ?? 0,
-        color: AppColors.priamryDark,
+        color: AppColors.primaryDark,
       ),
       TransactionsSegment(
         segmentName: BusinessConstant.savingType,

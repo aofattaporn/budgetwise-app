@@ -10,7 +10,7 @@ import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
-import 'package:budget_wise/src/presentation/components/plan_item.dart';
+import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:budget_wise/src/presentation/components/summary_plan_segemennt.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +108,7 @@ class _PlanTabState extends State<PlanTab> {
           limitAmount: plan.totalBudget,
           segmentTilel: BusinessConstant.savingType,
           usage: plan.summarySaving,
-          segmentColor: AppColors.priamryDark,
+          segmentColor: AppColors.primaryDark,
         ),
         const SizedBox(height: 8),
         SummaryPlanSegment(
@@ -194,7 +194,7 @@ class _PlanTabState extends State<PlanTab> {
                 itemBuilder: (context, index) {
                   final item = state.planItems[index];
                   final progress = item.usage / item.planAmount;
-                  return PlannItem(item: item, progress: progress);
+                  return PlanItemCard(item: item, progress: progress);
                 },
               );
             }
@@ -224,7 +224,7 @@ class _PlanTabState extends State<PlanTab> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: AppColors.priamryDark,
+                color: AppColors.primaryDark,
               ),
               textAlign: TextAlign.center,
             ),

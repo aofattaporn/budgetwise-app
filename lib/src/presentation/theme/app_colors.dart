@@ -13,7 +13,7 @@ class AppColors {
   static const transparent = Colors.transparent;
 
   static const Color primary = Color(0xFF9F86C0);
-  static const Color priamryDark = Color(0xFF5E548E);
+  static const Color primaryDark = Color(0xFF5E548E);
   static const Color primaryLigth = Color(0xFFBE95C4);
   static const Color primarySubtle = Color(0xFFD6BBDD);
 

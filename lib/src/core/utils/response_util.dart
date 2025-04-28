@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/common/model/common_response.dart';
+import 'package:budget_wise/src/domain/models/common/common_response.dart';
 import 'package:budget_wise/src/core/constant/response_constant.dart';
 
 class ResponseUtil {

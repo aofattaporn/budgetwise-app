@@ -70,7 +70,7 @@ class MainScreen extends StatelessWidget {
       case RouteConstant.home:
         return const MainScreenAccountTab();
       case RouteConstant.transaction:
-        return const MainScreenTransactionTab();
+        return const TypographyShowcaseScreen();
       case RouteConstant.plan:
         return const PlanTab();
       default:

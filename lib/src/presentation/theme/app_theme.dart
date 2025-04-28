@@ -36,7 +36,7 @@ class AppTheme {
     cardTheme: _cardTheme,
     primaryColor: AppColors.primary,
     primaryColorLight: AppColors.primaryLigth,
-    primaryColorDark: AppColors.priamryDark,
+    primaryColorDark: AppColors.primaryDark,
     scaffoldBackgroundColor: AppColors.grayDark.shade100,
   );
 

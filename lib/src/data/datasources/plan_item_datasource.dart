@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/common/model/common_response.dart';
+import 'package:budget_wise/src/domain/models/common/common_response.dart';
 import 'package:budget_wise/src/core/constant/response_constant.dart';
 import 'package:budget_wise/src/core/errors/bussiness_error.dart';
 import 'package:budget_wise/src/core/utils/error_util.dart';

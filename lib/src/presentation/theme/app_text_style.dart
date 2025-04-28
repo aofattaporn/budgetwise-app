@@ -2,7 +2,7 @@ import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// {@template app_text_styles}
-/// Class that contains all text styles used in the app.
+/// Class that contains all text styles used across the app.
 /// {@endtemplate}
 class AppTextStyles {
   AppTextStyles._();
@@ -11,8 +11,7 @@ class AppTextStyles {
   // =                                  DISPLAY                                =
   // ============================================================================
 
-  // ====> AppColors.dark
-
+  // ====> Dark Color
   static const displayLarge = TextStyle(
     color: AppColors.dark,
     fontSize: 32,
@@ -34,24 +33,23 @@ class AppTextStyles {
     height: 1.3,
   );
 
-  // ====> AppColors.priamryDark
-
-  static const displayPriamryDarkLarge = TextStyle(
-    color: AppColors.priamryDark,
+  // ====> PrimaryDark Color
+  static const displayPrimaryLarge = TextStyle(
+    color: AppColors.primaryDark,
     fontSize: 32,
     fontWeight: FontWeight.bold,
     height: 1.25,
   );
 
-  static const displayPriamryDarkMedium = TextStyle(
-    color: AppColors.priamryDark,
+  static const displayPrimaryMedium = TextStyle(
+    color: AppColors.primaryDark,
     fontSize: 28,
     fontWeight: FontWeight.bold,
     height: 1.3,
   );
 
-  static const displayPriamryDarkSmall = TextStyle(
-    color: AppColors.priamryDark,
+  static const displayPrimarySmall = TextStyle(
+    color: AppColors.primaryDark,
     fontSize: 24,
     fontWeight: FontWeight.bold,
     height: 1.3,
@@ -89,7 +87,7 @@ class AppTextStyles {
   static const bodyLarge = TextStyle(
     color: AppColors.dark,
     fontSize: 16,
-    fontWeight: FontWeight.w100,
+    fontWeight: FontWeight.w400,
     height: 1.5,
   );
 
@@ -132,16 +130,19 @@ class AppTextStyles {
     height: 1.4,
   );
 
-  // ====> Add-ons
+  // ============================================================================
+  // =                                 SPECIAL LABELS                          =
+  // ============================================================================
 
   static const labelGraySmall = TextStyle(
     color: AppColors.grayLight,
     fontSize: 12,
+    fontWeight: FontWeight.w400,
     height: 1.4,
   );
 
   static const labelPrimarySmall = TextStyle(
-    color: AppColors.priamryDark,
+    color: AppColors.primaryDark,
     fontWeight: FontWeight.bold,
     fontSize: 12,
     height: 1.4,

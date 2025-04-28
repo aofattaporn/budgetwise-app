@@ -1,5 +1,5 @@
 import 'package:budget_wise/src/presentation/widgets/btn/common_icon_btn.dart';
-import 'package:budget_wise/src/common/routes/app_routes.dart';
+import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/theme/app_spacing.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
@@ -61,7 +61,7 @@ class _PlanningOverviewSheetState extends State<PlanningOverviewSheet> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(kTitlePlanSheet, style: AppTextStyles.displayPriamryDarkSmall),
+          Text(kTitlePlanSheet, style: AppTextStyles.displayPrimarySmall),
           CommonIconBtn(
               label: kAddNewLabel,
               icon: const Icon(Icons.add, color: Colors.white),

@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
 import 'package:budget_wise/src/presentation/widgets/btn/common_outline_btn.dart';
-import 'package:budget_wise/src/common/routes/app_routes.dart';
+import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/theme/app_shadow.dart';
