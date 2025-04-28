@@ -1,9 +1,11 @@
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
+import 'package:budget_wise/src/presentation/widgets/segment_control/segment_control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
+import 'package:budget_wise/src/presentation/widgets/btn/common_elevated_btn.dart';
 
 class CreateNewPlanItemSheet extends StatefulWidget {
   const CreateNewPlanItemSheet({super.key});
@@ -13,15 +15,22 @@ class CreateNewPlanItemSheet extends StatefulWidget {
 }
 
 class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
+  final String kTitle = "Create New Plan Item";
+  final String kDesc =
+      "Add a new item to your plan to better organize your budget.";
+
   final TextEditingController iconController = TextEditingController();
   final TextEditingController planNameController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
 
-  int selectedSegment = 0;
   final Map<int, Widget> segmentOptions = const <int, Widget>{
     0: Text('Saving'),
     1: Text('Paid'),
   };
+
+  void saveNewPlanning(BuildContext context) {
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +53,11 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
             ),
             _buildCreatePlanAction(),
             const Spacer(),
+            CommonElevatedBtn(
+              label: "Save",
+              onPressed: () => saveNewPlanning(context),
+              isDisable: amountController.value.text == "",
+            )
           ],
         ),
       ),
@@ -52,19 +66,16 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
 
   Column _buildTiltleVreateNewPlan() {
     return Column(
-      spacing: 0,
+      spacing: 8,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Text(
-          "Create New Plan Item",
+        Text(
+          kTitle,
           style: AppTextStyles.headlineSmall,
         ),
-        const SizedBox(height: 8),
-
-        // Sub description
         Text(
-          "Add a new item to your plan to better organize your budget.",
+          kDesc,
           style: AppTextStyles.bodySmall.copyWith(
             color: AppColors.grayLight,
           ),
@@ -78,7 +89,9 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
       mainAxisSize: MainAxisSize.min,
       spacing: 16,
       children: [
-        _buildSegmentedControl(),
+        SegmentControl(
+          segmentOptions: segmentOptions,
+        ),
         CustomCommonComponent.labelledIconRow(
             label: "ICon",
             textEditingController: amountController,
@@ -92,32 +105,6 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
             textEditingController: amountController,
             placeHolder: "Ex. 500"),
       ],
-    );
-  }
-
-  Widget _buildSegmentedControl() {
-    return Container(
-      width: double.infinity, // 👈 ทำให้เต็มความกว้าง
-      padding: const EdgeInsets.symmetric(
-          horizontal: 4, vertical: 4), // optional เพิ่มให้ดูเหมือน iOS จริงๆ
-      decoration: BoxDecoration(
-        color: AppColors.primarySubtle.withOpacity(0.2), // พื้นหลังนิดๆ
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: CupertinoSegmentedControl<int>(
-        children: segmentOptions,
-        groupValue: selectedSegment,
-        padding: const EdgeInsets.all(0),
-        borderColor: AppColors.primary, // สีเส้นขอบ
-        selectedColor: AppColors.primary, // สีพื้นหลังเมื่อเลือก
-        unselectedColor: AppColors.white,
-        pressedColor: AppColors.primarySubtle,
-        onValueChanged: (int newValue) {
-          setState(() {
-            selectedSegment = newValue;
-          });
-        },
-      ),
     );
   }
 }
