@@ -1,7 +1,6 @@
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/components/amount_compare.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
-import 'package:budget_wise/src/presentation/widgets/box_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
@@ -30,7 +29,7 @@ class PlanItemCard extends StatelessWidget {
         children: [
           _buildTopRow(context),
           const SizedBox(height: 12),
-          _buildProgressBar(),
+          CustomCommonWidget.progressBar(progress: progress)
         ],
       ),
     );
@@ -69,18 +68,6 @@ class PlanItemCard extends StatelessWidget {
         ),
         AmountCompare(usage: item.usage, limitAmount: item.planAmount),
       ],
-    );
-  }
-
-  Widget _buildProgressBar() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: LinearProgressIndicator(
-        value: progress.clamp(0.0, 1.0),
-        backgroundColor: AppColors.primarySubtle.withOpacity(0.3),
-        valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-        minHeight: 8,
-      ),
     );
   }
 }

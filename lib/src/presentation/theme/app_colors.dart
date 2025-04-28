@@ -16,6 +16,7 @@ class AppColors {
   static const Color primaryDark = Color(0xFF5E548E);
   static const Color primaryLigth = Color(0xFFBE95C4);
   static const Color primarySubtle = Color(0xFFD6BBDD);
+  static const Color primarySubtleLigth = Color.fromARGB(255, 242, 232, 245);
 
   static const MaterialColor error = MaterialColor(0xFFFF4D4F, {
     50: Color(0xFFFFE5E5),
