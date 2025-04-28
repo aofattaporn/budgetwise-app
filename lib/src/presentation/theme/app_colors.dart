@@ -8,9 +8,9 @@ class AppColors {
 
   /// The color common
   static const white = Colors.white;
-  static const Color dark = Color(0xFF191627);
-  static const black = Colors.black;
+  static const dark = Color.fromRGBO(49, 49, 49, 1);
   static const transparent = Colors.transparent;
+  static const grayLigth = Color.fromARGB(255, 241, 241, 241);
 
   static const Color primary = Color(0xFF9F86C0);
   static const Color primaryDark = Color(0xFF5E548E);

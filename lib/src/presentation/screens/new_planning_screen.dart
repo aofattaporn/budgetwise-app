@@ -5,7 +5,7 @@ import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_m
 import 'package:budget_wise/src/presentation/bloc/plan_all_month_bloc/plan_all_month_event.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_datepicker.dart';
-import 'package:budget_wise/src/presentation/common/custom_common_text_field.dart';
+import 'package:budget_wise/src/presentation/widgets/textField/custom_text_field.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
@@ -148,7 +148,7 @@ class _NewPlanningScreenState extends State<NewPlanningScreen> {
           child: Text('Amount', style: AppTextStyles.bodyMedium),
         ),
         Expanded(
-          child: CustomCommonTextField(
+          child: CustomTextField(
             textEditingController: amountController,
             placeHolder: 'amount',
           ),

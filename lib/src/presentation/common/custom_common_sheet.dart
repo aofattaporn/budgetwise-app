@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/presentation/sheets/create_new_plan_item_sheet.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/sheets/planning_overview_sheet.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,10 @@ class CustomCommonSheet {
         PlanningOverviewSheet(
           planIdSelected: planIdSelected,
         ));
+  }
+
+  void createNewPlanItem(BuildContext context) {
+    _commonSheet(context, const CreateNewPlanItemSheet());
   }
 
   void _commonSheet(BuildContext context, Widget widget) {

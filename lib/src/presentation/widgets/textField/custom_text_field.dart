@@ -2,11 +2,11 @@ import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CustomCommonTextField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final TextEditingController textEditingController;
   final String placeHolder;
 
-  const CustomCommonTextField({
+  const CustomTextField({
     super.key,
     required this.placeHolder,
     required this.textEditingController,
@@ -23,7 +23,7 @@ class CustomCommonTextField extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         labelText: placeHolder,
         labelStyle: const TextStyle(
           fontSize: 14,

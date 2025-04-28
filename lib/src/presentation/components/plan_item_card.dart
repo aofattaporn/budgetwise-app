@@ -23,7 +23,7 @@ class PlanItemCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.primarySubtle.withAlpha(24),
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -54,7 +54,7 @@ class PlanItemCard extends StatelessWidget {
         Row(
           spacing: 12,
           children: [
-            CustomCommonWidget.boxIcon(iconData: Icons.add_business_outlined),
+            CustomCommonWidget.boxIcon(iconData: Icons.outlet_outlined),
             Text(
               item.title,
               style: AppTextStyles.headlineSmall,

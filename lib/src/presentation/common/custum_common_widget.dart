@@ -2,6 +2,7 @@ import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/widgets/icon/box_icon.dart';
 import 'package:budget_wise/src/presentation/widgets/progression/progress_bar.dart';
+import 'package:budget_wise/src/presentation/widgets/textField/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 class CustomCommonWidget {
@@ -11,8 +12,8 @@ class CustomCommonWidget {
   static Widget boxIcon({
     required IconData iconData,
     double size = 20,
-    Color backgroundColor = AppColors.primarySubtle,
-    Color iconColor = AppColors.primaryDark,
+    Color backgroundColor = AppColors.grayLigth,
+    Color iconColor = AppColors.dark,
     double borderRadius = 8,
     EdgeInsetsGeometry padding = AppPadding.allmd,
   }) {
@@ -31,7 +32,7 @@ class CustomCommonWidget {
     required double progress,
     double height = 8,
     double borderRadius = 8,
-    Color backgroundColor = AppColors.primarySubtleLigth,
+    Color backgroundColor = AppColors.grayLigth,
     Color valueColor = AppColors.primary,
   }) {
     return ProgressBar(
@@ -40,6 +41,16 @@ class CustomCommonWidget {
       borderRadius: borderRadius,
       backgroundColor: backgroundColor,
       valueColor: valueColor,
+    );
+  }
+
+  /// Creates a text-field.
+  static Widget textField(
+      {required TextEditingController textEditingController,
+      String placeholder = ""}) {
+    return CustomTextField(
+      textEditingController: textEditingController,
+      placeHolder: placeholder,
     );
   }
 }

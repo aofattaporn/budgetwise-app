@@ -39,7 +39,9 @@ class _PlanTabState extends State<PlanTab> {
     context.read<PlanBloc>().add(FetchCurrentMonthPlan());
   }
 
-  void _saveNewPlanning(BuildContext context) {}
+  void _openNewPlanItem(BuildContext context) {
+    CustomCommonSheet().createNewPlanItem(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +151,7 @@ class _PlanTabState extends State<PlanTab> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TextButton.icon(
-            onPressed: () => _saveNewPlanning(context),
+            onPressed: () => _openNewPlanItem(context),
             icon: const Icon(Icons.add, color: Colors.white),
             label: const Text(
               CommonConstant.newItem,
