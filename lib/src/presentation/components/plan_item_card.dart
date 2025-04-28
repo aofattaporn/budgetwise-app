@@ -15,38 +15,34 @@ class PlanItemCard extends StatelessWidget {
     required this.progress,
   });
 
+  void _optionPlanItemCard() {}
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.primarySubtle.withOpacity(0.1),
+        color: AppColors.primarySubtle.withAlpha(24),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 12,
         children: [
-          _buildTopRow(context),
-          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildTitleAndUsage(),
+              IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: _optionPlanItemCard,
+              ),
+            ],
+          ),
           CustomCommonWidget.progressBar(progress: progress)
         ],
       ),
-    );
-  }
-
-  Widget _buildTopRow(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildTitleAndUsage(),
-        IconButton(
-          icon: const Icon(Icons.more_vert),
-          onPressed: () {
-            // TODO: Implement more options
-          },
-        ),
-      ],
     );
   }
 
@@ -59,7 +55,6 @@ class PlanItemCard extends StatelessWidget {
           spacing: 12,
           children: [
             CustomCommonWidget.boxIcon(iconData: Icons.add_business_outlined),
-            const SizedBox(width: 12),
             Text(
               item.title,
               style: AppTextStyles.headlineSmall,

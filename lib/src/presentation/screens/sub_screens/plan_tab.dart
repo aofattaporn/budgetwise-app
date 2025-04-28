@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/widgets/common_notification.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
@@ -194,7 +195,8 @@ class _PlanTabState extends State<PlanTab> {
                 itemBuilder: (context, index) {
                   final item = state.planItems[index];
                   final progress = item.usage / item.planAmount;
-                  return PlanItemCard(item: item, progress: progress);
+                  return CustomCommonComponent.planItemCard(
+                      planEntity: item, progress: progress);
                 },
               );
             }

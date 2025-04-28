@@ -1,4 +1,6 @@
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
+import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_component.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -9,6 +11,14 @@ class CustomCommonComponent {
       planEntity: planEntity,
       selectedId: selectedId,
       idEditing: isEditing,
+    );
+  }
+
+  static Widget planItemCard(
+      {required PlanItemEntity planEntity, required double progress}) {
+    return PlanItemCard(
+      item: planEntity,
+      progress: progress,
     );
   }
 }
