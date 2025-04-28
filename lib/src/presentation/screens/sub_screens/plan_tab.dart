@@ -1,4 +1,6 @@
+import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
+import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
 import 'package:budget_wise/src/presentation/widgets/common_notification.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
@@ -11,7 +13,6 @@ import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
-import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:budget_wise/src/presentation/components/summary_plan_segemennt.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +39,7 @@ class _PlanTabState extends State<PlanTab> {
     context.read<PlanBloc>().add(FetchCurrentMonthPlan());
   }
 
-  void _saveNewPlanning(BuildContext context) {
-    // TODO: implement create plan item
-  }
+  void _saveNewPlanning(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +60,10 @@ class _PlanTabState extends State<PlanTab> {
           return Skeletonizer(
             enabled: isLoading,
             child: Column(
+              spacing: 12,
               children: [
                 _buildPlanProgress(state, isSuccess, isNotFound),
-                const SizedBox(height: 12),
                 if (isSuccess) _buildPlanSegments(state),
-                const SizedBox(height: 12),
                 if (isSuccess) _buildPlanItems(state),
                 if (!isSuccess) const Spacer(),
               ],
@@ -86,7 +84,7 @@ class _PlanTabState extends State<PlanTab> {
       child: GestureDetector(
         onTap: () {
           if (isSuccess) {
-            final planId = (state as PlanLoaded).plan.id ?? 0;
+            final planId = (state as PlanLoaded).plan.id;
             CustomCommonSheet().allPlansSheet(context, planId);
           }
         },
@@ -135,9 +133,9 @@ class _PlanTabState extends State<PlanTab> {
 
     return Expanded(
       child: Column(
+        spacing: 16,
         children: [
           _buildActionButton(),
-          const SizedBox(height: 16),
           _buildPlanItemList(),
         ],
       ),
@@ -154,7 +152,7 @@ class _PlanTabState extends State<PlanTab> {
             onPressed: () => _saveNewPlanning(context),
             icon: const Icon(Icons.add, color: Colors.white),
             label: const Text(
-              "New Item",
+              CommonConstant.newItem,
               style: TextStyle(color: Colors.white),
             ),
             style: TextButton.styleFrom(
@@ -201,7 +199,8 @@ class _PlanTabState extends State<PlanTab> {
               );
             }
 
-            return const Center(child: Text("Something went wrong..."));
+            return const Center(
+                child: Text(CommonConstant.msgSomethingWentWrong));
           },
         ),
       ),
@@ -213,30 +212,22 @@ class _PlanTabState extends State<PlanTab> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: Column(
+          spacing: 8,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.inbox,
               size: 56,
-              color: AppColors.primarySubtle,
+              color: AppColors.primarySubtleLigth,
             ),
-            SizedBox(height: 24),
             Text(
-              "No Items Yet",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryDark,
-              ),
+              CommonConstant.noItemMsg,
+              style: AppTextStyles.labelPrimarySubtleNormal,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 8),
             Text(
-              "Create your first item.",
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.primarySubtle,
-              ),
+              CommonConstant.createFirstMsg,
+              style: AppTextStyles.labelPrimarySubtleSmall,
               textAlign: TextAlign.center,
             ),
           ],

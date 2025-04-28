@@ -147,4 +147,16 @@ class AppTextStyles {
     fontSize: 12,
     height: 1.4,
   );
+
+  static const labelPrimarySubtleNormal = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.primarySubtle,
+  );
+
+  static const labelPrimarySubtleSmall = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: AppColors.primarySubtle,
+  );
 }

@@ -1,7 +1,7 @@
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
-import 'package:budget_wise/src/presentation/widgets/box_icon.dart';
-import 'package:budget_wise/src/presentation/widgets/progress_bar.dart';
+import 'package:budget_wise/src/presentation/widgets/icon/box_icon.dart';
+import 'package:budget_wise/src/presentation/widgets/progression/progress_bar.dart';
 import 'package:flutter/material.dart';
 
 class CustomCommonWidget {

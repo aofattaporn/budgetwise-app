@@ -1,7 +1,7 @@
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 
 class PlanEntity {
-  final int? id;
+  final int id;
   final DateTime startDate;
   final DateTime endDate;
   final double totalBudget;
@@ -11,7 +11,7 @@ class PlanEntity {
   final double summaryOther;
 
   PlanEntity({
-    this.id,
+    required this.id,
     required this.startDate,
     required this.endDate,
     required this.totalBudget,
@@ -23,7 +23,7 @@ class PlanEntity {
 
   factory PlanEntity.fromJson(Map<String, dynamic> json) {
     return PlanEntity(
-      id: json['id'] as int?,
+      id: json['id'] as int,
       startDate: DateTime.parse(json['start_date'] as String),
       endDate: DateTime.parse(json['end_date'] as String),
       totalBudget: (json['total_budget'] as num).toDouble(),

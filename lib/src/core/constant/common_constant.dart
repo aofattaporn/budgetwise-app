@@ -1,6 +1,8 @@
 import 'package:logger/logger.dart';
 
 class CommonConstant {
+  CommonConstant._();
+
   static const String envFfileType = ".env";
   static const int percentage = 100;
 
@@ -18,8 +20,13 @@ class CommonConstant {
   static const String editLabel = "Edit";
   static const String cancelLabel = "Cancel";
   static const String deleteLabel = "Delete";
+  static const String newItem = "New Item";
 
   static const String deleteDescLabel = "You are going to delete this plan";
+  static const String msgSomethingWentWrong = "Something went wrong...";
+
+  static const String noItemMsg = "No Items Yet";
+  static const String createFirstMsg = "Create your first item.";
 
   // *** Common logger ***
   static final Map<Level, String> levelEmojis = {

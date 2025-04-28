@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/widgets/multi_segment_painter.dart';
+import 'package:budget_wise/src/presentation/widgets/progression/multi_segment_painter.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
