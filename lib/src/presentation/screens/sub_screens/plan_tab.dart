@@ -87,7 +87,9 @@ class _PlanTabState extends State<PlanTab> {
         onTap: () {
           if (isSuccess) {
             final planId = (state as PlanLoaded).plan.id;
-            CustomCommonSheet().allPlansSheet(context, planId);
+            CustomCommonSheet().allPlansSheet(context, planIdSelected: planId);
+          } else {
+            CustomCommonSheet().allPlansSheet(context);
           }
         },
         child: Center(

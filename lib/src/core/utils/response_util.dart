@@ -60,7 +60,7 @@ class ResponseUtil {
     if (response.code == ResponseConstant.code1000) {
       return response.data;
     } else {
-      throw Exception("Unexpected response code: ${response.code}");
+      throw Exception('Unexpected response code: ${response.code}');
     }
   }
 }

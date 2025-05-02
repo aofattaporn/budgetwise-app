@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanningOverviewSheet extends StatefulWidget {
-  final int planIdSelected;
+  final int? planIdSelected;
   const PlanningOverviewSheet({required this.planIdSelected, super.key});
 
   @override

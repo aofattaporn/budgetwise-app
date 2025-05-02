@@ -19,7 +19,7 @@ class CustomCommonSheet {
     this.height = defaultHeight,
   });
 
-  void allPlansSheet(BuildContext context, int planIdSelected) {
+  void allPlansSheet(BuildContext context, {int? planIdSelected}) {
     _commonSheet(
         context,
         PlanningOverviewSheet(

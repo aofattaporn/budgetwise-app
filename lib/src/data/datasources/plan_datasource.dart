@@ -35,29 +35,22 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   @override
   Future<CommonResponse<PlanEntity?>> fetchPlanByStartAndEndDate(
       DateTime start, DateTime end) async {
-    try {
-      final response = await supabase
-          .from('plans')
-          .select()
-          .lte('start_date', DateFormat('yyyy-MM-dd').format(start))
-          .gte('end_date', DateFormat('yyyy-MM-dd').format(end))
-          .limit(1)
-          .maybeSingle();
+    final response = await supabase
+        .from('plans')
+        .select()
+        .lte('start_date', DateFormat('yyyy-MM-dd').format(start))
+        .gte('end_date', DateFormat('yyyy-MM-dd').format(end))
+        .maybeSingle();
 
-      if (response == null) {
-        final err = ErrorUtil.mapBusinessError(
-            message: "No plan found in the current time range.");
-        _logger.e("Business Error | fetchPlanByStartAndEndDate", error: err);
-        throw err;
-      }
-
-      return ResponseUtil.commonResponse(
-          ResponseConstant.code1000, PlanEntity.fromJson(response));
-    } catch (e, stackTrace) {
-      _logger.e("Technical Error | fetchPlanByStartAndEndDate",
-          error: e, stackTrace: stackTrace);
-      throw ErrorUtil.mapTechnicalError();
+    if (response == null) {
+      final err = ErrorUtil.mapBusinessError(
+          message: "No plan found in the current time range.");
+      _logger.e("Business Error | fetchPlanByStartAndEndDate", error: err);
+      throw err;
     }
+
+    return ResponseUtil.commonResponse(
+        ResponseConstant.code1000, PlanEntity.fromJson(response));
   }
 
   @override

@@ -40,9 +40,6 @@ class CustomCommonComponent {
       {required TextEditingController textEditingController,
       required String label,
       String placeHolder = ""}) {
-    return LabeledIconRow(
-      label: label,
-      onSelectIcon: () {},
-    );
+    return const LabeledIconRow();
   }
 }

@@ -2,13 +2,8 @@ import 'package:budget_wise/src/presentation/widgets/icon/box_icon.dart';
 import 'package:flutter/material.dart';
 
 class LabeledIconRow extends StatelessWidget {
-  final String label;
-  final VoidCallback onSelectIcon;
-
   const LabeledIconRow({
     super.key,
-    required this.label,
-    required this.onSelectIcon,
   });
 
   @override
@@ -28,7 +23,7 @@ class LabeledIconRow extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: TextButton.icon(
-              onPressed: onSelectIcon,
+              onPressed: () {},
               icon: const Icon(Icons.arrow_forward_outlined),
               label: const Text('Select Icon'),
               style: TextButton.styleFrom(
