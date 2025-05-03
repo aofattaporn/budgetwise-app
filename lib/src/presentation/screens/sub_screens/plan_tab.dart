@@ -132,7 +132,7 @@ class _PlanTabState extends State<PlanTab> {
   }
 
   Widget _buildPlanItems(PlanState state) {
-    final planId = (state as PlanLoaded).plan.id!;
+    final planId = (state as PlanLoaded).plan.id;
     context.read<PlanItemBloc>().add(FetchPlanItemEvent(planId));
 
     return Expanded(

@@ -63,7 +63,7 @@ class PlanItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _selectedViewPlan(planEntity.id ?? 0, context),
+      onTap: () => _selectedViewPlan(planEntity.id, context),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         padding: AppPadding.allxl,
@@ -118,7 +118,7 @@ class PlanItemComponent extends StatelessWidget {
               Expanded(
                   child: CommonOutlineBtn(
                 label: CommonConstant.deleteLabel,
-                onPressed: () => _deletePlanById(context, plan.id ?? 0),
+                onPressed: () => _deletePlanById(context, plan.id),
                 backgroundColor: AppColors.error,
               )),
             ],
