@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
-import 'package:budget_wise/src/presentation/widgets/btn/common_elevated_btn.dart';
 
 class CreateNewPlanItemSheet extends StatefulWidget {
   const CreateNewPlanItemSheet({super.key});
@@ -26,10 +25,6 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
     0: Text('Saving'),
     1: Text('Paid'),
   };
-
-  void saveNewPlanning(BuildContext context) {
-    Navigator.pop(context);
-  }
 
   @override
   void initState() {
@@ -64,6 +59,10 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
     final double amount = double.tryParse(amountText) ?? 0;
 
     return amount <= 0 || nameText.isEmpty;
+  }
+
+  void saveNewPlanning(BuildContext context) {
+    Navigator.pop(context);
   }
 
   @override

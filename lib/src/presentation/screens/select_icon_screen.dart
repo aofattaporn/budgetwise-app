@@ -146,7 +146,11 @@ class _IconGridItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Center(
-          child: Icon(iconData, size: 20, color: AppColors.primaryDark),
+          child: Icon(
+            iconData,
+            size: 20,
+            color: isSelected ? AppColors.primaryDark : AppColors.grayDark,
+          ),
         ),
       ),
     );
