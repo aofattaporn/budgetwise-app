@@ -17,18 +17,25 @@ class CustomCommonComponent {
     );
   }
 
-  static Widget planItemCard(
-      {required PlanItemEntity planEntity, required double progress}) {
+  static Widget planItemCard({
+    // require paramm
+    required PlanItemEntity planEntity,
+    required double progress,
+    // not-require paramm
+  }) {
     return PlanItemCard(
       item: planEntity,
       progress: progress,
     );
   }
 
-  static Widget labelledTextFieldRow(
-      {required TextEditingController textEditingController,
-      required String label,
-      String placeHolder = ""}) {
+  static Widget labelledTextFieldRow({
+    // require paramm
+    required TextEditingController textEditingController,
+    required String label,
+    // not-require paramm
+    String placeHolder = "",
+  }) {
     return LabelledTextFieldRow(
       label: label,
       textEditingController: textEditingController,
@@ -37,9 +44,15 @@ class CustomCommonComponent {
   }
 
   static Widget labelledIconRow(
-      {required TextEditingController textEditingController,
-      required String label,
-      String placeHolder = ""}) {
-    return const LabeledIconRow();
+      {
+      // require paramm
+      required String iconData,
+      required Function(String) handleSelectIcon
+      // not-require paramm
+      }) {
+    return LabeledIconRow(
+      iconData: iconData,
+      handleSelectIcon: handleSelectIcon,
+    );
   }
 }

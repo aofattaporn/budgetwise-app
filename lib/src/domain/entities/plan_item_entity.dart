@@ -5,6 +5,7 @@ class PlanItemEntity {
   final double usage;
   final double planAmount;
   final String category;
+  final String iconName;
   final DateTime createdAt;
 
   PlanItemEntity({
@@ -14,6 +15,7 @@ class PlanItemEntity {
     required this.usage,
     required this.planAmount,
     required this.category,
+    required this.iconName,
     required this.createdAt,
   });
 
@@ -26,6 +28,7 @@ class PlanItemEntity {
       planAmount: (json['plan_amount'] as num).toDouble(),
       category: json['category'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
+      iconName: json['icon_name'] as String,
     );
   }
 
@@ -37,6 +40,7 @@ class PlanItemEntity {
       'usage': usage,
       'plan_amount': planAmount,
       'category': category,
+      'icon_name': iconName,
       'created_at': createdAt.toIso8601String(),
     };
   }

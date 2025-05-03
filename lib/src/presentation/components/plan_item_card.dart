@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/utils/icon_util.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/components/amount_compare.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
@@ -54,7 +55,8 @@ class PlanItemCard extends StatelessWidget {
         Row(
           spacing: 12,
           children: [
-            CustomCommonWidget.boxIcon(iconData: Icons.outlet_outlined),
+            CustomCommonWidget.boxIcon(
+                iconData: IconUtil.getIconByName(item.iconName)),
             Text(
               item.title,
               style: AppTextStyles.headlineSmall,

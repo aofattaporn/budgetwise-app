@@ -14,7 +14,7 @@ class CustomCommonWidget {
     required IconData iconData,
     double size = 20,
     Color backgroundColor = AppColors.grayLigth,
-    Color iconColor = AppColors.dark,
+    Color iconColor = AppColors.primaryDark,
     double borderRadius = 8,
     EdgeInsetsGeometry padding = AppPadding.allmd,
   }) {
@@ -57,13 +57,11 @@ class CustomCommonWidget {
 
   /// Static factory method to create a default Saving/Paid Segment
   static Widget savingPaidSegment({
+    required Map<int, Widget> segmentOptions,
     int initialSelectedIndex = 0,
   }) {
     return SegmentControl(
-      segmentOptions: const {
-        0: Text('Saving'),
-        1: Text('Paid'),
-      },
+      segmentOptions: segmentOptions,
       initialSelectedIndex: initialSelectedIndex,
       selectedColor: AppColors.primary,
       unselectedColor: AppColors.grayLigth,

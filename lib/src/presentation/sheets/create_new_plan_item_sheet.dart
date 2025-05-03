@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/utils/icon_util.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
   final String kDesc =
       "Add a new item to your plan to better organize your budget.";
 
-  final TextEditingController iconController = TextEditingController();
+  late String iconName;
   final TextEditingController planNameController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
 
@@ -29,6 +30,18 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
 
   void saveNewPlanning(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    iconName = "";
+  }
+
+  void handleSetIcon(String icon) {
+    setState(() {
+      iconName = icon;
+    });
   }
 
   @override
@@ -45,11 +58,6 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
           spacing: 16,
           children: [
             _buildTiltleVreateNewPlan(),
-            const Divider(
-              color: Colors.grey,
-              thickness: 1,
-              height: 1,
-            ),
             _buildCreatePlanAction(),
             const Spacer(),
             CommonElevatedBtn(
@@ -79,6 +87,11 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
             color: AppColors.grayLight,
           ),
         ),
+        const Divider(
+          color: Colors.grey,
+          thickness: 1,
+          height: 1,
+        ),
       ],
     );
   }
@@ -88,11 +101,10 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
       mainAxisSize: MainAxisSize.min,
       spacing: 16,
       children: [
-        CustomCommonWidget.savingPaidSegment(initialSelectedIndex: 0),
+        CustomCommonWidget.savingPaidSegment(
+            initialSelectedIndex: 0, segmentOptions: segmentOptions),
         CustomCommonComponent.labelledIconRow(
-            label: "ICon",
-            textEditingController: amountController,
-            placeHolder: "Ex. 500"),
+            iconData: iconName, handleSelectIcon: handleSetIcon),
         CustomCommonComponent.labelledTextFieldRow(
             label: "Plan Name",
             textEditingController: amountController,
