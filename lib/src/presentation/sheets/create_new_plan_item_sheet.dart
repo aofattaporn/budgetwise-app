@@ -1,4 +1,3 @@
-import 'package:budget_wise/src/core/utils/icon_util.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +35,35 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
   void initState() {
     super.initState();
     iconName = "";
+
+    amountController.addListener(_onFormChanged);
+    planNameController.addListener(_onFormChanged);
+  }
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    planNameController.dispose();
+    super.dispose();
+  }
+
+  void _onFormChanged() {
+    setState(() {});
   }
 
   void handleSetIcon(String icon) {
     setState(() {
       iconName = icon;
     });
+  }
+
+  bool isFillNotCompletly() {
+    final amountText = amountController.text.trim();
+    final nameText = planNameController.text.trim();
+
+    final double amount = double.tryParse(amountText) ?? 0;
+
+    return amount <= 0 || nameText.isEmpty;
   }
 
   @override
@@ -60,10 +82,10 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
             _buildTiltleVreateNewPlan(),
             _buildCreatePlanAction(),
             const Spacer(),
-            CommonElevatedBtn(
+            CustomCommonWidget.commonElevatedBtn(
               label: "Save",
               onPressed: () => saveNewPlanning(context),
-              isDisable: amountController.value.text == "",
+              isDisable: isFillNotCompletly(),
             )
           ],
         ),
@@ -107,12 +129,13 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
             iconData: iconName, handleSelectIcon: handleSetIcon),
         CustomCommonComponent.labelledTextFieldRow(
             label: "Plan Name",
-            textEditingController: amountController,
+            textEditingController: planNameController,
             placeHolder: "Ex. Retirement Plan"),
         CustomCommonComponent.labelledTextFieldRow(
             label: "Aount Limit",
             textEditingController: amountController,
-            placeHolder: "Ex. 500"),
+            placeHolder: "Ex. 500",
+            isNumberOnly: true),
       ],
     );
   }

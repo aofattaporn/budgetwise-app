@@ -1,7 +1,7 @@
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/src/presentation/components/labeled_icon_row.dart';
-import 'package:budget_wise/src/presentation/components/labelled_textfield_row.dart';
+import 'package:budget_wise/src/presentation/components/labeled_textfield_row.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_component.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,11 +35,13 @@ class CustomCommonComponent {
     required String label,
     // not-require paramm
     String placeHolder = "",
+    bool isNumberOnly = false,
   }) {
     return LabelledTextFieldRow(
       label: label,
       textEditingController: textEditingController,
       placeholder: placeHolder,
+      isNumberOnly: isNumberOnly,
     );
   }
 

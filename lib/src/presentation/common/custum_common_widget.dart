@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
+import 'package:budget_wise/src/presentation/widgets/btn/common_elevated_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/icon/box_icon.dart';
 import 'package:budget_wise/src/presentation/widgets/progression/progress_bar.dart';
 import 'package:budget_wise/src/presentation/widgets/segment_control/segment_control.dart';
@@ -9,9 +10,10 @@ import 'package:flutter/material.dart';
 class CustomCommonWidget {
   const CustomCommonWidget._();
 
-  /// Creates a boxed icon with customizable size, color, background, and padding.
   static Widget boxIcon({
+    // require paramm
     required IconData iconData,
+    // optional paramm
     double size = 20,
     Color backgroundColor = AppColors.grayLigth,
     Color iconColor = AppColors.primaryDark,
@@ -28,9 +30,10 @@ class CustomCommonWidget {
     );
   }
 
-  /// Creates a progress bar with customizable progress, size, colors, and radius.
   static Widget progressBar({
+    // require paramm
     required double progress,
+    // optional paramm
     double height = 8,
     double borderRadius = 8,
     Color backgroundColor = AppColors.grayLigth,
@@ -45,19 +48,24 @@ class CustomCommonWidget {
     );
   }
 
-  /// Creates a text-field.
-  static Widget textField(
-      {required TextEditingController textEditingController,
-      String placeholder = ""}) {
+  static Widget textField({
+    // require paramm
+    required TextEditingController textEditingController,
+    // optional paramm
+    String placeholder = "",
+    bool isNumberOnly = false,
+  }) {
     return CustomTextField(
       textEditingController: textEditingController,
       placeHolder: placeholder,
+      isNumberOnly: isNumberOnly,
     );
   }
 
-  /// Static factory method to create a default Saving/Paid Segment
   static Widget savingPaidSegment({
+    // require paramm
     required Map<int, Widget> segmentOptions,
+    // optional paramm
     int initialSelectedIndex = 0,
   }) {
     return SegmentControl(
@@ -65,6 +73,20 @@ class CustomCommonWidget {
       initialSelectedIndex: initialSelectedIndex,
       selectedColor: AppColors.primary,
       unselectedColor: AppColors.grayLigth,
+    );
+  }
+
+  static Widget commonElevatedBtn({
+    // require paramm
+    required String label,
+    required void Function() onPressed,
+    // not-require paramm
+    bool? isDisable = true,
+  }) {
+    return CommonElevatedBtn(
+      label: label,
+      onPressed: onPressed,
+      isDisable: isDisable,
     );
   }
 }

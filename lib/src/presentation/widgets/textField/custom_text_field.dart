@@ -5,21 +5,34 @@ import 'package:flutter/services.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController textEditingController;
   final String placeHolder;
+  final bool isNumberOnly;
 
   const CustomTextField({
     super.key,
     required this.placeHolder,
     required this.textEditingController,
+    this.isNumberOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: textEditingController,
-      keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      keyboardType: isNumberOnly
+          ? const TextInputType.numberWithOptions(decimal: true)
+          : TextInputType.text,
+      inputFormatters: isNumberOnly
+          ? [
+              FilteringTextInputFormatter.allow(
+                RegExp(r'^\d*\.?\d{0,2}'), // รองรับทศนิยม 2 ตำแหน่ง
+              ),
+            ]
+          : [],
       style: const TextStyle(
-          fontSize: 16, fontWeight: FontWeight.normal, color: AppColors.dark),
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: AppColors.dark,
+      ),
       decoration: InputDecoration(
         isDense: true,
         contentPadding:
@@ -30,6 +43,20 @@ class CustomTextField extends StatelessWidget {
           fontWeight: FontWeight.w100,
         ),
         border: const OutlineInputBorder(),
+        suffixIcon: isNumberOnly
+            ? const Padding(
+                padding: EdgeInsets.only(right: 12),
+                child: Text(
+                  '฿',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryDark,
+                  ),
+                ),
+              )
+            : null,
+        suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
       ),
     );
   }
