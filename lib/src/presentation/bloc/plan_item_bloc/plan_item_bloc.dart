@@ -8,6 +8,7 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
 
   PlanItemBloc({required this.planItemUsecase}) : super(PlanItemInitial()) {
     on<FetchPlanItemEvent>(_onFetchPlanItem);
+    on<AddPlanItemEvent>(_onAddPlanItemEvent);
   }
 
   Future<void> _onFetchPlanItem(
@@ -17,6 +18,22 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
     try {
       final planItems =
           await planItemUsecase.getPlanByCurrentMonth(event.planId);
+
+      emit(
+        planItems.isEmpty ? PlanItemEmpty() : PlanItemLoaded(planItems),
+      );
+    } catch (error) {
+      emit(PlanItemError('Failed to fetch plan items: $error'));
+    }
+  }
+
+  Future<void> _onAddPlanItemEvent(
+      AddPlanItemEvent event, Emitter<PlanItemState> emit) async {
+    emit(PlanItemLoading());
+
+    try {
+      final planItems =
+          await planItemUsecase.createaNewPlanIte(event.planItemDto);
 
       emit(
         planItems.isEmpty ? PlanItemEmpty() : PlanItemLoaded(planItems),

@@ -39,8 +39,8 @@ class _PlanTabState extends State<PlanTab> {
     context.read<PlanBloc>().add(FetchCurrentMonthPlan());
   }
 
-  void _openNewPlanItem(BuildContext context) {
-    CustomCommonSheet().createNewPlanItem(context);
+  void _openNewPlanItem(BuildContext context, int planId) {
+    CustomCommonSheet().createNewPlanItem(context, planId: planId);
   }
 
   @override
@@ -139,21 +139,21 @@ class _PlanTabState extends State<PlanTab> {
       child: Column(
         spacing: 16,
         children: [
-          _buildActionButton(),
+          _buildActionButton(planId),
           _buildPlanItemList(),
         ],
       ),
     );
   }
 
-  Widget _buildActionButton() {
+  Widget _buildActionButton(int planId) {
     return Padding(
       padding: AppPadding.hxxs,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TextButton.icon(
-            onPressed: () => _openNewPlanItem(context),
+            onPressed: () => _openNewPlanItem(context, planId),
             icon: const Icon(Icons.add, color: Colors.white),
             label: const Text(
               CommonConstant.newItem,

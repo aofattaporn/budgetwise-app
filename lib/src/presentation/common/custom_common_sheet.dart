@@ -27,8 +27,12 @@ class CustomCommonSheet {
         ));
   }
 
-  void createNewPlanItem(BuildContext context) {
-    _commonSheet(context, const CreateNewPlanItemSheet());
+  void createNewPlanItem(BuildContext context, {required int planId}) {
+    _commonSheet(
+        context,
+        CreateNewPlanItemSheet(
+          planId: planId,
+        ));
   }
 
   void _commonSheet(BuildContext context, Widget widget) {

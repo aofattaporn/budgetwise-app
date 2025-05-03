@@ -1,5 +1,7 @@
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
+
 class PlanItemEntity {
-  final int id;
+  final String id;
   final int planId;
   final String title;
   final double usage;
@@ -21,7 +23,7 @@ class PlanItemEntity {
 
   factory PlanItemEntity.fromJson(Map<String, dynamic> json) {
     return PlanItemEntity(
-      id: json['id'] as int,
+      id: json['id'] as String,
       planId: json['plan_id'] as int,
       title: json['title'] as String,
       usage: (json['usage'] as num).toDouble(),
@@ -30,6 +32,18 @@ class PlanItemEntity {
       createdAt: DateTime.parse(json['created_at'] as String),
       iconName: json['icon_name'] as String,
     );
+  }
+
+  static Map<String, dynamic> toJsonInsert(PlanItemDto planDto) {
+    return {
+      'plan_id': planDto.planId,
+      'title': planDto.title,
+      'usage': 0,
+      'plan_amount': planDto.planAmount,
+      'category': planDto.category,
+      'icon_name': planDto.iconName,
+      'created_at': DateTime.now().toIso8601String(),
+    };
   }
 
   Map<String, dynamic> toJson() {

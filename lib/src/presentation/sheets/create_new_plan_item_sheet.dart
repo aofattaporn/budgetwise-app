@@ -1,12 +1,20 @@
+import 'dart:ffi';
+
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/app_padding.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateNewPlanItemSheet extends StatefulWidget {
-  const CreateNewPlanItemSheet({super.key});
+  final int planId;
+
+  const CreateNewPlanItemSheet({super.key, required this.planId});
 
   @override
   State<CreateNewPlanItemSheet> createState() => _CreateNewPlanItemSheetState();
@@ -62,6 +70,15 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
   }
 
   void saveNewPlanning(BuildContext context) {
+    context.read<PlanItemBloc>().add(AddPlanItemEvent(
+            planItemDto: PlanItemDto(
+          planId: widget.planId,
+          title: planNameController.text.trim(),
+          planAmount: double.parse(amountController.text),
+          category: "TRANFER",
+          iconName: iconName,
+        )));
+
     Navigator.pop(context);
   }
 

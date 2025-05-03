@@ -5,11 +5,14 @@ import 'package:budget_wise/src/core/utils/error_util.dart';
 import 'package:budget_wise/src/core/utils/logger_util.dart';
 import 'package:budget_wise/src/core/utils/response_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class PlanItemDataSource {
   Future<CommonResponse<List<PlanItemEntity>>> fetchPlanById(int planId);
+  Future<CommonResponse<List<PlanItemEntity>>> createNewPlanItem(
+      PlanItemDto planItemDto);
 }
 
 class PlanItemDataSourceImpl implements PlanItemDataSource {
@@ -35,6 +38,40 @@ class PlanItemDataSourceImpl implements PlanItemDataSource {
     } catch (e, stackTrace) {
       _logger.e('Technical Error | fetchPlanById: $planId',
           error: e, stackTrace: stackTrace);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  @override
+  Future<CommonResponse<List<PlanItemEntity>>> createNewPlanItem(
+      PlanItemDto planItemDto) async {
+    try {
+      await supabase
+          .from('plan_items')
+          .insert(PlanItemEntity.toJsonInsert(planItemDto))
+          .select();
+
+      final response = await supabase
+          .from('plan_items')
+          .select()
+          .eq('plan_id', planItemDto.planId);
+
+      final planItemList = response
+          .map<PlanItemEntity>((json) => PlanItemEntity.fromJson(json))
+          .toList();
+
+      return ResponseUtil.commonResponse(
+        ResponseConstant.code1000,
+        planItemList,
+      );
+    } on BussinessError {
+      rethrow;
+    } catch (e, stackTrace) {
+      _logger.e(
+        'Technical Error | createNewPlanItem: ',
+        error: e,
+        stackTrace: stackTrace,
+      );
       throw ErrorUtil.mapTechnicalError();
     }
   }
