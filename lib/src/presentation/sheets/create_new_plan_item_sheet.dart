@@ -3,6 +3,7 @@ import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:flutter/material.dart';
@@ -126,28 +127,43 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: AppPadding.allxxl,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 16,
-          children: [
-            _buildTiltleVreateNewPlan(),
-            _buildCreatePlanAction(),
-            const Spacer(),
-            CustomCommonWidget.commonElevatedBtn(
-              label: widget.planItemDto == null
-                  ? CommonConstant.save
-                  : CommonConstant.update,
-              onPressed: () => saveNewPlanning(context),
-              isDisable: _isFillNotCompletly(),
-            )
-          ],
+    return BlocListener<PlanItemBloc, PlanItemState>(
+      listener: (context, state) {
+        if (state is PlanItemIsOvering) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.redAccent,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+
+          context.read<PlanItemBloc>().add(FetchPlanItemEvent(widget.planId));
+        }
+      },
+      child: Padding(
+        padding: AppPadding.allxxl,
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 16,
+            children: [
+              _buildTiltleVreateNewPlan(),
+              _buildCreatePlanAction(),
+              const Spacer(),
+              CustomCommonWidget.commonElevatedBtn(
+                label: widget.planItemDto == null
+                    ? CommonConstant.save
+                    : CommonConstant.update,
+                onPressed: () => saveNewPlanning(context),
+                isDisable: _isFillNotCompletly(),
+              )
+            ],
+          ),
         ),
       ),
     );

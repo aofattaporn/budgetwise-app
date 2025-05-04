@@ -14,6 +14,11 @@ class PlanItemLoaded extends PlanItemState {
 
 class PlanItemEmpty extends PlanItemState {}
 
+class PlanItemIsOvering extends PlanItemState {
+  final String message;
+  PlanItemIsOvering(this.message);
+}
+
 class PlanItemError extends PlanItemState {
   final String message;
   PlanItemError(this.message);

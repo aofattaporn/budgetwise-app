@@ -50,35 +50,96 @@ class PlanItemDataSourceImpl implements PlanItemDataSource {
   Future<CommonResponse<List<PlanItemEntity>>> createNewPlanItem(
       PlanItemDto planItemDto) async {
     try {
+      // Fetch existing items and total used
+      final existingItems = await supabase
+          .from('plan_items')
+          .select('plan_amount')
+          .eq('plan_id', planItemDto.planId);
+
+      final currentTotal = existingItems.fold<double>(
+        0,
+        (sum, item) => sum + (item['plan_amount'] as num).toDouble(),
+      );
+
+      // Get totalBudget from plan
+      final planJson = await supabase
+          .from('plans')
+          .select('total_budget')
+          .eq('id', planItemDto.planId)
+          .maybeSingle();
+
+      final totalBudget = (planJson?['total_budget'] as num?)?.toDouble() ?? 0;
+
+      // Business validation
+      final newTotal = currentTotal + planItemDto.planAmount;
+      if (newTotal > totalBudget) {
+        _logger.w("💥 Over budget: $newTotal / $totalBudget");
+        throw ErrorUtil.mapBusinessError(
+          message: "Budget exceeded. Try lowering the amount.",
+        );
+      }
+
+      // Insert new item
       await supabase
           .from('plan_items')
-          .insert(PlanItemEntity.toJsonInsert(planItemDto))
-          .select();
+          .insert(PlanItemEntity.toJsonInsert(planItemDto));
 
-      final response = await supabase
+      // Return updated list
+      final updatedItems = await supabase
           .from('plan_items')
           .select()
           .eq('plan_id', planItemDto.planId);
 
-      final planItemList = response
+      final result = updatedItems
           .map<PlanItemEntity>((json) => PlanItemEntity.fromJson(json))
           .toList();
 
-      return ResponseUtil.commonResponse(
-        ResponseConstant.code1000,
-        planItemList,
-      );
+      return ResponseUtil.commonResponse(ResponseConstant.code1000, result);
     } on BussinessError {
       rethrow;
     } catch (e, stackTrace) {
       _logger.e(
-        'Technical Error | createNewPlanItem: ',
+        '❌ createNewPlanItem failed',
         error: e,
         stackTrace: stackTrace,
       );
       throw ErrorUtil.mapTechnicalError();
     }
   }
+
+  // @override
+  // Future<CommonResponse<List<PlanItemEntity>>> createNewPlanItem(
+  //     PlanItemDto planItemDto) async {
+  //   try {
+  //     await supabase
+  //         .from('plan_items')
+  //         .insert(PlanItemEntity.toJsonInsert(planItemDto))
+  //         .select();
+
+  //     final response = await supabase
+  //         .from('plan_items')
+  //         .select()
+  //         .eq('plan_id', planItemDto.planId);
+
+  //     final planItemList = response
+  //         .map<PlanItemEntity>((json) => PlanItemEntity.fromJson(json))
+  //         .toList();
+
+  //     return ResponseUtil.commonResponse(
+  //       ResponseConstant.code1000,
+  //       planItemList,
+  //     );
+  //   } on BussinessError {
+  //     rethrow;
+  //   } catch (e, stackTrace) {
+  //     _logger.e(
+  //       'Technical Error | createNewPlanItem: ',
+  //       error: e,
+  //       stackTrace: stackTrace,
+  //     );
+  //     throw ErrorUtil.mapTechnicalError();
+  //   }
+  // }
 
   @override
   Future<CommonResponse<List<PlanItemEntity>>> deletePlanItemById(

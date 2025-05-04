@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/errors/bussiness_error.dart';
 import 'package:budget_wise/src/domain/usecase/plan_item_usecase.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
@@ -40,8 +41,12 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
       emit(
         planItems.isEmpty ? PlanItemEmpty() : PlanItemLoaded(planItems),
       );
+    } on BussinessError {
+      emit(PlanItemIsOvering(
+          "The budget exceeds the limit. Please reduce the amount."));
     } catch (error) {
-      emit(PlanItemError('Failed to fetch plan items: $error'));
+      emit(PlanItemError(
+          "An unexpected error occurred. Please try again later."));
     }
   }
 
