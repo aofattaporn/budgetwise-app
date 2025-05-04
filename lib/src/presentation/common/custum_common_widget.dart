@@ -62,9 +62,10 @@ class CustomCommonWidget {
     );
   }
 
-  static Widget savingPaidSegment({
+  static Widget segmentControl({
     // require paramm
-    required Map<int, Widget> segmentOptions,
+    required Map<int, String> segmentOptions,
+    required Function(int) handleSelectSegment,
     // optional paramm
     int initialSelectedIndex = 0,
   }) {
@@ -73,6 +74,7 @@ class CustomCommonWidget {
       initialSelectedIndex: initialSelectedIndex,
       selectedColor: AppColors.primary,
       unselectedColor: AppColors.grayLigth,
+      handleSelectSegment: handleSelectSegment,
     );
   }
 

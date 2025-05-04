@@ -10,6 +10,8 @@ class CommonConstant {
   static const String accept_lang_en = "en";
 
   static const String empty = "";
+  static const int number_0 = 0;
+  static const int number_1 = 1;
 
 // *** Common Lib Key ***
   static const String supabaseUrlKey = "SUPABASE_URL";

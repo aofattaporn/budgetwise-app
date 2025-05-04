@@ -10,4 +10,16 @@ class BusinessConstant {
 
   // API Constants
   static const String contextPath = "/api";
+
+  static const String otherPlanCategory = "OTHER";
+  static const String incomePlanCategory = "INCOME";
+  static const String savingPlanCategory = "SAVING";
+  static const String expensePlanCategory = "EXPENSE";
+
+  static const String savingPlanSegment = "Saving";
+  static const String expensePlanSegment = "Expense";
+  static const Map<int, String> segmentOptions = <int, String>{
+    0: expensePlanSegment,
+    1: savingPlanSegment,
+  };
 }

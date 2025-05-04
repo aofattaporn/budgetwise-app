@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/constant/business_constant.dart';
 import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
@@ -27,14 +28,10 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
   final String kDesc =
       "Add a new item to your plan to better organize your budget.";
 
+  late int segmentSelecting;
   late String iconName;
   final TextEditingController planNameController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
-
-  final Map<int, Widget> segmentOptions = const <int, Widget>{
-    0: Text('Saving'),
-    1: Text('Paid'),
-  };
 
   @override
   void initState() {
@@ -42,11 +39,14 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
 
     if (widget.planItemDto == null) {
       iconName = CommonConstant.empty;
+      segmentSelecting = CommonConstant.number_0;
     } else {
       final dto = widget.planItemDto!;
-      iconName = dto.iconName;
+
       planNameController.text = dto.title;
       amountController.text = dto.planAmount.toStringAsFixed(0);
+      segmentSelecting = getSegmentKeyFromCategory(dto.category);
+      iconName = dto.iconName;
     }
 
     amountController.addListener(_onFormChanged);
@@ -70,7 +70,13 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
     });
   }
 
-  bool isFillNotCompletly() {
+  void handleSetSegmmentSelect(int segmentId) {
+    setState(() {
+      segmentSelecting = segmentId;
+    });
+  }
+
+  bool _isFillNotCompletly() {
     final amountText = amountController.text.trim();
     final nameText = planNameController.text.trim();
     final double amount = double.tryParse(amountText) ?? 0;
@@ -78,12 +84,34 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
     return amount <= 0 || nameText.isEmpty;
   }
 
+  int getSegmentKeyFromCategory(String category) {
+    switch (category) {
+      case BusinessConstant.expensePlanCategory:
+        return 0;
+      case BusinessConstant.savingPlanCategory:
+        return 1;
+      default:
+        return 0;
+    }
+  }
+
+  String getCategoryFromSegmentKey(int key) {
+    switch (key) {
+      case 0:
+        return BusinessConstant.expensePlanCategory;
+      case 1:
+        return BusinessConstant.savingPlanCategory;
+      default:
+        return BusinessConstant.otherPlanCategory;
+    }
+  }
+
   void saveNewPlanning(BuildContext context) {
     final planDto = PlanItemDto(
       planId: widget.planId,
       title: planNameController.text.trim(),
       planAmount: double.parse(amountController.text),
-      category: "TRANFER",
+      category: getCategoryFromSegmentKey(segmentSelecting),
       iconName: iconName,
     );
     if (widget.planItemDto != null && widget.id != null) {
@@ -117,7 +145,7 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
                   ? CommonConstant.save
                   : CommonConstant.update,
               onPressed: () => saveNewPlanning(context),
-              isDisable: isFillNotCompletly(),
+              isDisable: _isFillNotCompletly(),
             )
           ],
         ),
@@ -155,8 +183,11 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
       mainAxisSize: MainAxisSize.min,
       spacing: 16,
       children: [
-        CustomCommonWidget.savingPaidSegment(
-            initialSelectedIndex: 0, segmentOptions: segmentOptions),
+        CustomCommonWidget.segmentControl(
+          segmentOptions: BusinessConstant.segmentOptions,
+          initialSelectedIndex: segmentSelecting,
+          handleSelectSegment: handleSetSegmmentSelect,
+        ),
         CustomCommonComponent.labelledIconRow(
             iconData: iconName, handleSelectIcon: handleSetIcon),
         CustomCommonComponent.labelledTextFieldRow(
