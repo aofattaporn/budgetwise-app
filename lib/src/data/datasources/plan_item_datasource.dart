@@ -13,8 +13,10 @@ abstract class PlanItemDataSource {
   Future<CommonResponse<List<PlanItemEntity>>> fetchPlanById(int planId);
   Future<CommonResponse<List<PlanItemEntity>>> createNewPlanItem(
       PlanItemDto planItemDto);
-  Future<CommonResponse<List<PlanItemEntity>>> deletePlanIteById(
+  Future<CommonResponse<List<PlanItemEntity>>> deletePlanItemById(
       String planItemId, int planId);
+  Future<CommonResponse<List<PlanItemEntity>>> updatePlanItemById(
+      String planItemId, PlanItemDto planItemDto);
 }
 
 class PlanItemDataSourceImpl implements PlanItemDataSource {
@@ -79,7 +81,7 @@ class PlanItemDataSourceImpl implements PlanItemDataSource {
   }
 
   @override
-  Future<CommonResponse<List<PlanItemEntity>>> deletePlanIteById(
+  Future<CommonResponse<List<PlanItemEntity>>> deletePlanItemById(
       String planItemId, int planId) async {
     try {
       await supabase.from('plan_items').delete().eq('id', planItemId);
@@ -103,6 +105,36 @@ class PlanItemDataSourceImpl implements PlanItemDataSource {
         error: e,
         stackTrace: stackTrace,
       );
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  @override
+  Future<CommonResponse<List<PlanItemEntity>>> updatePlanItemById(
+      String planItemId, PlanItemDto planItemDto) async {
+    try {
+      print(planItemId);
+      print(PlanItemEntity.toJsonUpdate(planItemDto));
+
+      await supabase
+          .from('plan_items')
+          .update(PlanItemEntity.toJsonUpdate(planItemDto))
+          .eq('id', planItemId);
+
+      final response = await supabase
+          .from('plan_items')
+          .select()
+          .eq('plan_id', planItemDto.planId);
+
+      final planItemList = response
+          .map<PlanItemEntity>((json) => PlanItemEntity.fromJson(json))
+          .toList();
+
+      return ResponseUtil.commonResponse(
+          ResponseConstant.code1000, planItemList);
+    } catch (e, stackTrace) {
+      _logger.e("Technical Error | updatePlan",
+          error: e, stackTrace: stackTrace);
       throw ErrorUtil.mapTechnicalError();
     }
   }

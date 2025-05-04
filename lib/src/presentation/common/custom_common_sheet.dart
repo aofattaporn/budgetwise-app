@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:budget_wise/src/presentation/sheets/create_new_plan_item_sheet.dart';
 import 'package:budget_wise/src/presentation/sheets/option_plan_item_sheet.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
@@ -28,11 +29,14 @@ class CustomCommonSheet {
         ));
   }
 
-  void createNewPlanItem(BuildContext context, {required int planId}) {
+  void createNewPlanItem(BuildContext context,
+      {required int planId, PlanItemDto? planItemDto, String? id}) {
     _commonSheet(
         context,
         CreateNewPlanItemSheet(
           planId: planId,
+          id: id,
+          planItemDto: planItemDto,
         ));
   }
 

@@ -14,9 +14,16 @@ class AddPlanItemEvent extends PlanItemEvent {
   AddPlanItemEvent({required this.planItemDto});
 }
 
-class DeletePlanIteById extends PlanItemEvent {
+class DeletePlanItemById extends PlanItemEvent {
   final String planItemId;
   final int planId;
 
-  DeletePlanIteById({required this.planItemId, required this.planId});
+  DeletePlanItemById({required this.planItemId, required this.planId});
+}
+
+class UpdatePlanItemById extends PlanItemEvent {
+  final String planItemId;
+  final PlanItemDto planItemDto;
+
+  UpdatePlanItemById({required this.planItemId, required this.planItemDto});
 }

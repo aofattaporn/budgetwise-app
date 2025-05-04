@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/core/utils/icon_util.dart';
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
@@ -22,8 +23,11 @@ class PlanItemCard extends StatelessWidget {
   });
 
   void _handleOnEdit(BuildContext context) {
-    CustomCommonSheet().createNewPlanItem(context, planId: item.planId);
     Navigator.pop(context);
+    CustomCommonSheet().createNewPlanItem(context,
+        planId: item.planId,
+        id: item.id,
+        planItemDto: PlanItemDto.fromEntity(item));
   }
 
   void _handleOnDelete(BuildContext context) {
@@ -35,7 +39,7 @@ class PlanItemCard extends StatelessWidget {
       onConfirm: () {
         context
             .read<PlanItemBloc>()
-            .add(DeletePlanIteById(planItemId: item.id, planId: item.planId));
+            .add(DeletePlanItemById(planItemId: item.id, planId: item.planId));
         Navigator.pop(context);
       },
     );

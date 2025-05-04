@@ -9,6 +9,8 @@ class CommonConstant {
   static const String accept_lang_th = "th";
   static const String accept_lang_en = "en";
 
+  static const String empty = "";
+
 // *** Common Lib Key ***
   static const String supabaseUrlKey = "SUPABASE_URL";
   static const String supabaseAnonKey = "SUPABASE_ANONKEY";
@@ -21,6 +23,8 @@ class CommonConstant {
   static const String cancelLabel = "Cancel";
   static const String deleteLabel = "Delete";
   static const String newItem = "New Item";
+  static const String save = "Save";
+  static const String update = "Update";
 
   static const String deleteDescLabel = "You are going to delete this plan";
   static const String msgSomethingWentWrong = "Something went wrong...";

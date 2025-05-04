@@ -46,6 +46,15 @@ class PlanItemEntity {
     };
   }
 
+  static Map<String, dynamic> toJsonUpdate(PlanItemDto planDto) {
+    return {
+      'title': planDto.title,
+      'plan_amount': planDto.planAmount,
+      'category': planDto.category,
+      'icon_name': planDto.iconName,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

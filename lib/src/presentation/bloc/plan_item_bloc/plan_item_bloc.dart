@@ -9,7 +9,8 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
   PlanItemBloc({required this.planItemUsecase}) : super(PlanItemInitial()) {
     on<FetchPlanItemEvent>(_onFetchPlanItem);
     on<AddPlanItemEvent>(_onAddPlanItemEvent);
-    on<DeletePlanIteById>(_onDeletePlanIteById);
+    on<DeletePlanItemById>(_onDeletePlanIteById);
+    on<UpdatePlanItemById>(_onEditPlanItemById);
   }
 
   Future<void> _onFetchPlanItem(
@@ -45,12 +46,28 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
   }
 
   Future<void> _onDeletePlanIteById(
-      DeletePlanIteById event, Emitter<PlanItemState> emit) async {
+      DeletePlanItemById event, Emitter<PlanItemState> emit) async {
     emit(PlanItemLoading());
 
     try {
-      final planItems = await planItemUsecase.deletePlanIteById(
+      final planItems = await planItemUsecase.deletePlanItemById(
           event.planItemId, event.planId);
+
+      emit(
+        planItems.isEmpty ? PlanItemEmpty() : PlanItemLoaded(planItems),
+      );
+    } catch (error) {
+      emit(PlanItemError('Failed to fetch plan items: $error'));
+    }
+  }
+
+  Future<void> _onEditPlanItemById(
+      UpdatePlanItemById event, Emitter<PlanItemState> emit) async {
+    emit(PlanItemLoading());
+
+    try {
+      final planItems = await planItemUsecase.updatePlanItemById(
+          event.planItemId, event.planItemDto);
 
       emit(
         planItems.isEmpty ? PlanItemEmpty() : PlanItemLoaded(planItems),

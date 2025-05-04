@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
@@ -10,9 +11,12 @@ import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateNewPlanItemSheet extends StatefulWidget {
+  final String? id;
+  final PlanItemDto? planItemDto;
   final int planId;
 
-  const CreateNewPlanItemSheet({super.key, required this.planId});
+  const CreateNewPlanItemSheet(
+      {super.key, required this.planId, this.planItemDto, this.id});
 
   @override
   State<CreateNewPlanItemSheet> createState() => _CreateNewPlanItemSheetState();
@@ -35,7 +39,15 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
   @override
   void initState() {
     super.initState();
-    iconName = "";
+
+    if (widget.planItemDto == null) {
+      iconName = CommonConstant.empty;
+    } else {
+      final dto = widget.planItemDto!;
+      iconName = dto.iconName;
+      planNameController.text = dto.title;
+      amountController.text = dto.planAmount.toStringAsFixed(0);
+    }
 
     amountController.addListener(_onFormChanged);
     planNameController.addListener(_onFormChanged);
@@ -61,21 +73,25 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
   bool isFillNotCompletly() {
     final amountText = amountController.text.trim();
     final nameText = planNameController.text.trim();
-
     final double amount = double.tryParse(amountText) ?? 0;
 
     return amount <= 0 || nameText.isEmpty;
   }
 
   void saveNewPlanning(BuildContext context) {
-    context.read<PlanItemBloc>().add(AddPlanItemEvent(
-            planItemDto: PlanItemDto(
-          planId: widget.planId,
-          title: planNameController.text.trim(),
-          planAmount: double.parse(amountController.text),
-          category: "TRANFER",
-          iconName: iconName,
-        )));
+    final planDto = PlanItemDto(
+      planId: widget.planId,
+      title: planNameController.text.trim(),
+      planAmount: double.parse(amountController.text),
+      category: "TRANFER",
+      iconName: iconName,
+    );
+    if (widget.planItemDto != null && widget.id != null) {
+      context.read<PlanItemBloc>().add(
+          UpdatePlanItemById(planItemId: widget.id!, planItemDto: planDto));
+    } else {
+      context.read<PlanItemBloc>().add(AddPlanItemEvent(planItemDto: planDto));
+    }
 
     Navigator.pop(context);
   }
@@ -97,7 +113,9 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
             _buildCreatePlanAction(),
             const Spacer(),
             CustomCommonWidget.commonElevatedBtn(
-              label: "Save",
+              label: widget.planItemDto == null
+                  ? CommonConstant.save
+                  : CommonConstant.update,
               onPressed: () => saveNewPlanning(context),
               isDisable: isFillNotCompletly(),
             )

@@ -18,10 +18,17 @@ class PlanItemUsecase {
     return result;
   }
 
-  Future<List<PlanItemEntity>> deletePlanIteById(
+  Future<List<PlanItemEntity>> deletePlanItemById(
       String planItemId, int planId) async {
     final result =
-        await planItemRepository.deletePlanIteById(planItemId, planId);
+        await planItemRepository.deletePlanItemById(planItemId, planId);
+    return result;
+  }
+
+  Future<List<PlanItemEntity>> updatePlanItemById(
+      String planItemId, PlanItemDto planDto) async {
+    final result =
+        await planItemRepository.updatePlanItemById(planItemId, planDto);
     return result;
   }
 }
