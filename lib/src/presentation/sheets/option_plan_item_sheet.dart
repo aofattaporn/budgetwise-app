@@ -23,7 +23,6 @@ class OptionPlanItemSheet extends StatelessWidget {
               icon: Icons.edit,
               label: 'Edit',
               onTap: () {
-                Navigator.pop(context);
                 onEdit(context);
               },
             ),
@@ -34,7 +33,6 @@ class OptionPlanItemSheet extends StatelessWidget {
               iconColor: AppColors.error,
               textColor: AppColors.error,
               onTap: () {
-                Navigator.pop(context);
                 onDelete(context);
               },
             ),

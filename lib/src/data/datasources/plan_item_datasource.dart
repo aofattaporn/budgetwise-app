@@ -13,6 +13,8 @@ abstract class PlanItemDataSource {
   Future<CommonResponse<List<PlanItemEntity>>> fetchPlanById(int planId);
   Future<CommonResponse<List<PlanItemEntity>>> createNewPlanItem(
       PlanItemDto planItemDto);
+  Future<CommonResponse<List<PlanItemEntity>>> deletePlanIteById(
+      String planItemId, int planId);
 }
 
 class PlanItemDataSourceImpl implements PlanItemDataSource {
@@ -69,6 +71,35 @@ class PlanItemDataSourceImpl implements PlanItemDataSource {
     } catch (e, stackTrace) {
       _logger.e(
         'Technical Error | createNewPlanItem: ',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  @override
+  Future<CommonResponse<List<PlanItemEntity>>> deletePlanIteById(
+      String planItemId, int planId) async {
+    try {
+      await supabase.from('plan_items').delete().eq('id', planItemId);
+
+      final response =
+          await supabase.from('plan_items').select().eq('plan_id', planId);
+
+      final planItemList = response
+          .map<PlanItemEntity>((json) => PlanItemEntity.fromJson(json))
+          .toList();
+
+      return ResponseUtil.commonResponse(
+        ResponseConstant.code1000,
+        planItemList,
+      );
+    } on BussinessError {
+      rethrow;
+    } catch (e, stackTrace) {
+      _logger.e(
+        'Technical Error | deletePlanIteById: id=$planItemId',
         error: e,
         stackTrace: stackTrace,
       );

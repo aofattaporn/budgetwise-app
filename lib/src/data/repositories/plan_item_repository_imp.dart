@@ -6,6 +6,7 @@ import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 abstract class PlanItemRepository {
   Future<List<PlanItemEntity>> fetchPlanById(int planId);
   Future<List<PlanItemEntity>> createNewPlanItem(PlanItemDto planItemDto);
+  Future<List<PlanItemEntity>> deletePlanIteById(String planItemId, int planId);
 }
 
 class PlanRepositoryItemImp implements PlanItemRepository {
@@ -23,6 +24,14 @@ class PlanRepositoryItemImp implements PlanItemRepository {
   Future<List<PlanItemEntity>> createNewPlanItem(
       PlanItemDto planItemDto) async {
     final response = await planItemDataSource.createNewPlanItem(planItemDto);
+    return ResponseUtil.handleResponse(response);
+  }
+
+  @override
+  Future<List<PlanItemEntity>> deletePlanIteById(
+      String planItemId, int planId) async {
+    final response =
+        await planItemDataSource.deletePlanIteById(planItemId, planId);
     return ResponseUtil.handleResponse(response);
   }
 }

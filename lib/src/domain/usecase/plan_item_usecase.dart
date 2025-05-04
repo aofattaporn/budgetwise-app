@@ -17,4 +17,11 @@ class PlanItemUsecase {
     final result = await planItemRepository.createNewPlanItem(planItemDto);
     return result;
   }
+
+  Future<List<PlanItemEntity>> deletePlanIteById(
+      String planItemId, int planId) async {
+    final result =
+        await planItemRepository.deletePlanIteById(planItemId, planId);
+    return result;
+  }
 }

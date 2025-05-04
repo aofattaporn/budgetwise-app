@@ -1,4 +1,6 @@
 import 'package:budget_wise/src/core/utils/icon_util.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
@@ -7,6 +9,7 @@ import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanItemCard extends StatelessWidget {
   final PlanItemEntity item;
@@ -20,6 +23,7 @@ class PlanItemCard extends StatelessWidget {
 
   void _handleOnEdit(BuildContext context) {
     CustomCommonSheet().createNewPlanItem(context, planId: item.planId);
+    Navigator.pop(context);
   }
 
   void _handleOnDelete(BuildContext context) {
@@ -28,7 +32,12 @@ class PlanItemCard extends StatelessWidget {
       title: "Delete Plan Item?",
       message:
           "Are you sure you want to permanently delete this plan item? This action cannot be undone.",
-      onConfirm: () {},
+      onConfirm: () {
+        context
+            .read<PlanItemBloc>()
+            .add(DeletePlanIteById(planItemId: item.id, planId: item.planId));
+        Navigator.pop(context);
+      },
     );
   }
 
