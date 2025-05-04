@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/presentation/sheets/create_new_plan_item_sheet.dart';
+import 'package:budget_wise/src/presentation/sheets/option_plan_item_sheet.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:budget_wise/src/presentation/sheets/planning_overview_sheet.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class CustomCommonSheet {
   static const double defaultRadius = 16;
   static const bool defaultEnabledScroll = true;
 
-  final double height;
+  final double? height;
   final double radius;
   final bool enabledScroll;
 
@@ -35,6 +36,19 @@ class CustomCommonSheet {
         ));
   }
 
+  void optionPlanItemSheet(
+    BuildContext context, {
+    required Function(BuildContext context) onEdit,
+    required Function(BuildContext context) onDelete,
+  }) {
+    _commonSheet(
+        context,
+        OptionPlanItemSheet(
+          onEdit: onEdit,
+          onDelete: onDelete,
+        ));
+  }
+
   void _commonSheet(BuildContext context, Widget widget) {
     showModalBottomSheet(
       backgroundColor: AppColors.white,
@@ -46,7 +60,9 @@ class CustomCommonSheet {
       ),
       builder: (context) {
         return SizedBox(
-          height: MediaQuery.of(context).size.height * height,
+          height: height != null
+              ? MediaQuery.of(context).size.height * height!
+              : null,
           child: widget,
         );
       },

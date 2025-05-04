@@ -1,4 +1,6 @@
 import 'package:budget_wise/src/core/utils/icon_util.dart';
+import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
+import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/components/amount_compare.dart';
 import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
@@ -16,7 +18,24 @@ class PlanItemCard extends StatelessWidget {
     required this.progress,
   });
 
-  void _optionPlanItemCard() {}
+  void _handleOnEdit(BuildContext context) {
+    CustomCommonSheet().createNewPlanItem(context, planId: item.planId);
+  }
+
+  void _handleOnDelete(BuildContext context) {
+    CustomCommonDialog().confirmDeleteDialog(
+      context,
+      title: "Delete Plan Item?",
+      message:
+          "Are you sure you want to permanently delete this plan item? This action cannot be undone.",
+      onConfirm: () {},
+    );
+  }
+
+  void _optionPlanItemCard(BuildContext context) {
+    CustomCommonSheet(height: null).optionPlanItemSheet(context,
+        onEdit: _handleOnEdit, onDelete: _handleOnDelete);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +56,7 @@ class PlanItemCard extends StatelessWidget {
               _buildTitleAndUsage(),
               IconButton(
                 icon: const Icon(Icons.more_vert),
-                onPressed: _optionPlanItemCard,
+                onPressed: () => _optionPlanItemCard(context),
               ),
             ],
           ),
