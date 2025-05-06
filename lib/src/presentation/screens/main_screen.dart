@@ -21,16 +21,24 @@ class MainScreen extends StatelessWidget {
     List<BottomNavigationBarItem> navBarItems() {
       return [
         BottomNavigationBarItem(
+          backgroundColor: AppColors.white,
           icon: const Icon(Icons.home_work_outlined),
           label: StringUtil.replacePath(RouteConstant.home),
         ),
         BottomNavigationBarItem(
+          backgroundColor: AppColors.white,
           icon: const Icon(Icons.line_axis),
           label: StringUtil.replacePath(RouteConstant.transaction),
         ),
         BottomNavigationBarItem(
+          backgroundColor: AppColors.white,
           icon: const Icon(Icons.cloud),
           label: StringUtil.replacePath(RouteConstant.plan),
+        ),
+        BottomNavigationBarItem(
+          backgroundColor: AppColors.white,
+          icon: const Icon(Icons.wallet),
+          label: StringUtil.replacePath(RouteConstant.account),
         ),
       ];
     }
@@ -51,7 +59,8 @@ class MainScreen extends StatelessWidget {
             elevation: 40,
             backgroundColor: AppColors.white,
             currentIndex: tabScreenUseCase.getTabIndex(state.tabScreen),
-            selectedItemColor: Theme.of(context).primaryColor,
+            selectedItemColor: AppColors.primaryDark,
+            unselectedItemColor: AppColors.grayLigth_2,
             items: navBarItems(),
             onTap: (index) {
               final tabName = tabScreenUseCase.getTabName(index);

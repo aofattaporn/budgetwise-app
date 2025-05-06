@@ -10,6 +10,8 @@ class TabScreenUseCase {
         return RouteConstant.transaction;
       case 2:
         return RouteConstant.plan;
+      case 3:
+        return RouteConstant.account;
       default:
         return RouteConstant.home;
     }
@@ -23,6 +25,8 @@ class TabScreenUseCase {
         return 1;
       case RouteConstant.plan:
         return 2;
+      case RouteConstant.account:
+        return 3;
       default:
         return -1;
     }

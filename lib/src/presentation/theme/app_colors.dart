@@ -11,6 +11,7 @@ class AppColors {
   static const dark = Color.fromRGBO(49, 49, 49, 1);
   static const transparent = Colors.transparent;
   static const grayLigth = Color.fromARGB(255, 241, 241, 241);
+  static const grayLigth_2 = Color.fromARGB(255, 192, 192, 192);
 
   static const Color primary = Color(0xFF9F86C0);
   static const Color primaryDark = Color(0xFF5E548E);
