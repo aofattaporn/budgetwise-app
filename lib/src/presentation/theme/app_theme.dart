@@ -26,18 +26,49 @@ class AppTheme {
   );
 
   /// Dark Theme
+  /// Dark Theme
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    primarySwatch: Colors.blueGrey,
-    textTheme: _textTheme,
+    scaffoldBackgroundColor: AppColors.grayDark.shade900,
+    primaryColor: AppColors.primary,
+    primaryColorDark: AppColors.primaryDark,
+    primaryColorLight: AppColors.primaryLigth,
+    cardColor: AppColors.grayDark.shade800,
+    canvasColor: AppColors.grayDark.shade900,
+    dividerColor: AppColors.grayDark.shade600,
+    textTheme: _textTheme.apply(
+      bodyColor: AppColors.white,
+      displayColor: AppColors.white,
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.grayDark.shade800,
+      foregroundColor: AppColors.white,
+      elevation: 0,
+      iconTheme: const IconThemeData(color: AppColors.white),
+      titleTextStyle: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: AppColors.white,
+      ),
+    ),
     elevatedButtonTheme: _elevatedButtonTheme,
     outlinedButtonTheme: _outlinedButtonTheme,
-    inputDecorationTheme: _inputDecorationTheme,
-    cardTheme: _cardTheme,
-    primaryColor: AppColors.primary,
-    primaryColorLight: AppColors.primaryLigth,
-    primaryColorDark: AppColors.primaryDark,
-    scaffoldBackgroundColor: AppColors.grayDark.shade100,
+    inputDecorationTheme: _inputDecorationTheme.copyWith(
+      fillColor: AppColors.grayDark.shade700,
+      hintStyle: const TextStyle(color: AppColors.grayLight),
+      labelStyle: const TextStyle(color: AppColors.grayLight),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.grayDark.shade600),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.primary),
+      ),
+    ),
+    iconTheme: const IconThemeData(color: AppColors.white),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.white,
+    ),
   );
 
   /// Text Theme (Common for both light and dark modes)

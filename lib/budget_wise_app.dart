@@ -23,28 +23,38 @@ class BudgetWiseApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<MainScreenBloc>()),
-        // BlocProvider(create: (_) => sl<PlanBloc>()),
-        // BlocProvider(create: (_) => sl<PlanItemBloc>()),
-        // BlocProvider(create: (_) => sl<PlanAllMonthBloc>()),
+        BlocProvider(create: (_) => ThemeCubit()), // 👈 add this
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: BusinessConstant.titleBudgetWise,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale(CommonConstant.accept_lang_en),
-          Locale(CommonConstant.accept_lang_th),
-        ],
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system,
-        initialRoute: AppRoutes.mainScreen,
-        onGenerateRoute: AppPages.generateRoute,
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: BusinessConstant.titleBudgetWise,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale(CommonConstant.accept_lang_en),
+              Locale(CommonConstant.accept_lang_th),
+            ],
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeMode, // 🔥 based on cubit state
+            initialRoute: AppRoutes.mainScreen,
+            onGenerateRoute: AppPages.generateRoute,
+          );
+        },
       ),
     );
+  }
+}
+
+class ThemeCubit extends Cubit<ThemeMode> {
+  ThemeCubit() : super(ThemeMode.system);
+
+  void toggleTheme() {
+    emit(state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
   }
 }

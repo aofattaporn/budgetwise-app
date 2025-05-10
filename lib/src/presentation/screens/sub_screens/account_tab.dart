@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PlanTab extends StatelessWidget {
-  const PlanTab({super.key});
+class AccountTab extends StatelessWidget {
+  const AccountTab({super.key});
 
   @override
   Widget build(BuildContext context) {
