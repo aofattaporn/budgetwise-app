@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:budget_wise/src/presentation/theme/app_colors.dart';
+import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 
 class CommonOutlineBtn extends StatelessWidget {
   final String label;

@@ -6,6 +6,8 @@ import 'package:budget_wise/src/core/constant/common_constant.dart';
 import 'package:budget_wise/src/core/di/di.dart';
 import 'package:budget_wise/src/core/start_up.dart';
 import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_bloc.dart';
+import 'package:budget_wise/src/presentation/theme/modules/app_dark_theme.dart';
+import 'package:budget_wise/src/presentation/theme/modules/app_light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -39,8 +41,8 @@ class BudgetWiseApp extends StatelessWidget {
               Locale(CommonConstant.accept_lang_en),
               Locale(CommonConstant.accept_lang_th),
             ],
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
+            theme: AppLightTheme.lightTheme,
+            darkTheme: AppDarkTheme.darkTheme,
             themeMode: themeMode,
             initialRoute: AppRoutes.mainScreen,
             onGenerateRoute: AppPages.generateRoute,

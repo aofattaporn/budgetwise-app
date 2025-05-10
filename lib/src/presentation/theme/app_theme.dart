@@ -1,93 +1,14 @@
-import 'package:budget_wise/src/presentation/theme/app_colors.dart';
-import 'package:budget_wise/src/presentation/theme/app_radaius.dart';
-import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
+import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
+import 'package:budget_wise/src/presentation/theme/system/app_radaius.dart';
+import 'package:budget_wise/src/presentation/theme/system/app_text_style.dart';
 import 'package:flutter/material.dart';
-import 'app_spacing.dart';
+import 'system/app_spacing.dart';
 
-/// {@template app_theme}
-/// Centralized theme class for the app.
-/// {@endtemplate}
 class AppTheme {
   AppTheme._();
 
-  /// Light Theme
-  static final ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.background,
-    cardColor: AppColors.white,
-    canvasColor: AppColors.surface,
-    dividerColor: AppColors.gray300,
-    textTheme: _textTheme,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.background,
-      foregroundColor: AppColors.textPrimary,
-      elevation: 0,
-      iconTheme: IconThemeData(color: AppColors.textPrimary),
-      titleTextStyle: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: AppColors.textPrimary,
-      ),
-    ),
-    elevatedButtonTheme: _elevatedButtonTheme,
-    outlinedButtonTheme: _outlinedButtonTheme,
-    inputDecorationTheme: _inputDecorationTheme,
-    cardTheme: _cardTheme,
-    iconTheme: const IconThemeData(color: AppColors.textPrimary),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: AppColors.primary,
-      foregroundColor: AppColors.white,
-    ),
-  );
-
-  /// Dark Theme
-  static final ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.backgroundDark,
-    primaryColor: AppColors.primary,
-    cardColor: AppColors.grayDark800,
-    canvasColor: AppColors.grayDark800,
-    dividerColor: AppColors.grayDark300,
-    textTheme: _textTheme.apply(
-      bodyColor: AppColors.white,
-      displayColor: AppColors.white,
-    ),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.backgroundDark,
-      foregroundColor: AppColors.white,
-      elevation: 0,
-      iconTheme: IconThemeData(color: AppColors.white),
-      titleTextStyle: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: AppColors.white,
-      ),
-    ),
-    elevatedButtonTheme: _elevatedButtonTheme,
-    outlinedButtonTheme: _outlinedButtonTheme,
-    inputDecorationTheme: _inputDecorationTheme.copyWith(
-      fillColor: AppColors.grayDark700,
-      hintStyle: const TextStyle(color: AppColors.grayDark300),
-      labelStyle: const TextStyle(color: AppColors.grayDark100),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.grayDark500),
-        borderRadius: BorderRadius.circular(AppRadius.sm.x),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.primary),
-        borderRadius: BorderRadius.circular(AppRadius.sm.x),
-      ),
-    ),
-    iconTheme: const IconThemeData(color: AppColors.white),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: AppColors.primary,
-      foregroundColor: AppColors.white,
-    ),
-  );
-
   /// Text Theme (Common for both light and dark modes)
-  static const TextTheme _textTheme = TextTheme(
+  static const TextTheme textTheme = TextTheme(
     displayLarge: AppTextStyles.displayLarge,
     displayMedium: AppTextStyles.displayMedium,
     displaySmall: AppTextStyles.displaySmall,
@@ -103,7 +24,7 @@ class AppTheme {
   );
 
   /// Elevated Button Theme
-  static final ElevatedButtonThemeData _elevatedButtonTheme =
+  static final ElevatedButtonThemeData elevatedButtonTheme =
       ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: AppColors.primary,
@@ -119,7 +40,7 @@ class AppTheme {
   );
 
   /// Outlined Button Theme
-  static final OutlinedButtonThemeData _outlinedButtonTheme =
+  static final OutlinedButtonThemeData outlinedButtonTheme =
       OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: AppColors.primary,
@@ -135,8 +56,7 @@ class AppTheme {
   );
 
   /// Input Decoration Theme
-  static final InputDecorationTheme _inputDecorationTheme =
-      InputDecorationTheme(
+  static final InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppRadius.sm.x),
       borderSide: const BorderSide(color: AppColors.gray300),
@@ -156,7 +76,7 @@ class AppTheme {
   );
 
   /// Card Theme
-  static final CardTheme _cardTheme = CardTheme(
+  static final CardTheme cardTheme = CardTheme(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(AppRadius.sm.x),
     ),

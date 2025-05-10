@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
+import 'package:budget_wise/src/presentation/theme/system/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class TypographyShowcaseScreen extends StatelessWidget {
