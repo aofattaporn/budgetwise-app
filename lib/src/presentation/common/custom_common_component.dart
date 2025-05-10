@@ -8,26 +8,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomCommonComponent {
-  static Widget planItemComponent(PlanEntity planEntity,
-      {int? selectedId, bool? isEditing}) {
-    return PlanItemComponent(
-      planEntity: planEntity,
-      selectedId: selectedId,
-      idEditing: isEditing,
-    );
-  }
+  // static Widget planItemComponent(PlanEntity planEntity,
+  //     {int? selectedId, bool? isEditing}) {
+  //   return PlanItemComponent(
+  //     planEntity: planEntity,
+  //     selectedId: selectedId,
+  //     idEditing: isEditing,
+  //   );
+  // }
 
-  static Widget planItemCard({
-    // require paramm
-    required PlanItemEntity planEntity,
-    required double progress,
-    // not-require paramm
-  }) {
-    return PlanItemCard(
-      item: planEntity,
-      progress: progress,
-    );
-  }
+  // static Widget planItemCard({
+  //   // require paramm
+  //   required PlanItemEntity planEntity,
+  //   required double progress,
+  //   // not-require paramm
+  // }) {
+  //   return PlanItemCard(
+  //     item: planEntity,
+  //     progress: progress,
+  //   );
+  // }
 
   static Widget labelledTextFieldRow({
     // require paramm

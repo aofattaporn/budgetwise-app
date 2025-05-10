@@ -81,7 +81,7 @@ class MainScreen extends StatelessWidget {
       case RouteConstant.transaction:
         return const TypographyShowcaseScreen();
       case RouteConstant.plan:
-        return const PlanTab();
+        return const Text("Error");
       default:
         return const Text("Error");
     }

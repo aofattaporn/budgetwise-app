@@ -36,7 +36,8 @@ class AppPages {
     }
 
     return CupertinoPageRoute(
-      builder: (context) => NewPlanningScreen(planDto: planDto, id: id),
+      // builder: (context) => NewPlanningScreen(planDto: planDto, id: id),
+      builder: (context) => const Text(""),
     );
   }
 

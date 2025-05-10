@@ -11,6 +11,6 @@ Future<void> setupLocator() async {
 
   // Load DI from each feature
   setupMainScreenDI();
-  setupPlanDI();
-  setupPlanItemDI();
+  // setupPlanDI();
+  //setupPlanItemDI();
 }

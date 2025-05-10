@@ -1,67 +1,47 @@
-import 'package:budget_wise/src/domain/models/plan_dto.dart';
-
 class PlanEntity {
-  final int id;
+  final String id;
+  final String userId;
+  final String name;
   final DateTime startDate;
   final DateTime endDate;
-  final double totalBudget;
-  final DateTime createAt;
-  final double summaryTranfer;
-  final double summarySaving;
-  final double summaryOther;
+  final double amountLimit;
+  final bool isArchived;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   PlanEntity({
     required this.id,
+    required this.userId,
+    required this.name,
     required this.startDate,
     required this.endDate,
-    required this.totalBudget,
-    required this.createAt,
-    required this.summaryTranfer,
-    required this.summarySaving,
-    required this.summaryOther,
+    required this.amountLimit,
+    required this.isArchived,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  factory PlanEntity.fromJson(Map<String, dynamic> json) {
-    return PlanEntity(
-      id: json['id'] as int,
-      startDate: DateTime.parse(json['start_date'] as String),
-      endDate: DateTime.parse(json['end_date'] as String),
-      totalBudget: (json['total_budget'] as num).toDouble(),
-      createAt: DateTime.parse(json['create_at'] as String),
-      summaryTranfer: (json['summary_tranfer'] as num).toDouble(),
-      summarySaving: (json['summary_saving'] as num).toDouble(),
-      summaryOther: (json['summary_other'] as num).toDouble(),
-    );
-  }
+  factory PlanEntity.fromJson(Map<String, dynamic> json) => PlanEntity(
+        id: json['id'],
+        userId: json['user_id'],
+        name: json['name'],
+        startDate: DateTime.parse(json['start_date']),
+        endDate: DateTime.parse(json['end_date']),
+        amountLimit: (json['amount_limit'] as num).toDouble(),
+        isArchived: json['is_archived'],
+        createdAt: DateTime.parse(json['created_at']),
+        updatedAt: DateTime.parse(json['updated_at']),
+      );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'start_date': startDate.toIso8601String(),
-      'end_date': endDate.toIso8601String(),
-      'total_budget': totalBudget,
-      'create_at': createAt.toIso8601String(),
-      'summary_tranfer': summaryTranfer,
-      'summary_saving': summarySaving,
-      'summary_other': summaryOther,
-    };
-  }
-
-  static Map<String, dynamic> toJsonInsert(PlanDto plan) {
-    return {
-      'start_date': plan.startDate.toIso8601String(),
-      'end_date': plan.endDate.toIso8601String(),
-      'total_budget': plan.totalBudget,
-      'create_at': plan.endDate.toIso8601String(),
-    };
-  }
-
-  static Map<String, dynamic> toJsonUpdate(PlanDto plan) {
-    return {
-      'start_date': plan.startDate.toIso8601String(),
-      'end_date': plan.endDate.toIso8601String(),
-      'total_budget': plan.totalBudget,
-      'update_at': DateTime.now().toIso8601String()
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'user_id': userId,
+        'name': name,
+        'start_date': startDate.toIso8601String(),
+        'end_date': endDate.toIso8601String(),
+        'amount_limit': amountLimit,
+        'is_archived': isArchived,
+        'created_at': createdAt.toIso8601String(),
+        'updated_at': updatedAt.toIso8601String(),
+      };
 }

@@ -16,12 +16,12 @@ class CustomCommonDialog {
     this.radius = defaultRadius,
   });
 
-  void allPlansDialog(BuildContext context, int planIdSelected) {
-    _showCommonDialog(
-      context,
-      PlanningOverviewSheet(planIdSelected: planIdSelected),
-    );
-  }
+  // void allPlansDialog(BuildContext context, int planIdSelected) {
+  //   _showCommonDialog(
+  //     context,
+  //     PlanningOverviewSheet(planIdSelected: planIdSelected),
+  //   );
+  // }
 
   void _showCommonDialog(BuildContext context, Widget child) {
     showDialog(
