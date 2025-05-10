@@ -16,7 +16,7 @@ class BoxedIcon extends StatelessWidget {
     required this.iconData,
     this.size = 20,
     this.iconColor = AppColors.primaryDark,
-    this.backgroundColor = AppColors.grayLigth,
+    this.backgroundColor = AppColors.black,
     this.borderRadius = 8,
     this.padding = AppPadding.allmd,
   });

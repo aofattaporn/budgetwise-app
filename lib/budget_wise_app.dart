@@ -23,7 +23,7 @@ class BudgetWiseApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<MainScreenBloc>()),
-        BlocProvider(create: (_) => ThemeCubit()), // 👈 add this
+        BlocProvider(create: (_) => ThemeCubit()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
@@ -41,7 +41,7 @@ class BudgetWiseApp extends StatelessWidget {
             ],
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: themeMode, // 🔥 based on cubit state
+            themeMode: themeMode,
             initialRoute: AppRoutes.mainScreen,
             onGenerateRoute: AppPages.generateRoute,
           );
@@ -53,7 +53,6 @@ class BudgetWiseApp extends StatelessWidget {
 
 class ThemeCubit extends Cubit<ThemeMode> {
   ThemeCubit() : super(ThemeMode.system);
-
   void toggleTheme() {
     emit(state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
   }

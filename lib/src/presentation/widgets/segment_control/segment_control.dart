@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class SegmentControl extends StatefulWidget {
   final Map<int, String> segmentOptions;
@@ -13,7 +14,7 @@ class SegmentControl extends StatefulWidget {
     required this.segmentOptions,
     this.initialSelectedIndex = 0,
     this.selectedColor = AppColors.primary,
-    this.unselectedColor = AppColors.grayLigth,
+    this.unselectedColor = AppColors.black,
     required this.handleSelectSegment,
   });
 
@@ -33,7 +34,7 @@ class _SegmentControlState extends State<SegmentControl> {
         return Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: AppColors.transparent,
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: CupertinoSegmentedControl<int>(

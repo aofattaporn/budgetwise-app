@@ -1,7 +1,6 @@
 import 'package:budget_wise/src/core/utils/icon_util.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/routes/app_routes.dart';
-import 'package:budget_wise/src/presentation/screens/select_icon_screen.dart';
 import 'package:budget_wise/src/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -31,22 +30,7 @@ class LabeledIconRow extends StatefulWidget {
 class _LabeledIconRowState extends State<LabeledIconRow> {
   final String btnMessage = 'Select Icon';
 
-  SelectIconScreen selectIconScreenArg() {
-    return SelectIconScreen(
-        initialIcon: widget.iconData,
-        handleSelectIcon: widget.handleSelectIcon);
-  }
-
-  void _navigateSelectIconScreen(BuildContext context) {
-    Navigator.pushNamed(
-      context,
-      AppRoutes.selectIconScreen,
-      arguments: SelectIconScreen(
-        initialIcon: widget.iconData,
-        handleSelectIcon: widget.handleSelectIcon,
-      ),
-    );
-  }
+  void _navigateSelectIconScreen(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +55,7 @@ class _LabeledIconRowState extends State<LabeledIconRow> {
               icon: const Icon(Icons.arrow_forward_outlined),
               label: Text(btnMessage),
               style: TextButton.styleFrom(
-                backgroundColor: AppColors.primarySubtleLigth,
+                backgroundColor: AppColors.background,
                 foregroundColor: Colors.black,
                 textStyle: const TextStyle(fontSize: 14),
               ),

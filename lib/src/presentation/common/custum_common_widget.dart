@@ -15,7 +15,7 @@ class CustomCommonWidget {
     required IconData iconData,
     // optional paramm
     double size = 20,
-    Color backgroundColor = AppColors.grayLigth,
+    Color backgroundColor = AppColors.black,
     Color iconColor = AppColors.primaryDark,
     double borderRadius = 8,
     EdgeInsetsGeometry padding = AppPadding.allmd,
@@ -36,7 +36,7 @@ class CustomCommonWidget {
     // optional paramm
     double height = 8,
     double borderRadius = 8,
-    Color backgroundColor = AppColors.grayLigth,
+    Color backgroundColor = AppColors.black,
     Color valueColor = AppColors.primary,
   }) {
     return ProgressBar(
@@ -73,7 +73,7 @@ class CustomCommonWidget {
       segmentOptions: segmentOptions,
       initialSelectedIndex: initialSelectedIndex,
       selectedColor: AppColors.primary,
-      unselectedColor: AppColors.grayLigth,
+      unselectedColor: AppColors.black,
       handleSelectSegment: handleSelectSegment,
     );
   }

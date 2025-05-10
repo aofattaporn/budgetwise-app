@@ -13,39 +13,52 @@ class AppTheme {
   /// Light Theme
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    primarySwatch: Colors.blue, // Define your main color
+    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.background,
+    cardColor: AppColors.white,
+    canvasColor: AppColors.surface,
+    dividerColor: AppColors.gray300,
     textTheme: _textTheme,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.background,
+      foregroundColor: AppColors.textPrimary,
+      elevation: 0,
+      iconTheme: IconThemeData(color: AppColors.textPrimary),
+      titleTextStyle: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: AppColors.textPrimary,
+      ),
+    ),
     elevatedButtonTheme: _elevatedButtonTheme,
     outlinedButtonTheme: _outlinedButtonTheme,
     inputDecorationTheme: _inputDecorationTheme,
     cardTheme: _cardTheme,
-    primaryColor: AppColors.primary,
-    primaryColorLight: AppColors.primary,
-    primaryColorDark: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.grayDark.shade100,
+    iconTheme: const IconThemeData(color: AppColors.textPrimary),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.white,
+    ),
   );
 
   /// Dark Theme
-  /// Dark Theme
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.grayDark.shade900,
+    scaffoldBackgroundColor: AppColors.backgroundDark,
     primaryColor: AppColors.primary,
-    primaryColorDark: AppColors.primaryDark,
-    primaryColorLight: AppColors.primaryLigth,
-    cardColor: AppColors.grayDark.shade800,
-    canvasColor: AppColors.grayDark.shade900,
-    dividerColor: AppColors.grayDark.shade600,
+    cardColor: AppColors.grayDark800,
+    canvasColor: AppColors.grayDark800,
+    dividerColor: AppColors.grayDark300,
     textTheme: _textTheme.apply(
       bodyColor: AppColors.white,
       displayColor: AppColors.white,
     ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.grayDark.shade800,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.backgroundDark,
       foregroundColor: AppColors.white,
       elevation: 0,
-      iconTheme: const IconThemeData(color: AppColors.white),
-      titleTextStyle: const TextStyle(
+      iconTheme: IconThemeData(color: AppColors.white),
+      titleTextStyle: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
         color: AppColors.white,
@@ -54,14 +67,16 @@ class AppTheme {
     elevatedButtonTheme: _elevatedButtonTheme,
     outlinedButtonTheme: _outlinedButtonTheme,
     inputDecorationTheme: _inputDecorationTheme.copyWith(
-      fillColor: AppColors.grayDark.shade700,
-      hintStyle: const TextStyle(color: AppColors.grayLight),
-      labelStyle: const TextStyle(color: AppColors.grayLight),
+      fillColor: AppColors.grayDark700,
+      hintStyle: const TextStyle(color: AppColors.grayDark300),
+      labelStyle: const TextStyle(color: AppColors.grayDark100),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.grayDark.shade600),
+        borderSide: BorderSide(color: AppColors.grayDark500),
+        borderRadius: BorderRadius.circular(AppRadius.sm.x),
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.primary),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: AppColors.primary),
+        borderRadius: BorderRadius.circular(AppRadius.sm.x),
       ),
     ),
     iconTheme: const IconThemeData(color: AppColors.white),
@@ -91,8 +106,8 @@ class AppTheme {
   static final ElevatedButtonThemeData _elevatedButtonTheme =
       ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blue,
-      foregroundColor: Colors.white,
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.sm.x),
       ),
@@ -107,8 +122,8 @@ class AppTheme {
   static final OutlinedButtonThemeData _outlinedButtonTheme =
       OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      foregroundColor: Colors.blue,
-      side: const BorderSide(color: Colors.blue),
+      foregroundColor: AppColors.primary,
+      side: const BorderSide(color: AppColors.primary),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.sm.x),
       ),
@@ -124,18 +139,20 @@ class AppTheme {
       InputDecorationTheme(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppRadius.sm.x),
-      borderSide: const BorderSide(color: Colors.grey),
+      borderSide: const BorderSide(color: AppColors.gray300),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppRadius.sm.x),
-      borderSide: const BorderSide(color: Colors.grey),
+      borderSide: const BorderSide(color: AppColors.gray300),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppRadius.sm.x),
-      borderSide: const BorderSide(color: Colors.blue),
+      borderSide: const BorderSide(color: AppColors.primary),
     ),
     filled: true,
-    fillColor: Colors.white,
+    fillColor: AppColors.white,
+    hintStyle: const TextStyle(color: AppColors.gray500),
+    labelStyle: const TextStyle(color: AppColors.gray700),
   );
 
   /// Card Theme
@@ -144,7 +161,6 @@ class AppTheme {
       borderRadius: BorderRadius.circular(AppRadius.sm.x),
     ),
     elevation: 2,
-    // ignore: deprecated_member_use
     shadowColor: Colors.black.withOpacity(0.1),
   );
 }

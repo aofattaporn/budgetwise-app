@@ -31,7 +31,7 @@ class CustomTextField extends StatelessWidget {
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
-        color: AppColors.dark,
+        color: AppColors.black,
       ),
       decoration: InputDecoration(
         isDense: true,

@@ -13,21 +13,21 @@ class AppTextStyles {
 
   // ====> Dark Color
   static const displayLarge = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 32,
     fontWeight: FontWeight.bold,
     height: 1.25,
   );
 
   static const displayMedium = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 28,
     fontWeight: FontWeight.bold,
     height: 1.3,
   );
 
   static const displaySmall = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 24,
     fontWeight: FontWeight.bold,
     height: 1.3,
@@ -60,21 +60,21 @@ class AppTextStyles {
   // ============================================================================
 
   static const headlineLarge = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 22,
     fontWeight: FontWeight.w600,
     height: 1.4,
   );
 
   static const headlineMedium = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 20,
     fontWeight: FontWeight.w600,
     height: 1.4,
   );
 
   static const headlineSmall = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 18,
     fontWeight: FontWeight.w600,
     height: 1.4,
@@ -85,21 +85,21 @@ class AppTextStyles {
   // ============================================================================
 
   static const bodyLarge = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 16,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );
 
   static const bodyMedium = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );
 
   static const bodySmall = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     height: 1.5,
@@ -110,21 +110,21 @@ class AppTextStyles {
   // ============================================================================
 
   static const labelLarge = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 14,
     fontWeight: FontWeight.w600,
     height: 1.4,
   );
 
   static const labelMedium = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 12,
     fontWeight: FontWeight.w500,
     height: 1.4,
   );
 
   static const labelSmall = TextStyle(
-    color: AppColors.dark,
+    color: AppColors.black,
     fontSize: 10,
     fontWeight: FontWeight.w500,
     height: 1.4,
@@ -135,7 +135,7 @@ class AppTextStyles {
   // ============================================================================
 
   static const labelGraySmall = TextStyle(
-    color: AppColors.grayLight,
+    color: AppColors.black,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     height: 1.4,
