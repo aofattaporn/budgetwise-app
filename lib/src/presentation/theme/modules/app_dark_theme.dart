@@ -10,7 +10,8 @@ class AppDarkTheme {
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.black,
-    bottomAppBarTheme: const BottomAppBarTheme(color: AppColors.black),
+    bottomAppBarTheme:
+        const BottomAppBarTheme(color: Color.fromARGB(255, 40, 41, 65)),
     primaryColor: AppColors.primary,
     cardColor: AppColors.grayDark800,
     canvasColor: AppColors.grayDark800,
