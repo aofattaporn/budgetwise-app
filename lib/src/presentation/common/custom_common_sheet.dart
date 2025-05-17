@@ -40,6 +40,10 @@ class CustomCommonSheet {
   //       ));
   // }
 
+  void open(BuildContext context, {required Widget widget}) {
+    _commonSheet(context, widget);
+  }
+
   void optionPlanItemSheet(
     BuildContext context, {
     required Function(BuildContext context) onEdit,

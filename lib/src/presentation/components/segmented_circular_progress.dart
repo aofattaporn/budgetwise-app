@@ -49,21 +49,23 @@ class MultiSegmentCircularProgress extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
                 color: AppColors.background,
-                boxShadow: const [
-                  BoxShadow(
-                    color: AppColors.primaryDark,
-                    spreadRadius: 2,
-                    blurRadius: 12,
-                    offset: Offset(0, 4),
-                  ),
-                ],
+                boxShadow: isShowMessage
+                    ? const [
+                        BoxShadow(
+                          color: AppColors.primaryDark,
+                          spreadRadius: 2,
+                          blurRadius: 12,
+                          offset: Offset(0, 4),
+                        ),
+                      ]
+                    : [],
                 borderRadius: BorderRadius.circular(100)),
             child: CustomPaint(
                 size: Size(size, size),
                 painter:
                     MultiSegmentPainter(_segmentUsages, _segmentColors, 10, 0)),
           ),
-          isShowMessage ? _buidContent(plan) : _percentage(plan)
+          isShowMessage ? _buidContent(plan) : _percentage(plan, context)
         ],
       ),
     );
@@ -79,9 +81,12 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     }
   }
 
-  Text _percentage(PlanEntity? plan) {
-    return Text(
-        NumberUtil.calPercentage(_totalProgress, 30000 ?? 0).toString());
+  Text _percentage(PlanEntity? plan, BuildContext context) {
+    return Text("${NumberUtil.calPercentage(_totalProgress, 30000)}%",
+        style: Theme.of(context)
+            .textTheme
+            .labelMedium!
+            .copyWith(color: AppColors.backgroundDark));
   }
 
   Column _msgSummaryPlan(PlanEntity plan) {

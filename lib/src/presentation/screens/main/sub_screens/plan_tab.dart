@@ -1,7 +1,9 @@
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
+import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/saving_slider.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
+import 'package:budget_wise/src/presentation/screens/plans/plan_overview_screen.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -54,19 +56,27 @@ class PlanTab extends StatelessWidget {
               .displayMedium!
               .copyWith(color: AppColors.background),
         ),
-        Row(
-          spacing: 12,
-          children: [
-            const Icon(Icons.calendar_month_outlined,
-                color: AppColors.background),
-            Text(
-              "${UtilsDateTime.monthYearFormat(now)} - ${UtilsDateTime.monthYearFormat(now)}",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.background),
-            ),
-          ],
+
+        GestureDetector(
+          onTap: () => CustomCommonSheet()
+              .open(context, widget: const PlanOverviewScreen()),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              const Icon(
+                Icons.calendar_month_outlined,
+                color: AppColors.background,
+              ),
+              Text(
+                "${UtilsDateTime.monthYearFormat(now)} - ${UtilsDateTime.monthYearFormat(now)}",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: AppColors.background),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -164,7 +174,7 @@ class PlanTab extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: cardHeight,
+            height: cardHeight * 0.9,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(

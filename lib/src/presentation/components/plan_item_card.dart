@@ -43,10 +43,9 @@ class PlanItemCard extends StatelessWidget {
                         .copyWith(color: AppColors.background)),
               ],
             ),
-            const Spacer(),
             const Icon(
               Icons.home_outlined,
-              size: 56,
+              size: 36,
               color: AppColors.background,
             ),
             Row(
