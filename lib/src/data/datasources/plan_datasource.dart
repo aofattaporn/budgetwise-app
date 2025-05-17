@@ -9,7 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../core/utils/logger_util.dart';
 
-abstract class PlanRemoteDataSource {
+abstract class PlanDataSource {
   Future<CommonResponse<PlanEntity?>> fetchPlanById(String id);
   Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
       DateTime start, DateTime end);
@@ -20,7 +20,7 @@ abstract class PlanRemoteDataSource {
   Future<CommonResponse<void>> deletePlan(String id);
 }
 
-class PlanRemoteDataSourceImpl implements PlanRemoteDataSource {
+class PlanRemoteDataSourceImpl implements PlanDataSource {
   final SupabaseClient client;
   final Logger _logger = LoggerUtil.datasourceLogger("PlanRemote");
 
@@ -49,6 +49,7 @@ class PlanRemoteDataSourceImpl implements PlanRemoteDataSource {
       final json = await client
           .from('plans')
           .select()
+          .eq('is_archived', false)
           .lte('start_date', DateFormat('yyyy-MM-dd').format(start))
           .gte('end_date', DateFormat('yyyy-MM-dd').format(end))
           .maybeSingle();

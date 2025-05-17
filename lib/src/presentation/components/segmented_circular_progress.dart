@@ -2,7 +2,6 @@ import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_text_style.dart';
 import 'package:budget_wise/src/presentation/widgets/progression/multi_segment_painter.dart';
-import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/core/utils/numbers_uti.dart';
 import 'package:budget_wise/src/core/utils/plan_util.dart';
 import 'package:budget_wise/src/presentation/components/amount_compare.dart';
@@ -93,12 +92,9 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-            '${UtilsDateTime.monthYearFormat(plan.startDate)} - ${UtilsDateTime.monthYearFormat(plan.endDate)}',
-            style: AppTextStyles.labelGraySmall),
-        AmountCompare(usage: _totalProgress, limitAmount: 30000),
+        AmountCompare(usage: _totalProgress, limitAmount: plan.amountLimit),
         const SizedBox(height: 8),
-        Text("${((_totalProgress * 100) / 30000).round()}%",
+        Text("${((_totalProgress * 100) / plan.amountLimit).round()}%",
             style: AppTextStyles.labelGraySmall),
         const Text("Progress", style: AppTextStyles.labelGraySmall),
       ],
