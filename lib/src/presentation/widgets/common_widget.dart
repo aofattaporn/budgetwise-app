@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_padding.dart';
-import 'package:budget_wise/src/presentation/widgets/appbar/custom_appbar.dart';
+import 'package:budget_wise/src/presentation/widgets/bottomAppBar/custom_appbar.dart';
 import 'package:budget_wise/src/presentation/widgets/btn/common_elevated_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/btn/common_floating_action_btn.dart';
 import 'package:budget_wise/src/presentation/widgets/icon/box_icon.dart';

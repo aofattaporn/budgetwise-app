@@ -1,102 +1,99 @@
-// import 'package:budget_wise/src/core/utils/icon_util.dart';
-// import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
-// import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
-// import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
-// import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
-// import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
-// import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
-// import 'package:budget_wise/src/presentation/components/amount_compare.dart';
-// import 'package:budget_wise/src/presentation/theme/app_text_style.dart';
-// import 'package:flutter/material.dart';
-// import 'package:budget_wise/src/presentation/theme/app_colors.dart';
-// import 'package:budget_wise/src/domain/entities/plan_item_temp_entity.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
+import 'package:flutter/material.dart';
 
-// class PlanItemCard extends StatelessWidget {
-//   final PlanItemEntity item;
-//   final double progress;
+class PlanItemCard extends StatelessWidget {
+  const PlanItemCard({
+    super.key,
+  });
 
-//   const PlanItemCard({
-//     super.key,
-//     required this.item,
-//     required this.progress,
-//   });
+  @override
+  Widget build(BuildContext context) {
+    final double cardWidth = MediaQuery.of(context).size.height * 0.2;
 
-//   void _handleOnEdit(BuildContext context) {
-//     Navigator.pop(context);
-//     CustomCommonSheet().createNewPlanItem(context,
-//         planId: item.planId,
-//         id: item.id,
-//         planItemDto: PlanItemDto.fromEntity(item));
-//   }
+    return Container(
+      width: cardWidth,
+      margin: const EdgeInsets.only(right: 12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.primaryDark,
+            spreadRadius: 2,
+            blurRadius: 12,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Spacer(),
+                Text("26%",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: AppColors.background)),
+              ],
+            ),
+            const Spacer(),
+            const Icon(
+              Icons.home_outlined,
+              size: 56,
+              color: AppColors.background,
+            ),
+            Row(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text("Eat sdfsdf",
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall!
+                        .copyWith(color: AppColors.background))
+              ],
+            ),
+            Column(
+              children: [
+                _buildPlanItemDetail(context, "on usage", "20,000"),
+                _buildPlanItemDetail(context, "on usage", "20,000"),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-//   void _handleOnDelete(BuildContext context) {
-//     CustomCommonDialog().confirmDeleteDialog(
-//       context,
-//       title: "Delete Plan Item?",
-//       message:
-//           "Are you sure you want to permanently delete this plan item? This action cannot be undone.",
-//       onConfirm: () {
-//         context
-//             .read<PlanItemBloc>()
-//             .add(DeletePlanItemById(planItemId: item.id, planId: item.planId));
-//         Navigator.pop(context);
-//       },
-//     );
-//   }
-
-//   void _optionPlanItemCard(BuildContext context) {
-//     CustomCommonSheet(height: null).optionPlanItemSheet(context,
-//         onEdit: _handleOnEdit, onDelete: _handleOnDelete);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.only(bottom: 16),
-//       padding: const EdgeInsets.all(12),
-//       decoration: BoxDecoration(
-//         color: AppColors.white,
-//         borderRadius: BorderRadius.circular(8),
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         spacing: 12,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               _buildTitleAndUsage(),
-//               IconButton(
-//                 icon: const Icon(Icons.more_vert),
-//                 onPressed: () => _optionPlanItemCard(context),
-//               ),
-//             ],
-//           ),
-//           CustomCommonWidget.progressBar(progress: progress)
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildTitleAndUsage() {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       spacing: 4,
-//       children: [
-//         Row(
-//           spacing: 12,
-//           children: [
-//             CustomCommonWidget.boxIcon(
-//                 iconData: IconUtil.getIconByName(item.iconName)),
-//             Text(
-//               item.title,
-//               style: AppTextStyles.headlineSmall,
-//             ),
-//           ],
-//         ),
-//         AmountCompare(usage: item.usage, limitAmount: item.planAmount),
-//       ],
-//     );
-//   }
-// }
+  Widget _buildPlanItemDetail(
+      BuildContext context, String label, String value) {
+    return Row(
+      spacing: 12,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          label,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColors.background),
+        ),
+        Text(
+          value,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColors.background),
+        )
+      ],
+    );
+  }
+}

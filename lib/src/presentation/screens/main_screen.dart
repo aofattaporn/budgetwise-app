@@ -2,7 +2,7 @@ import 'package:budget_wise/src/presentation/screens/sub_screens/account_tab.dar
 import 'package:budget_wise/src/presentation/screens/sub_screens/home_tab.dart';
 import 'package:budget_wise/src/presentation/screens/sub_screens/plan_tab.dart';
 import 'package:budget_wise/src/presentation/screens/sub_screens/transaction_tab.dart';
-import 'package:budget_wise/src/presentation/widgets/appbar/custom_appbar.dart';
+import 'package:budget_wise/src/presentation/widgets/bottomAppBar/custom_appbar.dart';
 import 'package:budget_wise/src/presentation/widgets/common_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -42,11 +42,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 0,
-      ),
-      body: _getTabScreen(_currentIndex),
+      body: SafeArea(top: false, child: _getTabScreen(_currentIndex)),
       floatingActionButton: CommonWidget.commonFloatingActionButton(
         onPressed: () {},
         icon: Icons.add,
