@@ -2,3 +2,5 @@
 abstract class PlanEvent {}
 
 class FetchCurrentMonthPlanEvent extends PlanEvent {}
+
+class FetchAllMonthPlanEvent extends PlanEvent {}

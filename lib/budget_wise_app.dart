@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
 import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/routes/app_screens.dart';
@@ -26,6 +27,7 @@ class BudgetWiseApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => sl<MainScreenBloc>()),
         BlocProvider(create: (_) => sl<PlanBloc>()),
+        BlocProvider(create: (_) => sl<PlanAllBloc>()),
         BlocProvider(create: (_) => ThemeCubit()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(

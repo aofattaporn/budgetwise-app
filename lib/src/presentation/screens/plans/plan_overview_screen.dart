@@ -1,7 +1,11 @@
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_event.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_state.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanOverviewScreen extends StatefulWidget {
   const PlanOverviewScreen({super.key});
@@ -20,6 +24,12 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
     'Home Renovation'
   ];
   final List<String> inactivePlans = ['Old Budget', 'Archived Plan'];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<PlanAllBloc>().add(FetchAllMonthPlanEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,48 +94,56 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
       return const Center(child: Text("No plans found"));
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-      itemCount: plans.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-          child: Row(
-            spacing: 24,
-            children: [
-              const MultiSegmentCircularProgress(
-                size: 90,
-                isShowMessage: false,
-                isNotfound: false,
-                plan: null,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 8,
-                children: [
-                  Text(
-                      "${UtilsDateTime.monthYearFormat(DateTime.now())} - ${UtilsDateTime.monthYearFormat(DateTime.now())}",
-                      style: Theme.of(context).textTheme.labelLarge),
-                  Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      child: const Text(
-                        "Active",
-                        style: TextStyle(color: AppColors.gray100),
-                      ))
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return Container();
-      },
-    );
+    return BlocBuilder<PlanAllBloc, PlanAllState>(builder: (context, state) {
+      final isLoaded = (state is AllPlanLoaded);
+      return ListView.separated(
+        separatorBuilder: (BuildContext context, int index) {
+          return Container();
+        },
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+        itemCount: isLoaded ? state.planList.length : 0,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            child: Row(
+              spacing: 24,
+              children: [
+                const MultiSegmentCircularProgress(
+                  size: 90,
+                  isShowMessage: false,
+                  isNotfound: false,
+                  plan: null,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 8,
+                  children: [
+                    Text(
+                        "${UtilsDateTime.monthYearFormat(DateTime.now())} - ${UtilsDateTime.monthYearFormat(DateTime.now())}",
+                        style: Theme.of(context).textTheme.labelLarge),
+                    Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 16),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: Text(
+                          isLoaded
+                              ? state.planList[index].isArchived
+                                  ? "Archived"
+                                  : "In Progress"
+                              : "",
+                          style: const TextStyle(color: AppColors.gray100),
+                        ))
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    });
   }
 }
