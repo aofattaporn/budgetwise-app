@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/presentation/common/unknown_screen.dart';
 import 'package:budget_wise/src/presentation/routes/app_routes.dart';
-import 'package:budget_wise/src/presentation/screens/main_screen.dart';
+import 'package:budget_wise/src/presentation/screens/main/main_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
