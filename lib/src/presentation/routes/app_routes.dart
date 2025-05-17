@@ -8,6 +8,7 @@ class AppRoutes {
   static const String selectIconScreen = 'select_icon_screen';
 
   static const String planOverviewScreen = 'plan_overview_screen';
+  static const String planDetail = 'plan_details_screen';
   static const String planItemOverviewScreen = 'plan_item_overview_screen';
   static const String planItemDetailScreen = 'plan_item_detail_screen';
 }

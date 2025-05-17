@@ -3,6 +3,7 @@ import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/saving_slider.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
+import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/screens/plans/plan_overview_screen.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -87,9 +88,12 @@ class PlanTab extends StatelessWidget {
       spacing: 24,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MultiSegmentCircularProgress(
-          isNotfound: false,
-          plan: null,
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, AppRoutes.planDetail),
+          child: const MultiSegmentCircularProgress(
+            isNotfound: false,
+            plan: null,
+          ),
         ),
         Expanded(child: _buildBudgetDetail(context)),
       ],
