@@ -15,9 +15,10 @@ abstract class PlanDataSource {
   Future<CommonResponse<PlanEntity?>> fetchPlanById(String id);
   Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
       DateTime start, DateTime end);
+  Future<CommonResponse<void>> createPlan(PlanDto dto);
+
   Future<CommonResponse<PlanEntity?>> fetchPlanByYearMonth(int year, int month);
   Future<CommonResponse<List<PlanEntity>>> fetchAllPlans();
-  Future<CommonResponse<void>> createPlan(PlanDto dto);
   Future<CommonResponse<void>> updatePlan(String id, PlanDto dto);
   Future<CommonResponse<void>> deletePlan(String id);
 }
@@ -80,6 +81,17 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   }
 
   @override
+  Future<CommonResponse<void>> createPlan(PlanDto dto) async {
+    try {
+      await client.from('plans').insert(dto.toInsertJson());
+      return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
+    } catch (e, s) {
+      _logger.e("createPlan", error: e, stackTrace: s);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  @override
   Future<CommonResponse<PlanEntity?>> fetchPlanByYearMonth(
       int year, int month) async {
     try {
@@ -116,17 +128,6 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
       return ResponseUtil.commonResponse(ResponseConstant.code1000, plans);
     } catch (e, s) {
       _logger.e("fetchAllPlans", error: e, stackTrace: s);
-      throw ErrorUtil.mapTechnicalError();
-    }
-  }
-
-  @override
-  Future<CommonResponse<void>> createPlan(PlanDto dto) async {
-    try {
-      await client.from('plans').insert({});
-      return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
-    } catch (e, s) {
-      _logger.e("createPlan", error: e, stackTrace: s);
       throw ErrorUtil.mapTechnicalError();
     }
   }

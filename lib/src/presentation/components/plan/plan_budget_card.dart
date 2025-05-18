@@ -1,5 +1,5 @@
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
-import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ class PlanBudgetCard extends StatelessWidget {
     required this.selectedPlanId,
   });
 
-  final PlanEntity plans;
+  final PlanDto plans;
   final String? selectedPlanId;
 
   @override

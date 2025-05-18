@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
@@ -6,6 +6,7 @@ import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_ev
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_state.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
+import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,6 +77,7 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
           ElevatedButton.icon(
             onPressed: () {
               // Navigate to create plan screen
+              Navigator.pushNamed(context, AppRoutes.planDetail);
             },
             icon: const Icon(Icons.add, color: Colors.white),
             label: const Text("Create Plan"),
@@ -100,7 +102,7 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
         final isLoading = (state is PlanAllLoading);
         final isLoaded = (state is AllPlanLoaded);
 
-        final List<PlanEntity> originPlan = isLoaded ? state.planList : [];
+        final List<PlanDto> originPlan = isLoaded ? state.planList : [];
 
         final plans = selectedTypeIndex == 1
             ? originPlan.where((op) => op.isArchived).toList()
@@ -123,7 +125,7 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
           itemCount: isLoaded ? plans.length : 0,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () => _tabSelectNewPlan(context, plans[index].id),
+              onTap: () => _tabSelectNewPlan(context, plans[index].id!),
               child: CustomCommonComponent.planBudgetCard(
                 plan: plans[index],
                 selectedPlanId: selectedPlanId,

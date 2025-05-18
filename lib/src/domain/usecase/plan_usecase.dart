@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/data/repositories/plan_repository_imp.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 
 class PlanUsecase {
   final PlanRepository planRepository;
@@ -17,8 +18,12 @@ class PlanUsecase {
     return result;
   }
 
-  Future<List<PlanEntity>> getAllPlans() async {
+  Future<List<PlanDto>> getAllPlans() async {
     final result = await planRepository.getAllPlans();
     return result;
+  }
+
+  Future<void> createPlan(PlanDto planDto) async {
+    await planRepository.createPlan(planDto);
   }
 }

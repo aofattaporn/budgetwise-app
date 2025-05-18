@@ -1,4 +1,6 @@
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
+import 'package:budget_wise/src/presentation/components/labeled_date_picker_row.dart';
 import 'package:budget_wise/src/presentation/components/labeled_icon_row.dart';
 import 'package:budget_wise/src/presentation/components/labeled_textfield_row.dart';
 import 'package:budget_wise/src/presentation/components/plan/plan_budget_card.dart';
@@ -25,6 +27,21 @@ class CustomCommonComponent {
     );
   }
 
+  static Widget labeledDatePickerRow({
+    // * require paramm *
+    required TextEditingController textEditingController,
+    required String label,
+    // * not-require paramm *
+    String placeHolder = "",
+    bool isNumberOnly = false,
+  }) {
+    return LabeledDatePickerRow(
+      label: label,
+      textEditingController: textEditingController,
+      placeholder: placeHolder,
+    );
+  }
+
   static Widget labelledIconRow(
       {
       // * require paramm *
@@ -43,7 +60,7 @@ class CustomCommonComponent {
   // ======================================================
   static Widget planBudgetCard({
     // * require paramm *
-    required PlanEntity plan,
+    required PlanDto plan,
     // * not-require paramm *
     String? selectedPlanId,
   }) {

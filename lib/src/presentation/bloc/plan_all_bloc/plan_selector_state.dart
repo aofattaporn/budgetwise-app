@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 
 abstract class PlanSelectorState {}
 
@@ -9,7 +9,7 @@ class NotFoundAnyPlans extends PlanSelectorState {}
 class PlanAllLoading extends PlanSelectorState {}
 
 class AllPlanLoaded extends PlanSelectorState {
-  final List<PlanEntity> planList;
+  final List<PlanDto> planList;
   AllPlanLoaded(this.planList);
 }
 
