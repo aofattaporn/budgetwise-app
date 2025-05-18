@@ -60,7 +60,7 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
             code: ResponseConstant.code1799,
             data: null,
             desc:
-                "No active plan found in range [${UtilsDateTime.dateTimeReadableFormat(start)} - ${UtilsDateTime.dateTimeReadableFormat(end)}]");
+                "No active plan found in range [${UtilsDateTime.dateTimeReadableFormat(start)} - ${UtilsDateTime.dateTimeReadableFormat(start)}}]");
       }
 
       final plans =

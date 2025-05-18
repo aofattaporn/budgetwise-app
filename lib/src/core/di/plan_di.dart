@@ -2,8 +2,8 @@ import 'package:budget_wise/src/core/di/di.dart';
 import 'package:budget_wise/src/data/datasources/plan_datasource.dart';
 import 'package:budget_wise/src/data/repositories/plan_repository_imp.dart';
 import 'package:budget_wise/src/domain/usecase/plan_usecase.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void setupPlanDI() {
@@ -20,6 +20,7 @@ void setupPlanDI() {
       () => PlanUsecase(planRepository: sl<PlanRepository>()));
 
   // Register Bloc and inject the use case
-  sl.registerFactory<PlanBloc>(() => PlanBloc(sl<PlanUsecase>()));
-  sl.registerFactory<PlanAllBloc>(() => PlanAllBloc(sl<PlanUsecase>()));
+  sl.registerFactory<CurrentPlanBloc>(() => CurrentPlanBloc(sl<PlanUsecase>()));
+  sl.registerFactory<PlanSelectorBloc>(
+      () => PlanSelectorBloc(sl<PlanUsecase>()));
 }

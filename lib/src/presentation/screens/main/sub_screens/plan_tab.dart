@@ -1,8 +1,8 @@
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_event.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_state.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/saving_slider.dart';
@@ -25,7 +25,7 @@ class _PlanTabState extends State<PlanTab> {
   @override
   void initState() {
     super.initState();
-    context.read<PlanBloc>().add(FetchCurrentMonthPlanEvent());
+    context.read<CurrentPlanBloc>().add(FetchCurrentPlanEvent());
   }
 
   @override
@@ -75,37 +75,48 @@ class _PlanTabState extends State<PlanTab> {
         GestureDetector(
           onTap: () => CustomCommonSheet()
               .open(context, widget: const PlanOverviewScreen()),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 8,
-            children: [
-              const Icon(
-                Icons.calendar_month_outlined,
-                color: AppColors.background,
-              ),
-              BlocBuilder<PlanBloc, PlanState>(
-                builder: (context, state) {
-                  final isLoading = (state is PlanLoading);
-                  final isLoaded = (state is PlanLoaded);
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColorDark,
+                borderRadius: BorderRadius.circular(12)),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8,
+              children: [
+                const Icon(
+                  Icons.calendar_month_outlined,
+                  color: AppColors.background,
+                ),
+                BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
+                  builder: (context, state) {
+                    String messageDateTime;
+                    if (state is CurrentPlanLoading) {
+                      messageDateTime = 'Plan Loading...';
+                    } else if (state is CurrentPlanEmpty) {
+                      messageDateTime = 'Not found Plan active this month';
+                    } else if (state is CurrentPlanLoaded) {
+                      messageDateTime =
+                          "${UtilsDateTime.monthYearFormat(state.plan.startDate)} - "
+                          "${UtilsDateTime.monthYearFormat(state.plan.endDate)}";
+                    } else {
+                      messageDateTime = "something went wrong.";
+                    }
 
-                  final monthStart =
-                      isLoaded ? state.plan.startDate : DateTime.now();
-                  final monthEnd =
-                      isLoaded ? state.plan.endDate : DateTime.now();
-
-                  return Skeletonizer(
-                    enabled: isLoading,
-                    child: Text(
-                      "${UtilsDateTime.monthYearFormat(monthStart)} - ${UtilsDateTime.monthYearFormat(monthEnd)}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(color: AppColors.background),
-                    ),
-                  );
-                },
-              )
-            ],
+                    return Skeletonizer(
+                      enabled: (state is CurrentPlanLoading),
+                      child: Text(
+                        messageDateTime,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium!
+                            .copyWith(color: AppColors.background),
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ],
@@ -113,9 +124,11 @@ class _PlanTabState extends State<PlanTab> {
   }
 
   Widget _buildBudgetOverview(BuildContext context) {
-    return BlocBuilder<PlanBloc, PlanState>(
-      builder: (BuildContext context, PlanState state) {
-        final isLoaded = (state is PlanLoaded);
+    return BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
+      builder: (BuildContext context, CurrentPlanState state) {
+        final isLoading = (state is CurrentPlanLoading);
+        final isLoaded = (state is CurrentPlanLoaded);
+        final isNotfound = (state is CurrentPlanEmpty);
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,15 +136,15 @@ class _PlanTabState extends State<PlanTab> {
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, AppRoutes.planDetail),
               child: MultiSegmentCircularProgress(
-                isNotfound: false,
+                isLoading: isLoading,
+                isNotfound: isNotfound,
                 plan: isLoaded ? state.plan : null,
               ),
             ),
             const SizedBox(width: 24),
             isLoaded
                 ? Expanded(child: _buildBudgetDetail(context, state.plan))
-                : const Text("Loading...",
-                    style: TextStyle(color: AppColors.background))
+                : Container()
           ],
         );
       },
@@ -184,18 +197,6 @@ class _PlanTabState extends State<PlanTab> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildAmountLimitText(BuildContext context, String amountLimit) {
-    return Text(
-      "/$amountLimit B",
-      style: Theme.of(context)
-          .textTheme
-          .labelLarge!
-          .copyWith(color: AppColors.background),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
     );
   }
 

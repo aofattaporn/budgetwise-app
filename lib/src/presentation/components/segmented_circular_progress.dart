@@ -6,11 +6,13 @@ import 'package:budget_wise/src/core/utils/numbers_uti.dart';
 import 'package:budget_wise/src/core/utils/plan_util.dart';
 import 'package:budget_wise/src/presentation/components/amount_compare.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MultiSegmentCircularProgress extends StatelessWidget {
   final double size;
   final double strokeWidth;
   final bool isShowMessage;
+  final bool isLoading;
   final bool isNotfound;
 
   final PlanEntity? plan;
@@ -19,6 +21,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     super.key,
     this.size = 200,
     this.strokeWidth = 10,
+    this.isLoading = true,
     this.isShowMessage = true,
     this.isNotfound = false,
     this.plan,
@@ -70,11 +73,18 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     );
   }
 
-  Column _buidContent(PlanEntity? plan) {
+  Widget _buidContent(PlanEntity? plan) {
     if (plan != null) {
       return _msgSummaryPlan(plan);
     } else if (isNotfound) {
       return _msgPlanNotFound();
+    } else if (isLoading) {
+      return Center(
+        child: LoadingAnimationWidget.horizontalRotatingDots(
+          color: AppColors.primary,
+          size: 54,
+        ),
+      );
     } else {
       return _msgPlanError();
     }

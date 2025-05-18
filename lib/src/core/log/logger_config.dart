@@ -36,7 +36,13 @@ class LoggerConfig extends LogPrinter {
 
     final buffer = StringBuffer()
       ..writeln('')
-      ..writeln(separator)
+      ..writeln(separator);
+
+    if (_isDebugMode) {
+      buffer.writeln("*** LOG DEBUG ***");
+    }
+
+    buffer
       ..writeln('📦 Source    : [$className]')
       ..writeln('$emoji Timestamp : $timestamp')
       ..writeln('🔷 Message   : $message');

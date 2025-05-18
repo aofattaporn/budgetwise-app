@@ -1,9 +1,9 @@
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_event.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_state.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_state.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_state.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PlanAllBloc>().add(FetchAllMonthPlanEvent());
+    context.read<PlanSelectorBloc>().add(FetchAllMonthPlanEvent());
   }
 
   @override
@@ -84,12 +84,16 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
   }
 
   Widget _buildPlanList() {
-    return BlocBuilder<PlanBloc, PlanState>(builder: (context, planState) {
-      final selectedPlanId = planState is PlanLoaded ? planState.plan.id : null;
+    return BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
+        builder: (context, planState) {
+      final selectedPlanId =
+          planState is CurrentPlanLoaded ? planState.plan.id : null;
 
-      return BlocBuilder<PlanAllBloc, PlanAllState>(builder: (context, state) {
-        final isLoaded = (state is AllPlanLoaded);
+      return BlocBuilder<PlanSelectorBloc, PlanSelectorState>(
+          builder: (context, state) {
         final isLoading = (state is PlanAllLoading);
+        final isLoaded = (state is AllPlanLoaded);
+
         final List<PlanEntity> originPlan = isLoaded ? state.planList : [];
 
         final plans = selectedTypeIndex == 1
