@@ -17,7 +17,7 @@ class ErrorUtil {
     String? desc,
   }) {
     return BussinessError(
-      message: message ?? defaultBusinessErrorMessage,
+      head: message ?? defaultBusinessErrorMessage,
       desc: desc ?? defaultBusinessErrorDescription,
       timestamp: DateTime.now(),
     );

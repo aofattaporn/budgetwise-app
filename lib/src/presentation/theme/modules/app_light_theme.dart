@@ -10,6 +10,8 @@ class AppLightTheme {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: AppColors.primary,
+    primaryColorDark: AppColors.primaryDark,
+    primaryColorLight: AppColors.primaryLight,
     scaffoldBackgroundColor: AppColors.gray200,
     cardColor: AppColors.white,
     canvasColor: AppColors.surface,

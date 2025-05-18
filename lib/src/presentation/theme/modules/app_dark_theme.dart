@@ -13,6 +13,8 @@ class AppDarkTheme {
     bottomAppBarTheme:
         const BottomAppBarTheme(color: Color.fromARGB(255, 40, 41, 65)),
     primaryColor: AppColors.primary,
+    primaryColorDark: AppColors.primaryDark,
+    primaryColorLight: AppColors.primaryLight,
     cardColor: AppColors.grayDark800,
     canvasColor: AppColors.grayDark800,
     dividerColor: AppColors.grayDark300,

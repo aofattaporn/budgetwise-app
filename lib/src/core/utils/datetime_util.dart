@@ -11,6 +11,11 @@ class UtilsDateTime {
     return formatter.format(date);
   }
 
+  static String dateTimeReadableFormat(DateTime date) {
+    final DateFormat formatter = DateFormat('dd MMM yyyy, HH:mm');
+    return formatter.format(date);
+  }
+
   static String yearMonthFormat(DateTime date) {
     final DateFormat formatter = DateFormat('yyyy-MM');
     return formatter.format(date);

@@ -1,11 +1,14 @@
-import 'package:budget_wise/src/core/utils/datetime_util.dart';
+import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_all_state.dart';
-import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_bloc/plan_state.dart';
+import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class PlanOverviewScreen extends StatefulWidget {
   const PlanOverviewScreen({super.key});
@@ -16,14 +19,7 @@ class PlanOverviewScreen extends StatefulWidget {
 
 class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
   int selectedTypeIndex = 0;
-
   final List<String> planTypes = ['Active', 'Inactive'];
-  final List<String> activePlans = [
-    'Monthly Budget',
-    'Trip Plan',
-    'Home Renovation'
-  ];
-  final List<String> inactivePlans = ['Old Budget', 'Archived Plan'];
 
   @override
   void initState() {
@@ -88,62 +84,41 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
   }
 
   Widget _buildPlanList() {
-    final plans = selectedTypeIndex == 0 ? activePlans : inactivePlans;
+    return BlocBuilder<PlanBloc, PlanState>(builder: (context, planState) {
+      final selectedPlanId = planState is PlanLoaded ? planState.plan.id : null;
 
-    if (plans.isEmpty) {
-      return const Center(child: Text("No plans found"));
-    }
+      return BlocBuilder<PlanAllBloc, PlanAllState>(builder: (context, state) {
+        final isLoaded = (state is AllPlanLoaded);
+        final isLoading = (state is PlanAllLoading);
+        final List<PlanEntity> originPlan = isLoaded ? state.planList : [];
 
-    return BlocBuilder<PlanAllBloc, PlanAllState>(builder: (context, state) {
-      final isLoaded = (state is AllPlanLoaded);
-      return ListView.separated(
-        separatorBuilder: (BuildContext context, int index) {
-          return Container();
-        },
-        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-        itemCount: isLoaded ? state.planList.length : 0,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            child: Row(
-              spacing: 24,
-              children: [
-                const MultiSegmentCircularProgress(
-                  size: 90,
-                  isShowMessage: false,
-                  isNotfound: false,
-                  plan: null,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 8,
-                  children: [
-                    Text(
-                        "${UtilsDateTime.monthYearFormat(DateTime.now())} - ${UtilsDateTime.monthYearFormat(DateTime.now())}",
-                        style: Theme.of(context).textTheme.labelLarge),
-                    Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 16),
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        child: Text(
-                          isLoaded
-                              ? state.planList[index].isArchived
-                                  ? "Archived"
-                                  : "In Progress"
-                              : "",
-                          style: const TextStyle(color: AppColors.gray100),
-                        ))
-                  ],
-                ),
-              ],
+        final plans = selectedTypeIndex == 1
+            ? originPlan.where((op) => op.isArchived).toList()
+            : originPlan.where((op) => !op.isArchived).toList();
+
+        if (isLoading) {
+          return Center(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              color: AppColors.primary,
+              size: 54,
             ),
           );
-        },
-      );
+        }
+
+        return ListView.separated(
+          separatorBuilder: (BuildContext context, int index) {
+            return Container();
+          },
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+          itemCount: isLoaded ? plans.length : 0,
+          itemBuilder: (context, index) {
+            return CustomCommonComponent.planBudgetCard(
+              plan: plans[index],
+              selectedPlanId: selectedPlanId,
+            );
+          },
+        );
+      });
     });
   }
 }

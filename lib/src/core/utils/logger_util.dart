@@ -18,6 +18,8 @@ class LoggerUtil {
   }
 
   static pretty_logger.Logger normalLogger(String className) {
-    return pretty_logger.Logger(printer: LoggerConfig(className));
+    return pretty_logger.Logger(
+        printer: LoggerConfig(className),
+        output: pretty_logger.ConsoleOutput());
   }
 }

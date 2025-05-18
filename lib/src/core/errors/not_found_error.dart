@@ -1,11 +1,8 @@
-class BussinessError implements Exception {
+class NotfoundError implements Exception {
   final String head;
   final String desc;
   final DateTime timestamp;
 
-  BussinessError(
+  NotfoundError(
       {required this.head, required this.desc, required this.timestamp});
-
-  @override
-  String toString() => 'BussinessError: $desc';
 }

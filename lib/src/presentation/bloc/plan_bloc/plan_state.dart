@@ -11,11 +11,6 @@ class PlanLoaded extends PlanState {
   PlanLoaded(this.plan);
 }
 
-class AllPlanLoaded extends PlanState {
-  final List<PlanEntity> planList;
-  AllPlanLoaded(this.planList);
-}
-
 class PlanEmpty extends PlanState {}
 
 class PlanError extends PlanState {

@@ -1,39 +1,19 @@
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
-import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/src/presentation/components/labeled_icon_row.dart';
 import 'package:budget_wise/src/presentation/components/labeled_textfield_row.dart';
-import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
-import 'package:budget_wise/src/presentation/components/plan_item_component.dart';
+import 'package:budget_wise/src/presentation/components/plan/plan_budget_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomCommonComponent {
-  // static Widget planItemComponent(PlanEntity planEntity,
-  //     {int? selectedId, bool? isEditing}) {
-  //   return PlanItemComponent(
-  //     planEntity: planEntity,
-  //     selectedId: selectedId,
-  //     idEditing: isEditing,
-  //   );
-  // }
-
-  // static Widget planItemCard({
-  //   // require paramm
-  //   required PlanItemEntity planEntity,
-  //   required double progress,
-  //   // not-require paramm
-  // }) {
-  //   return PlanItemCard(
-  //     item: planEntity,
-  //     progress: progress,
-  //   );
-  // }
-
+  // ======================================================
+  //  COMMON COMPONENTS
+  // ======================================================
   static Widget labelledTextFieldRow({
-    // require paramm
+    // * require paramm *
     required TextEditingController textEditingController,
     required String label,
-    // not-require paramm
+    // * not-require paramm *
     String placeHolder = "",
     bool isNumberOnly = false,
   }) {
@@ -47,14 +27,29 @@ class CustomCommonComponent {
 
   static Widget labelledIconRow(
       {
-      // require paramm
+      // * require paramm *
       required String iconData,
       required Function(String) handleSelectIcon
-      // not-require paramm
+      // * not-require paramm *
       }) {
     return LabeledIconRow(
       iconData: iconData,
       handleSelectIcon: handleSelectIcon,
+    );
+  }
+
+  // ======================================================
+  //  COMMON COMPONENTS
+  // ======================================================
+  static Widget planBudgetCard({
+    // * require paramm *
+    required PlanEntity plan,
+    // * not-require paramm *
+    String? selectedPlanId,
+  }) {
+    return PlanBudgetCard(
+      plans: plan,
+      selectedPlanId: selectedPlanId,
     );
   }
 }

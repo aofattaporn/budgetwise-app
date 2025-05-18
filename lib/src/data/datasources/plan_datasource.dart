@@ -1,3 +1,5 @@
+import 'package:budget_wise/src/core/errors/bussiness_error.dart';
+import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/domain/models/common/common_response.dart';
 import 'package:budget_wise/src/core/constant/response_constant.dart';
@@ -51,18 +53,23 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           .select()
           .eq('is_archived', false)
           .lte('start_date', DateFormat('yyyy-MM-dd').format(start))
-          .gte('end_date', DateFormat('yyyy-MM-dd').format(end))
-          .maybeSingle();
+          .gte('end_date', DateFormat('yyyy-MM-dd').format(end));
 
-      if (json == null) {
-        throw ErrorUtil.mapBusinessError(
-            message: "No plan found in selected range");
+      if (json.isEmpty) {
+        return ResponseUtil.commonError(
+            code: ResponseConstant.code1799,
+            data: null,
+            desc:
+                "No active plan found in range [${UtilsDateTime.dateTimeReadableFormat(start)} - ${UtilsDateTime.dateTimeReadableFormat(end)}]");
       }
 
+      final plans =
+          json.map<PlanEntity>((e) => PlanEntity.fromJson(e)).toList();
+
       return ResponseUtil.commonResponse(
-          ResponseConstant.code1000, PlanEntity.fromJson(json));
+          ResponseConstant.code1000, plans.first);
     } catch (e, s) {
-      _logger.e("fetchPlanByDateRange", error: e, stackTrace: s);
+      _logger.e("supabase error (technical)", error: e, stackTrace: s);
       throw ErrorUtil.mapTechnicalError();
     }
   }
@@ -75,16 +82,20 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           .from('plans')
           .select()
           .filter('extract(year from start_date)', 'eq', year)
-          .filter('extract(month from start_date)', 'eq', month)
-          .maybeSingle();
+          .filter('extract(month from start_date)', 'eq', month);
 
-      if (json == null) {
+      final plans =
+          json.map<PlanEntity>((e) => PlanEntity.fromJson(e)).toList();
+
+      if (json.isEmpty) {
         throw ErrorUtil.mapBusinessError(
-            message: "No plan found for $year-$month");
+            message: "No plan found active for [$year-$month]");
       }
 
       return ResponseUtil.commonResponse(
-          ResponseConstant.code1000, PlanEntity.fromJson(json));
+          ResponseConstant.code1000, plans.first);
+    } on BussinessError {
+      rethrow;
     } catch (e, s) {
       _logger.e("fetchPlanByYearMonth", error: e, stackTrace: s);
       throw ErrorUtil.mapTechnicalError();

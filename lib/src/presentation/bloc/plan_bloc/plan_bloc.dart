@@ -20,15 +20,5 @@ class PlanBloc extends Bloc<PlanEvent, PlanState> {
         emit(PlanError("Failed to fetch current month's plan"));
       }
     });
-
-    on<FetchAllMonthPlanEvent>((event, emit) async {
-      emit(PlanLoading());
-      try {
-        final planList = await useCase.getAllPlans();
-        emit(AllPlanLoaded(planList));
-      } catch (e) {
-        emit(PlanError("Failed to fetch current month's plan list"));
-      }
-    });
   }
 }
