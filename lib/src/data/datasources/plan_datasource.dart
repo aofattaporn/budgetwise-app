@@ -29,22 +29,6 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   PlanRemoteDataSourceImpl(this.client);
 
   @override
-  Future<CommonResponse<PlanEntity?>> fetchPlanById(String id) async {
-    try {
-      final json =
-          await client.from('plans').select().eq('id', id).maybeSingle();
-      if (json == null) {
-        throw ErrorUtil.mapBusinessError(message: "Plan not found");
-      }
-      return ResponseUtil.commonResponse(
-          ResponseConstant.code1000, PlanEntity.fromJson(json));
-    } catch (e, s) {
-      _logger.e("fetchPlanById", error: e, stackTrace: s);
-      throw ErrorUtil.mapTechnicalError();
-    }
-  }
-
-  @override
   Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
       DateTime start, DateTime end) async {
     try {
@@ -70,6 +54,27 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
           ResponseConstant.code1000, plans.first);
     } catch (e, s) {
       _logger.e("supabase error (technical)", error: e, stackTrace: s);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  @override
+  Future<CommonResponse<PlanEntity?>> fetchPlanById(String id) async {
+    try {
+      final json =
+          await client.from('plans').select().eq('id', id).maybeSingle();
+
+      if (json == null) {
+        return ResponseUtil.commonError(
+            code: ResponseConstant.code1799,
+            data: null,
+            desc: "No active plan found in id: $id");
+      }
+
+      return ResponseUtil.commonResponse(
+          ResponseConstant.code1000, PlanEntity.fromJson(json));
+    } catch (e, s) {
+      _logger.e("fetchPlanById", error: e, stackTrace: s);
       throw ErrorUtil.mapTechnicalError();
     }
   }

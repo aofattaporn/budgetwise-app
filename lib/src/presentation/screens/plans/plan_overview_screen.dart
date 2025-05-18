@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_state.dart';
@@ -25,6 +26,11 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
   void initState() {
     super.initState();
     context.read<PlanSelectorBloc>().add(FetchAllMonthPlanEvent());
+  }
+
+  void _tabSelectNewPlan(BuildContext context, String id) {
+    context.read<CurrentPlanBloc>().add(FetchPlanByIdEvent(planId: id));
+    Navigator.pop(context);
   }
 
   @override
@@ -116,9 +122,12 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen> {
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
           itemCount: isLoaded ? plans.length : 0,
           itemBuilder: (context, index) {
-            return CustomCommonComponent.planBudgetCard(
-              plan: plans[index],
-              selectedPlanId: selectedPlanId,
+            return GestureDetector(
+              onTap: () => _tabSelectNewPlan(context, plans[index].id),
+              child: CustomCommonComponent.planBudgetCard(
+                plan: plans[index],
+                selectedPlanId: selectedPlanId,
+              ),
             );
           },
         );

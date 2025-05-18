@@ -12,13 +12,13 @@ class PlanUsecase {
     return result;
   }
 
-  Future<List<PlanEntity>> getAllPlans() async {
-    final result = await planRepository.getAllPlans();
+  Future<PlanEntity?> getPlanByMonthId(String id) async {
+    final result = await planRepository.getPlanByMonthId(id);
     return result;
   }
 
-  Future<PlanEntity?> getPlanByMonthId(String id) async {
-    final result = await planRepository.getPlanByMonthId(id);
+  Future<List<PlanEntity>> getAllPlans() async {
+    final result = await planRepository.getAllPlans();
     return result;
   }
 }

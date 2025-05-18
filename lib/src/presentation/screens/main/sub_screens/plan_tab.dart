@@ -59,67 +59,65 @@ class _PlanTabState extends State<PlanTab> {
     final double screenHeight = MediaQuery.of(context).size.height;
     const String kMessageHeader = "Monthly Budget";
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 8,
-      children: [
-        SizedBox(height: screenHeight * 0.06), // 6% of screen
-        Text(
-          kMessageHeader,
-          style: Theme.of(context)
-              .textTheme
-              .displayMedium!
-              .copyWith(color: AppColors.background),
-        ),
+    return BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
+      builder: (context, state) {
+        final bool isLoading = state is CurrentPlanLoading;
 
-        GestureDetector(
-          onTap: () => CustomCommonSheet()
-              .open(context, widget: const PlanOverviewScreen()),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            decoration: BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
-                borderRadius: BorderRadius.circular(12)),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 8,
-              children: [
-                const Icon(
-                  Icons.calendar_month_outlined,
-                  color: AppColors.background,
-                ),
-                BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
-                  builder: (context, state) {
-                    String messageDateTime;
-                    if (state is CurrentPlanLoading) {
-                      messageDateTime = 'Plan Loading...';
-                    } else if (state is CurrentPlanEmpty) {
-                      messageDateTime = 'Not found Plan active this month';
-                    } else if (state is CurrentPlanLoaded) {
-                      messageDateTime =
-                          "${UtilsDateTime.monthYearFormat(state.plan.startDate)} - "
-                          "${UtilsDateTime.monthYearFormat(state.plan.endDate)}";
-                    } else {
-                      messageDateTime = "something went wrong.";
-                    }
+        final String messageDateTime = switch (state) {
+          CurrentPlanLoading _ => 'Plan Loading...',
+          CurrentPlanEmpty _ => 'Not found Plan active this month',
+          CurrentPlanLoaded _ =>
+            "${UtilsDateTime.monthYearFormat(state.plan.startDate)} - ${UtilsDateTime.monthYearFormat(state.plan.endDate)}",
+          _ => "Something went wrong.",
+        };
 
-                    return Skeletonizer(
-                      enabled: (state is CurrentPlanLoading),
-                      child: Text(
+        return Skeletonizer(
+          enabled: isLoading,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: screenHeight * 0.06),
+              Text(
+                kMessageHeader,
+                style: Theme.of(context)
+                    .textTheme
+                    .displayMedium!
+                    .copyWith(color: AppColors.background),
+              ),
+              const SizedBox(height: 8),
+              GestureDetector(
+                onTap: () => CustomCommonSheet()
+                    .open(context, widget: const PlanOverviewScreen()),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColorDark,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.calendar_month_outlined,
+                        color: AppColors.background,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
                         messageDateTime,
                         style: Theme.of(context)
                             .textTheme
                             .labelMedium!
                             .copyWith(color: AppColors.background),
                       ),
-                    );
-                  },
-                )
-              ],
-            ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -175,27 +173,28 @@ class _PlanTabState extends State<PlanTab> {
   }
 
   Widget _buildAmountRow(BuildContext context, {required int daysLeft}) {
+    String message;
+
+    if (daysLeft == 0) {
+      message = "Today";
+    } else if (daysLeft == 1) {
+      message = "Tomorrow";
+    } else if (daysLeft == -1) {
+      message = "Yesterday";
+    } else if (daysLeft > 1) {
+      message = "$daysLeft days left";
+    } else {
+      message = "${daysLeft.abs()} days ago";
+    }
+
     return FittedBox(
       fit: BoxFit.scaleDown,
-      child: Row(
-        spacing: 12,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            "$daysLeft ",
-            style: Theme.of(context)
-                .textTheme
-                .displayMedium!
-                .copyWith(color: AppColors.background),
-          ),
-          Text(
-            "Days left",
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(color: AppColors.background),
-          ),
-        ],
+      child: Text(
+        message,
+        style: Theme.of(context)
+            .textTheme
+            .displaySmall!
+            .copyWith(color: AppColors.background),
       ),
     );
   }
