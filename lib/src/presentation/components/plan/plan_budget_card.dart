@@ -56,7 +56,7 @@ class PlanBudgetCard extends StatelessWidget {
             children: [
               Text(plans.name, style: titleStyle),
               Text(
-                "${UtilsDateTime.monthYearFormat(DateTime.now())} - ${UtilsDateTime.monthYearFormat(DateTime.now())}",
+                "${UtilsDateTime.dayMonthYearFormat(DateTime.now())} - ${UtilsDateTime.dayMonthYearFormat(DateTime.now())}",
                 style: dateTextStyle,
               ),
               const SizedBox(height: 8),

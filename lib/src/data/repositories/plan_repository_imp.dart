@@ -50,14 +50,14 @@ class PlanRepositoryImp implements PlanRepository {
   }
 
   @override
-  Future<PlanEntity?> getPlanByYearMonth(int year, int month) async {
-    final response = await planDataSource.fetchPlanByYearMonth(year, month);
+  Future<void> deletePlan(String planId) async {
+    final response = await planDataSource.deletePlan(planId);
     return ResponseUtil.handleResponse(response);
   }
 
   @override
-  Future<void> deletePlan(String planId) async {
-    final response = await planDataSource.deletePlan(planId);
+  Future<PlanEntity?> getPlanByYearMonth(int year, int month) async {
+    final response = await planDataSource.fetchPlanByYearMonth(year, month);
     return ResponseUtil.handleResponse(response);
   }
 

@@ -1,4 +1,6 @@
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
@@ -70,7 +72,12 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
     CustomCommonDialog().confirmDeleteDialog(context,
         title: "Confirmation Delete",
         message: "Delte",
-        onConfirm: () => {Navigator.pop(context)});
+        onConfirm: () => {
+              context
+                  .read<CurrentPlanBloc>()
+                  .add(DeletePlanById(planId: widget.planDto!.id!)),
+              Navigator.pop(context)
+            });
   }
 
   void _onInputChanged() {

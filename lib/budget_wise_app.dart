@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
 import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/routes/app_screens.dart';

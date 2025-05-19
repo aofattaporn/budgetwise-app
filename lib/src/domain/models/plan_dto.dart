@@ -53,8 +53,8 @@ class PlanDto {
   Map<String, dynamic> toInsertJson() => {
         'user_id': userId,
         'name': name,
-        'start_date': startDate,
-        'end_date': endDate,
+        'start_date': startDate.toIso8601String(),
+        'end_date': endDate.toIso8601String(),
         'amount_limit': amountLimit,
         'is_archived': isArchived,
       };

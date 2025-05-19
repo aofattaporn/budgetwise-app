@@ -25,4 +25,8 @@ class PlanUsecase {
   Future<void> createPlan(PlanDto planDto) async {
     await planRepository.createPlan(planDto);
   }
+
+  Future<void> deletePlanById(String id) async {
+    await planRepository.deletePlan(id);
+  }
 }

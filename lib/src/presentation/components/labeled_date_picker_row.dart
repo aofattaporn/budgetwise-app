@@ -40,7 +40,8 @@ class LabeledDatePickerRow extends StatelessWidget {
                 lastDate: DateTime(2100),
               );
               if (pickedDate != null) {
-                final formattedDate = UtilsDateTime.monthYearFormat(pickedDate);
+                final formattedDate =
+                    UtilsDateTime.dayMonthYearFormat(pickedDate);
                 textEditingController.text = formattedDate;
               }
             },

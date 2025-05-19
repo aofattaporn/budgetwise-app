@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
-import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
@@ -65,9 +65,9 @@ class _PlanTabState extends State<PlanTab> {
 
         final String messageDateTime = switch (state) {
           CurrentPlanLoading _ => 'Plan Loading...',
-          CurrentPlanEmpty _ => 'Not found Plan active this month',
+          CurrentPlanEmpty _ => 'Click to start planng ! ',
           CurrentPlanLoaded _ =>
-            "${UtilsDateTime.monthYearFormat(state.plan.startDate)} - ${UtilsDateTime.monthYearFormat(state.plan.endDate)}",
+            "${UtilsDateTime.dayMonthYearFormat(state.plan.startDate)} - ${UtilsDateTime.dayMonthYearFormat(state.plan.endDate)}",
           _ => "Something went wrong.",
         };
 
@@ -127,26 +127,51 @@ class _PlanTabState extends State<PlanTab> {
         final isLoading = (state is CurrentPlanLoading);
         final isLoaded = (state is CurrentPlanLoaded);
         final isNotfound = (state is CurrentPlanEmpty);
-
         return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                context,
-                AppRoutes.planDetail,
-                arguments: (isLoaded) ? state.plan : null,
-              ),
+              onTap: () {
+                if (isLoaded) {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.planDetail,
+                    arguments: state.plan,
+                  );
+                }
+              },
               child: MultiSegmentCircularProgress(
                 isLoading: isLoading,
                 isNotfound: isNotfound,
                 plan: isLoaded ? state.plan : null,
               ),
             ),
-            const SizedBox(width: 24),
-            isLoaded
-                ? Expanded(child: _buildBudgetDetail(context, state.plan))
-                : Container()
+            const SizedBox(width: 12),
+
+            // Show budget detail if loaded
+            if (isLoaded)
+              Expanded(child: _buildBudgetDetail(context, state.plan)),
+
+            // Show placeholder or fallback when not found
+            if (isNotfound)
+              Expanded(
+                child: Center(
+                  child: Text(
+                    "Nothing here yet\nstart planning!",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: AppColors.background,
+                      shadows: [
+                        const Shadow(
+                          offset: Offset(0, 2),
+                          blurRadius: 15,
+                          color: AppColors.primaryDark, // soft shadow
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
           ],
         );
       },

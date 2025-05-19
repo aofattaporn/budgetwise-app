@@ -6,6 +6,8 @@ class CurrentPlanInitial extends CurrentPlanState {}
 
 class CurrentPlanLoading extends CurrentPlanState {}
 
+class CurrentPlanDeleted extends CurrentPlanState {}
+
 class CurrentPlanLoaded extends CurrentPlanState {
   final PlanDto plan;
   CurrentPlanLoaded(this.plan);

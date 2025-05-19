@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_text_style.dart';
@@ -52,7 +52,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
                 color: AppColors.background,
-                boxShadow: isShowMessage
+                boxShadow: isShowMessage && !isNotfound
                     ? const [
                         BoxShadow(
                           color: AppColors.primaryDark,
@@ -123,11 +123,25 @@ class MultiSegmentCircularProgress extends StatelessWidget {
   }
 
   Column _msgPlanNotFound() {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("This Plan Empty", style: AppTextStyles.labelGraySmall),
-        Text("404 Not found", style: AppTextStyles.labelGraySmall),
+        const Text(
+          "No active plan",
+          style: TextStyle(
+            color: Color.fromRGBO(60, 59, 59, 0.3),
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        Text(
+          UtilsDateTime.monthYearFormat(DateTime.now()).toString(),
+          style: const TextStyle(
+            color: Color.fromRGBO(60, 59, 59, 0.3),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }

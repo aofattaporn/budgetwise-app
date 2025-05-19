@@ -40,7 +40,7 @@ class _CustomCommonDatepickerState extends State<CustomCommonDatepicker> {
             ),
             onPressed: () => _showDatePicker(context),
             child: Text(
-              UtilsDateTime.monthYearFormat(widget.initialDate),
+              UtilsDateTime.dayMonthYearFormat(widget.initialDate),
               style: AppTextStyles.labelGraySmall,
             ),
           ),

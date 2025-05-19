@@ -30,5 +30,19 @@ class CurrentPlanBloc extends Bloc<CurrentPlanEvent, CurrentPlanState> {
         emit(CurrentPlanError("Failed to fetch current plan"));
       }
     });
+
+    on<DeletePlanById>((event, emit) async {
+      emit(CurrentPlanLoading());
+      try {
+        await useCase.deletePlanById(event.planId);
+        emit(CurrentPlanDeleted());
+        final plan = await useCase.getPlanByCurrentMonth();
+        emit(CurrentPlanLoaded(plan!));
+      } on NotfoundError {
+        emit(CurrentPlanEmpty());
+      } catch (e) {
+        emit(CurrentPlanError("Failed to fetch current plan"));
+      }
+    });
   }
 }

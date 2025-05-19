@@ -6,8 +6,13 @@ class UtilsDateTime {
     return formatter.format(date);
   }
 
-  static String monthYearFormat(DateTime date) {
+  static String dayMonthYearFormat(DateTime date) {
     final DateFormat formatter = DateFormat('dd MMM yyyy');
+    return formatter.format(date);
+  }
+
+  static String monthYearFormat(DateTime date) {
+    final DateFormat formatter = DateFormat('MMM yyyy');
     return formatter.format(date);
   }
 
