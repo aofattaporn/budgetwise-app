@@ -1,10 +1,8 @@
-import 'dart:ffi';
-
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
-import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
+import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
@@ -13,7 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class PlanDetailScreen extends StatefulWidget {
-  const PlanDetailScreen({super.key});
+  final PlanDto? planDto;
+
+  const PlanDetailScreen({super.key, this.planDto});
 
   @override
   State<PlanDetailScreen> createState() => _PlanDetailScreenState();
@@ -57,13 +57,20 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
             userId: "00000000-0000-0000-0000-000000000000",
             name: planNameController.text,
             amountLimit: double.parse(amountController.text),
-            startDate: parsedStart.toIso8601String(),
-            endDate: parsedEnd.toIso8601String(),
+            startDate: parsedStart,
+            endDate: parsedEnd,
             isArchived: false,
           ),
         ));
 
     Navigator.pop(context);
+  }
+
+  void _onClickDeletePlan(BuildContext context) {
+    CustomCommonDialog().confirmDeleteDialog(context,
+        title: "Confirmation Delete",
+        message: "Delte",
+        onConfirm: () => {Navigator.pop(context)});
   }
 
   void _onInputChanged() {
@@ -94,6 +101,8 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
   }
 
   Widget _buildHeader(BuildContext context, double screenHeight) {
+    bool isPlanNew = (widget.planDto == null) ? true : false;
+
     return Container(
       width: double.infinity,
       height: screenHeight * 0.4,
@@ -102,12 +111,35 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(
-              Icons.arrow_back_outlined,
-              color: AppColors.background,
-            ),
+          Row(
+            children: [
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(
+                  Icons.arrow_back_outlined,
+                  color: AppColors.background,
+                ),
+              ),
+              const Spacer(),
+              !isPlanNew
+                  ? IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(
+                        Icons.edit_square,
+                        color: AppColors.background,
+                      ),
+                    )
+                  : Container(),
+              !isPlanNew
+                  ? IconButton(
+                      onPressed: () => _onClickDeletePlan(context),
+                      icon: const Icon(
+                        Icons.delete_forever,
+                        color: AppColors.background,
+                      ),
+                    )
+                  : Container(),
+            ],
           ),
           const Center(
             child: MultiSegmentCircularProgress(

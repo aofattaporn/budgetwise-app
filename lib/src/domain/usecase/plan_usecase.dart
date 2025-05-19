@@ -1,19 +1,18 @@
 import 'package:budget_wise/src/data/repositories/plan_repository_imp.dart';
-import 'package:budget_wise/src/domain/entities/plan_entity.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 
 class PlanUsecase {
   final PlanRepository planRepository;
   PlanUsecase({required this.planRepository});
 
-  Future<PlanEntity?> getPlanByCurrentMonth() async {
+  Future<PlanDto?> getPlanByCurrentMonth() async {
     var currentTime = DateTime.now();
     final result =
         await planRepository.getPlanByIntervalTime(currentTime, currentTime);
     return result;
   }
 
-  Future<PlanEntity?> getPlanByMonthId(String id) async {
+  Future<PlanDto?> getPlanByMonthId(String id) async {
     final result = await planRepository.getPlanByMonthId(id);
     return result;
   }

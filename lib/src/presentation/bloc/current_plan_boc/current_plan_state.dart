@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 
 abstract class CurrentPlanState {}
 
@@ -7,7 +7,7 @@ class CurrentPlanInitial extends CurrentPlanState {}
 class CurrentPlanLoading extends CurrentPlanState {}
 
 class CurrentPlanLoaded extends CurrentPlanState {
-  final PlanEntity plan;
+  final PlanDto plan;
   CurrentPlanLoaded(this.plan);
 }
 

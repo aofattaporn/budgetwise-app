@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_text_style.dart';
 import 'package:budget_wise/src/presentation/widgets/progression/multi_segment_painter.dart';
@@ -15,7 +16,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
   final bool isLoading;
   final bool isNotfound;
 
-  final PlanEntity? plan;
+  final PlanDto? plan;
 
   const MultiSegmentCircularProgress({
     super.key,
@@ -73,7 +74,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     );
   }
 
-  Widget _buidContent(PlanEntity? plan) {
+  Widget _buidContent(PlanDto? plan) {
     if (plan != null) {
       return _msgSummaryPlan(plan);
     } else if (isNotfound) {
@@ -90,7 +91,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     }
   }
 
-  Text _percentage(PlanEntity? plan, BuildContext context) {
+  Text _percentage(PlanDto? plan, BuildContext context) {
     return Text("${NumberUtil.calPercentage(_totalProgress, 30000)}%",
         style: Theme.of(context)
             .textTheme
@@ -98,7 +99,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
             .copyWith(color: AppColors.backgroundDark));
   }
 
-  Column _msgSummaryPlan(PlanEntity plan) {
+  Column _msgSummaryPlan(PlanDto plan) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

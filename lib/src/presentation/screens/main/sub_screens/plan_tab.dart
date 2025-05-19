@@ -1,5 +1,5 @@
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
-import 'package:budget_wise/src/domain/entities/plan_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/active_plan_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
@@ -132,7 +132,11 @@ class _PlanTabState extends State<PlanTab> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, AppRoutes.planDetail),
+              onTap: () => Navigator.pushNamed(
+                context,
+                AppRoutes.planDetail,
+                arguments: (isLoaded) ? state.plan : null,
+              ),
               child: MultiSegmentCircularProgress(
                 isLoading: isLoading,
                 isNotfound: isNotfound,
@@ -149,7 +153,7 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 
-  Widget _buildBudgetDetail(BuildContext context, PlanEntity plan) {
+  Widget _buildBudgetDetail(BuildContext context, PlanDto plan) {
     const String kMessageHeader = "budget usage";
     final daysLeft = plan.endDate.difference(DateTime.now()).inDays;
 

@@ -4,8 +4,8 @@ class PlanDto {
   final String? id;
   final String userId;
   final String name;
-  final String startDate;
-  final String endDate;
+  final DateTime startDate;
+  final DateTime endDate;
   final double amountLimit;
   final bool isArchived;
   final String? createdAt;
@@ -65,8 +65,8 @@ class PlanDto {
       id: id!,
       userId: userId,
       name: name,
-      startDate: DateTime.parse(startDate),
-      endDate: DateTime.parse(endDate),
+      startDate: startDate,
+      endDate: endDate,
       amountLimit: amountLimit,
       isArchived: isArchived,
       createdAt: DateTime.parse(createdAt!),
@@ -80,8 +80,8 @@ class PlanDto {
       id: entity.id,
       userId: entity.userId,
       name: entity.name,
-      startDate: entity.startDate.toIso8601String(),
-      endDate: entity.endDate.toIso8601String(),
+      startDate: entity.startDate,
+      endDate: entity.endDate,
       amountLimit: entity.amountLimit,
       isArchived: entity.isArchived,
       createdAt: entity.createdAt.toIso8601String(),
