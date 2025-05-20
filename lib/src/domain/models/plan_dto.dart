@@ -59,6 +59,15 @@ class PlanDto {
         'is_archived': isArchived,
       };
 
+  Map<String, dynamic> toUpdateJson() => {
+        'user_id': userId,
+        'name': name,
+        'start_date': startDate.toIso8601String(),
+        'end_date': endDate.toIso8601String(),
+        'amount_limit': amountLimit,
+        'is_archived': isArchived,
+      };
+
   /// Converts to domain entity
   PlanEntity toEntity() {
     return PlanEntity(

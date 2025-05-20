@@ -9,7 +9,7 @@ abstract class PlanRepository {
   Future<PlanDto?> getPlanByMonthId(String id);
   Future<List<PlanDto>> getAllPlans();
   Future<void> createPlan(PlanDto plan);
-  Future<void> updatePlan(PlanDto plan, String id);
+  Future<void> updatePlan(PlanDto plan);
   Future<void> deletePlan(String planId);
 }
 
@@ -62,7 +62,8 @@ class PlanRepositoryImp implements PlanRepository {
   }
 
   @override
-  Future<void> updatePlan(PlanDto plan, String id) {
-    throw UnimplementedError();
+  Future<void> updatePlan(PlanDto plan) async {
+    final response = await planDataSource.updatePlan(plan);
+    return ResponseUtil.handleResponse(response);
   }
 }

@@ -6,6 +6,5 @@ class FetchAllMonthPlanEvent extends PlanSelectorEvent {}
 
 class InsertNewPlan extends PlanSelectorEvent {
   final PlanDto planDto;
-
   InsertNewPlan({required this.planDto});
 }

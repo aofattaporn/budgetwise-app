@@ -15,12 +15,11 @@ abstract class PlanDataSource {
   Future<CommonResponse<PlanEntity?>> fetchPlanById(String id);
   Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
       DateTime start, DateTime end);
-  Future<CommonResponse<void>> createPlan(PlanDto dto);
-  Future<CommonResponse<void>> deletePlan(String id);
-
   Future<CommonResponse<PlanEntity?>> fetchPlanByYearMonth(int year, int month);
   Future<CommonResponse<List<PlanEntity>>> fetchAllPlans();
-  Future<CommonResponse<void>> updatePlan(String id, PlanDto dto);
+  Future<CommonResponse<void>> createPlan(PlanDto dto);
+  Future<CommonResponse<void>> deletePlan(String id);
+  Future<CommonResponse<void>> updatePlan(PlanDto dto);
 }
 
 class PlanRemoteDataSourceImpl implements PlanDataSource {
@@ -144,9 +143,13 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   }
 
   @override
-  Future<CommonResponse<void>> updatePlan(String id, PlanDto dto) async {
+  Future<CommonResponse<void>> updatePlan(PlanDto planDto) async {
     try {
-      await client.from('plans').update({}).eq('id', id);
+      print(planDto.id);
+      await client
+          .from('plans')
+          .update(planDto.toUpdateJson())
+          .eq('id', planDto.id!);
       return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, s) {
       _logger.e("updatePlan", error: e, stackTrace: s);

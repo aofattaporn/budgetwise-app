@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
@@ -8,6 +9,7 @@ import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
+import 'package:budget_wise/src/presentation/utils/user_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -28,10 +30,23 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
   final TextEditingController endDateController = TextEditingController();
 
   bool isButtonEnabled = false;
+  late bool isNew;
 
   @override
   void initState() {
     super.initState();
+
+    isNew = widget.planDto == null;
+    if (!isNew) {
+      final PlanDto existingPlane = widget.planDto!;
+      planNameController.text = existingPlane.name;
+      amountController.text = existingPlane.amountLimit.toString();
+      startDateController.text =
+          UtilsDateTime.dayMonthYearFormat(existingPlane.startDate);
+      endDateController.text =
+          UtilsDateTime.dayMonthYearFormat(existingPlane.endDate);
+    }
+
     // Add listeners
     planNameController.addListener(_onInputChanged);
     amountController.addListener(_onInputChanged);
@@ -56,7 +71,28 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
 
     context.read<PlanSelectorBloc>().add(InsertNewPlan(
           planDto: PlanDto(
-            userId: "00000000-0000-0000-0000-000000000000",
+            userId: UserUtil.aofUid(),
+            name: planNameController.text,
+            amountLimit: double.parse(amountController.text),
+            startDate: parsedStart,
+            endDate: parsedEnd,
+            isArchived: false,
+          ),
+        ));
+
+    Navigator.pop(context);
+  }
+
+  void _onClickEditPlan(BuildContext context) {
+    final formatter = DateFormat('dd MMM yyyy');
+
+    final parsedStart = formatter.parse(startDateController.text);
+    final parsedEnd = formatter.parse(endDateController.text);
+
+    context.read<CurrentPlanBloc>().add(UpdateNewPlan(
+          planDto: PlanDto(
+            userId: UserUtil.aofUid(),
+            id: widget.planDto!.id, // more id
             name: planNameController.text,
             amountLimit: double.parse(amountController.text),
             startDate: parsedStart,
@@ -148,10 +184,10 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
                   : Container(),
             ],
           ),
-          const Center(
+          Center(
             child: MultiSegmentCircularProgress(
               isNotfound: true,
-              plan: null,
+              plan: widget.planDto,
             ),
           ),
           const SizedBox(height: 16),
@@ -188,11 +224,17 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
             ),
             const SizedBox(height: 24),
             const Spacer(),
-            CustomCommonWidget.commonElevatedBtn(
-              isDisable: !isButtonEnabled,
-              label: "Create New",
-              onPressed: () => _onClickCreatePlan(context),
-            ),
+            isNew
+                ? CustomCommonWidget.commonElevatedBtn(
+                    isDisable: !isButtonEnabled,
+                    label: "Create New",
+                    onPressed: () => _onClickCreatePlan(context),
+                  )
+                : CustomCommonWidget.commonElevatedBtn(
+                    isDisable: !isButtonEnabled,
+                    label: "Update Now",
+                    onPressed: () => _onClickEditPlan(context),
+                  ),
           ],
         ),
       ),
