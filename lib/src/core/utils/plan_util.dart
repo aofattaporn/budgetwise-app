@@ -9,17 +9,17 @@ class PlanUtil {
     return [
       TransactionsSegment(
         segmentName: BusinessConstant.tranfersType,
-        usage: 44000,
+        usage: 0,
         color: AppColors.primaryDark,
       ),
       TransactionsSegment(
         segmentName: BusinessConstant.savingType,
-        usage: 44000,
+        usage: 0,
         color: AppColors.primary,
       ),
       TransactionsSegment(
         segmentName: BusinessConstant.unplannedType,
-        usage: 44000,
+        usage: 0,
         color: AppColors.primarySubtle,
       ),
     ];

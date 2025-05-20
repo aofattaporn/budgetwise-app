@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
+import 'package:budget_wise/src/domain/models/transaction_segment.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_text_style.dart';
 import 'package:budget_wise/src/presentation/widgets/progression/multi_segment_painter.dart';
@@ -28,18 +29,18 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     this.plan,
   });
 
-  List<Color> get _segmentColors =>
-      PlanUtil.generatePlannTransactionSegment(plan)
-          .map((segment) => segment.color)
-          .toList();
+  List<TransactionsSegment> get _segments =>
+      PlanUtil.generatePlannTransactionSegment(plan);
 
-  List<double> get _segmentUsages =>
-      PlanUtil.generatePlannTransactionSegment(plan)
-          .map((segment) => (segment.usage * 100.0) / (40000 ?? 1))
-          .toList();
+  List<Color> get _segmentColors => _segments.map((e) => e.color).toList();
 
-  double get _totalProgress => PlanUtil.generatePlannTransactionSegment(plan)
-      .fold(0, (sum, value) => sum + value.usage);
+  List<double> get _segmentUsages => _segments
+      .map((e) =>
+          (e.usage * 100.0) /
+          (plan?.amountLimit == 0 ? 1 : plan?.amountLimit ?? 1))
+      .toList();
+
+  double get _totalProgress => _segments.fold(0.0, (sum, e) => sum + e.usage);
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +69,17 @@ class MultiSegmentCircularProgress extends StatelessWidget {
                 painter:
                     MultiSegmentPainter(_segmentUsages, _segmentColors, 10, 0)),
           ),
-          isShowMessage ? _buidContent(plan) : _percentage(plan, context)
+          isShowMessage
+              ? _buidContent(plan, context)
+              : _percentage(plan, context)
         ],
       ),
     );
   }
 
-  Widget _buidContent(PlanDto? plan) {
+  Widget _buidContent(PlanDto? plan, BuildContext contex) {
     if (plan != null) {
-      return _msgSummaryPlan(plan);
+      return _msgSummaryPlan(plan, contex);
     } else if (isNotfound) {
       return _msgPlanNotFound();
     } else if (isLoading) {
@@ -99,10 +102,16 @@ class MultiSegmentCircularProgress extends StatelessWidget {
             .copyWith(color: AppColors.backgroundDark));
   }
 
-  Column _msgSummaryPlan(PlanDto plan) {
+  Column _msgSummaryPlan(PlanDto plan, BuildContext contex) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Text(plan.name,
+            style: Theme.of(contex)
+                .textTheme
+                .labelMedium!
+                .copyWith(color: AppColors.primaryDark)),
+        const SizedBox(height: 8),
         AmountCompare(usage: _totalProgress, limitAmount: plan.amountLimit),
         const SizedBox(height: 8),
         Text("${((_totalProgress * 100) / plan.amountLimit).round()}%",
