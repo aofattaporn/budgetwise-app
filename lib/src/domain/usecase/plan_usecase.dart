@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/data/repositories/plan_repository_imp.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
+import 'package:budget_wise/src/domain/models/plan_info_summary.dart';
 
 class PlanUsecase {
   final PlanRepository planRepository;
@@ -32,5 +33,10 @@ class PlanUsecase {
 
   Future<void> updatePlan(PlanDto planDto) async {
     await planRepository.updatePlan(planDto);
+  }
+
+  Future<PlanInfoSummary> getPlanAndPlanItemInfo(String planId) async {
+    final result = await planRepository.fetchPlanAndPlanItemInfo(planId);
+    return result;
   }
 }

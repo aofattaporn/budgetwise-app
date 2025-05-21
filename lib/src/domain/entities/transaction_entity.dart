@@ -1,6 +1,7 @@
 class TransactionEntity {
   final String id;
   final String userId;
+  final String? planId;
   final String? planItemId;
   final String accountId;
   final double amount;
@@ -13,6 +14,7 @@ class TransactionEntity {
   TransactionEntity({
     required this.id,
     required this.userId,
+    required this.planId,
     this.planItemId,
     required this.accountId,
     required this.amount,
@@ -28,6 +30,7 @@ class TransactionEntity {
         id: json['id'],
         userId: json['user_id'],
         planItemId: json['plan_item_id'],
+        planId: json['plan_id'],
         accountId: json['account_id'],
         amount: (json['amount'] as num).toDouble(),
         type: json['type'],

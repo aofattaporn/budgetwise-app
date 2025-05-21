@@ -6,6 +6,8 @@ import 'package:budget_wise/src/core/constant/response_constant.dart';
 import 'package:budget_wise/src/core/utils/error_util.dart';
 import 'package:budget_wise/src/core/utils/response_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
+import 'package:budget_wise/src/domain/models/plan_info_dto.dart';
+import 'package:budget_wise/src/presentation/utils/user_util.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -17,16 +19,19 @@ abstract class PlanDataSource {
       DateTime start, DateTime end);
   Future<CommonResponse<PlanEntity?>> fetchPlanByYearMonth(int year, int month);
   Future<CommonResponse<List<PlanEntity>>> fetchAllPlans();
+  Future<CommonResponse<PlanInfoDto>> fetchPlanAndPlanItemInfo();
+
   Future<CommonResponse<void>> createPlan(PlanDto dto);
   Future<CommonResponse<void>> deletePlan(String id);
   Future<CommonResponse<void>> updatePlan(PlanDto dto);
 }
 
 class PlanRemoteDataSourceImpl implements PlanDataSource {
-  final SupabaseClient client;
-  final Logger _logger = LoggerUtil.datasourceLogger("PlanRemote");
+  static final Logger _logger = LoggerUtil.normalLogger("PlanRemote");
 
   PlanRemoteDataSourceImpl(this.client);
+
+  final SupabaseClient client;
 
   @override
   Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
@@ -135,6 +140,7 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
       final response = await client.from('plans').select();
       final plans =
           response.map<PlanEntity>((e) => PlanEntity.fromJson(e)).toList();
+
       return ResponseUtil.commonResponse(ResponseConstant.code1000, plans);
     } catch (e, s) {
       _logger.e("fetchAllPlans", error: e, stackTrace: s);
@@ -145,7 +151,6 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   @override
   Future<CommonResponse<void>> updatePlan(PlanDto planDto) async {
     try {
-      print(planDto.id);
       await client
           .from('plans')
           .update(planDto.toUpdateJson())
@@ -153,6 +158,35 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
       return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, s) {
       _logger.e("updatePlan", error: e, stackTrace: s);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  @override
+  Future<CommonResponse<PlanInfoDto>> fetchPlanAndPlanItemInfo() async {
+    try {
+      final start = DateTime.now();
+      final end = DateTime.now();
+
+      final json = await client
+          .from('plans')
+          .select('*, plan_items(*)')
+          .eq('user_id', UserUtil.aofUid())
+          .lte('start_date', start)
+          .gte('end_date', end)
+          .maybeSingle();
+
+      if (json == null) {
+        return ResponseUtil.commonError(
+            code: ResponseConstant.code1799,
+            desc:
+                "No active plan found in range [${UtilsDateTime.dateTimeReadableFormat(start)} - ${UtilsDateTime.dateTimeReadableFormat(start)}}]");
+      }
+
+      return ResponseUtil.commonResponse(
+          ResponseConstant.code1000, PlanInfoDto.fromJson(json));
+    } catch (e, s) {
+      _logger.e("fetchAllPlans", error: e, stackTrace: s);
       throw ErrorUtil.mapTechnicalError();
     }
   }
