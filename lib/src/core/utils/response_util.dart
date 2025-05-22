@@ -46,7 +46,7 @@ class ResponseUtil {
 
   static CommonResponse<T> commonError<T>({
     required int code,
-    T? data,
+    required T data,
     String? desc,
   }) {
     switch (code) {
@@ -55,28 +55,28 @@ class ResponseUtil {
           code: ResponseConstant.code1999,
           head: 'Technical Error',
           desc: desc ?? 'An unexpected technical issue occurred.',
-          data: data as T,
+          data: data,
         );
       case ResponseConstant.code1899:
         return CommonResponse<T>(
           code: ResponseConstant.code1899,
           head: 'Business Error',
           desc: desc ?? 'A business rule validation failed.',
-          data: data as T,
+          data: data,
         );
       case ResponseConstant.code1799:
         return CommonResponse<T>(
           code: ResponseConstant.code1799,
           head: 'Not Found Data',
           desc: desc ?? 'A not founde validation failed.',
-          data: data as T,
+          data: data,
         );
       default:
         return CommonResponse<T>(
           code: code,
           head: 'Unknown Error',
           desc: desc ?? 'Unhandled response code: $code',
-          data: data as T,
+          data: data,
         );
     }
   }
@@ -84,6 +84,7 @@ class ResponseUtil {
   static T handleResponse<T>(CommonResponse response) {
     //  not trown just map data sync on bloc
     if (response.code == ResponseConstant.code1000) {
+      _logger.d('✅ Success - returning data');
       return response.data;
     }
     //  not trown just map data sync on bloc

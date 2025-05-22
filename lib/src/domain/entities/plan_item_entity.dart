@@ -4,7 +4,7 @@ class PlanItemEntity {
   final String name;
   final double amountLimit;
   final String type;
-  final String? iconName;
+  final String? iconName; // <- เพิ่มตรงนี้
   final DateTime createdAt;
   final DateTime updatedAt;
 
