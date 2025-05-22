@@ -3,6 +3,8 @@ import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/saving_slider.dart';
@@ -28,29 +30,41 @@ class _PlanTabState extends State<PlanTab> {
     context.read<CurrentPlanBloc>().add(FetchCurrentPlanEvent());
   }
 
+  void _onCurrentPlanStateChanged(
+      BuildContext context, CurrentPlanState state) {
+    if (state is CurrentPlanLoaded) {
+      final planId = state.plan.id;
+      context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: screenHeight * 0.8,
-            padding: const EdgeInsets.all(16),
-            decoration: _buildBgBoxGradient(),
-            child: Column(
-              spacing: 36,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildBudgetHeader(context),
-                _buildBudgetOverview(context),
-                _buildPlanItemSection(context),
-              ],
+    return BlocListener<CurrentPlanBloc, CurrentPlanState>(
+      listenWhen: (previous, current) => current is CurrentPlanLoaded,
+      listener: _onCurrentPlanStateChanged,
+      child: Scaffold(
+        body: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: screenHeight * 0.8, //  80% of bg
+              padding: const EdgeInsets.all(16),
+              decoration: _buildBgBoxGradient(),
+              child: Column(
+                spacing: 36,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildBudgetHeader(context),
+                  _buildBudgetOverview(context),
+                  _buildPlanItemSection(context),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

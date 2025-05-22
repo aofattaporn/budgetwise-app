@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 
 abstract class PlanItemState {}
 
@@ -7,7 +7,7 @@ class PlanItemInitial extends PlanItemState {}
 class PlanItemLoading extends PlanItemState {}
 
 class PlanItemLoaded extends PlanItemState {
-  final List<PlanItemEntity> items;
+  final List<PlanItemDto> items;
   PlanItemLoaded(this.items);
 }
 
