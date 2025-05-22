@@ -1,5 +1,6 @@
 import 'package:budget_wise/src/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
@@ -250,77 +251,89 @@ class _PlanTabState extends State<PlanTab> {
 
   Widget _buildPlanItemSection(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<PlanItemBloc, PlanItemState>(
-        builder: (context, state) {
-          if (state is PlanItemLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is PlanItemLoaded) {
-            final items = state.items;
-            if (items.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "No Plan Items Yet",
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                            color: AppColors.gray400.withAlpha(180),
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "Start by adding plan items to track your monthly budget.",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.gray400.withAlpha(180),
-                          ),
-                    ),
-                  ],
-                ),
-              );
-            }
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Plan item List",
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall!
+                .copyWith(color: AppColors.background),
+          ),
+          const SizedBox(height: 12),
+          Expanded(
+            child: BlocBuilder<PlanItemBloc, PlanItemState>(
+              builder: (context, state) {
+                if (state is PlanItemLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-            return Column(
-              spacing: 14,
-              children: [
-                Row(
-                  children: [
-                    Text("Plan item List",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(color: AppColors.background)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: items
-                                .map((item) => const PlanItemCard())
-                                .toList(),
-                          ),
-                        ),
-                      ),
+                if (state is PlanItemError) {
+                  return Center(
+                    child: Text(
+                      "Failed to load items: ${state.message}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: AppColors.error),
                     ),
-                  ],
-                ),
-              ],
-            );
-          } else if (state is PlanItemError) {
-            return Center(
-                child: Text("Failed to load items: ${state.message}"));
-          }
+                  );
+                }
 
-          return const SizedBox();
-        },
+                if (state is PlanItemLoaded) {
+                  final items = state.items;
+                  if (items.isEmpty) {
+                    return _buildEmptyPlanItemMessage(context);
+                  }
+
+                  return _buildPlanItemCarousel(items);
+                }
+
+                return const SizedBox(); // fallback for initial/unknown state
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyPlanItemMessage(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "No Plan Items Yet",
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                  color: AppColors.gray400.withAlpha(180),
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "Start by adding plan items to track your monthly budget.",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppColors.gray400.withAlpha(180),
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPlanItemCarousel(List<PlanItemDto> items) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: items
+            .map((item) => const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: PlanItemCard(),
+                ))
+            .toList(),
       ),
     );
   }
