@@ -1,48 +1,42 @@
-// import 'package:budget_wise/src/core/utils/response_util.dart';
-// import 'package:budget_wise/src/data/datasources/plan_item_datasource.dart';
-// import 'package:budget_wise/src/domain/entities/plan_item_temp_entity.dart';
-// import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
+import 'package:budget_wise/src/core/utils/response_util.dart';
+import 'package:budget_wise/src/data/datasources/plan_item_datasource.dart';
+import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 
-// abstract class PlanItemRepository {
-//   Future<List<PlanItemEntity>> fetchPlanById(int planId);
-//   Future<List<PlanItemEntity>> createNewPlanItem(PlanItemDto planItemDto);
-//   Future<List<PlanItemEntity>> deletePlanItemById(
-//       String planItemId, int planId);
-//   Future<List<PlanItemEntity>> updatePlanItemById(
-//       String planItemId, PlanItemDto planDto);
-// }
+abstract class PlanItemRepository {
+  Future<List<PlanItemDto>> getItemsByPlanId(String planId);
+  Future<void> createPlanItem(PlanItemDto dto);
+  Future<void> updatePlanItem(PlanItemDto dto);
+  Future<void> deletePlanItem(String itemId);
+}
 
-// class PlanRepositoryItemImp implements PlanItemRepository {
-//   final PlanItemDataSource planItemDataSource;
+class PlanItemRepositoryImp implements PlanItemRepository {
+  final PlanItemDataSource dataSource;
 
-//   PlanRepositoryItemImp({required this.planItemDataSource});
+  PlanItemRepositoryImp({required this.dataSource});
 
-//   @override
-//   Future<List<PlanItemEntity>> fetchPlanById(int planId) async {
-//     final response = await planItemDataSource.fetchPlanById(planId);
-//     return ResponseUtil.handleResponse(response);
-//   }
+  @override
+  Future<List<PlanItemDto>> getItemsByPlanId(String planId) async {
+    final response = await dataSource.fetchItemsByPlanId(planId);
+    final List<PlanItemEntity> rawList = ResponseUtil.handleResponse(response);
+    return rawList.map(PlanItemDto.fromEntity).toList();
+  }
 
-//   @override
-//   Future<List<PlanItemEntity>> createNewPlanItem(
-//       PlanItemDto planItemDto) async {
-//     final response = await planItemDataSource.createNewPlanItem(planItemDto);
-//     return ResponseUtil.handleResponse(response);
-//   }
+  @override
+  Future<void> createPlanItem(PlanItemDto dto) async {
+    final response = await dataSource.createPlanItem(dto);
+    ResponseUtil.handleResponse(response); // handle errors, returns void
+  }
 
-//   @override
-//   Future<List<PlanItemEntity>> deletePlanItemById(
-//       String planItemId, int planId) async {
-//     final response =
-//         await planItemDataSource.deletePlanItemById(planItemId, planId);
-//     return ResponseUtil.handleResponse(response);
-//   }
+  @override
+  Future<void> updatePlanItem(PlanItemDto dto) async {
+    final response = await dataSource.updatePlanItem(dto);
+    ResponseUtil.handleResponse(response); // handle errors, returns void
+  }
 
-//   @override
-//   Future<List<PlanItemEntity>> updatePlanItemById(
-//       String planItemId, PlanItemDto planDto) async {
-//     final response =
-//         await planItemDataSource.updatePlanItemById(planItemId, planDto);
-//     return ResponseUtil.handleResponse(response);
-//   }
-// }
+  @override
+  Future<void> deletePlanItem(String itemId) async {
+    final response = await dataSource.deletePlanItem(itemId);
+    ResponseUtil.handleResponse(response); // handle errors, returns void
+  }
+}
