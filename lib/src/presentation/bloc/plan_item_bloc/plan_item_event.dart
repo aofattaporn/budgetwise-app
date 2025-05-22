@@ -7,6 +7,10 @@ class FetchPlanItems extends PlanItemEvent {
   FetchPlanItems(this.planId);
 }
 
+class ResetPlanItemEmpty extends PlanItemEvent {
+  ResetPlanItemEmpty();
+}
+
 class CreatePlanItem extends PlanItemEvent {
   final PlanItemEntity item;
   CreatePlanItem(this.item);

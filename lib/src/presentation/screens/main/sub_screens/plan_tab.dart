@@ -5,6 +5,7 @@ import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/saving_slider.dart';
@@ -12,6 +13,7 @@ import 'package:budget_wise/src/presentation/components/segmented_circular_progr
 import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/screens/plans/plan_overview_screen.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
+import 'package:budget_wise/src/presentation/theme/system/app_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -36,6 +38,10 @@ class _PlanTabState extends State<PlanTab> {
       final planId = state.plan.id;
       context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
     }
+
+    if (state is CurrentPlanDeleted) {
+      context.read<PlanItemBloc>().add(ResetPlanItemEmpty());
+    }
   }
 
   @override
@@ -52,7 +58,7 @@ class _PlanTabState extends State<PlanTab> {
               width: double.infinity,
               height: screenHeight * 0.8, //  80% of bg
               padding: const EdgeInsets.all(16),
-              decoration: _buildBgBoxGradient(),
+              decoration: AppDecorations.gradientBottomRounded,
               child: Column(
                 spacing: 36,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,47 +249,78 @@ class _PlanTabState extends State<PlanTab> {
   }
 
   Widget _buildPlanItemSection(BuildContext context) {
-    final double cardHeight = MediaQuery.of(context).size.height * 0.25;
-
     return Expanded(
-      child: Column(
-        spacing: 14,
-        children: [
-          Row(
-            children: [
-              Text("Plan item List",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(color: AppColors.background))
-            ],
-          ),
-          SizedBox(
-            height: cardHeight * 0.9,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(5, (index) => const PlanItemCard()),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+      child: BlocBuilder<PlanItemBloc, PlanItemState>(
+        builder: (context, state) {
+          if (state is PlanItemLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is PlanItemLoaded) {
+            final items = state.items;
+            if (items.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "No Plan Items Yet",
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                            color: AppColors.gray400.withAlpha(180),
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Start by adding plan items to track your monthly budget.",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.gray400.withAlpha(180),
+                          ),
+                    ),
+                  ],
+                ),
+              );
+            }
 
-  BoxDecoration _buildBgBoxGradient() {
-    return const BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomCenter,
-        colors: [
-          AppColors.primary,
-          AppColors.primaryDark,
-        ],
-      ),
-      borderRadius: BorderRadius.vertical(
-        bottom: Radius.circular(24),
+            return Column(
+              spacing: 14,
+              children: [
+                Row(
+                  children: [
+                    Text("Plan item List",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: AppColors.background)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: items
+                                .map((item) => const PlanItemCard())
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          } else if (state is PlanItemError) {
+            return Center(
+                child: Text("Failed to load items: ${state.message}"));
+          }
+
+          return const SizedBox();
+        },
       ),
     );
   }

@@ -11,6 +11,11 @@ class PlanItemLoaded extends PlanItemState {
   PlanItemLoaded(this.items);
 }
 
+class PlanItemResetAlreadyEmpty extends PlanItemState {
+  final List<PlanItemDto> items;
+  PlanItemResetAlreadyEmpty(this.items);
+}
+
 class PlanItemError extends PlanItemState {
   final String message;
   PlanItemError(this.message);

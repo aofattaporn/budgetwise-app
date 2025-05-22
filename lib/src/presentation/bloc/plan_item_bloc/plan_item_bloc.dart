@@ -16,5 +16,9 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
         emit(PlanItemError("Failed to load plan items"));
       }
     });
+
+    on<ResetPlanItemEmpty>((event, emit) async {
+      emit(PlanItemResetAlreadyEmpty([]));
+    });
   }
 }
