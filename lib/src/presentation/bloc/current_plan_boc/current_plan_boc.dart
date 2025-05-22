@@ -7,8 +7,7 @@ import 'current_plan_state.dart';
 class CurrentPlanBloc extends Bloc<CurrentPlanEvent, CurrentPlanState> {
   final PlanUsecase useCase;
   CurrentPlanBloc(this.useCase) : super(CurrentPlanInitial()) {
-    on<FetchCurrentPlanEvent>((event, emit) async {
-      emit(CurrentPlanLoading());
+    Future<void> emitCurrentPlan(Emitter<CurrentPlanState> emit) async {
       try {
         final plan = await useCase.getPlanByCurrentMonth();
         emit(CurrentPlanLoaded(plan!));
@@ -17,6 +16,11 @@ class CurrentPlanBloc extends Bloc<CurrentPlanEvent, CurrentPlanState> {
       } catch (e) {
         emit(CurrentPlanError("Failed to fetch current plan"));
       }
+    }
+
+    on<FetchCurrentPlanEvent>((event, emit) async {
+      emit(CurrentPlanLoading());
+      await emitCurrentPlan(emit);
     });
 
     on<FetchPlanByIdEvent>((event, emit) async {
@@ -36,12 +40,9 @@ class CurrentPlanBloc extends Bloc<CurrentPlanEvent, CurrentPlanState> {
       try {
         await useCase.deletePlanById(event.planId);
         emit(CurrentPlanDeleted());
-        final plan = await useCase.getPlanByCurrentMonth();
-        emit(CurrentPlanLoaded(plan!));
-      } on NotfoundError {
-        emit(CurrentPlanEmpty());
+        await emitCurrentPlan(emit);
       } catch (e) {
-        emit(CurrentPlanError("Failed to fetch current plan"));
+        emit(CurrentPlanError("Failed to delete plan"));
       }
     });
 
@@ -50,8 +51,7 @@ class CurrentPlanBloc extends Bloc<CurrentPlanEvent, CurrentPlanState> {
       try {
         await useCase.updatePlan(event.planDto);
         emit(CurrentPlanDeleted());
-        final plan = await useCase.getPlanByCurrentMonth();
-        emit(CurrentPlanLoaded(plan!));
+        await emitCurrentPlan(emit);
       } on NotfoundError {
         emit(CurrentPlanEmpty());
       } catch (e) {

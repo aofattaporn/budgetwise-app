@@ -145,7 +145,6 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   @override
   Future<CommonResponse<void>> updatePlan(PlanDto planDto) async {
     try {
-      print(planDto.id);
       await client
           .from('plans')
           .update(planDto.toUpdateJson())

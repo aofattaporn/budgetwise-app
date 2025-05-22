@@ -84,7 +84,6 @@ class ResponseUtil {
   static T handleResponse<T>(CommonResponse response) {
     //  not trown just map data sync on bloc
     if (response.code == ResponseConstant.code1000) {
-      _logger.d('✅ Success - returning data');
       return response.data;
     }
     //  not trown just map data sync on bloc
