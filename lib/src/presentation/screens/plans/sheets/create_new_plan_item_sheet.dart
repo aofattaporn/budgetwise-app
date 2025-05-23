@@ -1,0 +1,130 @@
+import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
+import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
+import 'package:budget_wise/src/presentation/widgets/common_widget.dart';
+import 'package:flutter/material.dart';
+
+class CreateNewPlanItemSheet extends StatefulWidget {
+  const CreateNewPlanItemSheet({super.key});
+
+  @override
+  State<CreateNewPlanItemSheet> createState() => _CreateNewPlanItemSheetState();
+}
+
+class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
+  final TextEditingController planNameController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
+
+  String selectedType = 'expense';
+  String? selectedIcon;
+
+  final List<String> types = ['expense', 'saving'];
+  final List<String> iconOptions = ['🛒', '💰', '🍔', '🚗', '🏠'];
+
+  bool get isFormValid =>
+      planNameController.text.isNotEmpty &&
+      amountController.text.isNotEmpty &&
+      selectedIcon != null;
+
+  void _onCreatePressed() {
+    if (!isFormValid) return;
+
+    // TODO: trigger Bloc add(CreatePlanItem(...))
+    print('Name: ${planNameController.text}');
+    print('Amount: ${amountController.text}');
+    print('Type: $selectedType');
+    print('Icon: $selectedIcon');
+
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 12),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: types.map((type) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Row(
+                        children: [
+                          ChoiceChip(
+                            label: Text(
+                              type[0].toUpperCase() + type.substring(1),
+                              style: TextStyle(
+                                color: selectedType == type
+                                    ? Colors.white
+                                    : Colors.black, // Text color
+                              ),
+                            ),
+                            selected: selectedType == type,
+                            onSelected: (_) =>
+                                setState(() => selectedType = type),
+                            selectedColor: Theme.of(context)
+                                .primaryColor, // Background when selected
+                            backgroundColor: Colors
+                                .grey.shade200, // Background when unselected
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+                CommonWidget.boxIcon(iconData: Icons.delete)
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Icon Picker
+            Wrap(
+              spacing: 12,
+              children: iconOptions.map((icon) {
+                final isSelected = selectedIcon == icon;
+                return GestureDetector(
+                  onTap: () => setState(() => selectedIcon = icon),
+                  child: CircleAvatar(
+                    radius: 24,
+                    backgroundColor: isSelected
+                        ? Theme.of(context).primaryColorDark
+                        : Colors.grey.shade200,
+                    child: Text(icon, style: const TextStyle(fontSize: 20)),
+                  ),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 12),
+
+            CustomCommonComponent.labelledTextFieldRow(
+              textEditingController: planNameController,
+              label: "Plan Item",
+            ),
+            const SizedBox(height: 12),
+
+            CustomCommonComponent.labelledTextFieldRow(
+              textEditingController: amountController,
+              label: "Amount",
+              isNumberOnly: true,
+            ),
+            const Spacer(),
+            CustomCommonWidget.commonElevatedBtn(
+              isDisable: !isFormValid,
+              label: "Create Plan Item",
+              onPressed: _onCreatePressed,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

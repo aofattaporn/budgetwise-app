@@ -7,12 +7,15 @@ import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_state.dart';
+import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
+import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/components/plan_item_card.dart';
 import 'package:budget_wise/src/presentation/components/saving_slider.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/screens/plans/plan_overview_screen.dart';
+import 'package:budget_wise/src/presentation/screens/plans/sheets/create_new_plan_item_sheet.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_decoration.dart';
 import 'package:flutter/material.dart';
@@ -186,7 +189,7 @@ class _PlanTabState extends State<PlanTab> {
                         const Shadow(
                           offset: Offset(0, 2),
                           blurRadius: 15,
-                          color: AppColors.primaryDark, // soft shadow
+                          color: AppColors.primaryDark,
                         ),
                       ],
                     ),
@@ -254,12 +257,30 @@ class _PlanTabState extends State<PlanTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Plan item List",
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(color: AppColors.background),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex: 2,
+                child: Text(
+                  "Plan item List",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: AppColors.background),
+                ),
+              ),
+              Flexible(
+                child: CustomCommonWidget.commonElevatedBtn(
+                  label: "Create Plan",
+                  onPressed: () {
+                    CustomCommonSheet(height: 0.5)
+                        .open(context, widget: const CreateNewPlanItemSheet());
+                  },
+                  isDisable: false,
+                ),
+              )
+            ],
           ),
           const SizedBox(height: 12),
           Expanded(
@@ -290,7 +311,7 @@ class _PlanTabState extends State<PlanTab> {
                   return _buildPlanItemCarousel(items);
                 }
 
-                return const SizedBox(); // fallback for initial/unknown state
+                return const SizedBox();
               },
             ),
           ),
