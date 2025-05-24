@@ -271,14 +271,26 @@ class _PlanTabState extends State<PlanTab> {
                 ),
               ),
               Flexible(
-                child: CustomCommonWidget.commonElevatedBtn(
-                  label: "Create Plan",
-                  onPressed: () {
-                    CustomCommonSheet(height: 0.5)
-                        .open(context, widget: const CreateNewPlanItemSheet());
-                  },
-                  isDisable: false,
-                ),
+                child: BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
+                    builder: (context, state) {
+                  final isLoading = state is CurrentPlanLoading;
+                  final isLoaded = state is CurrentPlanLoaded;
+                  final isError = state is CurrentPlanError;
+
+                  return Skeletonizer(
+                    enabled: isLoading,
+                    child: CustomCommonWidget.commonElevatedBtn(
+                      label: "Create Plan",
+                      isDisable: isError,
+                      onPressed: () {
+                        CustomCommonSheet(height: 0.5).open(context,
+                            widget: CreateNewPlanItemSheet(
+                              planId: isLoaded ? state.plan.id! : "",
+                            ));
+                      },
+                    ),
+                  );
+                }),
               )
             ],
           ),

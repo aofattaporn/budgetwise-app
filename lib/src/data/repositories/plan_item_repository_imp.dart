@@ -2,10 +2,11 @@ import 'package:budget_wise/src/core/utils/response_util.dart';
 import 'package:budget_wise/src/data/datasources/plan_item_datasource.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
+import 'package:budget_wise/src/domain/models/plan_item_insert_dto.dart';
 
 abstract class PlanItemRepository {
   Future<List<PlanItemDto>> getItemsByPlanId(String planId);
-  Future<void> createPlanItem(PlanItemDto dto);
+  Future<void> createPlanItem(PlanItemInsertDto dto);
   Future<void> updatePlanItem(PlanItemDto dto);
   Future<void> deletePlanItem(String itemId);
 }
@@ -23,7 +24,7 @@ class PlanItemRepositoryImp implements PlanItemRepository {
   }
 
   @override
-  Future<void> createPlanItem(PlanItemDto dto) async {
+  Future<void> createPlanItem(PlanItemInsertDto dto) async {
     final response = await dataSource.createPlanItem(dto);
     ResponseUtil.handleResponse(response); // handle errors, returns void
   }

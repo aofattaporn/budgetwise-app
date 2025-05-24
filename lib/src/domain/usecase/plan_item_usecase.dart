@@ -1,6 +1,7 @@
 import 'package:budget_wise/src/core/utils/logger_util.dart';
 import 'package:budget_wise/src/data/repositories/plan_item_repository_imp.dart';
 import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
+import 'package:budget_wise/src/domain/models/plan_item_insert_dto.dart';
 import 'package:logger/logger.dart';
 
 class PlanItemUsecase {
@@ -13,5 +14,9 @@ class PlanItemUsecase {
     final result = await planItemRepository.getItemsByPlanId(planId);
     _logger.d("Fetched ${result.length} plan items: $result");
     return result;
+  }
+
+  Future<void> createPlanItem(PlanItemInsertDto planItemDto) async {
+    await planItemRepository.createPlanItem(planItemDto);
   }
 }

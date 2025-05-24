@@ -1,10 +1,15 @@
+import 'package:budget_wise/src/domain/models/plan_item_insert_dto.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/widgets/common_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateNewPlanItemSheet extends StatefulWidget {
-  const CreateNewPlanItemSheet({super.key});
+  final String planId;
+  const CreateNewPlanItemSheet({super.key, required this.planId});
 
   @override
   State<CreateNewPlanItemSheet> createState() => _CreateNewPlanItemSheetState();
@@ -28,11 +33,13 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
   void _onCreatePressed() {
     if (!isFormValid) return;
 
-    // TODO: trigger Bloc add(CreatePlanItem(...))
-    print('Name: ${planNameController.text}');
-    print('Amount: ${amountController.text}');
-    print('Type: $selectedType');
-    print('Icon: $selectedIcon');
+    final planIte = PlanItemInsertDto(
+        name: planNameController.text,
+        amountLimit: double.parse(amountController.text),
+        type: selectedType,
+        iconName: selectedIcon,
+        planId: widget.planId);
+    context.read<PlanItemBloc>().add(CreatePlanItem(planIte));
 
     Navigator.pop(context);
   }

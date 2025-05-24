@@ -5,13 +5,14 @@ import 'package:budget_wise/src/core/utils/response_util.dart';
 import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/src/domain/models/common/common_response.dart';
 import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
+import 'package:budget_wise/src/domain/models/plan_item_insert_dto.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class PlanItemDataSource {
   Future<CommonResponse<List<PlanItemEntity>>> fetchItemsByPlanId(
       String planId);
-  Future<CommonResponse<void>> createPlanItem(PlanItemDto dto);
+  Future<CommonResponse<void>> createPlanItem(PlanItemInsertDto dto);
   Future<CommonResponse<void>> updatePlanItem(PlanItemDto dto);
   Future<CommonResponse<void>> deletePlanItem(String id);
 }
@@ -41,9 +42,9 @@ class PlanItemRemoteDataSourceImpl implements PlanItemDataSource {
   }
 
   @override
-  Future<CommonResponse<void>> createPlanItem(PlanItemDto dto) async {
+  Future<CommonResponse<void>> createPlanItem(PlanItemInsertDto dto) async {
     try {
-      await client.from('plan_items').insert(dto.toInsertJson());
+      await client.from('plan_items').insert(dto.toJson());
       return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, s) {
       _logger.e("Insert failed", error: e, stackTrace: s);
