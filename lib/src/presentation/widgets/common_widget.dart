@@ -18,7 +18,7 @@ class CommonWidget {
     required IconData iconData,
     // optional paramm
     double size = 20,
-    Color backgroundColor = AppColors.black,
+    Color backgroundColor = AppColors.gray200,
     Color iconColor = AppColors.primaryDark,
     double borderRadius = 8,
     EdgeInsetsGeometry padding = AppPadding.allmd,

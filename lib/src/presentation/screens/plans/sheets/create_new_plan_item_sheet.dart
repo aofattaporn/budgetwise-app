@@ -62,16 +62,14 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
                               style: TextStyle(
                                 color: selectedType == type
                                     ? Colors.white
-                                    : Colors.black, // Text color
+                                    : Colors.black,
                               ),
                             ),
                             selected: selectedType == type,
                             onSelected: (_) =>
                                 setState(() => selectedType = type),
-                            selectedColor: Theme.of(context)
-                                .primaryColor, // Background when selected
-                            backgroundColor: Colors
-                                .grey.shade200, // Background when unselected
+                            selectedColor: Theme.of(context).primaryColor,
+                            backgroundColor: Colors.grey.shade200,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -96,7 +94,7 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
                   child: CircleAvatar(
                     radius: 24,
                     backgroundColor: isSelected
-                        ? Theme.of(context).primaryColorDark
+                        ? Theme.of(context).primaryColor
                         : Colors.grey.shade200,
                     child: Text(icon, style: const TextStyle(fontSize: 20)),
                   ),
