@@ -1,4 +1,3 @@
-import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:budget_wise/src/domain/models/plan_item_insert_dto.dart';
 
@@ -19,7 +18,7 @@ class CreatePlanItem extends PlanItemEvent {
 }
 
 class UpdatePlanItem extends PlanItemEvent {
-  final PlanItemEntity item;
+  final PlanItemDto item;
   UpdatePlanItem(this.item);
 }
 

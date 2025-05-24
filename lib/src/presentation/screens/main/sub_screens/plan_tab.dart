@@ -284,7 +284,7 @@ class _PlanTabState extends State<PlanTab> {
                       isDisable: isError,
                       onPressed: () {
                         CustomCommonSheet(height: 0.5).open(context,
-                            widget: CreateNewPlanItemSheet(
+                            widget: CreateOrEditPlanItemSheet(
                               planId: isLoaded ? state.plan.id! : "",
                             ));
                       },
@@ -351,7 +351,7 @@ class _PlanTabState extends State<PlanTab> {
           ),
           const SizedBox(height: 8),
           Text(
-            "Start by adding plan items to track your monthly budget.",
+            "Adding plan items to track your monthly budget.",
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: AppColors.gray400.withAlpha(180),
@@ -370,9 +370,18 @@ class _PlanTabState extends State<PlanTab> {
         children: items
             .map((item) => Padding(
                   padding: const EdgeInsets.only(right: 8.0),
-                  child: PlanItemCard(
-                    planItemDto: item,
-                    planBudgetLiit: amountLimit,
+                  child: GestureDetector(
+                    onTap: () => {
+                      CustomCommonSheet(height: 0.5).open(context,
+                          widget: CreateOrEditPlanItemSheet(
+                            planId: item.planId,
+                            planItemDto: item,
+                          ))
+                    },
+                    child: PlanItemCard(
+                      planItemDto: item,
+                      planBudgetLiit: amountLimit,
+                    ),
                   ),
                 ))
             .toList(),
@@ -380,3 +389,15 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 }
+
+
+      // child: CustomCommonWidget.commonElevatedBtn(
+      //                 label: "Create Plan",
+      //                 isDisable: isError,
+      //                 onPressed: () {
+      //                   CustomCommonSheet(height: 0.5).open(context,
+      //                       widget: CreateOrEditPlanItemSheet(
+      //                         planId: isLoaded ? state.plan.id! : "",
+      //                       ));
+      //                 },
+      //               ),

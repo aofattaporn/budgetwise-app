@@ -12,11 +12,18 @@ class PlanItemUsecase {
 
   Future<List<PlanItemDto>> getItemsByPlanId(String planId) async {
     final result = await planItemRepository.getItemsByPlanId(planId);
+    result.sort((a, b) => a.createdAt.compareTo(b.createdAt));
     _logger.d("Fetched ${result.length} plan items: $result");
     return result;
   }
 
   Future<void> createPlanItem(PlanItemInsertDto planItemDto) async {
+    _logger.d("Create plan_item name: ${planItemDto.name}");
     await planItemRepository.createPlanItem(planItemDto);
+  }
+
+  Future<void> updatePlanItem(PlanItemDto planItemDto) async {
+    _logger.d("Update plan_item name: ${planItemDto.name}");
+    await planItemRepository.updatePlanItem(planItemDto);
   }
 }

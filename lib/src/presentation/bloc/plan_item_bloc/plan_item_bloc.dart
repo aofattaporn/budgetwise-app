@@ -32,5 +32,17 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
         emit(PlanItemError("Failed to load plan items"));
       }
     });
+
+    on<UpdatePlanItem>((event, emit) async {
+      emit(PlanItemLoading());
+      try {
+        await planItemUsecase.updatePlanItem(event.item);
+
+        final items = await planItemUsecase.getItemsByPlanId(event.item.planId);
+        emit(PlanItemLoaded(items));
+      } catch (e) {
+        emit(PlanItemError("Failed to load plan items"));
+      }
+    });
   }
 }

@@ -76,4 +76,16 @@ class PlanItemDto {
       'updated_at': updatedAt.toIso8601String(),
     };
   }
+
+  Map<String, dynamic> toUpdateJson() {
+    return {
+      'id': id,
+      'plan_id': planId,
+      'name': name,
+      'amount_limit': amountLimit,
+      'type': type,
+      'icon_name': iconName,
+      'updated_at': updatedAt.toIso8601String(),
+    };
+  }
 }

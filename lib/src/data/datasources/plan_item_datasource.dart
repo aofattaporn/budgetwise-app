@@ -57,7 +57,7 @@ class PlanItemRemoteDataSourceImpl implements PlanItemDataSource {
     try {
       await client
           .from('plan_items')
-          .update(dto.toInsertJson())
+          .update(dto.toUpdateJson())
           .eq('id', dto.id);
       return ResponseUtil.commonResponse(ResponseConstant.code1000, null);
     } catch (e, s) {

@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
 import 'package:budget_wise/src/domain/models/plan_item_insert_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
@@ -7,17 +8,24 @@ import 'package:budget_wise/src/presentation/widgets/common_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CreateNewPlanItemSheet extends StatefulWidget {
+class CreateOrEditPlanItemSheet extends StatefulWidget {
   final String planId;
-  const CreateNewPlanItemSheet({super.key, required this.planId});
+  final PlanItemDto? planItemDto;
+
+  const CreateOrEditPlanItemSheet({
+    super.key,
+    required this.planId,
+    this.planItemDto,
+  });
 
   @override
-  State<CreateNewPlanItemSheet> createState() => _CreateNewPlanItemSheetState();
+  State<CreateOrEditPlanItemSheet> createState() =>
+      _CreateOrEditPlanItemSheetState();
 }
 
-class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
-  final TextEditingController planNameController = TextEditingController();
-  final TextEditingController amountController = TextEditingController();
+class _CreateOrEditPlanItemSheetState extends State<CreateOrEditPlanItemSheet> {
+  late TextEditingController planNameController;
+  late TextEditingController amountController;
 
   String selectedType = 'expense';
   String? selectedIcon;
@@ -30,16 +38,48 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
       amountController.text.isNotEmpty &&
       selectedIcon != null;
 
-  void _onCreatePressed() {
+  bool get isEdit => widget.planItemDto != null;
+
+  @override
+  void initState() {
+    super.initState();
+    final item = widget.planItemDto;
+    planNameController = TextEditingController(text: item?.name ?? '');
+    amountController =
+        TextEditingController(text: item?.amountLimit.toString() ?? '');
+    selectedType = item?.type ?? 'expense';
+    selectedIcon = item?.iconName;
+  }
+
+  @override
+  void dispose() {
+    planNameController.dispose();
+    amountController.dispose();
+    super.dispose();
+  }
+
+  void _onSubmitPressed() {
     if (!isFormValid) return;
 
-    final planIte = PlanItemInsertDto(
+    if (isEdit) {
+      final updated = widget.planItemDto!.copyWith(
         name: planNameController.text,
         amountLimit: double.parse(amountController.text),
         type: selectedType,
         iconName: selectedIcon,
-        planId: widget.planId);
-    context.read<PlanItemBloc>().add(CreatePlanItem(planIte));
+      );
+
+      context.read<PlanItemBloc>().add(UpdatePlanItem(updated));
+    } else {
+      final newItem = PlanItemInsertDto(
+        planId: widget.planId,
+        name: planNameController.text,
+        amountLimit: double.parse(amountController.text),
+        type: selectedType,
+        iconName: selectedIcon,
+      );
+      context.read<PlanItemBloc>().add(CreatePlanItem(newItem));
+    }
 
     Navigator.pop(context);
   }
@@ -53,7 +93,6 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 12),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -61,32 +100,30 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
                   children: types.map((type) {
                     return Padding(
                       padding: const EdgeInsets.only(right: 12),
-                      child: Row(
-                        children: [
-                          ChoiceChip(
-                            label: Text(
-                              type[0].toUpperCase() + type.substring(1),
-                              style: TextStyle(
-                                color: selectedType == type
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                            ),
-                            selected: selectedType == type,
-                            onSelected: (_) =>
-                                setState(() => selectedType = type),
-                            selectedColor: Theme.of(context).primaryColor,
-                            backgroundColor: Colors.grey.shade200,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                      child: ChoiceChip(
+                        label: Text(
+                          type[0].toUpperCase() + type.substring(1),
+                          style: TextStyle(
+                            color: selectedType == type
+                                ? Colors.white
+                                : Colors.black,
                           ),
-                        ],
+                        ),
+                        selected: selectedType == type,
+                        onSelected: (_) => setState(() => selectedType = type),
+                        selectedColor: Theme.of(context).primaryColor,
+                        backgroundColor: Colors.grey.shade200,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     );
                   }).toList(),
                 ),
-                CommonWidget.boxIcon(iconData: Icons.delete)
+                if (isEdit)
+                  CommonWidget.boxIcon(
+                    iconData: Icons.delete,
+                  )
               ],
             ),
             const SizedBox(height: 12),
@@ -124,12 +161,32 @@ class _CreateNewPlanItemSheetState extends State<CreateNewPlanItemSheet> {
             const Spacer(),
             CustomCommonWidget.commonElevatedBtn(
               isDisable: !isFormValid,
-              label: "Create Plan Item",
-              onPressed: _onCreatePressed,
+              label: isEdit ? "Update Plan Item" : "Create Plan Item",
+              onPressed: _onSubmitPressed,
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+extension on PlanItemDto {
+  PlanItemDto copyWith({
+    String? name,
+    double? amountLimit,
+    String? type,
+    String? iconName,
+  }) {
+    return PlanItemDto(
+      id: id,
+      planId: planId,
+      name: name ?? this.name,
+      amountLimit: amountLimit ?? this.amountLimit,
+      type: type ?? this.type,
+      iconName: iconName ?? this.iconName,
+      createdAt: createdAt,
+      updatedAt: DateTime.now(),
     );
   }
 }
