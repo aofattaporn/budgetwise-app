@@ -26,4 +26,9 @@ class PlanItemUsecase {
     _logger.d("Update plan_item name: ${planItemDto.name}");
     await planItemRepository.updatePlanItem(planItemDto);
   }
+
+  Future<void> deletePlanItem(String planItemId) async {
+    _logger.d("Delete plan_item id: $planItemId");
+    await planItemRepository.deletePlanItem(planItemId);
+  }
 }

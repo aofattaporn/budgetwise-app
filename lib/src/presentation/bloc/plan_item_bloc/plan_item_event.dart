@@ -23,8 +23,9 @@ class UpdatePlanItem extends PlanItemEvent {
 }
 
 class DeletePlanItem extends PlanItemEvent {
+  final String planId;
   final String itemId;
-  DeletePlanItem(this.itemId);
+  DeletePlanItem(this.itemId, this.planId);
 }
 
 class SelectPlanItem extends PlanItemEvent {

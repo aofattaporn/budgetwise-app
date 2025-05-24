@@ -3,6 +3,7 @@ import 'package:budget_wise/src/domain/models/plan_item_insert_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
+import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/widgets/common_widget.dart';
 import 'package:flutter/material.dart';
@@ -121,8 +122,24 @@ class _CreateOrEditPlanItemSheetState extends State<CreateOrEditPlanItemSheet> {
                   }).toList(),
                 ),
                 if (isEdit)
-                  CommonWidget.boxIcon(
-                    iconData: Icons.delete,
+                  GestureDetector(
+                    onTap: () {
+                      CustomCommonDialog().confirmDeleteDialog(
+                        context,
+                        title: "Delete Plan Item",
+                        message:
+                            "Are you sure you want to delete this plan item? This action cannot be undone.",
+                        onConfirm: () {
+                          context.read<PlanItemBloc>().add(DeletePlanItem(
+                              widget.planItemDto!.id, widget.planId));
+
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                    child: CommonWidget.boxIcon(
+                      iconData: Icons.delete,
+                    ),
                   )
               ],
             ),
