@@ -1,6 +1,6 @@
-import 'package:budget_wise/src/presentation/screens/main/sub_screens/account_tab.dart';
+import 'package:budget_wise/src/presentation/screens/accounts/account_tab.dart';
 import 'package:budget_wise/src/presentation/screens/main/sub_screens/home_tab.dart';
-import 'package:budget_wise/src/presentation/screens/main/sub_screens/plan_tab.dart';
+import 'package:budget_wise/src/presentation/screens/plans/plan_tab.dart';
 import 'package:budget_wise/src/presentation/screens/main/sub_screens/transaction_tab.dart';
 import 'package:budget_wise/src/presentation/widgets/bottomAppBar/custom_appbar.dart';
 import 'package:budget_wise/src/presentation/widgets/common_widget.dart';
