@@ -13,6 +13,7 @@ import 'package:budget_wise/src/presentation/theme/modules/app_light_theme.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:budget_wise/src/presentation/bloc/account_bloc/account_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,7 @@ class BudgetWiseApp extends StatelessWidget {
         BlocProvider(create: (_) => sl<CurrentPlanBloc>()),
         BlocProvider(create: (_) => sl<PlanSelectorBloc>()),
         BlocProvider(create: (_) => sl<PlanItemBloc>()),
+        BlocProvider(create: (_) => sl<AccountBloc>()),
         BlocProvider(create: (_) => ThemeCubit()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
