@@ -1,4 +1,5 @@
 import 'package:budget_wise/src/domain/entities/account_enntity.dart';
+import 'package:budget_wise/src/presentation/utils/user_util.dart';
 
 class AccountDto {
   final String? id;
@@ -46,7 +47,7 @@ class AccountDto {
       };
 
   Map<String, dynamic> toInsertJson() => {
-        'user_id': userId,
+        'user_id': UserUtil.aofUid(),
         'name': name,
         'initial_balance': initialBalance,
         'current_balance': currentBalance,

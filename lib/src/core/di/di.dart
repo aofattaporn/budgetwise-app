@@ -1,3 +1,4 @@
+import 'package:budget_wise/src/core/di/account_di.dart';
 import 'package:budget_wise/src/core/di/common_di.dart';
 import 'package:budget_wise/src/core/di/main_screen_di.dart';
 import 'package:budget_wise/src/core/di/plan_di.dart';
@@ -13,4 +14,5 @@ Future<void> setupLocator() async {
   setupMainScreenDI();
   setupPlanDI();
   setupPlanItemDI();
+  setupAccountDI();
 }

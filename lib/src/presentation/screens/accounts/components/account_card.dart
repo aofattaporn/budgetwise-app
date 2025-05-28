@@ -5,6 +5,7 @@ class AccountCard extends StatelessWidget {
   final double currentBalance;
   final Color color;
   final VoidCallback onOptionsTap;
+  final String? subtitle;
 
   const AccountCard({
     super.key,
@@ -12,6 +13,7 @@ class AccountCard extends StatelessWidget {
     required this.currentBalance,
     required this.color,
     required this.onOptionsTap,
+    this.subtitle,
   });
 
   @override
@@ -21,53 +23,41 @@ class AccountCard extends StatelessWidget {
       elevation: 6,
       shadowColor: color.withOpacity(0.18),
       margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundColor: color,
-              child: const Icon(Icons.account_balance_wallet,
-                  color: Colors.white, size: 22),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 17),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      const Icon(Icons.attach_money,
-                          size: 16, color: Colors.black45),
-                      const SizedBox(width: 2),
-                      Text(
-                        currentBalance.toStringAsFixed(2),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(width: 2),
-                      const Text(
-                        '฿',
-                        style: TextStyle(fontSize: 13, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ],
+      child: ListTile(
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        leading: CircleAvatar(
+          radius: 26,
+          backgroundColor: color,
+          child: const Icon(Icons.account_balance_wallet,
+              color: Colors.white, size: 24),
+        ),
+        title: Text(
+          name,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
               ),
+        ),
+        subtitle: subtitle != null
+            ? Text(
+                subtitle!,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+              )
+            : null,
+        trailing: Row(
+          spacing: 14,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              currentBalance.toStringAsFixed(2),
+              style: Theme.of(context).textTheme.labelLarge,
             ),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: onOptionsTap,
+            Text(
+              '฿',
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),
