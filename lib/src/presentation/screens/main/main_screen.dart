@@ -1,7 +1,9 @@
+import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/screens/accounts/account_tab.dart';
 import 'package:budget_wise/src/presentation/screens/main/sub_screens/home_tab.dart';
 import 'package:budget_wise/src/presentation/screens/plans/plan_tab.dart';
 import 'package:budget_wise/src/presentation/screens/main/sub_screens/transaction_tab.dart';
+import 'package:budget_wise/src/presentation/screens/transaction/create_transaction_sheet.dart';
 import 'package:budget_wise/src/presentation/widgets/bottomAppBar/custom_appbar.dart';
 import 'package:budget_wise/src/presentation/widgets/common_widget.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +46,12 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(top: false, child: _getTabScreen(_currentIndex)),
       floatingActionButton: CommonWidget.commonFloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          CustomCommonSheet(height: 0.95).open(
+            context,
+            widget: const CreateTransactionSheet(),
+          );
+        },
         icon: Icons.add,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
