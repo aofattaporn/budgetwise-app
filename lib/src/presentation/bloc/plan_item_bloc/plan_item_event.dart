@@ -8,6 +8,8 @@ class FetchPlanItems extends PlanItemEvent {
   FetchPlanItems(this.planId);
 }
 
+class FetchAllActivePlanItems extends PlanItemEvent {}
+
 class ResetPlanItemEmpty extends PlanItemEvent {
   ResetPlanItemEmpty();
 }

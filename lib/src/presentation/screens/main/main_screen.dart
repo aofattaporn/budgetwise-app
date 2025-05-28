@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {
           CustomCommonSheet(height: 0.95).open(
             context,
-            widget: const CreateTransactionSheet(),
+            widget: CreateTransactionSheet(parentContext: context),
           );
         },
         icon: Icons.add,

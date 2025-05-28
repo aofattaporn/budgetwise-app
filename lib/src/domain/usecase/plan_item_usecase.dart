@@ -17,6 +17,13 @@ class PlanItemUsecase {
     return result;
   }
 
+  Future<List<PlanItemDto>> getAllActivePlanItems() async {
+    final result = await planItemRepository.getAllActivePlanItems();
+    result.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    _logger.d("Fetched ${result.length} active plan items: $result");
+    return result;
+  }
+
   Future<void> createPlanItem(PlanItemInsertDto planItemDto) async {
     _logger.d("Create plan_item name: ${planItemDto.name}");
     await planItemRepository.createPlanItem(planItemDto);

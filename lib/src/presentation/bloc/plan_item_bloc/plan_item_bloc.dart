@@ -17,6 +17,16 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
       }
     });
 
+    on<FetchAllActivePlanItems>((event, emit) async {
+      emit(PlanItemLoading());
+      try {
+        final items = await planItemUsecase.getAllActivePlanItems();
+        emit(PlanItemLoaded(items));
+      } catch (e) {
+        emit(PlanItemError("Failed to load all active plan items"));
+      }
+    });
+
     on<ResetPlanItemEmpty>((event, emit) async {
       emit(PlanItemResetAlreadyEmpty([]));
     });
