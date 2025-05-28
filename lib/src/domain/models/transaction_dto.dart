@@ -69,7 +69,6 @@ class TransactionDto {
       };
 
   TransactionEntity toEntity() {
-    // Note: TransactionEntity must be updated to support 'name' field
     return TransactionEntity(
       id: id ?? '',
       userId: userId,
@@ -77,7 +76,7 @@ class TransactionDto {
       accountId: accountId,
       amount: amount,
       type: type,
-      // name: name, // Uncomment when TransactionEntity supports 'name'
+      name: name,
       note: note,
       transactionDate: transactionDate,
       createdAt:
@@ -95,7 +94,7 @@ class TransactionDto {
       accountId: entity.accountId,
       amount: entity.amount,
       type: entity.type,
-      name: '', // TODO: Map from entity when available
+      name: entity.name,
       note: entity.note,
       transactionDate: entity.transactionDate,
       createdAt: entity.createdAt.toIso8601String(),
