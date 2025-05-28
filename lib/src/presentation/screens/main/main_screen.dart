@@ -30,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return const HomeTab();
       case 1:
-        return const TypographyShowcaseScreen();
+        return const TransactionTab();
       case 2:
         return const PlanTab();
       case 3:

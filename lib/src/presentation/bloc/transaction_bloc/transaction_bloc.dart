@@ -16,6 +16,17 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       }
     });
 
+    on<FetchTransactionsByDateRange>((event, emit) async {
+      emit(TransactionLoading());
+      try {
+        final transactions = await transactionUsecase
+            .getTransactionsByDateRange(event.start, event.end);
+        emit(TransactionLoaded(transactions));
+      } catch (e) {
+        emit(TransactionError("Failed to load transactions by date range"));
+      }
+    });
+
     on<CreateTransaction>((event, emit) async {
       emit(TransactionLoading());
       try {

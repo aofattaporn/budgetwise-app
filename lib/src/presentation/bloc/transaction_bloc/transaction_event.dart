@@ -4,6 +4,12 @@ abstract class TransactionEvent {}
 
 class FetchAllTransactions extends TransactionEvent {}
 
+class FetchTransactionsByDateRange extends TransactionEvent {
+  final DateTime start;
+  final DateTime end;
+  FetchTransactionsByDateRange(this.start, this.end);
+}
+
 class CreateTransaction extends TransactionEvent {
   final TransactionDto dto;
   CreateTransaction(this.dto);
