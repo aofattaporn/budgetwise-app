@@ -206,7 +206,6 @@ class _TransactionTabState extends State<TransactionTab> {
     if (_viewType == TransactionViewType.date) {
       final today = DateTime.now();
       final yesterday = today.subtract(const Duration(days: 1));
-      final tomorrow = today.add(const Duration(days: 1));
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: SingleChildScrollView(
@@ -214,27 +213,51 @@ class _TransactionTabState extends State<TransactionTab> {
           child: Row(
             children: [
               ChoiceChip(
-                label: const Text('Yesterday'),
+                label: Text(
+                  'Yesterday',
+                  style: TextStyle(
+                    fontWeight: _selectedDate.year == yesterday.year &&
+                            _selectedDate.month == yesterday.month &&
+                            _selectedDate.day == yesterday.day
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                    color: _selectedDate.year == yesterday.year &&
+                            _selectedDate.month == yesterday.month &&
+                            _selectedDate.day == yesterday.day
+                        ? Colors.white
+                        : Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
                 selected: _selectedDate.year == yesterday.year &&
                     _selectedDate.month == yesterday.month &&
                     _selectedDate.day == yesterday.day,
+                selectedColor: AppColors.primaryDark,
+                backgroundColor: Colors.transparent,
                 onSelected: (_) => _onDateChipSelected(yesterday),
               ),
               const SizedBox(width: 8),
               ChoiceChip(
-                label: const Text('Today'),
+                label: Text(
+                  'Today',
+                  style: TextStyle(
+                    fontWeight: _selectedDate.year == today.year &&
+                            _selectedDate.month == today.month &&
+                            _selectedDate.day == today.day
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                    color: _selectedDate.year == today.year &&
+                            _selectedDate.month == today.month &&
+                            _selectedDate.day == today.day
+                        ? Colors.white
+                        : Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
                 selected: _selectedDate.year == today.year &&
                     _selectedDate.month == today.month &&
                     _selectedDate.day == today.day,
+                selectedColor: AppColors.primaryDark,
+                backgroundColor: Colors.transparent,
                 onSelected: (_) => _onDateChipSelected(today),
-              ),
-              const SizedBox(width: 8),
-              ChoiceChip(
-                label: const Text('Tomorrow'),
-                selected: _selectedDate.year == tomorrow.year &&
-                    _selectedDate.month == tomorrow.month &&
-                    _selectedDate.day == tomorrow.day,
-                onSelected: (_) => _onDateChipSelected(tomorrow),
               ),
               const SizedBox(width: 8),
               OutlinedButton.icon(
@@ -268,7 +291,7 @@ class _TransactionTabState extends State<TransactionTab> {
               ),
               Text(
                 '${DateFormat('MMM d').format(weekStart)} - ${DateFormat('MMM d, yyyy').format(weekEnd)}',
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               IconButton(
                 icon: const Icon(Icons.chevron_right),
@@ -414,7 +437,6 @@ class _TransactionTabState extends State<TransactionTab> {
   }
 
   Widget _buildTransactionTile(TransactionDto tx) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
