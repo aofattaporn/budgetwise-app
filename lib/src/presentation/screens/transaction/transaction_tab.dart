@@ -6,6 +6,10 @@ import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_s
 import 'package:budget_wise/src/domain/models/transaction_dto.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:intl/intl.dart';
+import 'view_type_bar.dart';
+import 'second_row.dart';
+import 'transaction_graph.dart';
+import 'grouped_transaction_list.dart';
 // import 'package:fl_chart/fl_chart.dart'; // Uncomment if using fl_chart
 
 enum TransactionViewType { date, week, month }
@@ -93,7 +97,6 @@ class _TransactionTabState extends State<TransactionTab> {
   }
 
   Future<void> _pickWeek(BuildContext context) async {
-    // Simple: use date picker, then snap to week start
     final picked = await showDatePicker(
       context: context,
       initialDate: _selectedWeek,
@@ -125,7 +128,6 @@ class _TransactionTabState extends State<TransactionTab> {
   }
 
   Future<void> _pickMonth(BuildContext context) async {
-    // Use date picker, then snap to first of month
     final picked = await showDatePicker(
       context: context,
       initialDate: _selectedMonth,
@@ -144,7 +146,6 @@ class _TransactionTabState extends State<TransactionTab> {
   Map<String, List<TransactionDto>> _groupTransactions(
       List<TransactionDto> txs) {
     if (_viewType == TransactionViewType.date) {
-      // Group by hour
       return {
         for (var hour = 0; hour < 24; hour++)
           if (txs.any((t) => t.transactionDate.hour == hour))
@@ -152,7 +153,6 @@ class _TransactionTabState extends State<TransactionTab> {
                 txs.where((t) => t.transactionDate.hour == hour).toList(),
       };
     } else {
-      // Group by day
       final formatter = DateFormat('yyyy-MM-dd');
       final Map<String, List<TransactionDto>> grouped = {};
       for (final tx in txs) {
@@ -161,302 +161,6 @@ class _TransactionTabState extends State<TransactionTab> {
       }
       return grouped;
     }
-  }
-
-  Widget _buildViewTypeBar(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildViewTypeButton(context, TransactionViewType.date, 'By Date'),
-          const SizedBox(width: 8),
-          _buildViewTypeButton(context, TransactionViewType.week, 'By Week'),
-          const SizedBox(width: 8),
-          _buildViewTypeButton(context, TransactionViewType.month, 'By Month'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildViewTypeButton(
-      BuildContext context, TransactionViewType type, String label) {
-    final isSelected = _viewType == type;
-    final colorScheme = Theme.of(context).colorScheme;
-    return Expanded(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor:
-              isSelected ? colorScheme.primary : colorScheme.surfaceVariant,
-          foregroundColor:
-              isSelected ? colorScheme.onPrimary : colorScheme.onSurface,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          elevation: isSelected ? 2 : 0,
-        ),
-        onPressed: () => _onViewTypeChanged(type),
-        child: Text(label, style: Theme.of(context).textTheme.labelLarge),
-      ),
-    );
-  }
-
-  Widget _buildSecondRow(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    if (_viewType == TransactionViewType.date) {
-      final today = DateTime.now();
-      final yesterday = today.subtract(const Duration(days: 1));
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              ChoiceChip(
-                label: Text(
-                  'Yesterday',
-                  style: TextStyle(
-                    fontWeight: _selectedDate.year == yesterday.year &&
-                            _selectedDate.month == yesterday.month &&
-                            _selectedDate.day == yesterday.day
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                    color: _selectedDate.year == yesterday.year &&
-                            _selectedDate.month == yesterday.month &&
-                            _selectedDate.day == yesterday.day
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
-                selected: _selectedDate.year == yesterday.year &&
-                    _selectedDate.month == yesterday.month &&
-                    _selectedDate.day == yesterday.day,
-                selectedColor: AppColors.primaryDark,
-                backgroundColor: Colors.transparent,
-                onSelected: (_) => _onDateChipSelected(yesterday),
-              ),
-              const SizedBox(width: 8),
-              ChoiceChip(
-                label: Text(
-                  'Today',
-                  style: TextStyle(
-                    fontWeight: _selectedDate.year == today.year &&
-                            _selectedDate.month == today.month &&
-                            _selectedDate.day == today.day
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                    color: _selectedDate.year == today.year &&
-                            _selectedDate.month == today.month &&
-                            _selectedDate.day == today.day
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
-                selected: _selectedDate.year == today.year &&
-                    _selectedDate.month == today.month &&
-                    _selectedDate.day == today.day,
-                selectedColor: AppColors.primaryDark,
-                backgroundColor: Colors.transparent,
-                onSelected: (_) => _onDateChipSelected(today),
-              ),
-              const SizedBox(width: 8),
-              OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  side: BorderSide(color: colorScheme.primary),
-                ),
-                icon: const Icon(Icons.calendar_today, size: 18),
-                label: Text(DateFormat('yyyy-MM-dd').format(_selectedDate),
-                    style: Theme.of(context).textTheme.bodySmall),
-                onPressed: () => _pickDate(context),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else if (_viewType == TransactionViewType.week) {
-      final weekStart =
-          _selectedWeek.subtract(Duration(days: _selectedWeek.weekday - 1));
-      final weekEnd = weekStart.add(const Duration(days: 6));
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.chevron_left),
-                onPressed: _onPrevWeek,
-              ),
-              Text(
-                '${DateFormat('MMM d').format(weekStart)} - ${DateFormat('MMM d, yyyy').format(weekEnd)}',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              IconButton(
-                icon: const Icon(Icons.chevron_right),
-                onPressed: _onNextWeek,
-              ),
-              const SizedBox(width: 8),
-              OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  side: BorderSide(color: colorScheme.primary),
-                ),
-                icon: const Icon(Icons.calendar_today, size: 18),
-                label: const Text('Pick Week'),
-                onPressed: () => _pickWeek(context),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      // Month
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.chevron_left),
-                onPressed: _onPrevMonth,
-              ),
-              Text(
-                DateFormat('MMMM yyyy').format(_selectedMonth),
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              IconButton(
-                icon: const Icon(Icons.chevron_right),
-                onPressed: _onNextMonth,
-              ),
-              const SizedBox(width: 8),
-              OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  side: BorderSide(color: colorScheme.primary),
-                ),
-                icon: const Icon(Icons.calendar_today, size: 18),
-                label: const Text('Pick Month'),
-                onPressed: () => _pickMonth(context),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-  }
-
-  Widget _buildGraph(List<TransactionDto> txs) {
-    // Placeholder for graph. Replace with fl_chart or similar if available.
-    if (txs.isEmpty) {
-      return const SizedBox(height: 120);
-    }
-    // Example: show total per group as a bar
-    final grouped = _groupTransactions(txs);
-    final keys = grouped.keys.toList();
-    final values = grouped.values
-        .map((list) => list.fold(0.0, (sum, t) => sum + t.amount))
-        .toList();
-    final maxVal =
-        values.isNotEmpty ? values.reduce((a, b) => a > b ? a : b) : 1.0;
-    return SizedBox(
-      height: 120,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          for (int i = 0; i < keys.length; i++)
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    height: 80 * (values[i] / (maxVal == 0 ? 1 : maxVal)),
-                    width: 16,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _viewType == TransactionViewType.date
-                        ? keys[i].substring(0, 2)
-                        : keys[i].substring(8, 10),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGroupedList(Map<String, List<TransactionDto>> grouped) {
-    if (grouped.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 48),
-          child: Text('No transactions found',
-              style: Theme.of(context).textTheme.bodyLarge),
-        ),
-      );
-    }
-    final keys = grouped.keys.toList()..sort((a, b) => b.compareTo(a));
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: keys.length,
-      itemBuilder: (context, i) {
-        final groupKey = keys[i];
-        final txs = grouped[groupKey]!;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: Text(
-                _viewType == TransactionViewType.date
-                    ? '$groupKey'
-                    : DateFormat('EEE, MMM d').format(DateTime.parse(groupKey)),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
-            ...txs.map((tx) => _buildTransactionTile(tx)).toList(),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildTransactionTile(TransactionDto tx) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        leading: Icon(
-          tx.type == 'expense' ? Icons.arrow_upward : Icons.arrow_downward,
-          color: tx.type == 'expense' ? AppColors.error : AppColors.primary,
-        ),
-        title: Text(tx.name, style: Theme.of(context).textTheme.bodyLarge),
-        subtitle: Text(DateFormat('HH:mm').format(tx.transactionDate)),
-        trailing: Text(
-          (tx.type == 'expense' ? '-' : '+') + tx.amount.toStringAsFixed(2),
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color:
-                    tx.type == 'expense' ? AppColors.error : AppColors.primary,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -476,11 +180,33 @@ class _TransactionTabState extends State<TransactionTab> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildViewTypeBar(context),
-                    _buildSecondRow(context),
-                    _buildGraph(txs),
+                    ViewTypeBar(
+                      viewType: _viewType,
+                      onChanged: _onViewTypeChanged,
+                    ),
+                    SecondRow(
+                      viewType: _viewType,
+                      selectedDate: _selectedDate,
+                      selectedWeek: _selectedWeek,
+                      selectedMonth: _selectedMonth,
+                      onDateChipSelected: _onDateChipSelected,
+                      onPickDate: _pickDate,
+                      onPrevWeek: _onPrevWeek,
+                      onNextWeek: _onNextWeek,
+                      onPickWeek: _pickWeek,
+                      onPrevMonth: _onPrevMonth,
+                      onNextMonth: _onNextMonth,
+                      onPickMonth: _pickMonth,
+                    ),
+                    TransactionGraph(
+                      txs: txs,
+                      viewType: _viewType,
+                    ),
                     const SizedBox(height: 8),
-                    _buildGroupedList(grouped),
+                    GroupedTransactionList(
+                      grouped: grouped,
+                      viewType: _viewType,
+                    ),
                   ],
                 ),
               );
