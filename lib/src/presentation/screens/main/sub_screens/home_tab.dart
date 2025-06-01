@@ -3,15 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/account_bloc/account_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/account_bloc/account_state.dart';
+import 'package:budget_wise/src/presentation/bloc/account_bloc/account_event.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
   String get _greeting {
     final hour = DateTime.now().hour;
     if (hour < 12) return 'Good morning';
     if (hour < 18) return 'Good afternoon';
     return 'Good evening';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final bloc = context.read<AccountBloc>();
+      final state = bloc.state;
+      if (state is! AccountLoaded) {
+        bloc.add(FetchAllAccounts());
+      }
+    });
   }
 
   @override

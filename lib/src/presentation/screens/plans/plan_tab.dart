@@ -33,7 +33,13 @@ class _PlanTabState extends State<PlanTab> {
   @override
   void initState() {
     super.initState();
-    context.read<CurrentPlanBloc>().add(FetchCurrentPlanEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final bloc = context.read<CurrentPlanBloc>();
+      final state = bloc.state;
+      if (state is! CurrentPlanLoaded || state is CurrentPlanEmpty) {
+        bloc.add(FetchCurrentPlanEvent());
+      }
+    });
   }
 
   void _onCurrentPlanStateChanged(

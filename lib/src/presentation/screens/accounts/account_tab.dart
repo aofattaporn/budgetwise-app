@@ -24,7 +24,13 @@ class _AccountTabState extends State<AccountTab> {
   @override
   void initState() {
     super.initState();
-    context.read<AccountBloc>().add(FetchAllAccounts());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final bloc = context.read<AccountBloc>();
+      final state = bloc.state;
+      if (state is! AccountLoaded) {
+        bloc.add(FetchAllAccounts());
+      }
+    });
   }
 
   void _showCreateAccountSheet() {
