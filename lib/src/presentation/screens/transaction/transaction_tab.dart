@@ -4,7 +4,6 @@ import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_b
 import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_event.dart';
 import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_state.dart';
 import 'package:budget_wise/src/domain/models/transaction_dto.dart';
-import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:intl/intl.dart';
 import 'component/view_type_bar.dart';
 import 'component/second_row.dart';
