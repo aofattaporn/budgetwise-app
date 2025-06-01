@@ -15,21 +15,20 @@ class SecondRow extends StatelessWidget {
   final VoidCallback onPrevMonth;
   final VoidCallback onNextMonth;
   final Future<void> Function(BuildContext) onPickMonth;
-  const SecondRow({
-    required this.viewType,
-    required this.selectedDate,
-    required this.selectedWeek,
-    required this.selectedMonth,
-    required this.onDateChipSelected,
-    required this.onPickDate,
-    required this.onPrevWeek,
-    required this.onNextWeek,
-    required this.onPickWeek,
-    required this.onPrevMonth,
-    required this.onNextMonth,
-    required this.onPickMonth,
-    Key? key,
-  }) : super(key: key);
+  const SecondRow(
+      {required this.viewType,
+      required this.selectedDate,
+      required this.selectedWeek,
+      required this.selectedMonth,
+      required this.onDateChipSelected,
+      required this.onPickDate,
+      required this.onPrevWeek,
+      required this.onNextWeek,
+      required this.onPickWeek,
+      required this.onPrevMonth,
+      required this.onNextMonth,
+      required this.onPickMonth,
+      super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'view_type_button.dart';
-import 'transaction_tab.dart';
+import '../widget/view_type_button.dart';
+import '../transaction_tab.dart';
 
 class ViewTypeBar extends StatelessWidget {
   final TransactionViewType viewType;
   final ValueChanged<TransactionViewType> onChanged;
-  const ViewTypeBar({required this.viewType, required this.onChanged, Key? key})
-      : super(key: key);
+  const ViewTypeBar(
+      {required this.viewType, required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {

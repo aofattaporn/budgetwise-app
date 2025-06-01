@@ -5,7 +5,7 @@ import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 
 class TransactionTile extends StatelessWidget {
   final TransactionDto tx;
-  const TransactionTile({required this.tx, Key? key}) : super(key: key);
+  const TransactionTile({required this.tx, super.key});
 
   @override
   Widget build(BuildContext context) {

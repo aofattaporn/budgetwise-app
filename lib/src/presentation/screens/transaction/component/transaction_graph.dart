@@ -6,8 +6,8 @@ import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 class TransactionGraph extends StatelessWidget {
   final List<TransactionDto> txs;
   final dynamic viewType;
-  const TransactionGraph({required this.txs, required this.viewType, Key? key})
-      : super(key: key);
+  const TransactionGraph(
+      {required this.txs, required this.viewType, super.key});
 
   Map<String, double> _groupedTotals() {
     if (viewType.toString() == 'TransactionViewType.date') {

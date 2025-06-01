@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:budget_wise/src/domain/models/transaction_dto.dart';
-import 'transaction_tile.dart';
+import '../widget/transaction_tile.dart';
 
 class GroupedTransactionList extends StatelessWidget {
   final Map<String, List<TransactionDto>> grouped;
   final dynamic viewType;
   const GroupedTransactionList(
-      {required this.grouped, required this.viewType, Key? key})
-      : super(key: key);
+      {required this.grouped, required this.viewType, super.key});
 
   @override
   Widget build(BuildContext context) {

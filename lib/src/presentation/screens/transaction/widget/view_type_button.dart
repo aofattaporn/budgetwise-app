@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'transaction_tab.dart';
+import '../transaction_tab.dart';
 
 class ViewTypeButton extends StatelessWidget {
   final TransactionViewType type;
@@ -11,8 +11,7 @@ class ViewTypeButton extends StatelessWidget {
       required this.label,
       required this.isSelected,
       required this.onTap,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   @override
   Widget build(BuildContext context) {

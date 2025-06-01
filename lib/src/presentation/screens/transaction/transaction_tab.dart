@@ -6,10 +6,10 @@ import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_s
 import 'package:budget_wise/src/domain/models/transaction_dto.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:intl/intl.dart';
-import 'view_type_bar.dart';
-import 'second_row.dart';
-import 'transaction_graph.dart';
-import 'grouped_transaction_list.dart';
+import 'component/view_type_bar.dart';
+import 'component/second_row.dart';
+import 'component/transaction_graph.dart';
+import 'component/grouped_transaction_list.dart';
 // import 'package:fl_chart/fl_chart.dart'; // Uncomment if using fl_chart
 
 enum TransactionViewType { date, week, month }
