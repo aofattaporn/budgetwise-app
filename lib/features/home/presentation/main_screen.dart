@@ -1,9 +1,9 @@
+import 'package:budget_wise/features/transaction/presentation/select_transaction_type_screen.dart';
 import 'package:budget_wise/shared/common/custom_common_sheet.dart';
 import 'package:budget_wise/features/account/presentation/account_tab.dart';
 import 'package:budget_wise/features/home/presentation/sub_screens/home_tab.dart';
 import 'package:budget_wise/features/plan/presentation/screens/plan_tab.dart';
 import 'package:budget_wise/features/transaction/presentation/transaction_tab.dart';
-import 'package:budget_wise/features/transaction/presentation/create_transaction_sheet.dart';
 import 'package:budget_wise/shared/widgets/bottomAppBar/custom_appbar.dart';
 import 'package:budget_wise/shared/widgets/common_widget.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {
           CustomCommonSheet(height: 0.95).open(
             context,
-            widget: CreateTransactionSheet(parentContext: context),
+            widget: const SelectTransactionTypeScreen(),
           );
         },
         icon: Icons.add,

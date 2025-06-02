@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widget/view_type_button.dart';
+import '../widgets/view_type_button.dart';
 import '../transaction_tab.dart';
 
 class ViewTypeBar extends StatelessWidget {
