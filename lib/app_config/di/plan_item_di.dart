@@ -1,4 +1,5 @@
 import 'package:budget_wise/app_config/di/di.dart';
+import 'package:budget_wise/features/account/data/repositories/plan_repository_imp.dart';
 import 'package:budget_wise/features/plan/data/datasources/plan_item_datasource.dart';
 import 'package:budget_wise/features/account/data/repositories/plan_item_repository_imp.dart';
 import 'package:budget_wise/features/plan/domain/usecases/plan_item_usecase.dart';
@@ -15,8 +16,10 @@ void setupPlanItemDI() {
       () => PlanItemRepositoryImp(dataSource: sl<PlanItemDataSource>()));
 
   // Register Use Cases
-  sl.registerFactory<PlanItemUsecase>(
-      () => PlanItemUsecase(planItemRepository: sl<PlanItemRepository>()));
+  sl.registerFactory<PlanItemUsecase>(() => PlanItemUsecase(
+        planItemRepository: sl<PlanItemRepository>(),
+        planRepository: sl<PlanRepository>(),
+      ));
 
   // Register Bloc and inject the use case
   sl.registerFactory<PlanItemBloc>(() => PlanItemBloc(sl<PlanItemUsecase>()));
