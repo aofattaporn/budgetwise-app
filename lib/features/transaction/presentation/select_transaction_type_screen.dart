@@ -1,5 +1,8 @@
+import 'package:budget_wise/app_config/theme/system/app_colors.dart';
+import 'package:budget_wise/features/transaction/presentation/create_transaction_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/shared/common/pagination_dots.dart';
+import 'widgets/type_button.dart';
 
 enum TransactionType { expense, saving, transfer }
 
@@ -43,17 +46,17 @@ class _SelectTransactionTypeScreenState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _TypeButton(
+              TypeButton(
                 icon: Icons.remove_circle_outline,
                 label: 'Expense',
                 onTap: () => selectType(TransactionType.expense),
               ),
-              _TypeButton(
+              TypeButton(
                 icon: Icons.savings_outlined,
                 label: 'Saving',
                 onTap: () => selectType(TransactionType.saving),
               ),
-              _TypeButton(
+              TypeButton(
                 icon: Icons.compare_arrows_outlined,
                 label: 'Transfer',
                 onTap: () => selectType(TransactionType.transfer),
@@ -63,9 +66,10 @@ class _SelectTransactionTypeScreenState
         ],
       );
     } else {
-      content = CreateTransactionSubScreen(
+      content = CreateTransactionSheet(
         transactionType: selectedType!,
         onBack: goBack,
+        parentContext: context,
       );
     }
 
@@ -75,24 +79,7 @@ class _SelectTransactionTypeScreenState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                if (currentStep == 1)
-                  IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: goBack,
-                  ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      'Create Transaction',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ),
-                ),
-                if (currentStep == 1) SizedBox(width: 48), // for symmetry
-              ],
-            ),
+            _headerCreateTransaction(context),
             const SizedBox(height: 8),
             Expanded(child: content),
             const SizedBox(height: 24),
@@ -103,47 +90,25 @@ class _SelectTransactionTypeScreenState
       ),
     );
   }
-}
 
-class _TypeButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  const _TypeButton(
-      {required this.icon, required this.label, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
+  Stack _headerCreateTransaction(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(32),
-          child: CircleAvatar(
-            radius: 32,
-            backgroundColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.1),
-            child: Icon(icon,
-                size: 32, color: Theme.of(context).colorScheme.primary),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: AppColors.backgroundDark),
+            onPressed: goBack,
           ),
         ),
-        const SizedBox(height: 8),
-        Text(label, style: Theme.of(context).textTheme.bodyMedium),
+        Center(
+          child: Text(
+            'Create Transaction',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
       ],
-    );
-  }
-}
-
-class CreateTransactionSubScreen extends StatelessWidget {
-  final TransactionType transactionType;
-  final VoidCallback onBack;
-  const CreateTransactionSubScreen(
-      {super.key, required this.transactionType, required this.onBack});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Form for $transactionType'),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
+import 'package:budget_wise/features/transaction/presentation/select_transaction_type_screen.dart';
 import 'package:budget_wise/shared/utils/user_util.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budget_wise/features/account/presentation/bloc/account_bloc.dart';
@@ -18,8 +18,14 @@ import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 
 class CreateTransactionSheet extends StatefulWidget {
+  final TransactionType transactionType;
+  final VoidCallback onBack;
   final BuildContext parentContext;
-  const CreateTransactionSheet({super.key, required this.parentContext});
+  const CreateTransactionSheet(
+      {super.key,
+      required this.parentContext,
+      required this.transactionType,
+      required this.onBack});
 
   @override
   State<CreateTransactionSheet> createState() => _CreateTransactionSheetState();
@@ -232,126 +238,83 @@ class _CreateTransactionSheetState extends State<CreateTransactionSheet> {
                   context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
                 });
               }
-              return SafeArea(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: colorScheme.background,
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(28)),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // iOS-style drag handle
-                          Center(
-                            child: Container(
-                              width: 40,
-                              height: 5,
-                              margin: const EdgeInsets.only(bottom: 16),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              'Create Transaction',
-                              style: textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          // Transaction Name
-                          CommonWidget.textField(
-                            textEditingController: _nameController,
-                            placeholder: 'Transaction Name',
-                          ),
-                          const SizedBox(height: 20),
-                          // iOS-style segmented control
-                          Center(
-                            child: CupertinoSegmentedControl<int>(
-                              children: const {
-                                0: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Text('Expense'),
-                                ),
-                                1: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Text('Saving'),
-                                ),
-                              },
-                              groupValue: _typeIndex,
-                              onValueChanged: (i) =>
-                                  setState(() => _typeIndex = i),
-                              selectedColor: colorScheme.primary,
-                              borderColor: colorScheme.primary,
-                              unselectedColor: colorScheme.surface,
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          BlocBuilder<AccountBloc, AccountState>(
-                            builder: (context, state) => _buildAccountDropdown(
-                                context, state, labelStyle, fillColor),
-                          ),
-                          const SizedBox(height: 20),
-                          BlocBuilder<PlanItemBloc, PlanItemState>(
-                            builder: (context, state) => _buildPlanItemDropdown(
-                                context, state, labelStyle, fillColor),
-                          ),
-                          const SizedBox(height: 20),
-                          CommonWidget.textField(
-                            textEditingController: _amountController,
-                            placeholder: 'Amount',
-                            isNumberOnly: true,
-                          ),
-                          const SizedBox(height: 20),
-                          CommonWidget.textField(
-                            textEditingController: _noteController,
-                            placeholder: 'Note (optional)',
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Text('Date:', style: textTheme.bodyMedium),
-                              const SizedBox(width: 8),
-                              Text(
-                                formattedDate,
-                                style: textTheme.bodyMedium
-                                    ?.copyWith(color: colorScheme.primary),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.calendar_today),
-                                onPressed: () => _showDatePicker(context),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 32),
-                          SizedBox(
-                            width: double.infinity,
-                            child: CommonWidget.commonElevatedBtn(
-                              label: tState is TransactionLoading
-                                  ? 'Creating...'
-                                  : 'Create Transaction',
-                              onPressed:
-                                  _isSubmitting || tState is TransactionLoading
-                                      ? () {}
-                                      : _submit,
-                              isDisable:
-                                  _isSubmitting || tState is TransactionLoading,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                        ],
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // iOS-style drag handle
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 5,
+                        margin: const EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(3),
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 24),
+                    // Transaction Name
+                    CommonWidget.textField(
+                      textEditingController: _nameController,
+                      placeholder: 'Transaction Name',
+                    ),
+                    const SizedBox(height: 24),
+                    BlocBuilder<AccountBloc, AccountState>(
+                      builder: (context, state) => _buildAccountDropdown(
+                          context, state, labelStyle, fillColor),
+                    ),
+                    const SizedBox(height: 20),
+                    BlocBuilder<PlanItemBloc, PlanItemState>(
+                      builder: (context, state) => _buildPlanItemDropdown(
+                          context, state, labelStyle, fillColor),
+                    ),
+                    const SizedBox(height: 20),
+                    CommonWidget.textField(
+                      textEditingController: _amountController,
+                      placeholder: 'Amount',
+                      isNumberOnly: true,
+                    ),
+                    const SizedBox(height: 20),
+                    CommonWidget.textField(
+                      textEditingController: _noteController,
+                      placeholder: 'Note (optional)',
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text('Date:', style: textTheme.bodyMedium),
+                        const SizedBox(width: 8),
+                        Text(
+                          formattedDate,
+                          style: textTheme.bodyMedium
+                              ?.copyWith(color: colorScheme.primary),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.calendar_today),
+                          onPressed: () => _showDatePicker(context),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: double.infinity,
+                      child: CommonWidget.commonElevatedBtn(
+                        label: tState is TransactionLoading
+                            ? 'Creating...'
+                            : 'Create Transaction',
+                        onPressed: _isSubmitting || tState is TransactionLoading
+                            ? () {}
+                            : _submit,
+                        isDisable:
+                            _isSubmitting || tState is TransactionLoading,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
                 ),
               );
             },
