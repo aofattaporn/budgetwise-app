@@ -7,7 +7,6 @@ import 'package:budget_wise/shared/constant/business_constant.dart';
 import 'package:budget_wise/shared/constant/common_constant.dart';
 import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/app_config/start_up.dart';
-import 'package:budget_wise/features/home/presentation/bloc/main_screen_bloc.dart';
 import 'package:budget_wise/app_config/theme/modules/app_dark_theme.dart';
 import 'package:budget_wise/app_config/theme/modules/app_light_theme.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,6 @@ class BudgetWiseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl<MainScreenBloc>()),
         BlocProvider(create: (_) => sl<CurrentPlanBloc>()),
         BlocProvider(create: (_) => sl<PlanSelectorBloc>()),
         BlocProvider(create: (_) => sl<PlanItemBloc>()),
