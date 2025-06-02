@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/core/utils/icon_util.dart';
+import 'package:budget_wise/core/utils/icon_util.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';

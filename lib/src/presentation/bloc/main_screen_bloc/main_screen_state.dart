@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/core/constant/route_constant.dart';
+import 'package:budget_wise/core/constant/route_constant.dart';
 
 class MainScreenState {
   final String tabScreen;

@@ -1,11 +1,11 @@
-import 'package:budget_wise/src/core/utils/datetime_util.dart';
+import 'package:budget_wise/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/domain/models/transaction_segment.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_text_style.dart';
 import 'package:budget_wise/src/presentation/widgets/progression/multi_segment_painter.dart';
-import 'package:budget_wise/src/core/utils/numbers_uti.dart';
-import 'package:budget_wise/src/core/utils/plan_util.dart';
+import 'package:budget_wise/core/utils/numbers_uti.dart';
+import 'package:budget_wise/core/utils/plan_util.dart';
 import 'package:budget_wise/src/presentation/components/amount_compare.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';

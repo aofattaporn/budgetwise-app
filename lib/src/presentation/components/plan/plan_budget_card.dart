@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/core/utils/datetime_util.dart';
+import 'package:budget_wise/core/utils/datetime_util.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/components/segmented_circular_progress.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';

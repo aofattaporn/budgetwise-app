@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/data/repositories/plan_repository_imp.dart';
+import 'package:budget_wise/features/account/data/repositories/plan_repository_imp.dart';
 import 'package:budget_wise/src/domain/models/plan_dto.dart';
 
 class PlanUsecase {
