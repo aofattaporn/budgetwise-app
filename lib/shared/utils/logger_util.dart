@@ -1,5 +1,5 @@
-import 'package:budget_wise/core/log/logger_config.dart';
-import 'package:budget_wise/core/log/logger_datasource_config.dart';
+import 'package:budget_wise/app_config/log/logger_config.dart';
+import 'package:budget_wise/app_config/log/logger_datasource_config.dart';
 import 'package:logger/logger.dart' as pretty_logger;
 
 class LoggerUtil {

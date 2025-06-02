@@ -1,6 +1,6 @@
-import 'package:budget_wise/core/utils/icon_util.dart';
+import 'package:budget_wise/shared/utils/icon_util.dart';
 import 'package:budget_wise/shared/common/custum_common_widget.dart';
-import 'package:budget_wise/shared/theme/system/app_colors.dart';
+import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class LabeledIconRow extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:budget_wise/core/di/di.dart';
+import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/features/transaction/data/datasources/transaction_datasource.dart';
 import 'package:budget_wise/features/transaction/data/repositories/transaction_repository_imp.dart';
 import 'package:budget_wise/features/transaction/domain/usecases/transaction_usecase.dart';

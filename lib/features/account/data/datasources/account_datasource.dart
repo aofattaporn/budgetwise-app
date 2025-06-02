@@ -3,10 +3,10 @@ import 'package:budget_wise/features/account/data/models/account_dto.dart';
 import 'package:budget_wise/core/common/common_response.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:logger/logger.dart';
-import '../../../../core/utils/logger_util.dart';
-import '../../../../core/utils/response_util.dart';
-import '../../../../core/utils/error_util.dart';
-import '../../../../core/constant/response_constant.dart';
+import '../../../../shared/utils/logger_util.dart';
+import '../../../../shared/utils/response_util.dart';
+import '../../../../shared/utils/error_util.dart';
+import '../../../../shared/constant/response_constant.dart';
 
 abstract class AccountDataSource {
   Future<CommonResponse<List<AccountEntity>>> fetchAllAccounts();

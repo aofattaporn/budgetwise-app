@@ -1,4 +1,4 @@
-import 'package:budget_wise/shared/theme/system/app_colors.dart';
+import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

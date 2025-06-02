@@ -1,4 +1,4 @@
-import 'package:budget_wise/core/utils/response_util.dart';
+import 'package:budget_wise/shared/utils/response_util.dart';
 import 'package:budget_wise/features/plan/data/datasources/plan_datasource.dart';
 import 'package:budget_wise/features/plan/domain/entities/plan_entity.dart';
 import 'package:budget_wise/features/plan/data/models/plan_dto.dart';

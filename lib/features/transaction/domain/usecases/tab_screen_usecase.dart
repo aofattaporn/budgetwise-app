@@ -1,5 +1,5 @@
 // domain/usecases/tab_screen_usecase.dart
-import 'package:budget_wise/core/constant/route_constant.dart';
+import 'package:budget_wise/shared/constant/route_constant.dart';
 
 class TabScreenUseCase {
   String getTabName(int index) {

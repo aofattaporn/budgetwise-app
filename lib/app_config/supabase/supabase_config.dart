@@ -1,4 +1,4 @@
-import 'package:budget_wise/core/constant/common_constant.dart';
+import 'package:budget_wise/shared/constant/common_constant.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> supabaseConfigs(Map<String, String> env) async {

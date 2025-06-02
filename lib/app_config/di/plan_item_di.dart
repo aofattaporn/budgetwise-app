@@ -1,4 +1,4 @@
-import 'package:budget_wise/core/di/di.dart';
+import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/features/plan/data/datasources/plan_item_datasource.dart';
 import 'package:budget_wise/features/account/data/repositories/plan_item_repository_imp.dart';
 import 'package:budget_wise/features/plan/domain/usecases/plan_item_usecase.dart';

@@ -7,7 +7,7 @@ import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_s
 import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/shared/common/custom_common_component.dart';
 import 'package:budget_wise/app_config/routes/app_routes.dart';
-import 'package:budget_wise/shared/theme/system/app_colors.dart';
+import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';

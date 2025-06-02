@@ -1,7 +1,7 @@
-import 'package:budget_wise/core/utils/datetime_util.dart';
+import 'package:budget_wise/shared/utils/datetime_util.dart';
 import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
 import 'package:budget_wise/shared/components/segmented_circular_progress.dart';
-import 'package:budget_wise/shared/theme/system/app_colors.dart';
+import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class PlanBudgetCard extends StatelessWidget {

@@ -1,5 +1,4 @@
-import 'package:budget_wise/core/constant/common_constant.dart';
-import 'package:budget_wise/shared/sheets/planning_overview_sheet.dart';
+import 'package:budget_wise/shared/constant/common_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +14,6 @@ class CustomCommonDialog {
     this.widthFactor = defaultWidthFactor,
     this.radius = defaultRadius,
   });
-
-  // void allPlansDialog(BuildContext context, int planIdSelected) {
-  //   _showCommonDialog(
-  //     context,
-  //     PlanningOverviewSheet(planIdSelected: planIdSelected),
-  //   );
-  // }
 
   void _showCommonDialog(BuildContext context, Widget child) {
     showDialog(

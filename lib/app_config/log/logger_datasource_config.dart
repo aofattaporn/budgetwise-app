@@ -1,4 +1,4 @@
-import 'package:budget_wise/core/constant/common_constant.dart';
+import 'package:budget_wise/shared/constant/common_constant.dart';
 import 'package:logger/logger.dart';
 
 class LoggerDatasourceConfig extends LogPrinter {

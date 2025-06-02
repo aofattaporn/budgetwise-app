@@ -1,5 +1,5 @@
-import 'package:budget_wise/shared/theme/system/app_colors.dart';
-import 'package:budget_wise/shared/theme/system/app_padding.dart';
+import 'package:budget_wise/app_config/theme/system/app_colors.dart';
+import 'package:budget_wise/app_config/theme/system/app_padding.dart';
 import 'package:budget_wise/shared/widgets/btn/common_elevated_btn.dart';
 import 'package:budget_wise/shared/widgets/icon/box_icon.dart';
 import 'package:budget_wise/shared/widgets/progression/progress_bar.dart';
