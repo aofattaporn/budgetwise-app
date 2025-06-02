@@ -43,7 +43,9 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
         if (currentState is PlanItemLoaded) {
           emit(currentState);
         } else {
-          emit(PlanItemInitial());
+          final items =
+              await planItemUsecase.getItemsByPlanId(event.item.planId);
+          emit(PlanItemLoaded(items));
         }
       }
     });
