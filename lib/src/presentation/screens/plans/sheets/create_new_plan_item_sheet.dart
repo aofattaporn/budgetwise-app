@@ -1,7 +1,7 @@
 import 'package:budget_wise/features/plan/data/models/plan_item_dto.dart';
 import 'package:budget_wise/features/plan/data/models/plan_item_insert_dto.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_event.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';

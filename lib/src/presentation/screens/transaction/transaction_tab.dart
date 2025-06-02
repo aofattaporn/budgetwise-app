@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_event.dart';
-import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_state.dart';
+import 'package:budget_wise/features/transaction/presentation/bloc/transaction_bloc.dart';
+import 'package:budget_wise/features/transaction/presentation/bloc/transaction_event.dart';
+import 'package:budget_wise/features/transaction/presentation/bloc/transaction_state.dart';
 import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
 import 'package:intl/intl.dart';
 import 'component/view_type_bar.dart';

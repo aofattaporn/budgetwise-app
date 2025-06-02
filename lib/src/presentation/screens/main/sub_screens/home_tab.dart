@@ -1,9 +1,9 @@
 import 'package:budget_wise/budget_wise_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/account_bloc/account_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/account_bloc/account_state.dart';
-import 'package:budget_wise/src/presentation/bloc/account_bloc/account_event.dart';
+import 'package:budget_wise/features/account/presentation/bloc/account_bloc.dart';
+import 'package:budget_wise/features/account/presentation/bloc/account_state.dart';
+import 'package:budget_wise/features/account/presentation/bloc/account_event.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});

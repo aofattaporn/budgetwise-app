@@ -1,10 +1,10 @@
 import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
-import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
-import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_state.dart';
-import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_boc.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_event.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_selector_state.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/routes/app_routes.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';

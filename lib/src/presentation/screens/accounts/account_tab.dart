@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_sheet.dart';
 import 'package:budget_wise/src/presentation/screens/accounts/components/account_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/account_bloc/account_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/account_bloc/account_state.dart';
-import 'package:budget_wise/src/presentation/bloc/account_bloc/account_event.dart';
+import 'package:budget_wise/features/account/presentation/bloc/account_bloc.dart';
+import 'package:budget_wise/features/account/presentation/bloc/account_state.dart';
+import 'package:budget_wise/features/account/presentation/bloc/account_event.dart';
 
 // TODO: Connect AccountBloc here for real data
 // import 'package:flutter_bloc/flutter_bloc.dart';

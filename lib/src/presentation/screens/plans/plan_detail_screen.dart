@@ -1,9 +1,9 @@
 import 'package:budget_wise/core/utils/datetime_util.dart';
 import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
-import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
-import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_event.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
-import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_boc.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_event.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
+import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_component.dart';
 import 'package:budget_wise/src/presentation/common/custom_common_dailog.dart';
 import 'package:budget_wise/src/presentation/common/custum_common_widget.dart';

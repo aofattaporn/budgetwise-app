@@ -1,5 +1,5 @@
 import 'package:budget_wise/features/transaction/domain/usecases/tab_screen_usecase.dart';
-import 'package:budget_wise/src/presentation/bloc/main_screen_bloc/main_screen_bloc.dart';
+import 'package:budget_wise/features/home/presentation/bloc/main_screen_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;

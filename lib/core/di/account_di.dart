@@ -2,7 +2,7 @@ import 'package:budget_wise/core/di/di.dart';
 import 'package:budget_wise/features/account/data/datasources/account_datasource.dart';
 import 'package:budget_wise/features/account/data/repositories/account_repository_imp.dart';
 import 'package:budget_wise/features/account/domain/usecases/account_usecase.dart';
-import 'package:budget_wise/src/presentation/bloc/account_bloc/account_bloc.dart';
+import 'package:budget_wise/features/account/presentation/bloc/account_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void setupAccountDI() {
