@@ -32,14 +32,19 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
     });
 
     on<CreatePlanItem>((event, emit) async {
+      final currentState = state;
       emit(PlanItemLoading());
       try {
         await planItemUsecase.createPlanItem(event.item);
-
         final items = await planItemUsecase.getItemsByPlanId(event.item.planId);
         emit(PlanItemLoaded(items));
       } catch (e) {
-        emit(PlanItemError("Failed to load plan items"));
+        emit(PlanItemError("Failed to create plan item"));
+        if (currentState is PlanItemLoaded) {
+          emit(currentState);
+        } else {
+          emit(PlanItemInitial());
+        }
       }
     });
 

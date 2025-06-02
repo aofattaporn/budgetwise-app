@@ -21,6 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../shared/common/common_flash_message.dart';
+
 class PlanTab extends StatefulWidget {
   const PlanTab({super.key});
 
@@ -60,25 +62,35 @@ class _PlanTabState extends State<PlanTab> {
     return BlocListener<CurrentPlanBloc, CurrentPlanState>(
       listenWhen: (previous, current) => current is CurrentPlanLoaded,
       listener: _onCurrentPlanStateChanged,
-      child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: screenHeight * 0.7, //  80% of bg
-              padding: const EdgeInsets.all(16),
-              decoration: AppDecorations.gradientBottomRounded,
-              child: Column(
-                spacing: 36,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildBudgetHeader(context),
-                  _buildBudgetOverview(context),
-                  _buildPlanItemSection(context),
-                ],
+      child: BlocListener<PlanItemBloc, PlanItemState>(
+        listener: (BuildContext context, PlanItemState state) {
+          if (state is PlanItemError) {
+            CommonFlashMessage.show(
+              context,
+              message: state.message,
+            );
+          }
+        },
+        child: Scaffold(
+          body: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: screenHeight * 0.7, //  80% of bg
+                padding: const EdgeInsets.all(16),
+                decoration: AppDecorations.gradientBottomRounded,
+                child: Column(
+                  spacing: 36,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildBudgetHeader(context),
+                    _buildBudgetOverview(context),
+                    _buildPlanItemSection(context),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
