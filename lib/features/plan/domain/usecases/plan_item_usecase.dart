@@ -1,4 +1,6 @@
+import 'package:budget_wise/core/errors/bussiness_error.dart';
 import 'package:budget_wise/features/account/data/repositories/plan_repository_imp.dart';
+import 'package:budget_wise/shared/constant/common_constant.dart';
 import 'package:budget_wise/shared/utils/logger_util.dart';
 import 'package:budget_wise/features/account/data/repositories/plan_item_repository_imp.dart';
 import 'package:budget_wise/features/plan/data/models/plan_item_dto.dart';
@@ -54,7 +56,11 @@ class PlanItemUsecase {
     if (totalAmount + planItemDto.amountLimit > planDto.amountLimit) {
       _logger.e(
           "Plan item amount limit reached: $totalAmount + ${planItemDto.amountLimit} > ${planDto.amountLimit}");
-      throw Exception("Plan item amount limit reached");
+      throw BussinessError(
+        head: "Bussiness Error",
+        desc: "Plan item amount limit reached",
+        timestamp: DateTime.now(),
+      );
     }
 
     await planItemRepository.createPlanItem(planItemDto);

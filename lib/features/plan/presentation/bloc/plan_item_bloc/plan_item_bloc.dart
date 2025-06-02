@@ -1,3 +1,4 @@
+import 'package:budget_wise/core/errors/bussiness_error.dart';
 import 'package:budget_wise/features/plan/domain/usecases/plan_item_usecase.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_state.dart';
@@ -38,19 +39,17 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
         await planItemUsecase.createPlanItem(event.item);
         final items = await planItemUsecase.getItemsByPlanId(event.item.planId);
         emit(PlanItemLoaded(items));
+      } on BussinessError catch (e) {
+        emit(PlanItemError(e.desc));
+        _onEmitOriginalState(emit, currentState, event.item.planId);
       } catch (e) {
         emit(PlanItemError("Failed to create plan item"));
-        if (currentState is PlanItemLoaded) {
-          emit(currentState);
-        } else {
-          final items =
-              await planItemUsecase.getItemsByPlanId(event.item.planId);
-          emit(PlanItemLoaded(items));
-        }
+        _onEmitOriginalState(emit, currentState, event.item.planId);
       }
     });
 
     on<UpdatePlanItem>((event, emit) async {
+      final currentState = state;
       emit(PlanItemLoading());
       try {
         await planItemUsecase.updatePlanItem(event.item);
@@ -59,10 +58,12 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
         emit(PlanItemLoaded(items));
       } catch (e) {
         emit(PlanItemError("Failed to load plan items"));
+        _onEmitOriginalState(emit, currentState, event.item.planId);
       }
     });
 
     on<DeletePlanItem>((event, emit) async {
+      final currentState = state;
       emit(PlanItemLoading());
       try {
         await planItemUsecase.deletePlanItem(event.itemId);
@@ -71,7 +72,18 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
         emit(PlanItemLoaded(items));
       } catch (e) {
         emit(PlanItemError("Failed to load plan items"));
+        _onEmitOriginalState(emit, currentState, event.planId);
       }
     });
+  }
+
+  void _onEmitOriginalState(
+      Emitter<PlanItemState> emit, PlanItemState state, String planId) async {
+    if (state is PlanItemLoaded) {
+      emit(state);
+    } else {
+      final items = await planItemUsecase.getItemsByPlanId(planId);
+      emit(PlanItemLoaded(items));
+    }
   }
 }

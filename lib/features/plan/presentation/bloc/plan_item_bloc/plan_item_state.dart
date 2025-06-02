@@ -25,3 +25,8 @@ class PlanItemSelected extends PlanItemState {
   final String selectedId;
   PlanItemSelected(this.selectedId);
 }
+
+class PlanItemOperationFailed extends PlanItemState {
+  final String message;
+  PlanItemOperationFailed(this.message);
+}
