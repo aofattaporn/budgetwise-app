@@ -7,14 +7,13 @@ import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/cur
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_state.dart';
-import 'package:budget_wise/shared/common/custom_common_component.dart';
 import 'package:budget_wise/shared/common/custom_common_sheet.dart';
 import 'package:budget_wise/shared/common/custum_common_widget.dart';
 import 'package:budget_wise/shared/components/plan_item_card.dart';
 import 'package:budget_wise/shared/components/saving_slider.dart';
 import 'package:budget_wise/shared/components/segmented_circular_progress.dart';
 import 'package:budget_wise/app_config/routes/app_routes.dart';
-import 'package:budget_wise/features/plan/presentation/plan_overview_screen.dart';
+import 'package:budget_wise/features/plan/presentation/screens/plan_overview_screen.dart';
 import 'package:budget_wise/features/plan/presentation/sheets/create_new_plan_item_sheet.dart';
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:budget_wise/app_config/theme/system/app_decoration.dart';
@@ -395,15 +394,3 @@ class _PlanTabState extends State<PlanTab> {
     );
   }
 }
-
-
-      // child: CustomCommonWidget.commonElevatedBtn(
-      //                 label: "Create Plan",
-      //                 isDisable: isError,
-      //                 onPressed: () {
-      //                   CustomCommonSheet(height: 0.5).open(context,
-      //                       widget: CreateOrEditPlanItemSheet(
-      //                         planId: isLoaded ? state.plan.id! : "",
-      //                       ));
-      //                 },
-      //               ),
