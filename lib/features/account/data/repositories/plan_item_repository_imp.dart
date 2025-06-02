@@ -10,6 +10,7 @@ abstract class PlanItemRepository {
   Future<void> updatePlanItem(PlanItemDto dto);
   Future<void> deletePlanItem(String itemId);
   Future<List<PlanItemDto>> getAllActivePlanItems();
+  Future<PlanItemDto> getItemById(String id);
 }
 
 class PlanItemRepositoryImp implements PlanItemRepository {
@@ -47,5 +48,12 @@ class PlanItemRepositoryImp implements PlanItemRepository {
     final response = await dataSource.fetchAllActivePlanItems();
     final List<PlanItemEntity> rawList = ResponseUtil.handleResponse(response);
     return rawList.map(PlanItemDto.fromEntity).toList();
+  }
+
+  @override
+  Future<PlanItemDto> getItemById(String id) async {
+    final response = await dataSource.fetchItemById(id);
+    final PlanItemEntity entity = ResponseUtil.handleResponse(response);
+    return PlanItemDto.fromEntity(entity);
   }
 }

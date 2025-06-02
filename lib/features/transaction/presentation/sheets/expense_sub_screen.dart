@@ -41,7 +41,6 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
   String? _selectedAccountId;
   String? _selectedPlanItemId;
   DateTime _selectedDate = DateTime.now();
-  bool _isSubmitting = false;
   String? _lastFetchedPlanId;
 
   @override
@@ -52,8 +51,20 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
     super.dispose();
   }
 
-  // Helpers
-  bool get isLoading => _isSubmitting;
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(() {
+      setState(() {});
+    });
+    _amountController.addListener(() {
+      setState(() {});
+    });
+    _noteController.addListener(() {
+      setState(() {});
+    });
+  }
+
   String get formattedDate =>
       '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')}';
 
@@ -101,7 +112,6 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
       );
       return;
     }
-    setState(() => _isSubmitting = true);
 
     final transactionDto = TransactionDto(
       id: null,
@@ -117,6 +127,13 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
       updatedAt: null,
     );
     context.read<TransactionBloc>().add(CreateTransaction(transactionDto));
+  }
+
+  bool _validateIsDisable() {
+    return _nameController.text.trim().isEmpty ||
+        _selectedAccountId == null ||
+        _selectedPlanItemId == null ||
+        _amountController.text.trim().isEmpty;
   }
 
   Widget _buildLoadingIndicator() {
@@ -261,10 +278,8 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
                       label: tState is TransactionLoading
                           ? 'Creating...'
                           : 'Create Transaction',
-                      onPressed: _isSubmitting || tState is TransactionLoading
-                          ? () {}
-                          : _submit,
-                      isDisable: _isSubmitting || tState is TransactionLoading,
+                      onPressed: _submit,
+                      isDisable: _validateIsDisable(),
                     ),
                   ),
                   const SizedBox(height: 8),

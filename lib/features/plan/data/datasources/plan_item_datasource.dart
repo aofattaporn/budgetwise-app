@@ -16,6 +16,7 @@ abstract class PlanItemDataSource {
   Future<CommonResponse<void>> updatePlanItem(PlanItemDto dto);
   Future<CommonResponse<void>> deletePlanItem(String id);
   Future<CommonResponse<List<PlanItemEntity>>> fetchAllActivePlanItems();
+  Future<CommonResponse<PlanItemEntity>> fetchItemById(String id);
 }
 
 class PlanItemRemoteDataSourceImpl implements PlanItemDataSource {
@@ -91,6 +92,22 @@ class PlanItemRemoteDataSourceImpl implements PlanItemDataSource {
       return ResponseUtil.commonResponse(ResponseConstant.code1000, items);
     } catch (e, s) {
       _logger.e("Fetch all active plan items failed", error: e, stackTrace: s);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  @override
+  Future<CommonResponse<PlanItemEntity>> fetchItemById(String id) async {
+    try {
+      final json = await client.from('plan_items').select().eq('id', id);
+      if (json.isNotEmpty) {
+        return ResponseUtil.commonResponse(
+            ResponseConstant.code1000, PlanItemEntity.fromJson(json.first));
+      } else {
+        throw ErrorUtil.mapTechnicalError();
+      }
+    } catch (e, s) {
+      _logger.e("Fetch item by id failed", error: e, stackTrace: s);
       throw ErrorUtil.mapTechnicalError();
     }
   }

@@ -1,5 +1,7 @@
+import 'package:budget_wise/core/errors/bussiness_error.dart';
 import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
 import 'package:budget_wise/features/transaction/data/repositories/transaction_repository_imp.dart';
+import 'package:budget_wise/shared/utils/error_util.dart';
 
 class TransactionUsecase {
   final TransactionRepository transactionRepository;
@@ -27,6 +29,19 @@ class TransactionUsecase {
   }
 
   Future<void> createTransaction(TransactionDto dto) async {
+    // validate bussiness logic
+    if (dto.amount <= 0) {
+      throw ErrorUtil.mapBusinessError(
+        desc: 'Amount must be greater than 0',
+      );
+    }
+
+    if (dto.name.isEmpty) {
+      throw ErrorUtil.mapBusinessError(
+        desc: 'Name is required',
+      );
+    }
+
     await transactionRepository.createTransaction(dto);
   }
 
