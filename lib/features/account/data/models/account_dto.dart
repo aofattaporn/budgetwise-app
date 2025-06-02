@@ -1,5 +1,5 @@
 import 'package:budget_wise/features/account/domain/entities/account_enntity.dart';
-import 'package:budget_wise/src/presentation/utils/user_util.dart';
+import 'package:budget_wise/shared/utils/user_util.dart';
 
 class AccountDto {
   final String? id;
