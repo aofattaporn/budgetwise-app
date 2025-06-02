@@ -42,6 +42,7 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
   String? _selectedPlanItemId;
   DateTime _selectedDate = DateTime.now();
   bool _isSubmitting = false;
+  String? _lastFetchedPlanId;
 
   @override
   void dispose() {
@@ -198,7 +199,8 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
               planId = planState.plan.id;
             }
             // Fetch plan items when planId changes
-            if (planId != null) {
+            if (planId != null && planId != _lastFetchedPlanId) {
+              _lastFetchedPlanId = planId;
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
               });
