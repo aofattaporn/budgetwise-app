@@ -155,20 +155,18 @@ class _SavingSubScreenState extends State<SavingSubScreen> {
       TextStyle? textStyle, Color fillColor) {
     _reloadPlansItemIfNeeded(context, state);
 
-    if (state is PlanItemLoading) {
-      return _buildLoadingIndicator();
-    }
     final items = state is PlanItemLoaded ? state.items : [];
     return DropdownButtonFormField<String>(
       value: _selectedPlanItemId,
       decoration: InputDecoration(
-        labelText: 'Plan Item',
+        labelText: 'Plan Item (saving)',
         labelStyle: textStyle,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
         filled: true,
         fillColor: fillColor,
       ),
       items: items
+          .where((item) => item.type == "saving")
           .map((item) => DropdownMenuItem<String>(
                 value: item.id,
                 child: Row(

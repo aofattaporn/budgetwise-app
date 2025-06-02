@@ -155,9 +155,6 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
       TextStyle? textStyle, Color fillColor) {
     _reloadPlansItemIfNeeded(context, state);
 
-    if (state is PlanItemLoading) {
-      return _buildLoadingIndicator();
-    }
     final items = state is PlanItemLoaded ? state.items : [];
     return DropdownButtonFormField<String>(
       value: _selectedPlanItemId,
@@ -169,6 +166,7 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
         fillColor: fillColor,
       ),
       items: items
+          .where((item) => item.type == "expense")
           .map((item) => DropdownMenuItem<String>(
                 value: item.id,
                 child: Row(
