@@ -1,8 +1,8 @@
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
-import 'package:budget_wise/features/transaction/presentation/create_transaction_sheet.dart';
+import 'package:budget_wise/features/transaction/presentation/sheets/expense_sub_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/shared/common/pagination_dots.dart';
-import 'widgets/type_button.dart';
+import '../widgets/type_button.dart';
 
 enum TransactionType { expense, saving, transfer }
 
@@ -66,7 +66,7 @@ class _SelectTransactionTypeScreenState
         ],
       );
     } else {
-      content = CreateTransactionSheet(
+      content = ExpenseSubScreen(
         transactionType: selectedType!,
         onBack: goBack,
         parentContext: context,

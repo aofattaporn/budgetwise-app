@@ -1,4 +1,4 @@
-import 'package:budget_wise/features/transaction/presentation/select_transaction_type_screen.dart';
+import 'package:budget_wise/features/transaction/presentation/sheets/select_transaction_type_screen.dart';
 import 'package:budget_wise/shared/common/custom_common_sheet.dart';
 import 'package:budget_wise/features/account/presentation/account_tab.dart';
 import 'package:budget_wise/features/home/presentation/sub_screens/home_tab.dart';

@@ -1,5 +1,5 @@
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
-import 'package:budget_wise/features/transaction/presentation/select_transaction_type_screen.dart';
+import 'package:budget_wise/features/transaction/presentation/sheets/select_transaction_type_screen.dart';
 import 'package:budget_wise/shared/utils/user_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,21 +17,21 @@ import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 
-class CreateTransactionSheet extends StatefulWidget {
+class TransferSubScreen extends StatefulWidget {
   final TransactionType transactionType;
   final VoidCallback onBack;
   final BuildContext parentContext;
-  const CreateTransactionSheet(
+  const TransferSubScreen(
       {super.key,
       required this.parentContext,
       required this.transactionType,
       required this.onBack});
 
   @override
-  State<CreateTransactionSheet> createState() => _CreateTransactionSheetState();
+  State<TransferSubScreen> createState() => _TransferSubScreenState();
 }
 
-class _CreateTransactionSheetState extends State<CreateTransactionSheet> {
+class _TransferSubScreenState extends State<TransferSubScreen> {
   // Controllers and state
   final _nameController = TextEditingController();
   final _amountController = TextEditingController();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../select_transaction_type_screen.dart';
+import '../sheets/select_transaction_type_screen.dart';
 
 class CreateTransactionSubScreen extends StatelessWidget {
   final TransactionType transactionType;
