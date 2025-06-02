@@ -1,5 +1,6 @@
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:budget_wise/features/transaction/presentation/sheets/select_transaction_type_screen.dart';
+import 'package:budget_wise/shared/common/common_flash_message.dart';
 import 'package:budget_wise/shared/utils/user_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,15 +104,6 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
   void _submit() {
     final name = _nameController.text.trim();
     final amount = double.tryParse(_amountController.text.trim()) ?? 0.0;
-    if (name.isEmpty || _selectedAccountId == null || amount <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-                'Please enter a name, select an account, and enter a valid amount.',
-                style: Theme.of(context).textTheme.bodyMedium)),
-      );
-      return;
-    }
 
     final transactionDto = TransactionDto(
       id: null,
@@ -207,88 +199,100 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
     final fillColor = colorScheme.surfaceVariant;
     final labelStyle = textTheme.bodyMedium;
 
-    return BlocBuilder<TransactionBloc, TransactionState>(
-      builder: (context, tState) {
-        return BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
-          builder: (context, planState) {
-            String? planId;
-            if (planState is CurrentPlanLoaded) {
-              planId = planState.plan.id;
-            }
-            // Fetch plan items when planId changes
-            if (planId != null && planId != _lastFetchedPlanId) {
-              _lastFetchedPlanId = planId;
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
-              });
-            }
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeader(context),
-                  const SizedBox(height: 24),
-                  // Transaction Name
-                  CommonWidget.textField(
-                    textEditingController: _nameController,
-                    placeholder: 'Transaction Name',
-                  ),
-                  const SizedBox(height: 24),
-                  BlocBuilder<AccountBloc, AccountState>(
-                    builder: (context, state) => _buildAccountDropdown(
-                        context, state, labelStyle, fillColor),
-                  ),
-                  const SizedBox(height: 20),
-                  BlocBuilder<PlanItemBloc, PlanItemState>(
-                    builder: (context, state) => _buildPlanItemDropdown(
-                        context, state, labelStyle, fillColor),
-                  ),
-                  const SizedBox(height: 20),
-                  CommonWidget.textField(
-                    textEditingController: _amountController,
-                    placeholder: 'Amount',
-                    isNumberOnly: true,
-                  ),
-                  const SizedBox(height: 20),
-                  CommonWidget.textField(
-                    textEditingController: _noteController,
-                    placeholder: 'Note (optional)',
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Text('Date:', style: textTheme.bodyMedium),
-                      const SizedBox(width: 8),
-                      Text(
-                        formattedDate,
-                        style: textTheme.bodyMedium
-                            ?.copyWith(color: colorScheme.primary),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.calendar_today),
-                        onPressed: () => _showDatePicker(context),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 32),
-                  SizedBox(
-                    width: double.infinity,
-                    child: CommonWidget.commonElevatedBtn(
-                      label: tState is TransactionLoading
-                          ? 'Creating...'
-                          : 'Create Transaction',
-                      onPressed: _submit,
-                      isDisable: _validateIsDisable(),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-              ),
-            );
-          },
-        );
+    return BlocListener<TransactionBloc, TransactionState>(
+      listener: (context, state) {
+        if (state is TransactionError) {
+          print("TransactionError: ${state.message}");
+          CommonFlashMessage.show(
+            context,
+            message: state.message,
+          );
+        }
       },
+      child: BlocBuilder<TransactionBloc, TransactionState>(
+        builder: (context, tState) {
+          return BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
+            builder: (context, planState) {
+              String? planId;
+              if (planState is CurrentPlanLoaded) {
+                planId = planState.plan.id;
+              }
+              // Fetch plan items when planId changes
+              if (planId != null && planId != _lastFetchedPlanId) {
+                _lastFetchedPlanId = planId;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
+                });
+              }
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(context),
+                    const SizedBox(height: 24),
+                    // Transaction Name
+                    CommonWidget.textField(
+                      textEditingController: _nameController,
+                      placeholder: 'Transaction Name',
+                    ),
+                    const SizedBox(height: 24),
+                    BlocBuilder<AccountBloc, AccountState>(
+                      builder: (context, state) => _buildAccountDropdown(
+                          context, state, labelStyle, fillColor),
+                    ),
+                    const SizedBox(height: 20),
+                    BlocBuilder<PlanItemBloc, PlanItemState>(
+                      builder: (context, state) => _buildPlanItemDropdown(
+                          context, state, labelStyle, fillColor),
+                    ),
+                    const SizedBox(height: 20),
+                    CommonWidget.textField(
+                      textEditingController: _amountController,
+                      placeholder: 'Amount',
+                      isNumberOnly: true,
+                    ),
+                    const SizedBox(height: 20),
+                    CommonWidget.textField(
+                      textEditingController: _noteController,
+                      placeholder: 'Note (optional)',
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text('Date:', style: textTheme.bodyMedium),
+                        const SizedBox(width: 8),
+                        Text(
+                          formattedDate,
+                          style: textTheme.bodyMedium
+                              ?.copyWith(color: colorScheme.primary),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.calendar_today),
+                          onPressed: () => _showDatePicker(context),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: double.infinity,
+                      child: CommonWidget.commonElevatedBtn(
+                        label: tState is TransactionLoading
+                            ? 'Creating...'
+                            : 'Create Transaction',
+                        onPressed: _submit,
+                        isDisable: _validateIsDisable(),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 

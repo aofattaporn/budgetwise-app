@@ -1,3 +1,4 @@
+import 'package:budget_wise/core/errors/bussiness_error.dart';
 import 'package:budget_wise/features/transaction/domain/usecases/create_transaction_usecase.dart';
 import 'package:budget_wise/features/transaction/domain/usecases/get_all_transactions_usecase.dart';
 import 'package:budget_wise/features/transaction/domain/usecases/get_transactions_by_date_range_usecase.dart';
@@ -29,7 +30,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       try {
         final transactions = await getAllTransactionsUsecase();
         emit(TransactionLoaded(transactions));
-      } catch (e) {
+      } on BussinessError catch (e) {
+        emit(TransactionError(e.desc));
+      } on Exception catch (e) {
         emit(TransactionError("Failed to load transactions"));
       }
     });
@@ -40,7 +43,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         final transactions =
             await getTransactionsByDateRangeUsecase(event.start, event.end);
         emit(TransactionLoaded(transactions));
-      } catch (e) {
+      } on BussinessError catch (e) {
+        emit(TransactionError(e.desc));
+      } on Exception catch (e) {
         emit(TransactionError("Failed to load transactions by date range"));
       }
     });
@@ -51,7 +56,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         await createTransactionUsecase.call(event.dto);
         final transactions = await getAllTransactionsUsecase();
         emit(TransactionLoaded(transactions));
-      } catch (e) {
+      } on BussinessError catch (e) {
+        emit(TransactionError(e.desc));
+      } on Exception catch (e) {
         emit(TransactionError("Failed to create transaction"));
       }
     });
@@ -62,7 +69,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         await updateTransactionUsecase(event.dto);
         final transactions = await getAllTransactionsUsecase();
         emit(TransactionLoaded(transactions));
-      } catch (e) {
+      } on BussinessError catch (e) {
+        emit(TransactionError(e.desc));
+      } on Exception catch (e) {
         emit(TransactionError("Failed to update transaction"));
       }
     });
@@ -73,7 +82,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         await deleteTransactionUsecase(event.id);
         final transactions = await getAllTransactionsUsecase();
         emit(TransactionLoaded(transactions));
-      } catch (e) {
+      } on BussinessError catch (e) {
+        emit(TransactionError(e.desc));
+      } on Exception catch (e) {
         emit(TransactionError("Failed to delete transaction"));
       }
     });
