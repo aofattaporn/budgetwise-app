@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/models/transaction_dto.dart';
+import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
 
 abstract class TransactionState {}
 

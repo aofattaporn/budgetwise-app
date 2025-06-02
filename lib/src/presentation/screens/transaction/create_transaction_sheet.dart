@@ -10,7 +10,7 @@ import 'package:budget_wise/src/presentation/widgets/common_widget.dart';
 import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_bloc.dart';
 import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_event.dart';
 import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_state.dart';
-import 'package:budget_wise/src/domain/models/transaction_dto.dart';
+import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/src/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';

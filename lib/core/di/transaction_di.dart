@@ -1,7 +1,7 @@
 import 'package:budget_wise/core/di/di.dart';
 import 'package:budget_wise/features/transaction/data/datasources/transaction_datasource.dart';
 import 'package:budget_wise/features/transaction/data/repositories/transaction_repository_imp.dart';
-import 'package:budget_wise/src/domain/usecase/transaction_usecase.dart';
+import 'package:budget_wise/features/transaction/domain/usecases/transaction_usecase.dart';
 import 'package:budget_wise/src/presentation/bloc/transaction_bloc/transaction_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

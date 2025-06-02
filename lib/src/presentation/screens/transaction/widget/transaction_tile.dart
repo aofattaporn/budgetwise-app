@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:budget_wise/src/domain/models/transaction_dto.dart';
+import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 
 class TransactionTile extends StatelessWidget {

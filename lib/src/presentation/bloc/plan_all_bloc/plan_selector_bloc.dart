@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:budget_wise/core/errors/not_found_error.dart';
-import 'package:budget_wise/src/domain/usecase/plan_usecase.dart';
+import 'package:budget_wise/features/plan/domain/usecases/plan_usecase.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_event.dart';
 import 'package:budget_wise/src/presentation/bloc/plan_all_bloc/plan_selector_state.dart';
 

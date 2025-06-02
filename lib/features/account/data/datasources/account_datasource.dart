@@ -1,6 +1,6 @@
-import 'package:budget_wise/src/domain/entities/account_enntity.dart';
-import 'package:budget_wise/src/domain/models/account_dto.dart';
-import 'package:budget_wise/src/domain/models/common/common_response.dart';
+import 'package:budget_wise/features/account/domain/entities/account_enntity.dart';
+import 'package:budget_wise/features/account/data/models/account_dto.dart';
+import 'package:budget_wise/core/common/common_response.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:logger/logger.dart';
 import '../../../../core/utils/logger_util.dart';

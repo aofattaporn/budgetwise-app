@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/models/plan_dto.dart';
+import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
 
 abstract class CurrentPlanEvent {}
 

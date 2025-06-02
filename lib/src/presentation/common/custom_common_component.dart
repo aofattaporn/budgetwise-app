@@ -1,5 +1,5 @@
-import 'package:budget_wise/src/domain/entities/plan_entity.dart';
-import 'package:budget_wise/src/domain/models/plan_dto.dart';
+import 'package:budget_wise/features/plan/domain/entities/plan_entity.dart';
+import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
 import 'package:budget_wise/src/presentation/components/labeled_date_picker_row.dart';
 import 'package:budget_wise/src/presentation/components/labeled_icon_row.dart';
 import 'package:budget_wise/src/presentation/components/labeled_textfield_row.dart';

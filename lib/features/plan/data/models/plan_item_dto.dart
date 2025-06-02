@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/entities/plan_item_entity.dart';
+import 'package:budget_wise/features/plan/domain/entities/plan_item_entity.dart';
 
 class PlanItemDto {
   final String id;

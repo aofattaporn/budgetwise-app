@@ -1,6 +1,6 @@
 import 'package:budget_wise/features/transaction/data/datasources/transaction_datasource.dart';
-import 'package:budget_wise/src/domain/entities/transaction_entity.dart';
-import 'package:budget_wise/src/domain/models/transaction_dto.dart';
+import 'package:budget_wise/features/transaction/domain/entities/transaction_entity.dart';
+import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
 
 abstract class TransactionRepository {
   Future<List<TransactionDto>> getAllTransactions();

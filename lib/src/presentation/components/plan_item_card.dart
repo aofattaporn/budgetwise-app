@@ -1,5 +1,5 @@
 import 'package:budget_wise/core/utils/numbers_uti.dart';
-import 'package:budget_wise/src/domain/models/plan_item_dto.dart';
+import 'package:budget_wise/features/plan/data/models/plan_item_dto.dart';
 import 'package:budget_wise/src/presentation/theme/system/app_colors.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:budget_wise/core/errors/not_found_error.dart';
-import 'package:budget_wise/src/domain/usecase/plan_usecase.dart';
+import 'package:budget_wise/features/plan/domain/usecases/plan_usecase.dart';
 import 'current_plan_event.dart';
 import 'current_plan_state.dart';
 

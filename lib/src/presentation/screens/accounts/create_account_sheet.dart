@@ -1,6 +1,6 @@
 import 'package:budget_wise/src/presentation/utils/user_util.dart';
 import 'package:flutter/material.dart';
-import 'package:budget_wise/src/domain/models/account_dto.dart';
+import 'package:budget_wise/features/account/data/models/account_dto.dart';
 
 class CreateAccountSheet extends StatefulWidget {
   final void Function(AccountDto) onSubmit;

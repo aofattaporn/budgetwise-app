@@ -1,4 +1,4 @@
-import 'package:budget_wise/src/domain/models/account_dto.dart';
+import 'package:budget_wise/features/account/data/models/account_dto.dart';
 
 abstract class AccountEvent {}
 

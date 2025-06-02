@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:budget_wise/src/domain/usecase/transaction_usecase.dart';
+import 'package:budget_wise/features/transaction/domain/usecases/transaction_usecase.dart';
 import 'transaction_event.dart';
 import 'transaction_state.dart';
 
