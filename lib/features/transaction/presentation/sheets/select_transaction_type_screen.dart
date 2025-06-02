@@ -1,5 +1,7 @@
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:budget_wise/features/transaction/presentation/sheets/expense_sub_screen.dart';
+import 'package:budget_wise/features/transaction/presentation/sheets/saving_sub_screen.dart';
+import 'package:budget_wise/features/transaction/presentation/sheets/transfer_sub_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_wise/shared/common/pagination_dots.dart';
 import '../widgets/type_button.dart';
@@ -65,12 +67,26 @@ class _SelectTransactionTypeScreenState
           ),
         ],
       );
-    } else {
-      content = ExpenseSubScreen(
+    } else if (selectedType == TransactionType.saving) {
+      content = SavingSubScreen(
+        transactionType: selectedType!,
+        onBack: goBack,
+        type: 'saving',
+      );
+    } else if (selectedType == TransactionType.transfer) {
+      content = TransferSubScreen(
         transactionType: selectedType!,
         onBack: goBack,
         parentContext: context,
       );
+    } else if (selectedType == TransactionType.expense) {
+      content = ExpenseSubScreen(
+        transactionType: selectedType!,
+        onBack: goBack,
+        type: 'expense',
+      );
+    } else {
+      content = const SizedBox.shrink();
     }
 
     return SafeArea(

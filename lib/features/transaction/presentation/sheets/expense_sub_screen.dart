@@ -18,14 +18,16 @@ import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 
 class ExpenseSubScreen extends StatefulWidget {
+  final String type;
   final TransactionType transactionType;
   final VoidCallback onBack;
-  final BuildContext parentContext;
-  const ExpenseSubScreen(
-      {super.key,
-      required this.parentContext,
-      required this.transactionType,
-      required this.onBack});
+
+  const ExpenseSubScreen({
+    super.key,
+    required this.transactionType,
+    required this.onBack,
+    required this.type,
+  });
 
   @override
   State<ExpenseSubScreen> createState() => _ExpenseSubScreenState();
@@ -36,7 +38,6 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
   final _nameController = TextEditingController();
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
-  int _typeIndex = 0; // 0 = Expense, 1 = Saving
   String? _selectedAccountId;
   String? _selectedPlanItemId;
   DateTime _selectedDate = DateTime.now();
@@ -91,7 +92,7 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
     final name = _nameController.text.trim();
     final amount = double.tryParse(_amountController.text.trim()) ?? 0.0;
     if (name.isEmpty || _selectedAccountId == null || amount <= 0) {
-      ScaffoldMessenger.of(widget.parentContext).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
                 'Please enter a name, select an account, and enter a valid amount.',
@@ -107,7 +108,7 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
       planItemId: _selectedPlanItemId,
       accountId: _selectedAccountId!,
       amount: amount,
-      type: _typeIndex == 0 ? 'expense' : 'income',
+      type: widget.type,
       name: name,
       note: _noteController.text.trim(),
       transactionDate: _selectedDate,
@@ -115,19 +116,6 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
       updatedAt: null,
     );
     context.read<TransactionBloc>().add(CreateTransaction(transactionDto));
-  }
-
-  void _clearFields() {
-    _nameController.clear();
-    _amountController.clear();
-    _noteController.clear();
-    setState(() {
-      _selectedAccountId = null;
-      _selectedPlanItemId = null;
-      _typeIndex = 0;
-      _selectedDate = DateTime.now();
-      _isSubmitting = false;
-    });
   }
 
   Widget _buildLoadingIndicator() {
@@ -203,124 +191,102 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
     final fillColor = colorScheme.surfaceVariant;
     final labelStyle = textTheme.bodyMedium;
 
-    return BlocListener<TransactionBloc, TransactionState>(
-      listener: (context, state) {
-        if (state is TransactionLoaded && _isSubmitting) {
-          ScaffoldMessenger.of(widget.parentContext).showSnackBar(
-            SnackBar(
-                backgroundColor: AppColors.primary,
-                content: Text('Transaction created!',
-                    style: Theme.of(context).textTheme.bodyMedium)),
-          );
-          _clearFields();
-          Navigator.of(context).pop();
-        } else if (state is TransactionError && _isSubmitting) {
-          ScaffoldMessenger.of(widget.parentContext).showSnackBar(
-            SnackBar(
-                backgroundColor: Colors.red,
-                content: Text(state.message,
-                    style: Theme.of(context).textTheme.bodyMedium)),
-          );
-          setState(() => _isSubmitting = false);
-        }
+    return BlocBuilder<TransactionBloc, TransactionState>(
+      builder: (context, tState) {
+        return BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
+          builder: (context, planState) {
+            String? planId;
+            if (planState is CurrentPlanLoaded) {
+              planId = planState.plan.id;
+            }
+            // Fetch plan items when planId changes
+            if (planId != null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
+              });
+            }
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(context),
+                  const SizedBox(height: 24),
+                  // Transaction Name
+                  CommonWidget.textField(
+                    textEditingController: _nameController,
+                    placeholder: 'Transaction Name',
+                  ),
+                  const SizedBox(height: 24),
+                  BlocBuilder<AccountBloc, AccountState>(
+                    builder: (context, state) => _buildAccountDropdown(
+                        context, state, labelStyle, fillColor),
+                  ),
+                  const SizedBox(height: 20),
+                  BlocBuilder<PlanItemBloc, PlanItemState>(
+                    builder: (context, state) => _buildPlanItemDropdown(
+                        context, state, labelStyle, fillColor),
+                  ),
+                  const SizedBox(height: 20),
+                  CommonWidget.textField(
+                    textEditingController: _amountController,
+                    placeholder: 'Amount',
+                    isNumberOnly: true,
+                  ),
+                  const SizedBox(height: 20),
+                  CommonWidget.textField(
+                    textEditingController: _noteController,
+                    placeholder: 'Note (optional)',
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Text('Date:', style: textTheme.bodyMedium),
+                      const SizedBox(width: 8),
+                      Text(
+                        formattedDate,
+                        style: textTheme.bodyMedium
+                            ?.copyWith(color: colorScheme.primary),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.calendar_today),
+                        onPressed: () => _showDatePicker(context),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  SizedBox(
+                    width: double.infinity,
+                    child: CommonWidget.commonElevatedBtn(
+                      label: tState is TransactionLoading
+                          ? 'Creating...'
+                          : 'Create Transaction',
+                      onPressed: _isSubmitting || tState is TransactionLoading
+                          ? () {}
+                          : _submit,
+                      isDisable: _isSubmitting || tState is TransactionLoading,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            );
+          },
+        );
       },
-      child: BlocBuilder<TransactionBloc, TransactionState>(
-        builder: (context, tState) {
-          return BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
-            builder: (context, planState) {
-              String? planId;
-              if (planState is CurrentPlanLoaded) {
-                planId = planState.plan.id;
-              }
-              // Fetch plan items when planId changes
-              if (planId != null) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
-                });
-              }
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // iOS-style drag handle
-                    Center(
-                      child: Container(
-                        width: 40,
-                        height: 5,
-                        margin: const EdgeInsets.only(bottom: 16),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    // Transaction Name
-                    CommonWidget.textField(
-                      textEditingController: _nameController,
-                      placeholder: 'Transaction Name',
-                    ),
-                    const SizedBox(height: 24),
-                    BlocBuilder<AccountBloc, AccountState>(
-                      builder: (context, state) => _buildAccountDropdown(
-                          context, state, labelStyle, fillColor),
-                    ),
-                    const SizedBox(height: 20),
-                    BlocBuilder<PlanItemBloc, PlanItemState>(
-                      builder: (context, state) => _buildPlanItemDropdown(
-                          context, state, labelStyle, fillColor),
-                    ),
-                    const SizedBox(height: 20),
-                    CommonWidget.textField(
-                      textEditingController: _amountController,
-                      placeholder: 'Amount',
-                      isNumberOnly: true,
-                    ),
-                    const SizedBox(height: 20),
-                    CommonWidget.textField(
-                      textEditingController: _noteController,
-                      placeholder: 'Note (optional)',
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text('Date:', style: textTheme.bodyMedium),
-                        const SizedBox(width: 8),
-                        Text(
-                          formattedDate,
-                          style: textTheme.bodyMedium
-                              ?.copyWith(color: colorScheme.primary),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.calendar_today),
-                          onPressed: () => _showDatePicker(context),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    SizedBox(
-                      width: double.infinity,
-                      child: CommonWidget.commonElevatedBtn(
-                        label: tState is TransactionLoading
-                            ? 'Creating...'
-                            : 'Create Transaction',
-                        onPressed: _isSubmitting || tState is TransactionLoading
-                            ? () {}
-                            : _submit,
-                        isDisable:
-                            _isSubmitting || tState is TransactionLoading,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Row(
+      spacing: 16,
+      children: [
+        Text(
+          'Add Expense',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        const Icon(Icons.remove_circle_outline)
+      ],
     );
   }
 }
