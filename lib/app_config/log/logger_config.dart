@@ -28,7 +28,7 @@ class LoggerConfig extends LogPrinter {
     if (event.level == Level.debug && !_isDebugMode) return [];
 
     final emoji = CommonConstant.levelEmojis[event.level] ?? '';
-    final timestamp = UtilsDateTime.dateTimeReadableFormat(DateTime.now());
+    final timestamp = UtilsDateTime.dateTimeSecondFormat(DateTime.now());
     final message = event.message;
     final error = event.error;
     final stackTrace = event.stackTrace;

@@ -21,6 +21,11 @@ class UtilsDateTime {
     return formatter.format(date);
   }
 
+  static String dateTimeSecondFormat(DateTime date) {
+    final DateFormat formatter = DateFormat('dd MMM yyyy, HH:mm:ss');
+    return formatter.format(date);
+  }
+
   static String yearMonthFormat(DateTime date) {
     final DateFormat formatter = DateFormat('yyyy-MM');
     return formatter.format(date);
