@@ -54,11 +54,13 @@ class _SelectTransactionTypeScreenState
                 onTap: () => selectType(TransactionType.expense),
               ),
               TypeButton(
+                isDisable: true,
                 icon: Icons.savings_outlined,
                 label: 'Saving',
                 onTap: () => selectType(TransactionType.saving),
               ),
               TypeButton(
+                isDisable: true,
                 icon: Icons.compare_arrows_outlined,
                 label: 'Transfer',
                 onTap: () => selectType(TransactionType.transfer),
