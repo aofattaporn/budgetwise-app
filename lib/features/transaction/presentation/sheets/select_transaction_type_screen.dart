@@ -116,7 +116,12 @@ class _SelectTransactionTypeScreenState
         Align(
           alignment: Alignment.centerLeft,
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: AppColors.backgroundDark),
+            icon: Icon(
+              Icons.arrow_back,
+              color: currentStep == 0
+                  ? AppColors.backgroundDark.withAlpha(60)
+                  : AppColors.backgroundDark,
+            ),
             onPressed: goBack,
           ),
         ),

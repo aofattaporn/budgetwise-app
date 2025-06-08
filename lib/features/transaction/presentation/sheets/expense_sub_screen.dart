@@ -322,13 +322,6 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const Icon(Icons.remove_circle_outline),
-        IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            _resetFormState();
-            widget.onBack();
-          },
-        ),
       ],
     );
   }
