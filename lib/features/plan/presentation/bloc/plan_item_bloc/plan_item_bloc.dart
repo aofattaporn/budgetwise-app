@@ -19,7 +19,7 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
     });
 
     on<FetchAllActivePlanItems>((event, emit) async {
-      emit(PlanItemLoading());
+      // emit(PlanItemLoading());
       try {
         final items = await planItemUsecase.getAllActivePlanItems();
         emit(PlanItemLoaded(items));

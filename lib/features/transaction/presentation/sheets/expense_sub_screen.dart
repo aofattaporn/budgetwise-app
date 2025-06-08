@@ -42,13 +42,14 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
   String? _selectedAccountId;
   String? _selectedPlanItemId;
   DateTime _selectedDate = DateTime.now();
-  String? _lastFetchedPlanId;
+  String? _errorMessage;
 
   @override
   void dispose() {
     _nameController.dispose();
     _amountController.dispose();
     _noteController.dispose();
+
     super.dispose();
   }
 
@@ -192,6 +193,16 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
     );
   }
 
+  void _resetFormState() {
+    _nameController.clear();
+    _amountController.clear();
+    _noteController.clear();
+    _selectedAccountId = null;
+    _selectedPlanItemId = null;
+    _errorMessage = null;
+    _selectedDate = DateTime.now();
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -202,10 +213,15 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
     return BlocListener<TransactionBloc, TransactionState>(
       listener: (context, state) {
         if (state is TransactionError) {
-          print("TransactionError: ${state.message}");
+          _errorMessage = state.message;
+        }
+
+        if (state is TransactionLoaded) {
+          Navigator.popUntil(context, (route) => route.isFirst);
           CommonFlashMessage.show(
             context,
-            message: state.message,
+            message: "Transaction created successfully",
+            type: FlashMessageType.success,
           );
         }
       },
@@ -213,17 +229,6 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
         builder: (context, tState) {
           return BlocBuilder<CurrentPlanBloc, CurrentPlanState>(
             builder: (context, planState) {
-              String? planId;
-              if (planState is CurrentPlanLoaded) {
-                planId = planState.plan.id;
-              }
-              // Fetch plan items when planId changes
-              if (planId != null && planId != _lastFetchedPlanId) {
-                _lastFetchedPlanId = planId;
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
-                });
-              }
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -281,11 +286,23 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
                         label: tState is TransactionLoading
                             ? 'Creating...'
                             : 'Create Transaction',
-                        onPressed: _submit,
+                        onPressed:
+                            tState is TransactionLoading ? () => {} : _submit,
                         isDisable: _validateIsDisable(),
                       ),
                     ),
                     const SizedBox(height: 8),
+                    if (tState is TransactionLoading)
+                      const LinearProgressIndicator(
+                        backgroundColor: AppColors.border,
+                        color: AppColors.primary,
+                      ),
+
+                    if (_errorMessage != null)
+                      Text(
+                        "$_errorMessage***",
+                        style: labelStyle?.copyWith(color: AppColors.error),
+                      ),
                   ],
                 ),
               );
@@ -304,7 +321,14 @@ class _ExpenseSubScreenState extends State<ExpenseSubScreen> {
           'Add Expense',
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        const Icon(Icons.remove_circle_outline)
+        const Icon(Icons.remove_circle_outline),
+        IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            _resetFormState();
+            widget.onBack();
+          },
+        ),
       ],
     );
   }
