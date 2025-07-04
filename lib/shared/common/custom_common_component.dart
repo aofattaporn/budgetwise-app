@@ -1,4 +1,4 @@
-import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
+import 'package:budget_wise/data/models/plan_dto.dart';
 import 'package:budget_wise/shared/components/labeled_date_picker_row.dart';
 import 'package:budget_wise/shared/components/labeled_icon_row.dart';
 import 'package:budget_wise/shared/components/labeled_textfield_row.dart';

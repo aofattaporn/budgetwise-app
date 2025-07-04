@@ -1,5 +1,5 @@
-import 'package:budget_wise/features/account/data/models/account_dto.dart';
-import 'package:budget_wise/features/account/data/repositories/account_repository_imp.dart';
+import 'package:budget_wise/data/models/account_dto.dart';
+import 'package:budget_wise/data/repositories/account_repository_imp.dart';
 
 class AccountUsecase {
   final AccountRepository accountRepository;

@@ -1,6 +1,6 @@
 import 'package:budget_wise/shared/constant/business_constant.dart';
-import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
-import 'package:budget_wise/features/transaction/data/models/transaction_segment.dart';
+import 'package:budget_wise/data/models/plan_dto.dart';
+import 'package:budget_wise/data/models/transaction_segment.dart';
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 
 class PlanUtil {

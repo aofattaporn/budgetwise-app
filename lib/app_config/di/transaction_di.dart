@@ -1,9 +1,9 @@
 import 'package:budget_wise/app_config/di/di.dart';
-import 'package:budget_wise/features/account/data/repositories/account_repository_imp.dart';
-import 'package:budget_wise/features/account/data/repositories/plan_item_repository_imp.dart';
+import 'package:budget_wise/data/repositories/account_repository_imp.dart';
+import 'package:budget_wise/data/repositories/plan_item_repository_imp.dart';
 
-import 'package:budget_wise/features/transaction/data/datasources/transaction_datasource.dart';
-import 'package:budget_wise/features/transaction/data/repositories/transaction_repository_imp.dart';
+import 'package:budget_wise/data/datasources/transaction_datasource.dart';
+import 'package:budget_wise/data/repositories/transaction_repository_imp.dart';
 import 'package:budget_wise/features/transaction/domain/usecases/get_all_transactions_usecase.dart';
 import 'package:budget_wise/features/transaction/domain/usecases/get_transactions_by_date_range_usecase.dart';
 import 'package:budget_wise/features/transaction/domain/usecases/get_transaction_by_id_usecase.dart';

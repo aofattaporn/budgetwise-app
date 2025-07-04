@@ -11,7 +11,7 @@ import 'package:budget_wise/shared/widgets/common_widget.dart';
 import 'package:budget_wise/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:budget_wise/features/transaction/presentation/bloc/transaction_event.dart';
 import 'package:budget_wise/features/transaction/presentation/bloc/transaction_state.dart';
-import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
+import 'package:budget_wise/data/models/transaction_dto.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_state.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';

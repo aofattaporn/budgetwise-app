@@ -1,5 +1,5 @@
-import 'package:budget_wise/features/plan/data/models/plan_item_dto.dart';
-import 'package:budget_wise/features/plan/data/models/plan_item_insert_dto.dart';
+import 'package:budget_wise/data/models/plan_item_dto.dart';
+import 'package:budget_wise/data/models/plan_item_insert_dto.dart';
 
 abstract class PlanItemEvent {}
 

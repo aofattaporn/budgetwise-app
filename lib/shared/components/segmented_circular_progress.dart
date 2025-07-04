@@ -1,6 +1,6 @@
 import 'package:budget_wise/shared/utils/datetime_util.dart';
-import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
-import 'package:budget_wise/features/transaction/data/models/transaction_segment.dart';
+import 'package:budget_wise/data/models/plan_dto.dart';
+import 'package:budget_wise/data/models/transaction_segment.dart';
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:budget_wise/app_config/theme/system/app_text_style.dart';
 import 'package:budget_wise/shared/widgets/progression/multi_segment_painter.dart';

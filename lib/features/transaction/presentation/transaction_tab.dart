@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budget_wise/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:budget_wise/features/transaction/presentation/bloc/transaction_event.dart';
 import 'package:budget_wise/features/transaction/presentation/bloc/transaction_state.dart';
-import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
+import 'package:budget_wise/data/models/transaction_dto.dart';
 import 'package:intl/intl.dart';
 import 'component/view_type_bar.dart';
 import 'component/second_row.dart';

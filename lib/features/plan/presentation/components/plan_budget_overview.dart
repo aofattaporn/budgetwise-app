@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_state.dart';
-import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
+import 'package:budget_wise/data/models/plan_dto.dart';
 import 'package:budget_wise/app_config/routes/app_routes.dart';
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:budget_wise/shared/components/segmented_circular_progress.dart';

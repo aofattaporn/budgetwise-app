@@ -5,7 +5,7 @@ import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/cur
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_event.dart';
-import 'package:budget_wise/features/plan/data/models/plan_item_dto.dart';
+import 'package:budget_wise/data/models/plan_item_dto.dart';
 import 'package:budget_wise/features/plan/presentation/sheets/create_new_plan_item_sheet.dart';
 import 'package:budget_wise/shared/common/custum_common_widget.dart';
 import 'package:budget_wise/shared/common/custom_common_sheet.dart';

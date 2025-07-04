@@ -1,4 +1,4 @@
-import 'package:budget_wise/features/plan/data/models/plan_dto.dart';
+import 'package:budget_wise/data/models/plan_dto.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_event.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';

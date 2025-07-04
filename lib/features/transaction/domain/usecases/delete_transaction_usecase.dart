@@ -1,4 +1,4 @@
-import 'package:budget_wise/features/transaction/data/repositories/transaction_repository_imp.dart';
+import 'package:budget_wise/data/repositories/transaction_repository_imp.dart';
 
 class DeleteTransactionUsecase {
   final TransactionRepository transactionRepository;

@@ -1,12 +1,12 @@
 import 'package:budget_wise/features/transaction/domain/entities/transaction_entity.dart';
-import 'package:budget_wise/features/transaction/data/models/transaction_dto.dart';
+import 'package:budget_wise/data/models/transaction_dto.dart';
 import 'package:budget_wise/core/common/common_response.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:logger/logger.dart';
-import '../../../../shared/utils/logger_util.dart';
-import '../../../../shared/utils/response_util.dart';
-import '../../../../shared/utils/error_util.dart';
-import '../../../../shared/constant/response_constant.dart';
+import '../../shared/utils/logger_util.dart';
+import '../../shared/utils/response_util.dart';
+import '../../shared/utils/error_util.dart';
+import '../../shared/constant/response_constant.dart';
 
 abstract class TransactionDataSource {
   Future<CommonResponse<List<TransactionEntity>>> fetchAllTransactions();
