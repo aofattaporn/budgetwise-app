@@ -1,5 +1,5 @@
 import 'package:budget_wise/data/datasources/transaction_datasource.dart';
-import 'package:budget_wise/features/transaction/domain/entities/transaction_entity.dart';
+import 'package:budget_wise/domain/entities/transaction_entity.dart';
 import 'package:budget_wise/data/models/transaction_dto.dart';
 
 abstract class TransactionRepository {

@@ -1,10 +1,10 @@
 import 'package:budget_wise/core/errors/bussiness_error.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/create_transaction_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/get_all_transactions_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/get_transactions_by_date_range_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/get_transaction_by_id_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/update_transaction_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/delete_transaction_usecase.dart';
+import 'package:budget_wise/domain/usecases/create_transaction_usecase.dart';
+import 'package:budget_wise/domain/usecases/get_all_transactions_usecase.dart';
+import 'package:budget_wise/domain/usecases/get_transactions_by_date_range_usecase.dart';
+import 'package:budget_wise/domain/usecases/get_transaction_by_id_usecase.dart';
+import 'package:budget_wise/domain/usecases/update_transaction_usecase.dart';
+import 'package:budget_wise/domain/usecases/delete_transaction_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'transaction_event.dart';
 import 'transaction_state.dart';

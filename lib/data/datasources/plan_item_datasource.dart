@@ -2,7 +2,7 @@ import 'package:budget_wise/shared/constant/response_constant.dart';
 import 'package:budget_wise/shared/utils/error_util.dart';
 import 'package:budget_wise/shared/utils/logger_util.dart';
 import 'package:budget_wise/shared/utils/response_util.dart';
-import 'package:budget_wise/features/plan/domain/entities/plan_item_entity.dart';
+import 'package:budget_wise/domain/entities/plan_item_entity.dart';
 import 'package:budget_wise/core/common/common_response.dart';
 import 'package:budget_wise/data/models/plan_item_dto.dart';
 import 'package:budget_wise/data/models/plan_item_insert_dto.dart';

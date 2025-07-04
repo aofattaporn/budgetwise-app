@@ -1,7 +1,7 @@
 import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/data/datasources/plan_datasource.dart';
 import 'package:budget_wise/data/repositories/plan_repository_imp.dart';
-import 'package:budget_wise/features/plan/domain/usecases/plan_usecase.dart';
+import 'package:budget_wise/domain/usecases/plan_usecase.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_boc.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

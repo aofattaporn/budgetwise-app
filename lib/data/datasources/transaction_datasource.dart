@@ -1,4 +1,4 @@
-import 'package:budget_wise/features/transaction/domain/entities/transaction_entity.dart';
+import 'package:budget_wise/domain/entities/transaction_entity.dart';
 import 'package:budget_wise/data/models/transaction_dto.dart';
 import 'package:budget_wise/core/common/common_response.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

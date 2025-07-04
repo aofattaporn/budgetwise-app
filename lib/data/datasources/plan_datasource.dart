@@ -1,6 +1,6 @@
 import 'package:budget_wise/core/errors/bussiness_error.dart';
 import 'package:budget_wise/shared/utils/datetime_util.dart';
-import 'package:budget_wise/features/plan/domain/entities/plan_entity.dart';
+import 'package:budget_wise/domain/entities/plan_entity.dart';
 import 'package:budget_wise/core/common/common_response.dart';
 import 'package:budget_wise/shared/constant/response_constant.dart';
 import 'package:budget_wise/shared/utils/error_util.dart';

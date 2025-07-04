@@ -1,5 +1,5 @@
 import 'package:budget_wise/data/datasources/account_datasource.dart';
-import 'package:budget_wise/features/account/domain/entities/account_enntity.dart';
+import 'package:budget_wise/domain/entities/account_enntity.dart';
 import 'package:budget_wise/data/models/account_dto.dart';
 
 abstract class AccountRepository {

@@ -4,12 +4,12 @@ import 'package:budget_wise/data/repositories/plan_item_repository_imp.dart';
 
 import 'package:budget_wise/data/datasources/transaction_datasource.dart';
 import 'package:budget_wise/data/repositories/transaction_repository_imp.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/get_all_transactions_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/get_transactions_by_date_range_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/get_transaction_by_id_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/create_transaction_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/update_transaction_usecase.dart';
-import 'package:budget_wise/features/transaction/domain/usecases/delete_transaction_usecase.dart';
+import 'package:budget_wise/domain/usecases/get_all_transactions_usecase.dart';
+import 'package:budget_wise/domain/usecases/get_transactions_by_date_range_usecase.dart';
+import 'package:budget_wise/domain/usecases/get_transaction_by_id_usecase.dart';
+import 'package:budget_wise/domain/usecases/create_transaction_usecase.dart';
+import 'package:budget_wise/domain/usecases/update_transaction_usecase.dart';
+import 'package:budget_wise/domain/usecases/delete_transaction_usecase.dart';
 import 'package:budget_wise/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

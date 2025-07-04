@@ -1,4 +1,4 @@
-import 'package:budget_wise/features/account/domain/entities/account_enntity.dart';
+import 'package:budget_wise/domain/entities/account_enntity.dart';
 import 'package:budget_wise/shared/utils/user_util.dart';
 
 class AccountDto {

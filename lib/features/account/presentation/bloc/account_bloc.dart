@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:budget_wise/features/account/domain/usecases/account_usecase.dart';
+import 'package:budget_wise/domain/usecases/account_usecase.dart';
 import 'account_event.dart';
 import 'account_state.dart';
 

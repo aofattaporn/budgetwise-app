@@ -1,4 +1,4 @@
-import 'package:budget_wise/features/transaction/domain/entities/transaction_entity.dart';
+import 'package:budget_wise/domain/entities/transaction_entity.dart';
 
 class TransactionDto {
   final String? id;

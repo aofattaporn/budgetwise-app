@@ -1,5 +1,5 @@
 import 'package:budget_wise/core/errors/bussiness_error.dart';
-import 'package:budget_wise/features/plan/domain/usecases/plan_item_usecase.dart';
+import 'package:budget_wise/domain/usecases/plan_item_usecase.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

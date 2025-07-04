@@ -1,5 +1,5 @@
 import 'package:budget_wise/data/repositories/transaction_repository_imp.dart';
-import '../../../../data/models/transaction_dto.dart';
+import '../../data/models/transaction_dto.dart';
 
 class GetAllTransactionsUsecase {
   final TransactionRepository transactionRepository;
