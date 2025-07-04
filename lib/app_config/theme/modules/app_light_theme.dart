@@ -21,7 +21,6 @@ class AppLightTheme {
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
       onPrimary: AppColors.white,
-      background: AppColors.gray100,
       surface: AppColors.surface,
       onSurface: AppColors.textPrimary,
     ),

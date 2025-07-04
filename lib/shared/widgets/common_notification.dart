@@ -37,7 +37,7 @@ class CommonNotification {
                   Navigator.of(context).pop(); // Close manually
                 }
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -59,13 +59,14 @@ class CommonNotification {
         });
 
         return Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 8),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
               Text(message),
             ],
           ),

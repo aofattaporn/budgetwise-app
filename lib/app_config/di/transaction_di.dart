@@ -10,7 +10,7 @@ import 'package:budget_wise/domain/usecases/get_transaction_by_id_usecase.dart';
 import 'package:budget_wise/domain/usecases/create_transaction_usecase.dart';
 import 'package:budget_wise/domain/usecases/update_transaction_usecase.dart';
 import 'package:budget_wise/domain/usecases/delete_transaction_usecase.dart';
-import 'package:budget_wise/features/transaction/presentation/bloc/transaction_bloc.dart';
+import 'package:budget_wise/presentation/bloc/transaction_bloc/transaction_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void setupTransactionDI() {

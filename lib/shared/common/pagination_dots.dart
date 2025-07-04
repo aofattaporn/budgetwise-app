@@ -12,8 +12,8 @@ class PaginationDots extends StatelessWidget {
       children: List.generate(total, (index) {
         final isActive = index == current;
         return AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          margin: EdgeInsets.symmetric(horizontal: 4),
+          duration: const Duration(milliseconds: 200),
+          margin: const EdgeInsets.symmetric(horizontal: 4),
           width: isActive ? 12 : 8,
           height: 8,
           decoration: BoxDecoration(

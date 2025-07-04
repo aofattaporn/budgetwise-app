@@ -1,6 +1,6 @@
-import 'package:budget_wise/features/plan/presentation/bloc/current_plan_boc/current_plan_boc.dart';
-import 'package:budget_wise/features/plan/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
-import 'package:budget_wise/features/plan/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/presentation/bloc/current_plan_boc/current_plan_boc.dart';
+import 'package:budget_wise/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
+import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
 import 'package:budget_wise/app_config/routes/app_routes.dart';
 import 'package:budget_wise/app_config/routes/app_screens.dart';
 import 'package:budget_wise/shared/constant/business_constant.dart';
@@ -12,8 +12,8 @@ import 'package:budget_wise/app_config/theme/modules/app_light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:budget_wise/features/account/presentation/bloc/account_bloc.dart';
-import 'package:budget_wise/features/transaction/presentation/bloc/transaction_bloc.dart';
+import 'package:budget_wise/presentation/bloc/account_bloc/account_bloc.dart';
+import 'package:budget_wise/presentation/bloc/transaction_bloc/transaction_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

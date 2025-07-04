@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:budget_wise/app_config/theme/app_theme.dart';
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:budget_wise/app_config/theme/system/app_radaius.dart';

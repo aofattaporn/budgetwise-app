@@ -15,11 +15,11 @@ class LoggerConfig extends LogPrinter {
 
   final Map<Level, AnsiColor> levelColors = {
     Level.verbose: AnsiColor.fg(AnsiColor.grey(0.5)),
-    Level.debug: AnsiColor.fg(8), // Gray
-    Level.info: AnsiColor.fg(12), // Blue
-    Level.warning: AnsiColor.fg(208), // Orange
-    Level.error: AnsiColor.fg(196), // Red
-    Level.wtf: AnsiColor.fg(199), // Pink/Red
+    Level.debug: const AnsiColor.fg(8), // Gray
+    Level.info: const AnsiColor.fg(12), // Blue
+    Level.warning: const AnsiColor.fg(208), // Orange
+    Level.error: const AnsiColor.fg(196), // Red
+    Level.wtf: const AnsiColor.fg(199), // Pink/Red
   };
 
   @override
