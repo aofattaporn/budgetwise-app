@@ -7,17 +7,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void setupAccountDI() {
   // Register data layer
-  sl.registerLazySingleton<AccountDataSource>(
-      () => AccountRemoteDataSourceImpl(sl<SupabaseClient>()));
+  getIt.registerLazySingleton<AccountDataSource>(
+      () => AccountRemoteDataSourceImpl(getIt<SupabaseClient>()));
 
   // Register Repository
-  sl.registerFactory<AccountRepository>(
-      () => AccountRepositoryImp(dataSource: sl<AccountDataSource>()));
+  getIt.registerFactory<AccountRepository>(
+      () => AccountRepositoryImp(dataSource: getIt<AccountDataSource>()));
 
   // Register Use Cases
-  sl.registerFactory<AccountUsecase>(
-      () => AccountUsecase(accountRepository: sl<AccountRepository>()));
+  getIt.registerFactory<AccountUsecase>(
+      () => AccountUsecase(accountRepository: getIt<AccountRepository>()));
 
   // Register Bloc and inject the use case
-  sl.registerFactory<AccountBloc>(() => AccountBloc(sl<AccountUsecase>()));
+  getIt
+      .registerFactory<AccountBloc>(() => AccountBloc(getIt<AccountUsecase>()));
 }

@@ -1,6 +1,4 @@
-import 'package:budget_wise/presentation/bloc/current_plan_boc/current_plan_boc.dart';
-import 'package:budget_wise/presentation/bloc/plan_all_bloc/plan_selector_bloc.dart';
-import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_bloc.dart';
 import 'package:budget_wise/app_config/routes/app_routes.dart';
 import 'package:budget_wise/app_config/routes/app_screens.dart';
 import 'package:budget_wise/shared/constant/business_constant.dart';
@@ -12,8 +10,6 @@ import 'package:budget_wise/app_config/theme/modules/app_light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:budget_wise/presentation/bloc/account_bloc/account_bloc.dart';
-import 'package:budget_wise/presentation/bloc/transaction_bloc/transaction_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,11 +23,7 @@ class BudgetWiseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl<CurrentPlanBloc>()),
-        BlocProvider(create: (_) => sl<PlanSelectorBloc>()),
-        BlocProvider(create: (_) => sl<PlanItemBloc>()),
-        BlocProvider(create: (_) => sl<AccountBloc>()),
-        BlocProvider(create: (_) => sl<TransactionBloc>()),
+        BlocProvider(create: (_) => getIt<BudgetPlanBloc>()),
         BlocProvider(create: (_) => ThemeCubit()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(

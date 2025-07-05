@@ -1,3 +1,4 @@
+import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/shared/utils/response_util.dart';
 import 'package:budget_wise/data/datasources/plan_datasource.dart';
 import 'package:budget_wise/domain/entities/plan_entity.dart';
@@ -14,12 +15,14 @@ abstract class PlanRepository {
 }
 
 class PlanRepositoryImp implements PlanRepository {
-  final PlanDataSource planDataSource;
-  PlanRepositoryImp({required this.planDataSource});
+  final PlanDataSource _planDataSource;
+
+  PlanRepositoryImp({required PlanDataSource planDataSource})
+      : _planDataSource = planDataSource;
 
   @override
   Future<List<PlanDto>> getAllPlans() async {
-    final response = await planDataSource.fetchAllPlans();
+    final response = await _planDataSource.fetchAllPlans();
     final List<PlanEntity> rawList = ResponseUtil.handleResponse(response);
     final List<PlanDto> plans =
         rawList.map((json) => PlanDto.fromEntity(json)).toList();
@@ -31,39 +34,39 @@ class PlanRepositoryImp implements PlanRepository {
   Future<PlanDto?> getPlanByIntervalTime(
       DateTime startTime, DateTime endTime) async {
     final rawResp =
-        await planDataSource.fetchPlanByDateRange(startTime, endTime);
+        await _planDataSource.fetchPlanByDateRange(startTime, endTime);
     final PlanEntity? planEntity = ResponseUtil.handleResponse(rawResp);
     return PlanDto.fromEntity(planEntity!);
   }
 
   @override
   Future<PlanDto?> getPlanByMonthId(String id) async {
-    final rawResp = await planDataSource.fetchPlanById(id);
+    final rawResp = await _planDataSource.fetchPlanById(id);
     final PlanEntity? planEntity = ResponseUtil.handleResponse(rawResp);
     return PlanDto.fromEntity(planEntity!);
   }
 
   @override
   Future<void> createPlan(PlanDto plan) async {
-    final response = await planDataSource.createPlan(plan);
+    final response = await _planDataSource.createPlan(plan);
     return ResponseUtil.handleResponse(response);
   }
 
   @override
   Future<void> deletePlan(String planId) async {
-    final response = await planDataSource.deletePlan(planId);
+    final response = await _planDataSource.deletePlan(planId);
     return ResponseUtil.handleResponse(response);
   }
 
   @override
   Future<PlanEntity?> getPlanByYearMonth(int year, int month) async {
-    final response = await planDataSource.fetchPlanByYearMonth(year, month);
+    final response = await _planDataSource.fetchPlanByYearMonth(year, month);
     return ResponseUtil.handleResponse(response);
   }
 
   @override
   Future<void> updatePlan(PlanDto plan) async {
-    final response = await planDataSource.updatePlan(plan);
+    final response = await _planDataSource.updatePlan(plan);
     return ResponseUtil.handleResponse(response);
   }
 }

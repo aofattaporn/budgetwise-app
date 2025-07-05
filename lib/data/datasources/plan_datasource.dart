@@ -1,3 +1,4 @@
+import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/core/errors/bussiness_error.dart';
 import 'package:budget_wise/shared/utils/datetime_util.dart';
 import 'package:budget_wise/domain/entities/plan_entity.dart';
@@ -26,7 +27,7 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
   final SupabaseClient client;
   final Logger _logger = LoggerUtil.datasourceLogger("PlanRemote");
 
-  PlanRemoteDataSourceImpl(this.client);
+  PlanRemoteDataSourceImpl({required this.client});
 
   @override
   Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(

@@ -8,19 +8,20 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void setupPlanItemDI() {
   // Register data layer
-  sl.registerFactory<PlanItemDataSource>(
-      () => PlanItemRemoteDataSourceImpl(sl<SupabaseClient>()));
+  getIt.registerFactory<PlanItemDataSource>(
+      () => PlanItemRemoteDataSourceImpl(getIt<SupabaseClient>()));
 
   // Register Repository
-  sl.registerFactory<PlanItemRepository>(
-      () => PlanItemRepositoryImp(dataSource: sl<PlanItemDataSource>()));
+  getIt.registerFactory<PlanItemRepository>(
+      () => PlanItemRepositoryImp(dataSource: getIt<PlanItemDataSource>()));
 
   // Register Use Cases
-  sl.registerFactory<PlanItemUsecase>(() => PlanItemUsecase(
-        planItemRepository: sl<PlanItemRepository>(),
-        planRepository: sl<PlanRepository>(),
+  getIt.registerFactory<PlanItemUsecase>(() => PlanItemUsecase(
+        planItemRepository: getIt<PlanItemRepository>(),
+        planRepository: getIt<PlanRepository>(),
       ));
 
   // Register Bloc and inject the use case
-  sl.registerFactory<PlanItemBloc>(() => PlanItemBloc(sl<PlanItemUsecase>()));
+  getIt.registerFactory<PlanItemBloc>(
+      () => PlanItemBloc(getIt<PlanItemUsecase>()));
 }

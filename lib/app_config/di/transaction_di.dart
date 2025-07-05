@@ -15,39 +15,44 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void setupTransactionDI() {
   // Register data layer
-  sl.registerLazySingleton<TransactionDataSource>(
-      () => TransactionRemoteDataSourceImpl(sl<SupabaseClient>()));
+  getIt.registerLazySingleton<TransactionDataSource>(
+      () => TransactionRemoteDataSourceImpl(getIt<SupabaseClient>()));
 
   // Register Repository
-  sl.registerFactory<TransactionRepository>(
-      () => TransactionRepositoryImp(dataSource: sl<TransactionDataSource>()));
+  getIt.registerFactory<TransactionRepository>(() =>
+      TransactionRepositoryImp(dataSource: getIt<TransactionDataSource>()));
 
   // Register Use Cases
-  sl.registerFactory<GetAllTransactionsUsecase>(() => GetAllTransactionsUsecase(
-      transactionRepository: sl<TransactionRepository>()));
-  sl.registerFactory<GetTransactionsByDateRangeUsecase>(() =>
+  getIt.registerFactory<GetAllTransactionsUsecase>(() =>
+      GetAllTransactionsUsecase(
+          transactionRepository: getIt<TransactionRepository>()));
+  getIt.registerFactory<GetTransactionsByDateRangeUsecase>(() =>
       GetTransactionsByDateRangeUsecase(
-          transactionRepository: sl<TransactionRepository>()));
-  sl.registerFactory<GetTransactionByIdUsecase>(() => GetTransactionByIdUsecase(
-      transactionRepository: sl<TransactionRepository>()));
-  sl.registerFactory<CreateTransactionUsecase>(() => CreateTransactionUsecase(
-        transactionRepository: sl<TransactionRepository>(),
-        accountRepository: sl<AccountRepository>(),
-        planItemRepository: sl<PlanItemRepository>(),
-      ));
-  sl.registerFactory<UpdateTransactionUsecase>(() => UpdateTransactionUsecase(
-      transactionRepository: sl<TransactionRepository>()));
-  sl.registerFactory<DeleteTransactionUsecase>(() => DeleteTransactionUsecase(
-      transactionRepository: sl<TransactionRepository>()));
+          transactionRepository: getIt<TransactionRepository>()));
+  getIt.registerFactory<GetTransactionByIdUsecase>(() =>
+      GetTransactionByIdUsecase(
+          transactionRepository: getIt<TransactionRepository>()));
+  getIt
+      .registerFactory<CreateTransactionUsecase>(() => CreateTransactionUsecase(
+            transactionRepository: getIt<TransactionRepository>(),
+            accountRepository: getIt<AccountRepository>(),
+            planItemRepository: getIt<PlanItemRepository>(),
+          ));
+  getIt.registerFactory<UpdateTransactionUsecase>(() =>
+      UpdateTransactionUsecase(
+          transactionRepository: getIt<TransactionRepository>()));
+  getIt.registerFactory<DeleteTransactionUsecase>(() =>
+      DeleteTransactionUsecase(
+          transactionRepository: getIt<TransactionRepository>()));
 
   // Register Bloc and inject the use cases
-  sl.registerFactory<TransactionBloc>(() => TransactionBloc(
-        getAllTransactionsUsecase: sl<GetAllTransactionsUsecase>(),
+  getIt.registerFactory<TransactionBloc>(() => TransactionBloc(
+        getAllTransactionsUsecase: getIt<GetAllTransactionsUsecase>(),
         getTransactionsByDateRangeUsecase:
-            sl<GetTransactionsByDateRangeUsecase>(),
-        getTransactionByIdUsecase: sl<GetTransactionByIdUsecase>(),
-        createTransactionUsecase: sl<CreateTransactionUsecase>(),
-        updateTransactionUsecase: sl<UpdateTransactionUsecase>(),
-        deleteTransactionUsecase: sl<DeleteTransactionUsecase>(),
+            getIt<GetTransactionsByDateRangeUsecase>(),
+        getTransactionByIdUsecase: getIt<GetTransactionByIdUsecase>(),
+        createTransactionUsecase: getIt<CreateTransactionUsecase>(),
+        updateTransactionUsecase: getIt<UpdateTransactionUsecase>(),
+        deleteTransactionUsecase: getIt<DeleteTransactionUsecase>(),
       ));
 }

@@ -28,13 +28,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget _getTabScreen(int index) {
     switch (index) {
       case 0:
-        return const HomeTab();
+        return const Center(child: Text("Error: Unknown tab"));
       case 1:
-        return const TransactionTab();
+        return const Center(child: Text("Error: Unknown tab"));
       case 2:
         return const PlanTab();
       case 3:
-        return const AccountTab();
+        return const Center(child: Text("Error: Unknown tab"));
       default:
         return const Center(child: Text("Error: Unknown tab"));
     }
