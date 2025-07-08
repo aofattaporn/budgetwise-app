@@ -46,7 +46,7 @@ class PlanBudgetCard extends StatelessWidget {
         children: [
           const MultiSegmentCircularProgress(
             size: 90,
-            isShowMessage: false,
+            isError: false,
             isNotfound: false,
             plan: null,
           ),

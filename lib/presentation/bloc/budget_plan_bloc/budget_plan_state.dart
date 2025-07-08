@@ -22,3 +22,10 @@ class BudgetPlanError extends BudgetPlanState {
   @override
   List<Object?> get props => [message];
 }
+
+class BudgetPlanEmpty extends BudgetPlanState {
+  final String message;
+  const BudgetPlanEmpty(this.message);
+  @override
+  List<Object?> get props => [message];
+}

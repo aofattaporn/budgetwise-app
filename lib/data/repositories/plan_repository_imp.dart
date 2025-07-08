@@ -1,13 +1,20 @@
-import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/shared/utils/response_util.dart';
 import 'package:budget_wise/data/datasources/plan_datasource.dart';
 import 'package:budget_wise/domain/entities/plan_entity.dart';
 import 'package:budget_wise/data/models/plan_dto.dart';
 
 abstract class PlanRepository {
+  // =======================================================
+  // new api solution after reffactor //
+  // =======================================================
+  Future<PlanDto> getPlanByDefault();
+  Future<PlanDto> getPlanByMonthId(String id);
+
+  // =======================================================
+  // orignin api
+  // =======================================================
   Future<PlanDto?> getPlanByIntervalTime(DateTime startTime, DateTime endTime);
   Future<PlanEntity?> getPlanByYearMonth(int year, int month);
-  Future<PlanDto?> getPlanByMonthId(String id);
   Future<List<PlanDto>> getAllPlans();
   Future<void> createPlan(PlanDto plan);
   Future<void> updatePlan(PlanDto plan);
@@ -20,6 +27,29 @@ class PlanRepositoryImp implements PlanRepository {
   PlanRepositoryImp({required PlanDataSource planDataSource})
       : _planDataSource = planDataSource;
 
+  // =======================================================
+  // new api solution after reffactor //
+  // =======================================================
+  @override
+  Future<PlanDto> getPlanByDefault() async {
+    final rawResp = await _planDataSource.fetchActivePlan();
+    final PlanEntity rawList = ResponseUtil.handleResponse(rawResp);
+    final PlanDto plans = PlanDto.fromEntity(rawList);
+    return plans;
+  }
+
+  @override
+  Future<PlanDto> getPlanByMonthId(String id) async {
+    final rawResp = await _planDataSource.fetchPlanById(id);
+    final PlanEntity rawList = ResponseUtil.handleResponse(rawResp);
+    final PlanDto plans = PlanDto.fromEntity(rawList);
+
+    return plans;
+  }
+
+  // =======================================================
+  // orignin api
+  // =======================================================
   @override
   Future<List<PlanDto>> getAllPlans() async {
     final response = await _planDataSource.fetchAllPlans();
@@ -35,13 +65,6 @@ class PlanRepositoryImp implements PlanRepository {
       DateTime startTime, DateTime endTime) async {
     final rawResp =
         await _planDataSource.fetchPlanByDateRange(startTime, endTime);
-    final PlanEntity? planEntity = ResponseUtil.handleResponse(rawResp);
-    return PlanDto.fromEntity(planEntity!);
-  }
-
-  @override
-  Future<PlanDto?> getPlanByMonthId(String id) async {
-    final rawResp = await _planDataSource.fetchPlanById(id);
     final PlanEntity? planEntity = ResponseUtil.handleResponse(rawResp);
     return PlanDto.fromEntity(planEntity!);
   }

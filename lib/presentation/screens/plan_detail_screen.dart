@@ -184,10 +184,10 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
                   : Container(),
             ],
           ),
-          Center(
+          const Center(
             child: MultiSegmentCircularProgress(
               isNotfound: true,
-              plan: widget.planDto,
+              plan: null,
             ),
           ),
           const SizedBox(height: 16),

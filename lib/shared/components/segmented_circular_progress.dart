@@ -1,5 +1,5 @@
+import 'package:budget_wise/data/models/plan_monthly_budget.dart';
 import 'package:budget_wise/shared/utils/datetime_util.dart';
-import 'package:budget_wise/data/models/plan_dto.dart';
 import 'package:budget_wise/data/models/transaction_segment.dart';
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
 import 'package:budget_wise/app_config/theme/system/app_text_style.dart';
@@ -13,18 +13,18 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 class MultiSegmentCircularProgress extends StatelessWidget {
   final double size;
   final double strokeWidth;
-  final bool isShowMessage;
+  final bool isError;
   final bool isLoading;
   final bool isNotfound;
 
-  final PlanDto? plan;
+  final PlanMonthlyBudget? plan;
 
   const MultiSegmentCircularProgress({
     super.key,
     this.size = 200,
     this.strokeWidth = 10,
     this.isLoading = true,
-    this.isShowMessage = true,
+    this.isError = true,
     this.isNotfound = false,
     this.plan,
   });
@@ -53,7 +53,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
                 color: AppColors.background,
-                boxShadow: isShowMessage && !isNotfound
+                boxShadow: isError && !isNotfound
                     ? const [
                         BoxShadow(
                           color: AppColors.primaryDark,
@@ -69,15 +69,13 @@ class MultiSegmentCircularProgress extends StatelessWidget {
                 painter:
                     MultiSegmentPainter(_segmentUsages, _segmentColors, 10, 0)),
           ),
-          isShowMessage
-              ? _buidContent(plan, context)
-              : _percentage(plan, context)
+          isError ? _buidContent(plan, context) : _percentage(plan, context)
         ],
       ),
     );
   }
 
-  Widget _buidContent(PlanDto? plan, BuildContext contex) {
+  Widget _buidContent(PlanMonthlyBudget? plan, BuildContext contex) {
     if (plan != null) {
       return _msgSummaryPlan(plan, contex);
     } else if (isNotfound) {
@@ -94,7 +92,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     }
   }
 
-  Text _percentage(PlanDto? plan, BuildContext context) {
+  Text _percentage(PlanMonthlyBudget? plan, BuildContext context) {
     return Text("${NumberUtil.calPercentage(_totalProgress, 30000)}%",
         style: Theme.of(context)
             .textTheme
@@ -102,7 +100,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
             .copyWith(color: AppColors.backgroundDark));
   }
 
-  Column _msgSummaryPlan(PlanDto plan, BuildContext contex) {
+  Column _msgSummaryPlan(PlanMonthlyBudget plan, BuildContext contex) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

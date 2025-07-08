@@ -1,4 +1,3 @@
-import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/core/errors/bussiness_error.dart';
 import 'package:budget_wise/shared/utils/datetime_util.dart';
 import 'package:budget_wise/domain/entities/plan_entity.dart';
@@ -14,6 +13,9 @@ import '../../shared/utils/logger_util.dart';
 
 abstract class PlanDataSource {
   Future<CommonResponse<PlanEntity?>> fetchPlanById(String id);
+  Future<CommonResponse<PlanEntity?>> fetchActivePlan();
+
+  // orignin api is getPlanByIntervalTime
   Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
       DateTime start, DateTime end);
   Future<CommonResponse<PlanEntity?>> fetchPlanByYearMonth(int year, int month);
@@ -70,6 +72,30 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
             code: ResponseConstant.code1799,
             data: null,
             desc: "No active plan found in id: $id");
+      }
+
+      return ResponseUtil.commonResponse(
+          ResponseConstant.code1000, PlanEntity.fromJson(json));
+    } catch (e, s) {
+      _logger.e("fetchPlanById", error: e, stackTrace: s);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  @override
+  Future<CommonResponse<PlanEntity?>> fetchActivePlan() async {
+    try {
+      final json = await client
+          .from('plans')
+          .select()
+          .eq('is_archived', true)
+          .maybeSingle();
+
+      if (json == null) {
+        return ResponseUtil.commonError(
+            code: ResponseConstant.code1899,
+            data: null,
+            desc: "No active plan found active plan");
       }
 
       return ResponseUtil.commonResponse(

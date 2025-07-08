@@ -9,6 +9,9 @@ import '../../shared/utils/error_util.dart';
 import '../../shared/constant/response_constant.dart';
 
 abstract class TransactionDataSource {
+  Future<CommonResponse<TransactionEntity?>> fetchTransactionByPlanId(
+      String planId);
+
   Future<CommonResponse<List<TransactionEntity>>> fetchAllTransactions();
   Future<CommonResponse<TransactionEntity?>> fetchTransactionById(String id);
   Future<CommonResponse<void>> createTransaction(TransactionDto dto);
@@ -20,7 +23,33 @@ class TransactionRemoteDataSourceImpl implements TransactionDataSource {
   final SupabaseClient client;
   final Logger _logger = LoggerUtil.datasourceLogger("TransactionRemote");
 
-  TransactionRemoteDataSourceImpl(this.client);
+  TransactionRemoteDataSourceImpl({required this.client});
+
+  @override
+  Future<CommonResponse<TransactionEntity?>> fetchTransactionByPlanId(
+      String planId) async {
+    try {
+      final json = await client
+          .from('transactions')
+          .select()
+          .eq('plan_id', planId)
+          .maybeSingle();
+      if (json == null) {
+        return ResponseUtil.commonError(
+          code: ResponseConstant.code1799,
+          data: null,
+          desc: "No transaction found for id: $planId",
+        );
+      }
+      return ResponseUtil.commonResponse(
+        ResponseConstant.code1000,
+        TransactionEntity.fromJson(json),
+      );
+    } catch (e, s) {
+      _logger.e("fetchTransactionById", error: e, stackTrace: s);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
 
   @override
   Future<CommonResponse<List<TransactionEntity>>> fetchAllTransactions() async {

@@ -3,6 +3,8 @@ import 'package:budget_wise/domain/entities/transaction_entity.dart';
 import 'package:budget_wise/data/models/transaction_dto.dart';
 
 abstract class TransactionRepository {
+  Future<TransactionDto?> getTransactionByPlanId(String planId);
+
   Future<List<TransactionDto>> getAllTransactions();
   Future<TransactionDto?> getTransactionById(String id);
   Future<void> createTransaction(TransactionDto dto);
@@ -13,6 +15,13 @@ abstract class TransactionRepository {
 class TransactionRepositoryImp implements TransactionRepository {
   final TransactionDataSource dataSource;
   TransactionRepositoryImp({required this.dataSource});
+
+  @override
+  Future<TransactionDto?> getTransactionByPlanId(String planId) async {
+    final response = await dataSource.fetchTransactionById(planId);
+    final entity = response.data;
+    return entity != null ? TransactionDto.fromEntity(entity) : null;
+  }
 
   @override
   Future<List<TransactionDto>> getAllTransactions() async {

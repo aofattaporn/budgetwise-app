@@ -101,4 +101,6 @@ class TransactionDto {
       updatedAt: entity.updatedAt.toIso8601String(),
     );
   }
+
+  map(Function(dynamic e) param0) {}
 }

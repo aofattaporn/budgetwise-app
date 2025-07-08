@@ -1,5 +1,12 @@
+import 'package:budget_wise/app_config/theme/system/app_colors.dart';
+import 'package:budget_wise/core/errors/error_object.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_bloc.dart';
 import 'package:budget_wise/app_config/theme/system/app_decoration.dart';
+import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_event.dart';
+import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_state.dart';
+import 'package:budget_wise/presentation/components/card_plan_item.dart';
+import 'package:budget_wise/shared/components/segment_circular_progress_new.dart';
+import 'package:budget_wise/shared/components/segmented_circular_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,12 +21,13 @@ class _PlanTabState extends State<PlanTab> {
   @override
   void initState() {
     super.initState();
-    context.read<BudgetPlanBloc>();
+    context.read<BudgetPlanBloc>().add(LoadBudgetPlan());
   }
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
         body: Column(
@@ -29,14 +37,65 @@ class _PlanTabState extends State<PlanTab> {
           height: screenHeight * 0.7, //  70% of bg
           padding: const EdgeInsets.all(16),
           decoration: AppDecorations.gradientBottomRounded,
-          child: const Column(
+          child: Column(
             spacing: 36,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("data"),
-              // BudgetHeader(),
-              // BudgetOverview(),
-              // PlanItemSection(),
+              Padding(
+                padding: const EdgeInsets.all(0),
+                child: Text(
+                  "Select Plan Budget",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(color: AppColors.background),
+                ),
+              ),
+
+              // **
+              // BudgetPlanBloc
+              // **
+              BlocBuilder<BudgetPlanBloc, BudgetPlanState>(
+                  builder: (context, planState) {
+                final isLoading = planState is BudgetPlanLoading;
+                final isLoaded = planState is BudgetPlanLoaded;
+
+                return MultiSegmentCircularProgressNew(
+                  isLoading: isLoading,
+                  plan: isLoaded ? planState.planMonthlyBudget : null,
+                  errorObject: ErrorObject(
+                    isError: planState is BudgetPlanError ||
+                        planState is BudgetPlanEmpty,
+                    message: planState is BudgetPlanError
+                        ? planState.message
+                        : "No data found",
+                  ),
+                  isLoaded: false,
+                );
+              }),
+
+              // **
+              // Plan_ite_list
+              // - name / amount /
+              // **
+              BlocBuilder<BudgetPlanBloc, BudgetPlanState>(
+                  builder: (context, planState) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    spacing: 20,
+                    children: [
+                      CardPlan(
+                          screenWidth: screenWidth, screenHeight: screenHeight),
+                      CardPlan(
+                          screenWidth: screenWidth, screenHeight: screenHeight),
+                      CardPlan(
+                          screenWidth: screenWidth, screenHeight: screenHeight)
+                    ],
+                  ),
+                );
+              })
             ],
           ),
         ),
