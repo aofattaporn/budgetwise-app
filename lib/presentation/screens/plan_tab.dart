@@ -4,9 +4,9 @@ import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_bloc.
 import 'package:budget_wise/app_config/theme/system/app_decoration.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_event.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_state.dart';
+import 'package:budget_wise/presentation/bloc/widget_state/widdgt_stat.dart';
 import 'package:budget_wise/presentation/components/card_plan_item.dart';
 import 'package:budget_wise/shared/components/segment_circular_progress_new.dart';
-import 'package:budget_wise/shared/components/segmented_circular_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,21 +58,22 @@ class _PlanTabState extends State<PlanTab> {
               // **
               BlocBuilder<BudgetPlanBloc, BudgetPlanState>(
                   builder: (context, planState) {
-                final isLoading = planState is BudgetPlanLoading;
                 final isLoaded = planState is BudgetPlanLoaded;
-
                 return MultiSegmentCircularProgressNew(
-                  isLoading: isLoading,
-                  plan: isLoaded ? planState.planMonthlyBudget : null,
-                  errorObject: ErrorObject(
-                    isError: planState is BudgetPlanError ||
-                        planState is BudgetPlanEmpty,
-                    message: planState is BudgetPlanError
-                        ? planState.message
-                        : "No data found",
-                  ),
-                  isLoaded: false,
-                );
+                    plan: isLoaded ? planState.planMonthlyBudget : null,
+                    blocParentState: () {
+                      if (planState is BudgetPlanLoading) {
+                        return BlocParentLoadingState();
+                      } else if (planState is BudgetPlanError) {
+                        return BlocParentErrorState(planState.message);
+                      } else if (planState is BudgetPlanEmpty) {
+                        return BlocParentErrorState(planState.message);
+                      } else if (planState is BudgetPlanLoaded) {
+                        return BlocParentStateComplete();
+                      } else {
+                        return BlocParentInitialState();
+                      }
+                    }());
               }),
 
               // **
