@@ -13,9 +13,9 @@ class CardPlan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headerHeight = screenHeight * 0.14;
+    final headerHeight = screenHeight * 0.12;
     final cardWidth = screenWidth * 0.4;
-    final cardHeight = screenHeight * 0.25;
+    final cardHeight = screenHeight * 0.23;
 
     return Container(
       width: cardWidth,

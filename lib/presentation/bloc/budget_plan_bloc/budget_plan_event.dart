@@ -7,3 +7,5 @@ abstract class BudgetPlanEvent extends Equatable {
 }
 
 class LoadBudgetPlan extends BudgetPlanEvent {}
+
+class LoadAllBudgetPlan extends BudgetPlanEvent {}

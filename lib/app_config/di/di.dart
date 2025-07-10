@@ -3,8 +3,10 @@ import 'package:budget_wise/data/datasources/plan_datasource.dart';
 import 'package:budget_wise/data/datasources/transaction_datasource.dart';
 import 'package:budget_wise/data/repositories/plan_repository_imp.dart';
 import 'package:budget_wise/data/repositories/transaction_repository_imp.dart';
+import 'package:budget_wise/domain/usecases/get_all_plan_usecase.dart';
 import 'package:budget_wise/domain/usecases/get_plan_monthlly_usecase.dart';
 import 'package:budget_wise/domain/usecases/plan_usecase.dart';
+import 'package:budget_wise/presentation/bloc/budget_all_plan_bloc/budget_plan_bloc.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -34,8 +36,15 @@ Future<void> setupLocator() async {
         planRepository: getIt<PlanRepository>(),
         transactionRepository: getIt<TransactionRepositoryImp>(),
       ));
+  getIt.registerFactory<GetAllPlanUsecase>(() => GetAllPlanUsecase(
+        planRepository: getIt<PlanRepository>(),
+      ));
 
   // Register Bloc and inject the use case
-  getIt.registerFactory<BudgetPlanBloc>(
-      () => BudgetPlanBloc(getIt<GetPlanMonthlyUsecase>()));
+  getIt.registerFactory<BudgetPlanBloc>(() => BudgetPlanBloc(
+        getPlanMonthllyUsecase: getIt<GetPlanMonthlyUsecase>(),
+      ));
+  getIt.registerFactory<BudgetAllPlanBloc>(() => BudgetAllPlanBloc(
+        getAllPlanUsecase: getIt<GetAllPlanUsecase>(),
+      ));
 }

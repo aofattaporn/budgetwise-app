@@ -5,7 +5,9 @@ import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_event
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_state.dart';
 import 'package:budget_wise/presentation/bloc/widget_state/widdgt_stat.dart';
 import 'package:budget_wise/presentation/components/card_plan_item.dart';
+import 'package:budget_wise/shared/common/custom_common_sheet.dart';
 import 'package:budget_wise/shared/components/segment_circular_progress_new.dart';
+import 'package:budget_wise/presentation/sheets/planning_overview_sheet.dart';
 import 'package:budget_wise/shared/utils/datetime_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,9 +50,11 @@ class _PlanTabState extends State<PlanTab> {
               BlocBuilder<BudgetPlanBloc, BudgetPlanState>(
                   builder: (context, planState) {
                 String text;
+                String? planIdSelected;
                 if (planState is BudgetPlanLoading) {
                   text = "Loading...";
                 } else if (planState is BudgetPlanLoaded) {
+                  planIdSelected = planState.planMonthlyBudget.id;
                   text =
                       "${UtilsDateTime.dayMonthYearFormat(planState.planMonthlyBudget.startDate)} - ${UtilsDateTime.dayMonthYearFormat(planState.planMonthlyBudget.endDate)}";
                 } else {
@@ -69,13 +73,25 @@ class _PlanTabState extends State<PlanTab> {
                             ?.copyWith(color: AppColors.background),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: AppColors.white),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () {
+                        CustomCommonSheet().open(context,
+                            widget: PlanningOverviewSheet(
+                                planIdSelected: planIdSelected));
+                      },
+                      child: Text(
+                        text,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppColors.white),
+                      ),
                     ),
                   ],
                 );

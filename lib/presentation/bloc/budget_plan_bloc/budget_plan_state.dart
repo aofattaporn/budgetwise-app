@@ -1,3 +1,4 @@
+import 'package:budget_wise/data/models/plan_dto.dart';
 import 'package:budget_wise/data/models/plan_monthly_budget.dart';
 import 'package:equatable/equatable.dart';
 
@@ -7,13 +8,27 @@ abstract class BudgetPlanState extends Equatable {
   List<Object?> get props => [];
 }
 
+// =======================================================
+// BudgetPlanState common
+// =======================================================
+
 class BudgetPlanInitial extends BudgetPlanState {}
 
+// =======================================================
+// GetPlanMonthlyUsecase
+// =======================================================
 class BudgetPlanLoading extends BudgetPlanState {}
 
 class BudgetPlanLoaded extends BudgetPlanState {
   final PlanMonthlyBudget planMonthlyBudget;
   const BudgetPlanLoaded({required this.planMonthlyBudget});
+}
+
+class BudgetPlanEmpty extends BudgetPlanState {
+  final String message;
+  const BudgetPlanEmpty(this.message);
+  @override
+  List<Object?> get props => [message];
 }
 
 class BudgetPlanError extends BudgetPlanState {
@@ -23,9 +38,19 @@ class BudgetPlanError extends BudgetPlanState {
   List<Object?> get props => [message];
 }
 
-class BudgetPlanEmpty extends BudgetPlanState {
+// =======================================================
+// GetAllPlanUsecase
+// =======================================================
+class GetAllPlanLoading extends BudgetPlanState {}
+
+class GetAllPlanLoaded extends BudgetPlanState {
+  final List<PlanDto> listPlanDto;
+  const GetAllPlanLoaded({required this.listPlanDto});
+}
+
+class GetAllPlanError extends BudgetPlanState {
   final String message;
-  const BudgetPlanEmpty(this.message);
+  const GetAllPlanError(this.message);
   @override
   List<Object?> get props => [message];
 }

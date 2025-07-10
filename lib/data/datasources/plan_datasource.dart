@@ -12,14 +12,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../shared/utils/logger_util.dart';
 
 abstract class PlanDataSource {
+  // =======================================================
+  // new api solution after reffactor //
+  // =======================================================
   Future<CommonResponse<PlanEntity?>> fetchPlanById(String id);
   Future<CommonResponse<PlanEntity?>> fetchActivePlan();
+  Future<CommonResponse<List<PlanEntity>>> fetchAllPlans();
 
-  // orignin api is getPlanByIntervalTime
+  // =======================================================
+  // orignin api
+  // =======================================================
   Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
       DateTime start, DateTime end);
   Future<CommonResponse<PlanEntity?>> fetchPlanByYearMonth(int year, int month);
-  Future<CommonResponse<List<PlanEntity>>> fetchAllPlans();
   Future<CommonResponse<void>> createPlan(PlanDto dto);
   Future<CommonResponse<void>> deletePlan(String id);
   Future<CommonResponse<void>> updatePlan(PlanDto dto);
@@ -31,36 +36,9 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
 
   PlanRemoteDataSourceImpl({required this.client});
 
-  @override
-  Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
-      DateTime start, DateTime end) async {
-    try {
-      final json = await client
-          .from('plans')
-          .select()
-          .eq('is_archived', false)
-          .lte('start_date', DateFormat('yyyy-MM-dd').format(start))
-          .gte('end_date', DateFormat('yyyy-MM-dd').format(end));
-
-      if (json.isEmpty) {
-        return ResponseUtil.commonError(
-            code: ResponseConstant.code1799,
-            data: null,
-            desc:
-                "No active plan found in range [${UtilsDateTime.dateTimeReadableFormat(start)} - ${UtilsDateTime.dateTimeReadableFormat(start)}}]");
-      }
-
-      final plans =
-          json.map<PlanEntity>((e) => PlanEntity.fromJson(e)).toList();
-
-      return ResponseUtil.commonResponse(
-          ResponseConstant.code1000, plans.first);
-    } catch (e, s) {
-      _logger.e("supabase error (technical)", error: e, stackTrace: s);
-      throw ErrorUtil.mapTechnicalError();
-    }
-  }
-
+  // =======================================================
+  // new api solution after reffactor //
+  // =======================================================
   @override
   Future<CommonResponse<PlanEntity?>> fetchPlanById(String id) async {
     try {
@@ -105,6 +83,54 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
       throw ErrorUtil.mapTechnicalError();
     }
   }
+
+  @override
+  Future<CommonResponse<List<PlanEntity>>> fetchAllPlans() async {
+    try {
+      final response = await client.from('plans').select();
+      final plans =
+          response.map<PlanEntity>((e) => PlanEntity.fromJson(e)).toList();
+      return ResponseUtil.commonResponse(ResponseConstant.code1000, plans);
+    } catch (e, s) {
+      _logger.e("fetchAllPlans", error: e, stackTrace: s);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  // =======================================================
+  // orignin api
+  // =======================================================
+  @override
+  Future<CommonResponse<PlanEntity?>> fetchPlanByDateRange(
+      DateTime start, DateTime end) async {
+    try {
+      final json = await client
+          .from('plans')
+          .select()
+          .eq('is_archived', false)
+          .lte('start_date', DateFormat('yyyy-MM-dd').format(start))
+          .gte('end_date', DateFormat('yyyy-MM-dd').format(end));
+
+      if (json.isEmpty) {
+        return ResponseUtil.commonError(
+            code: ResponseConstant.code1799,
+            data: null,
+            desc:
+                "No active plan found in range [${UtilsDateTime.dateTimeReadableFormat(start)} - ${UtilsDateTime.dateTimeReadableFormat(start)}}]");
+      }
+
+      final plans =
+          json.map<PlanEntity>((e) => PlanEntity.fromJson(e)).toList();
+
+      return ResponseUtil.commonResponse(
+          ResponseConstant.code1000, plans.first);
+    } catch (e, s) {
+      _logger.e("supabase error (technical)", error: e, stackTrace: s);
+      throw ErrorUtil.mapTechnicalError();
+    }
+  }
+
+  /// Create a new plan in the database.
 
   @override
   Future<CommonResponse<void>> createPlan(PlanDto dto) async {
@@ -152,19 +178,6 @@ class PlanRemoteDataSourceImpl implements PlanDataSource {
       rethrow;
     } catch (e, s) {
       _logger.e("fetchPlanByYearMonth", error: e, stackTrace: s);
-      throw ErrorUtil.mapTechnicalError();
-    }
-  }
-
-  @override
-  Future<CommonResponse<List<PlanEntity>>> fetchAllPlans() async {
-    try {
-      final response = await client.from('plans').select();
-      final plans =
-          response.map<PlanEntity>((e) => PlanEntity.fromJson(e)).toList();
-      return ResponseUtil.commonResponse(ResponseConstant.code1000, plans);
-    } catch (e, s) {
-      _logger.e("fetchAllPlans", error: e, stackTrace: s);
       throw ErrorUtil.mapTechnicalError();
     }
   }

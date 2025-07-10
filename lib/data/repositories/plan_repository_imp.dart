@@ -9,13 +9,13 @@ abstract class PlanRepository {
   // =======================================================
   Future<PlanDto> getPlanByDefault();
   Future<PlanDto> getPlanByMonthId(String id);
+  Future<List<PlanDto>> getAllPlans();
 
   // =======================================================
   // orignin api
   // =======================================================
   Future<PlanDto?> getPlanByIntervalTime(DateTime startTime, DateTime endTime);
   Future<PlanEntity?> getPlanByYearMonth(int year, int month);
-  Future<List<PlanDto>> getAllPlans();
   Future<void> createPlan(PlanDto plan);
   Future<void> updatePlan(PlanDto plan);
   Future<void> deletePlan(String planId);
@@ -47,9 +47,6 @@ class PlanRepositoryImp implements PlanRepository {
     return plans;
   }
 
-  // =======================================================
-  // orignin api
-  // =======================================================
   @override
   Future<List<PlanDto>> getAllPlans() async {
     final response = await _planDataSource.fetchAllPlans();
@@ -59,6 +56,10 @@ class PlanRepositoryImp implements PlanRepository {
 
     return plans;
   }
+
+  // =======================================================
+  // orignin api
+  // =======================================================
 
   @override
   Future<PlanDto?> getPlanByIntervalTime(
