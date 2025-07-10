@@ -1,5 +1,4 @@
 import 'package:budget_wise/app_config/theme/system/app_colors.dart';
-import 'package:budget_wise/core/errors/error_object.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_bloc.dart';
 import 'package:budget_wise/app_config/theme/system/app_decoration.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_event.dart';
@@ -7,6 +6,7 @@ import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_state
 import 'package:budget_wise/presentation/bloc/widget_state/widdgt_stat.dart';
 import 'package:budget_wise/presentation/components/card_plan_item.dart';
 import 'package:budget_wise/shared/components/segment_circular_progress_new.dart';
+import 'package:budget_wise/shared/utils/datetime_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,16 +42,44 @@ class _PlanTabState extends State<PlanTab> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Text(
-                  "Select Plan Budget",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(color: AppColors.background),
-                ),
-              ),
+              // **
+              // Select Plan Budget
+              // **
+              BlocBuilder<BudgetPlanBloc, BudgetPlanState>(
+                  builder: (context, planState) {
+                String text;
+                if (planState is BudgetPlanLoading) {
+                  text = "Loading...";
+                } else if (planState is BudgetPlanLoaded) {
+                  text =
+                      "${UtilsDateTime.dayMonthYearFormat(planState.planMonthlyBudget.startDate)} - ${UtilsDateTime.dayMonthYearFormat(planState.planMonthlyBudget.endDate)}";
+                } else {
+                  text = "Select your plan budget agin";
+                }
+
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 36),
+                      child: Text(
+                        "Select Plan Budget",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(color: AppColors.background),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      text,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: AppColors.white),
+                    ),
+                  ],
+                );
+              }),
 
               // **
               // BudgetPlanBloc
