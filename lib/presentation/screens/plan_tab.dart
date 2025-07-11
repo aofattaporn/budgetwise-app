@@ -8,6 +8,7 @@ import 'package:budget_wise/presentation/components/card_plan_item.dart';
 import 'package:budget_wise/shared/common/custom_common_sheet.dart';
 import 'package:budget_wise/shared/components/segment_circular_progress_new.dart';
 import 'package:budget_wise/presentation/sheets/planning_overview_sheet.dart';
+import 'package:budget_wise/shared/constant/common_constant.dart';
 import 'package:budget_wise/shared/utils/datetime_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,7 @@ class _PlanTabState extends State<PlanTab> {
       children: [
         Container(
           width: double.infinity,
-          height: screenHeight * 0.7, //  70% of bg
+          height: screenHeight * 0.75, //  70% of bg
           padding: const EdgeInsets.all(16),
           decoration: AppDecorations.gradientBottomRounded,
           child: Column(
@@ -52,13 +53,13 @@ class _PlanTabState extends State<PlanTab> {
                 String text;
                 String? planIdSelected;
                 if (planState is BudgetPlanLoading) {
-                  text = "Loading...";
+                  text = CommonConstant.loadingLabel;
                 } else if (planState is BudgetPlanLoaded) {
                   planIdSelected = planState.planMonthlyBudget.id;
                   text =
                       "${UtilsDateTime.dayMonthYearFormat(planState.planMonthlyBudget.startDate)} - ${UtilsDateTime.dayMonthYearFormat(planState.planMonthlyBudget.endDate)}";
                 } else {
-                  text = "Select your plan budget agin";
+                  text = CommonConstant.msgPleasToTryAgain;
                 }
 
                 return Column(
@@ -126,19 +127,36 @@ class _PlanTabState extends State<PlanTab> {
               // **
               BlocBuilder<BudgetPlanBloc, BudgetPlanState>(
                   builder: (context, planState) {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    spacing: 20,
-                    children: [
-                      CardPlan(
-                          screenWidth: screenWidth, screenHeight: screenHeight),
-                      CardPlan(
-                          screenWidth: screenWidth, screenHeight: screenHeight),
-                      CardPlan(
-                          screenWidth: screenWidth, screenHeight: screenHeight)
-                    ],
-                  ),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  spacing: 0,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: Text("see more plan budget >",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: AppColors.background)),
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        spacing: 20,
+                        children: [
+                          CardPlan(
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight),
+                          CardPlan(
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight),
+                          CardPlan(
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight)
+                        ],
+                      ),
+                    ),
+                  ],
                 );
               })
             ],

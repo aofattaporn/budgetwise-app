@@ -30,9 +30,13 @@ class CommonConstant {
 
   static const String deleteDescLabel = "You are going to delete this plan";
   static const String msgSomethingWentWrong = "Something went wrong...";
+  static const String msgPleasToTryAgain = "Please try again later.";
 
   static const String noItemMsg = "No Items Yet";
   static const String createFirstMsg = "Create your first item.";
+
+  static const String loadingLabel = "Loading...";
+  static const String loadingDesc = "Please wait a moment.";
 
   // *** Common logger ***
   static final Map<Level, String> levelEmojis = {
