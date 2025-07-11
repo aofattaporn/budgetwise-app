@@ -3,6 +3,8 @@ import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_bloc.
 import 'package:budget_wise/app_config/theme/system/app_decoration.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_event.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_state.dart';
+import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:budget_wise/presentation/bloc/widget_state/widdgt_stat.dart';
 import 'package:budget_wise/presentation/components/card_plan_item.dart';
 import 'package:budget_wise/presentation/screens/plan_all_item_screen.dart';
@@ -126,7 +128,7 @@ class _PlanTabState extends State<PlanTab> {
               // Plan_ite_list
               // - name / amount /
               // **
-              BlocBuilder<BudgetPlanBloc, BudgetPlanState>(
+              BlocBuilder<PlanItemBloc, PlanItemState>(
                   builder: (context, planState) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,

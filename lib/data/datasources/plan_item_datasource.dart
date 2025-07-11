@@ -23,7 +23,7 @@ class PlanItemRemoteDataSourceImpl implements PlanItemDataSource {
   final SupabaseClient client;
   final Logger _logger = LoggerUtil.datasourceLogger("PlanItemRemote");
 
-  PlanItemRemoteDataSourceImpl(this.client);
+  PlanItemRemoteDataSourceImpl({required this.client});
 
   @override
   Future<CommonResponse<List<PlanItemEntity>>> fetchItemsByPlanId(

@@ -1,10 +1,8 @@
-import 'package:budget_wise/presentation/bloc/budget_all_plan_bloc/budget_plan_bloc.dart';
-import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_bloc.dart';
+import 'package:budget_wise/app_config/di/bloc_di/bloc_di.dart';
 import 'package:budget_wise/app_config/routes/app_routes.dart';
 import 'package:budget_wise/app_config/routes/app_screens.dart';
 import 'package:budget_wise/shared/constant/business_constant.dart';
 import 'package:budget_wise/shared/constant/common_constant.dart';
-import 'package:budget_wise/app_config/di/di.dart';
 import 'package:budget_wise/app_config/start_up.dart';
 import 'package:budget_wise/app_config/theme/modules/app_dark_theme.dart';
 import 'package:budget_wise/app_config/theme/modules/app_light_theme.dart';
@@ -23,11 +21,7 @@ class BudgetWiseApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => getIt<BudgetPlanBloc>()),
-        BlocProvider(create: (_) => getIt<BudgetAllPlanBloc>()),
-        BlocProvider(create: (_) => ThemeCubit()),
-      ],
+      providers: getBlocProviders(),
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp(
