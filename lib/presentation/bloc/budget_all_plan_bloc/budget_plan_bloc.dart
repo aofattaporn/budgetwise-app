@@ -14,12 +14,10 @@ class BudgetAllPlanBloc extends Bloc<BudgetAllPlanEvent, BudgetAllPlanState> {
       emit(GetAllPlanLoading());
       try {
         final planBudget = await getAllPlanUsecase.call(null);
-        print("Plan Budget: ${planBudget.length}");
         emit(GetAllPlanLoaded(listPlanDto: planBudget));
       } on BussinessError catch (e) {
         emit(GetAllPlanError(e.desc));
       } catch (e) {
-        print("Error in BudgetAllPlanBloc: ${e.toString()}");
         emit(GetAllPlanError(e.toString()));
       }
     });

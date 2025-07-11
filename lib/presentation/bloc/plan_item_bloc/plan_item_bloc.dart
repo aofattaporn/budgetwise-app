@@ -19,12 +19,19 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
     budgetPlanSubscription = budgetPlanBloc.stream.listen((state) {
       if (state is BudgetPlanLoaded) {
         add(FetchPlanItems(state.planMonthlyBudget.id));
+      } else if (state is BudgetPlanEmpty) {
+        emit(PlanItemError(state.message));
+      } else if (state is BudgetPlanError) {
+        emit(PlanItemError(state.message));
+      } else if (state is BudgetPlanLoading) {
+        emit(PlanItemLoading());
       }
     });
 
     on<FetchPlanItems>((event, emit) async {
       emit(PlanItemLoading());
       try {
+        print("ddd");
         final items = await getAllPlanItemByPlanid.call(event.planId);
         emit(PlanItemLoaded(items));
       } catch (e) {
