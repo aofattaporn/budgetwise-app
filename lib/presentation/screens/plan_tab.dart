@@ -5,6 +5,7 @@ import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_event
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_state.dart';
 import 'package:budget_wise/presentation/bloc/widget_state/widdgt_stat.dart';
 import 'package:budget_wise/presentation/components/card_plan_item.dart';
+import 'package:budget_wise/presentation/screens/plan_all_item_screen.dart';
 import 'package:budget_wise/shared/common/custom_common_sheet.dart';
 import 'package:budget_wise/shared/components/segment_circular_progress_new.dart';
 import 'package:budget_wise/presentation/sheets/planning_overview_sheet.dart';
@@ -132,7 +133,15 @@ class _PlanTabState extends State<PlanTab> {
                   spacing: 0,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // TODO : manage dynamic route
+                        // Navigator.pushNamed(context, '/plan-budget');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const PlanAllItemScreen()));
+                      },
                       child: Text("see more plan budget >",
                           style: Theme.of(context)
                               .textTheme
