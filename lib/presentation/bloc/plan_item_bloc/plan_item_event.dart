@@ -5,7 +5,7 @@ abstract class PlanItemEvent {}
 
 class FetchPlanItems extends PlanItemEvent {
   final String planId;
-  FetchPlanItems(this.planId);
+  FetchPlanItems({required this.planId});
 }
 
 class FetchAllActivePlanItems extends PlanItemEvent {}

@@ -235,7 +235,7 @@ class _TransferSubScreenState extends State<TransferSubScreen> {
               // Fetch plan items when planId changes
               if (planId != null) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
+                  // context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
                 });
               }
               return Padding(

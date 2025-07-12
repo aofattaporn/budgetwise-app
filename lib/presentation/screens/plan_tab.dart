@@ -4,6 +4,7 @@ import 'package:budget_wise/app_config/theme/system/app_decoration.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_event.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_state.dart';
 import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_bloc.dart';
+import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:budget_wise/presentation/bloc/widget_state/widdgt_stat.dart';
 import 'package:budget_wise/presentation/components/card_plan_item.dart';
@@ -30,6 +31,11 @@ class _PlanTabState extends State<PlanTab> {
     context.read<BudgetPlanBloc>().add(LoadBudgetPlan());
   }
 
+  void _naviateToPlanAllItemScreen() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const PlanAllItemScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -46,7 +52,7 @@ class _PlanTabState extends State<PlanTab> {
           child: Column(
             spacing: 36,
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // **
               // Select Plan Budget
@@ -66,6 +72,8 @@ class _PlanTabState extends State<PlanTab> {
                 }
 
                 return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 36),
@@ -128,48 +136,54 @@ class _PlanTabState extends State<PlanTab> {
               // Plan_ite_list
               // - name / amount /
               // **
-              BlocBuilder<PlanItemBloc, PlanItemState>(
-                  builder: (context, planState) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  spacing: 0,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        // TODO : manage dynamic route
-                        // Navigator.pushNamed(context, '/plan-budget');
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const PlanAllItemScreen()));
-                      },
-                      child: Text("see more plan budget >",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppColors.background)),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        spacing: 20,
+              BlocListener<BudgetPlanBloc, BudgetPlanState>(
+                listener: (BuildContext context, BudgetPlanState state) {
+                  if (state is BudgetPlanLoaded) {
+                    context.read<PlanItemBloc>().add(
+                        FetchPlanItems(planId: state.planMonthlyBudget.id));
+                  }
+                },
+                child: BlocBuilder<PlanItemBloc, PlanItemState>(
+                    builder: (context, planState) {
+                  final isLoaded = planState is PlanItemLoaded;
+                  final items = isLoaded ? planState.items : [];
+
+                  return Column(
+                    spacing: 0,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          CardPlan(
-                              screenWidth: screenWidth,
-                              screenHeight: screenHeight),
-                          CardPlan(
-                              screenWidth: screenWidth,
-                              screenHeight: screenHeight),
-                          CardPlan(
-                              screenWidth: screenWidth,
-                              screenHeight: screenHeight)
+                          TextButton(
+                            onPressed: _naviateToPlanAllItemScreen,
+                            child: Text("see more plan budget >",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: AppColors.background)),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
-                );
-              })
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: items
+                              .map((item) => Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: CardPlan(
+                                      screenWidth: screenWidth,
+                                      screenHeight: screenHeight,
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              )
             ],
           ),
         ),

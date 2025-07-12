@@ -199,9 +199,9 @@ class _SavingSubScreenState extends State<SavingSubScreen> {
             }
             // Fetch plan items when planId changes
             if (planId != null) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
-              });
+              // WidgetsBinding.instance.addPostFrameCallback((_) {
+              //   context.read<PlanItemBloc>().add(FetchPlanItems(planId!));
+              // });
             }
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),

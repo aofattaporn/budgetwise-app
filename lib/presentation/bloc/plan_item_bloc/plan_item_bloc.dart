@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:budget_wise/domain/usecases/get_all_plan_item_by_planId.dart';
 import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_bloc.dart';
-import 'package:budget_wise/presentation/bloc/budget_plan_bloc/budget_plan_state.dart';
 import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_event.dart';
 import 'package:budget_wise/presentation/bloc/plan_item_bloc/plan_item_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,22 +15,21 @@ class PlanItemBloc extends Bloc<PlanItemEvent, PlanItemState> {
       {required this.getAllPlanItemByPlanid, required this.budgetPlanBloc})
       : super(PlanItemInitial()) {
     // Subscribe BudgetPlanBloc state
-    budgetPlanSubscription = budgetPlanBloc.stream.listen((state) {
-      if (state is BudgetPlanLoaded) {
-        add(FetchPlanItems(state.planMonthlyBudget.id));
-      } else if (state is BudgetPlanEmpty) {
-        emit(PlanItemError(state.message));
-      } else if (state is BudgetPlanError) {
-        emit(PlanItemError(state.message));
-      } else if (state is BudgetPlanLoading) {
-        emit(PlanItemLoading());
-      }
-    });
+    // budgetPlanSubscription = budgetPlanBloc.stream.listen((state) {
+    //   if (state is BudgetPlanLoaded) {
+    //     add(FetchPlanItems(state.planMonthlyBudget.id));
+    //   } else if (state is BudgetPlanEmpty) {
+    //     emit(PlanItemError(state.message));
+    //   } else if (state is BudgetPlanError) {
+    //     emit(PlanItemError(state.message));
+    //   } else if (state is BudgetPlanLoading) {
+    //     emit(PlanItemLoading());
+    //   }
+    // });
 
     on<FetchPlanItems>((event, emit) async {
       emit(PlanItemLoading());
       try {
-        print("ddd");
         final items = await getAllPlanItemByPlanid.call(event.planId);
         emit(PlanItemLoaded(items));
       } catch (e) {
